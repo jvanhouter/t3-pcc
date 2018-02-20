@@ -1,0 +1,8 @@
+[7/6/17 12:55 PM]|Closet|Closet.<init>|Error|NOTAG|null<Unable to create Receptionist object>
+[1/10/18 3:52 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Found multiple article types with barcode prefix : 20. Reason: exception.MultiplePrimaryKeysException: Multiple article types matching barcode prefix : 20 found.>
+[1/10/18 3:55 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Found multiple article types with barcode prefix : 20. Reason: exception.MultiplePrimaryKeysException: Multiple article types matching barcode prefix : 20 found.>
+[1/10/18 3:59 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Found multiple article types with barcode prefix : 20. Reason: exception.MultiplePrimaryKeysException: Multiple article types matching barcode prefix : 20 found.>
+[1/10/18 7:40 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Article type with barcode prefix : 21 already exists!>
+[1/10/18 8:20 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/11/18 12:00 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Article type with barcode prefix : 25 already exists!>
+[1/11/18 12:03 PM]|UpdateArticleTypeTransaction|processTransaction|Error|NOTAG|null<Article type with barcode prefix : 19 already exists!>
