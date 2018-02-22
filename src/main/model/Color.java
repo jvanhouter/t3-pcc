@@ -20,5 +20,18 @@ import impresario.IView;
 
 public class Color {
 
-    Color(){}
+    private static final String myTableName = "Color";
+
+    protected Properties dependencies;
+
+
+    public Color(String colorId) throws InvalidPrimaryKeyException
+    {
+        super(myTableName);
+
+        setDependencies();
+        String query = "SELECT * FROM " + myTableName + " WHERE (colorID = " + colorId + ")";
+    }
+
+
 }
