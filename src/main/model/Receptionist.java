@@ -1,4 +1,4 @@
-// specify the package
+// specify the package //This is a test change, in the notes - JVH
 package model;
 
 // system imports
