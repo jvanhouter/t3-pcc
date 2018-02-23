@@ -192,12 +192,12 @@ public class EnterRecipientInformationView extends View {
                         }
                         else
                         {
-                            displayErrorMessage("ERROR: Please enter a valid lastname code!");
+                            displayErrorMessage("ERROR: Please enter a valid lastname!");
                         }
                     }
                     else
                     {
-                        displayErrorMessage("ERROR: Please enter a firstname description!");
+                        displayErrorMessage("ERROR: Please enter a firstname!");
                     }
 
                 }
