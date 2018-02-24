@@ -124,6 +124,16 @@ public class Receptionist implements IView, IModel
 			
 			doTransaction(transType);
 		}
+		else
+			/* Kyle and Jackson's color testing view */
+		if (key.equals("ColorTesting") == true)
+		{
+			String transType = key;
+
+			transType = transType.trim();
+
+			doTransaction(transType);
+		}
 
 		myRegistry.updateSubscribers(key, this);
 	}

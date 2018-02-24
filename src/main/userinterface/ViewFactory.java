@@ -26,7 +26,11 @@ public class ViewFactory {
 		else if(viewName.equals("SearchArticleTypeView") == true)
 		{
 			return new SearchArticleTypeView(model);
-		} /*
+		}
+		else if(viewName.equals("ColorTestingViewKyleJackson") == true)
+		{
+			return new ColorTestingViewKyleJackson(model);
+		}	/*
 		else if(viewName.equals("DepositTransactionView") == true)
 		{
 			return new DepositTransactionView(model);

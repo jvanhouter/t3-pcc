@@ -6,3 +6,21 @@
 [1/10/18 8:20 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
 [1/11/18 12:00 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Article type with barcode prefix : 25 already exists!>
 [1/11/18 12:03 PM]|UpdateArticleTypeTransaction|processTransaction|Error|NOTAG|null<Article type with barcode prefix : 19 already exists!>
+[2/23/18 12:13 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[2/23/18 12:13 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 25! Must be numerical.>
+[2/23/18 12:20 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[2/23/18 12:20 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 25! Must be numerical.>
+[2/23/18 12:23 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[2/23/18 12:23 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 25! Must be numerical.>
+[2/23/18 12:33 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[2/23/18 12:33 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 25! Must be numerical.>
+[2/23/18 12:36 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[2/23/18 12:36 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 25! Must be numerical.>
+[2/23/18 12:37 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[2/23/18 12:37 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 25! Must be numerical.>
+[2/24/18 12:00 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[2/24/18 12:00 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 25! Must be numerical.>
+[2/24/18 12:05 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[2/24/18 12:05 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 15! Must be numerical.>
+[2/24/18 12:33 PM]|Color|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[2/24/18 12:33 PM]|ColorTestingTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 25! Must be numerical.>

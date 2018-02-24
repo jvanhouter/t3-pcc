@@ -89,9 +89,9 @@ public class RemoveColorTransaction extends Transaction
                         else
                         {
                             props.setProperty("Status", "Active");
-                            myArticleType = new ArticleType(props);
-                            myArticleType.update();
-                            transactionErrorMessage = (String)myArticleType.getState("UpdateStatusMessage");
+                            myColorType = new Color(props);
+                            myColorType.update();
+                            transactionErrorMessage = (String)myColorType.getState("UpdateStatusMessage");
                         }
                     }
                 }
