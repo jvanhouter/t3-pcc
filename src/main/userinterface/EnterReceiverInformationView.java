@@ -27,7 +27,7 @@ import java.util.Properties;
 // project imports
 import impresario.IModel;
 
-public class EnterRecipientInformationView extends View {
+public class EnterReceiverInformationView extends View {
 
     // GUI components
     protected TextField netId;
@@ -42,9 +42,9 @@ public class EnterRecipientInformationView extends View {
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public EnterRecipientInformationView(IModel at)
+    public EnterReceiverInformationView(IModel at)
     {
-        super(at, "EnterRecipientInformationView");
+        super(at, "EnterReceiverInformationView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -64,7 +64,6 @@ public class EnterRecipientInformationView extends View {
 
         myModel.subscribe("TransactionError", this);
     }
-
 
     //-------------------------------------------------------------
     protected String getActionText()
@@ -188,7 +187,7 @@ public class EnterRecipientInformationView extends View {
                         if (lNameReceiver.length() > 0)
                         {
                             props.setProperty("ReceiverLastName", lNameReceiver);
-                            myModel.stateChangeRequest("InventoryData", props);
+                            myModel.stateChangeRequest("ReceiverData", props);
                         }
                         else
                         {
