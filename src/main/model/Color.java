@@ -18,12 +18,14 @@ import impresario.IView;
  * @author Jackson Taber & Kyle Darling
  */
 
-public class Color {
+public class Color extends EntityBase{
 
     private static final String myTableName = "Color";
 
     protected Properties dependencies;
 
+
+    private String updateStatusMessage = "";
 
     public Color(String ID) throws InvalidPrimaryKeyException
     {
@@ -75,7 +77,7 @@ public class Color {
     {
         super(myTableName);
 
-        setDependinces();
+        setDependencies();
 
         persistentState = new Properties();
         Enumeration allKeys = props.propertyNames();
