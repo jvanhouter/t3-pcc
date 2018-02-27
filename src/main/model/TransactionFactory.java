@@ -32,12 +32,12 @@ public class TransactionFactory
 			retValue = new UpdateArticleTypeTransaction();
 		}
 		else
-		if (transType.equals("UpdateColorTransaction") == true)
+		if (transType.equals("UpdateColor") == true)
 		{
 			retValue = new UpdateColorTransaction();
 		}
 		else
-		if (transType.equals("RemoveColorTransaction") == true)
+		if (transType.equals("RemoveColor") == true)
 		{
 			retValue = new RemoveColorTransaction();
 		}

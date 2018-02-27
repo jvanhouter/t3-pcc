@@ -44,13 +44,13 @@ public class ColorCollection  extends EntityBase implements IView
 
         if (allDataRetrieved != null)
         {
-            colorTypes = new Vector<Color>();
+            colorTypes = new Vector<ColorType>();
 
             for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
             {
                 Properties nextColorData = allDataRetrieved.elementAt(cnt);
 
-                Color ct = new Color(nextColorData);
+                ColorType ct = new ColorType(nextColorData);
 
                 if (ct != null)
                 {
@@ -109,14 +109,14 @@ public class ColorCollection  extends EntityBase implements IView
 
 
     //----------------------------------------------------------------------------------
-    private void addColor(Color a)
+    private void addColor(ColorType a)
     {
         int index = findIndexToAdd(a);
         colorTypes.insertElementAt(a,index); // To build up a collection sorted on some key
     }
 
     //----------------------------------------------------------------------------------
-    private int findIndexToAdd(Color a)
+    private int findIndexToAdd(ColorType a)
     {
         int low=0;
         int high = colorTypes.size()-1;
@@ -126,9 +126,9 @@ public class ColorCollection  extends EntityBase implements IView
         {
             middle = (low+high)/2;
 
-            Color midSession = colorTypes.elementAt(middle);
+            ColorType midSession = colorTypes.elementAt(middle);
 
-            int result = Color.compare(a,midSession);
+            int result = ColorType.compare(a,midSession);
 
             if (result ==0)
             {
@@ -156,7 +156,7 @@ public class ColorCollection  extends EntityBase implements IView
         if (key.equals("ColorTypes"))
             return colorTypes;
         else
-        if (key.equals("ColorTypeList"))
+        if (key.equals("ColorList"))
             return this;
         return null;
     }
@@ -168,12 +168,12 @@ public class ColorCollection  extends EntityBase implements IView
     }
 
     //----------------------------------------------------------
-    public Color retrieve(String barcodePrefix)
+    public ColorType retrieve(String barcodePrefix)
     {
-        Color retValue = null;
+        ColorType retValue = null;
         for (int cnt = 0; cnt < colorTypes.size(); cnt++)
         {
-            Color nextAT = colorTypes.elementAt(cnt);
+            ColorType nextAT = colorTypes.elementAt(cnt);
             String nextBarcodePrefix = (String)nextAT.getState("BarcodePrefix");
             if (nextBarcodePrefix.equals(barcodePrefix) == true)
             {

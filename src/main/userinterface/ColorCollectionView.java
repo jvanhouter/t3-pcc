@@ -37,13 +37,13 @@ import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
-import model.Color;
+import model.ColorType;
 import model.ColorCollection;
 
 //==============================================================================
 public class ColorCollectionView extends View
 {
-    protected TableView<ColorTableModel> tableOfArticleTypes;
+    protected TableView<ColorTableModel> tableOfColorTypes;
     protected Button cancelButton;
     protected Button submitButton;
 
@@ -87,7 +87,7 @@ public class ColorCollectionView extends View
             ColorCollection colorCollection =
                     (ColorCollection)myModel.getState("ColorList");
 
-            Vector entryList = (Vector)colorCollection.getState("ArticleTypes");
+            Vector entryList = (Vector)colorCollection.getState("ColorTypes");
 
             if (entryList.size() > 0)
             {
@@ -95,11 +95,11 @@ public class ColorCollectionView extends View
 
                 while (entries.hasMoreElements() == true)
                 {
-                    Color nextAT = (ArticleType)entries.nextElement();
-                    Vector<String> view = nextAT.getEntryListView();
+                    ColorType nextCT = (ColorType)entries.nextElement();
+                    Vector<String> view = nextCT.getEntryListView();
 
                     // add this list entry to the list
-                    ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
+                    ColorTableModel nextTableRowData = new ColorTableModel(view);
                     tableData.add(nextTableRowData);
 
                 }
@@ -109,7 +109,7 @@ public class ColorCollectionView extends View
                 displayMessage("No matching entries found!");
             }
 
-            tableOfArticleTypes.setItems(tableData);
+            tableOfColorTypes.setItems(tableData);
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
@@ -180,8 +180,8 @@ public class ColorCollectionView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        tableOfArticleTypes = new TableView<ArticleTypeTableModel>();
-        tableOfArticleTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableOfColorTypes = new TableView<ColorTableModel>();
+        tableOfColorTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
         barcodePrefixColumn.setMinWidth(50);
@@ -203,10 +203,10 @@ public class ColorCollectionView extends View
         statusColumn.setCellValueFactory(
                 new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
 
-        tableOfArticleTypes.getColumns().addAll(descriptionColumn,
+        tableOfColorTypes.getColumns().addAll(descriptionColumn,
                 barcodePrefixColumn, alphaCodeColumn, statusColumn);
 
-        tableOfArticleTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
+        tableOfColorTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event)
             {
@@ -217,7 +217,7 @@ public class ColorCollectionView extends View
         });
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfArticleTypes);
+        scrollPane.setContent(tableOfColorTypes);
 
         submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -247,7 +247,7 @@ public class ColorCollectionView extends View
                  */
                 //----------------------------------------------------------
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelArticleTypeList", null);
+                myModel.stateChangeRequest("CancelColorList", null);
             }
         });
 
@@ -271,13 +271,13 @@ public class ColorCollectionView extends View
     //--------------------------------------------------------------------------
     protected void processArticleTypeSelected()
     {
-        ArticleTypeTableModel selectedItem = tableOfArticleTypes.getSelectionModel().getSelectedItem();
+        ColorTableModel selectedItem = tableOfColorTypes.getSelectionModel().getSelectedItem();
 
         if(selectedItem != null)
         {
             String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
 
-            myModel.stateChangeRequest("ArticleTypeSelected", selectedBarcodePrefix);
+            myModel.stateChangeRequest("ColorTypeSelected", selectedBarcodePrefix);
         }
     }
 

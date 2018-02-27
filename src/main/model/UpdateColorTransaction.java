@@ -17,7 +17,7 @@ import java.util.Properties;
 public class UpdateColorTransaction extends Transaction {
 
     private ColorCollection myColorList;
-    private Color mySelectedColor;
+    private ColorType mySelectedColor;
 
     // GUI Components
 
@@ -119,7 +119,7 @@ public class UpdateColorTransaction extends Transaction {
             {
                 try
                 {
-                    Color oldArticleType = new Color(barcodePrefix);
+                    ColorType oldArticleType = new ColorType(barcodePrefix);
                     transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
                             + " already exists!";
                     new Event(Event.getLeafLevelClassName(this), "processTransaction",

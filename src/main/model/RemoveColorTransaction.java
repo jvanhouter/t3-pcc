@@ -20,7 +20,7 @@ import userinterface.ViewFactory;
 public class RemoveColorTransaction extends Transaction
 {
 
-    private Color myColorType;
+    private ColorType myColorType;
 
 
     // GUI Components
@@ -89,7 +89,7 @@ public class RemoveColorTransaction extends Transaction
                         else
                         {
                             props.setProperty("Status", "Active");
-                            myColorType = new Color(props);
+                            myColorType = new ColorType(props);
                             myColorType.update();
                             transactionErrorMessage = (String)myColorType.getState("UpdateStatusMessage");
                         }

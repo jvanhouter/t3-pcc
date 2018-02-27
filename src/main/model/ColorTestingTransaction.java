@@ -20,7 +20,7 @@ import userinterface.ViewFactory;
 public class ColorTestingTransaction extends Transaction
 {
 
-    private Color myColor;
+    private ColorType myColor;
 
 
     // GUI Components
@@ -61,7 +61,7 @@ public class ColorTestingTransaction extends Transaction
             try
             {
 
-                Color oldColor = new Color(barcodePrefix);
+                ColorType oldColor = new ColorType(barcodePrefix);
                 transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
                         + " already exists!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
@@ -89,7 +89,7 @@ public class ColorTestingTransaction extends Transaction
                         else
                         {
                             props.setProperty("Status", "Active");
-                            myColor = new Color(props);
+                            myColor = new ColorType(props);
                             myColor.update();
                             transactionErrorMessage = (String)myColor.getState("UpdateStatusMessage");
                         }
