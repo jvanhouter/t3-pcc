@@ -20,7 +20,7 @@ import userinterface.ViewFactory;
 public class CheckoutClothingItemTransaction extends Transaction
 {
     //TODO create ClothingItem model class
-    private ClothingItem myClothingItem;
+//    private ClothingItem myClothingItem;
 
     // GUI Components
 
@@ -56,7 +56,7 @@ public class CheckoutClothingItemTransaction extends Transaction
     {
         //TODO a constructor needs to be created with functionality to retrieve by barcode
         //TODO should this be an InventoryItem? Not a ClothingItem?
-        myClothingItem = new ClothingItem(props);
+//        myClothingItem = new ClothingItem(props);
         try
         {
             Scene newScene = createEnterReceiverInformationView();
@@ -95,12 +95,12 @@ public class CheckoutClothingItemTransaction extends Transaction
                 {
                     // Everything OK
                     // Set receiver properties change status to received and update
-                    myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
-                    myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
-                    myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
-                    myClothingItem.stateChangeRequest("Status", "Received");
-                    myClothingItem.update();
-                    transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+//                    myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
+//                    myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
+//                    myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
+//                    myClothingItem.stateChangeRequest("Status", "Received");
+//                    myClothingItem.update();
+//                    transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
                 }
             }
         }
@@ -109,9 +109,13 @@ public class CheckoutClothingItemTransaction extends Transaction
     public void stateChangeRequest(String key, Object value)
     {
         // DEBUG System.out.println("UpdateArticleTypeTransaction.sCR: key: " + key);
-
+        //This should bring up the EnterClothingItemBarcodeView
+        if (key.equals("DoYourJob") == true)
+        {
+            doYourJob();
+        }
         //The EnterClothingItemBarcodeView should call here
-        if (key.equals("InventoryData") == true)
+        else if (key.equals("InventoryData") == true)
         {
             processTransaction((Properties)value);
         }
