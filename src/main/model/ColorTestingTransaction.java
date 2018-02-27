@@ -105,7 +105,7 @@ public class ColorTestingTransaction extends Transaction
                 }
 
             }
-            catch (MultiplePrimaryKeysException ex2)
+            catch (Exception ex2)
             {
                 transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",

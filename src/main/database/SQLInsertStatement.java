@@ -76,18 +76,18 @@ public class SQLInsertStatement extends SQLStatement
 
 		
 			String theColumnName = (String)theValuesColumns.nextElement();
-			// System.out.println("The column name is " + theColumnName);
+			 //System.out.println("The column name is " + theColumnName);
 			String theColumnValue = insertEscapes(insertValues.getProperty(theColumnName));
-			// System.out.println("The column value is " + theColumnValue);
+			 //System.out.println("The column value is " + theColumnValue);
 			theColumnNamesList += theColumnName;
-			//	System.out.println("The list is " + theColumnNamesList);
+				//System.out.println("The list is " + theColumnNamesList);
 
 			//System.out.println("Checking insertType");
 			String insertType = schema.getProperty(theColumnName);
-			//		System.out.println("InsertType = " + insertType);
+					//System.out.println("InsertType = " + insertType);
 			//System.out.println("Schema is : " + schema);
 
-			if (insertType.equals("numeric") == true)
+			if (insertType != null && insertType.equals("numeric") == true)
 			{
 				theValuesString += theColumnValue;
 				//	System.out.println("Value string updated: " + theValuesString);
@@ -111,6 +111,7 @@ public class SQLInsertStatement extends SQLStatement
 		theSQLStatement += theValuesString;
 
 		theSQLStatement += ";";
+		System.out.println("IN SQLINSERTSTATEMENT.java -> " + theSQLStatement);
 	
 	}
 }
