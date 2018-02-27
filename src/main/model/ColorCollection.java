@@ -25,7 +25,7 @@ public class ColorCollection  extends EntityBase implements IView
 {
     private static final String myTableName = "Color";
 
-    private Vector<Color> colorTypes;
+    private Vector<ColorType> colorTypes;
     // GUI Components
 
     // constructor for this class

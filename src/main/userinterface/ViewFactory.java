@@ -30,7 +30,20 @@ public class ViewFactory {
 		else if(viewName.equals("ColorTestingViewKyleJackson") == true)
 		{
 			return new ColorTestingViewKyleJackson(model);
-		}	/*
+		}
+		else if(viewName.equals("ModifyColorView") == true)
+		{
+			return new ModifyColorView(model);
+		}
+		else if(viewName.equals("ColorCollectionView") == true)
+		{
+			return new ColorCollectionView(model);
+		}
+		else if(viewName.equals("SearchColorView") == true)
+		{
+			return new SearchColorView(model);
+		}
+		/*
 		else if(viewName.equals("DepositTransactionView") == true)
 		{
 			return new DepositTransactionView(model);
