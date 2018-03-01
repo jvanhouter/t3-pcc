@@ -20,8 +20,8 @@ import userinterface.ViewFactory;
 public class RemoveColorTransaction extends Transaction
 {
 
-    private ColorType myColorType;
-    private String color;
+    private ColorCollection myColorList;
+    private ColorType mySelectedColor;
 
 
     // GUI Components
@@ -70,24 +70,14 @@ public class RemoveColorTransaction extends Transaction
         }
         try
         {
-            Scene newScene = createColorCollectionView();
-            swapToView(newScene);
+            // fix for later
+            //Scene newScene = createColorCollectionView();
+            //swapToView(newScene);
         }
         catch (Exception ex)
         {
             new Event(Event.getLeafLevelClassName(this), "processTransaction",
                     "Error in creating ColorCollectionView", Event.ERROR);
-        }
-
-            }
-            catch (MultiplePrimaryKeysException ex2)
-            {
-                transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
-                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Found multiple article types with barcode prefix : " + barcodePrefix + ". Reason: " + ex2.toString(),
-                        Event.ERROR);
-
-            }
         }
 
     }

@@ -32,7 +32,7 @@ import impresario.IModel;
  *  Closet application
  */
 //==============================================================
-public class ModifyColorView extends AddColorTypeView
+public class ModifyColorView extends AddColorView
 {
 
     //

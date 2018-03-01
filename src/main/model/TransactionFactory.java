@@ -32,6 +32,10 @@ public class TransactionFactory
 			retValue = new UpdateArticleTypeTransaction();
 		}
 		else
+		if (transType.equals("AddColor") == true) {
+			retValue = new AddColorTransaction();
+		}
+		else
 		if (transType.equals("UpdateColor") == true)
 		{
 			retValue = new UpdateColorTransaction();
@@ -40,11 +44,6 @@ public class TransactionFactory
 		if (transType.equals("RemoveColor") == true)
 		{
 			retValue = new RemoveColorTransaction();
-		}
-		else
-		if (transType.equals("ColorTesting") == true)
-		{
-			retValue = new ColorTestingTransaction();
 		}
 		/*
 		else

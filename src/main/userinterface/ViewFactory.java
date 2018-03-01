@@ -23,13 +23,13 @@ public class ViewFactory {
 		{
 			return new ArticleTypeCollectionView(model);
 		}
+		else if(viewName.equals("AddColorView") == true)
+		{
+			return new AddColorView(model);
+		}
 		else if(viewName.equals("SearchArticleTypeView") == true)
 		{
 			return new SearchArticleTypeView(model);
-		}
-		else if(viewName.equals("ColorTestingViewKyleJackson") == true)
-		{
-			return new ColorTestingViewKyleJackson(model);
 		}
 		else if(viewName.equals("ModifyColorView") == true)
 		{

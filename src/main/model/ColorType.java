@@ -99,6 +99,7 @@ public class ColorType extends EntityBase{
 
     private void updateStateInDatabase()
     {
+        System.out.println("Here");
         try
         {
             if (persistentState.getProperty("ID") != null)
