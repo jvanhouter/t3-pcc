@@ -1,8 +1,8 @@
 # Department of Computing Sciences
-##The College at Brockport, State University of New York
-###CSC 427: Software Systems Engineering (Fall 2017)
-###Term Project
-####HIGH-LEVEL PROBLEM DESCRIPTION OF THE COLLEGE AT BROCKPORT PROFESSINAL CLOTHES CLOSET SYSTEM
+## The College at Brockport, State University of New York
+### CSC 427: Software Systems Engineering (Fall 2017)
+### Term Project
+#### HIGH-LEVEL PROBLEM DESCRIPTION OF THE COLLEGE AT BROCKPORT PROFESSINAL CLOTHES CLOSET SYSTEM
 
 The Career Services Office at the College at Brockport provides a service to the students who need professional (business) clothing for interviews, etc. This service is provided through donated clothing to the Career Services office. An item of clothing donated is recorded in the inventory of the professional clothes closet maintained by the office. These items are then taken by registered Brockport students who might need them, after they find a suitable item. Alternatively, if no such item is currently available, the student is allowed to enter a request for an item of clothing. This will be recorded by the system. Once an item of clothing is donated, the administrator (user) of the system will go through pending requests, and see if any of them can be fulfilled by any of the items in inventory. If a suitable match is found, the requester will be contacted by Career Services using phone/email and asked to come by and pick up the item.
 Each item of clothing that comes in as a donation is barcoded. The barcode is a sequence of digits – the first digit will be a 0 or 1 (0 – to indicate it is an item intended for men, and 1 – to indicate it is an item intended for women). The rest of the digits is a combination of clothing article type (pant/pant suit/shirt/etc.), color and a sequence number. See the examples in the data model below for illustrations.
@@ -149,7 +149,8 @@ Examples:
 15. Request Fulfilled Date (Text)
 
         
-Examples:        
+Examples:      
+
 | Id | Requester Netid |  T   | Requested Gender | Requested Article Type |  T | Request Status  |Fulfil Item Bar code  | Date    |
 |---:|:---------------:|:---:|:----------------:|:----------------------:|---:|:---------------:|----------------------|---------|
 |  1 | Jalston | … | M | 08 | ... | Pending | - | 2017… | -
