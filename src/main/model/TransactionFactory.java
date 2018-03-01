@@ -16,11 +16,14 @@ public class TransactionFactory {
             return new UpdateArticleTypeTransaction();
         } else if (transType.equals("CheckoutClothingItem")) {
             return new CheckoutClothingItemTransaction();
-        } else if (transType.equals("AddClothingItem") ||
-                transType.equals("CheckoutClothingItem") ||
-                transType.equals("UpdateClothingItem") ||
-                transType.equals("RemoveClothingItem"))  {
-            return new BarcodeSearchTransaction(transType);
+        } else if (transType.equals("AddClothingItem")) {
+            return new AddClothingItemTransaction();
+        } else if (transType.equals("UpdateClothingItem")) {
+            return null; //new UpdateClothingItemTransaction();
+        } else if (transType.equals("RemoveClothingItem")) {
+            return null; //new RemoveClothingItemTransaction();
+        } else if (transType.equals("BarcodeSearch")) {
+            return new BarcodeSearchTransaction();
         } else {
             return null;
         }

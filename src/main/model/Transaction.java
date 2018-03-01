@@ -2,145 +2,136 @@
 package model;
 
 // system imports
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Vector;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 
-// project imports
-import exception.InvalidPrimaryKeyException;
 import event.Event;
-
-import impresario.*;
-
+import impresario.IModel;
+import impresario.IView;
+import impresario.ModelRegistry;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import userinterface.MainStageContainer;
-import userinterface.View;
 import userinterface.WindowPosition;
 
-/** The class containing the Transaction for the ATM application */
+import java.util.Hashtable;
+import java.util.Properties;
+
+// project imports
+
+/**
+ * The class containing the Transaction for the ATM application
+ */
 //==============================================================
-abstract public class Transaction implements IView, IModel
-{
+abstract public class Transaction implements IView, IModel {
 
-	// For Impresario
-	protected Properties dependencies;
-	protected ModelRegistry myRegistry;
+    // For Impresario
+    protected Properties dependencies;
+    protected ModelRegistry myRegistry;
 
-	protected Stage myStage;
-	protected Hashtable<String, Scene> myViews;
+    protected Stage myStage;
+    protected Hashtable<String, Scene> myViews;
 
-	
-	// GUI Components
 
-	/**
-	 * Constructor for this class.
-	 *
-	 *
-	 */
-	//----------------------------------------------------------
-	protected Transaction() throws Exception
-	{
+    // GUI Components
 
-		myStage = MainStageContainer.getInstance();
-		myViews = new Hashtable<String, Scene>();
-	
+    /**
+     * Constructor for this class.
+     */
+    //----------------------------------------------------------
+    protected Transaction() throws Exception {
 
-		myRegistry = new ModelRegistry("Transaction");
-		if(myRegistry == null)
-		{
-			new Event(Event.getLeafLevelClassName(this), "Transaction",
-				"Could not instantiate Registry", Event.ERROR);
-		}
-		setDependencies();
+        myStage = MainStageContainer.getInstance();
+        myViews = new Hashtable<String, Scene>();
 
-	}
 
-	//----------------------------------------------------------
-	protected abstract void setDependencies();
+        myRegistry = new ModelRegistry("Transaction");
+        if (myRegistry == null) {
+            new Event(Event.getLeafLevelClassName(this), "Transaction",
+                    "Could not instantiate Registry", Event.ERROR);
+        }
+        setDependencies();
 
-	//---------------------------------------------------------
-	protected abstract Scene createView();
+    }
 
-	/**
-	 * Template method
-	 *
-	 */
-	//---------------------------------------------------------
-	protected void doYourJob()
-	{
+    //----------------------------------------------------------
+    protected abstract void setDependencies();
 
-		try
-		{
-					
-			Scene newScene = createView();
-			
-			swapToView(newScene);
+    //---------------------------------------------------------
+    protected abstract Scene createView();
 
-		}
-		catch (Exception ex)
-		{
-				new Event(Event.getLeafLevelClassName(this), "Transaction",
-					"Error in creating Transaction view", Event.ERROR);
-		}
-	}
+    /**
+     * Template method
+     */
+    //---------------------------------------------------------
+    protected void doYourJob() {
 
-	// forward declarations
-	//-----------------------------------------------------------
-	public abstract Object getState(String key);
+        try {
 
-	//-----------------------------------------------------------
-	public abstract void stateChangeRequest(String key, Object value);
+            Scene newScene = createView();
 
-	/** Called via the IView relationship
-	 * Re-define in sub-class, if necessary
-	 */
-	//----------------------------------------------------------
-	public void updateState(String key, Object value)
-	{
-		stateChangeRequest(key, value);
-	}
+            swapToView(newScene);
 
-	/** Register objects to receive state updates. */
-	//----------------------------------------------------------
-	public void subscribe(String key, IView subscriber)
-	{
-		// DEBUG: System.out.println("Cager[" + myTableName + "].subscribe");
-		// forward to our registry
-		myRegistry.subscribe(key, subscriber);
-	}
+        } catch (Exception ex) {
+            new Event(Event.getLeafLevelClassName(this), "Transaction",
+                    "Error in creating Transaction view", Event.ERROR);
+        }
+    }
 
-	/** Unregister previously registered objects. */
-	//----------------------------------------------------------
-	public void unSubscribe(String key, IView subscriber)
-	{
-		// DEBUG: System.out.println("Cager.unSubscribe");
-		// forward to our registry
-		myRegistry.unSubscribe(key, subscriber);
-	}
+    // forward declarations
+    //-----------------------------------------------------------
+    public abstract Object getState(String key);
 
-	
-	//-----------------------------------------------------------------------------
-	public void swapToView(Scene newScene)
-	{
-		
-		if (newScene == null)
-		{
-			System.out.println("Transaction.swapToView(): Missing view for display");
-			new Event(Event.getLeafLevelClassName(this), "swapToView",
-				"Missing view for display ", Event.ERROR);
-			return;
-		}
+    //-----------------------------------------------------------
+    public abstract void stateChangeRequest(String key, Object value);
 
-		
-		myStage.setScene(newScene);
-		myStage.sizeToScene();
-		
-			
-		//Place in center
-		WindowPosition.placeCenter(myStage);
+    /**
+     * Called via the IView relationship
+     * Re-define in sub-class, if necessary
+     */
+    //----------------------------------------------------------
+    public void updateState(String key, Object value) {
+        stateChangeRequest(key, value);
+    }
 
-	}
+    /**
+     * Register objects to receive state updates.
+     */
+    //----------------------------------------------------------
+    public void subscribe(String key, IView subscriber) {
+        // DEBUG: System.out.println("Cager[" + myTableName + "].subscribe");
+        // forward to our registry
+        myRegistry.subscribe(key, subscriber);
+    }
+
+    /**
+     * Unregister previously registered objects.
+     */
+    //----------------------------------------------------------
+    public void unSubscribe(String key, IView subscriber) {
+        // DEBUG: System.out.println("Cager.unSubscribe");
+        // forward to our registry
+        myRegistry.unSubscribe(key, subscriber);
+    }
+
+
+    //-----------------------------------------------------------------------------
+    public void swapToView(Scene newScene) {
+
+        if (newScene == null) {
+            System.out.println("Transaction.swapToView(): Missing view for display");
+            new Event(Event.getLeafLevelClassName(this), "swapToView",
+                    "Missing view for display ", Event.ERROR);
+            return;
+        }
+
+
+        myStage.setScene(newScene);
+        myStage.sizeToScene();
+
+
+        //Place in center
+        WindowPosition.placeCenter(myStage);
+
+    }
 
 }
 

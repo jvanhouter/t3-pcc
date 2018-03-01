@@ -142,17 +142,12 @@ public class ReceptionistView extends View
 		checkoutCont.setAlignment(Pos.CENTER);
 		checkoutClothingItemButton = new Button("Checkout Clothing Item");
 		checkoutClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		checkoutClothingItemButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("CheckoutClothingItem", null);    
-            	     }
-        	});
+		checkoutClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("CheckoutClothingItem", null));
 		checkoutCont.getChildren().add(checkoutClothingItemButton);
 		
 		container.getChildren().add(checkoutCont);
-		
+
+		// Article type choices
 		HBox articleTypeCont = new HBox(10);
 		articleTypeCont.setAlignment(Pos.CENTER_LEFT);
 		Label atLabel = new Label("  Article Types: ");
@@ -160,39 +155,22 @@ public class ReceptionistView extends View
 		articleTypeCont.getChildren().add(atLabel);
 		addArticleTypeButton = new Button("Add");
 		addArticleTypeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		addArticleTypeButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("AddArticleType", null);    
-            	     }
-        	});
+		addArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("AddArticleType", null));
 		articleTypeCont.getChildren().add(addArticleTypeButton);
 		
 		updateArticleTypeButton = new Button("Update");
 		updateArticleTypeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		updateArticleTypeButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("UpdateArticleType", null);    
-            	     }
-        	});
+		updateArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("UpdateArticleType", null));
 		articleTypeCont.getChildren().add(updateArticleTypeButton);
 
 		removeArticleTypeButton = new Button("Remove");
 		removeArticleTypeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		removeArticleTypeButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("RemoveArticleType", null);    
-            	     }
-        	});
+		removeArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("RemoveArticleType", null));
 		articleTypeCont.getChildren().add(removeArticleTypeButton);
 
 		container.getChildren().add(articleTypeCont);
-		
+
+		// Color choices
 		HBox colorCont = new HBox(10);
 		colorCont.setAlignment(Pos.CENTER_LEFT);
 		Label colorLabel = new Label("             Colors: ");
@@ -200,37 +178,20 @@ public class ReceptionistView extends View
 		colorCont.getChildren().add(colorLabel);
 		addColorButton = new Button("Add");
 		addColorButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		addColorButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("AddColor", null);    
-            	     }
-        	});
+		addColorButton.setOnAction(e -> myModel.stateChangeRequest("AddColor", null));
 		colorCont.getChildren().add(addColorButton);
 		
 		updateColorButton = new Button("Update");
 		updateColorButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		updateColorButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("UpdateColor", null);    
-            	     }
-        	});
+		updateColorButton.setOnAction(e -> myModel.stateChangeRequest("UpdateColor", null));
 		colorCont.getChildren().add(updateColorButton);
 
 		removeColorButton = new Button("Remove");
 		removeColorButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		removeColorButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("RemoveColor", null);    
-            	     }
-        	});
+		removeColorButton.setOnAction(e -> myModel.stateChangeRequest("RemoveColor", null));
 		colorCont.getChildren().add(removeColorButton);
-		
+
+		// Clothing item choices
 		container.getChildren().add(colorCont);
 		
 		HBox clothingItemCont = new HBox(10);
@@ -240,39 +201,22 @@ public class ReceptionistView extends View
 		clothingItemCont.getChildren().add(ciLabel);
 		addClothingItemButton = new Button("Add");
 		addClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		addClothingItemButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("AddClothingItem", null);    
-            	     }
-        	});
+		addClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("AddClothingItem", null));
 		clothingItemCont.getChildren().add(addClothingItemButton);
 		
 		updateClothingItemButton = new Button("Update");
 		updateClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		updateClothingItemButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("UpdateClothingItem", null);    
-            	     }
-        	});
+		updateClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("UpdateClothingItem", null));
 		clothingItemCont.getChildren().add(updateClothingItemButton);
 
 		removeClothingItemButton = new Button("Remove");
 		removeClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		removeClothingItemButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("RemoveClothingItem", null);    
-            	     }
-        	});
+		removeClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("RemoveClothingItem", null));
 		clothingItemCont.getChildren().add(removeClothingItemButton);
 		
 		container.getChildren().add(clothingItemCont);
-		
+
+		// Clothing item request
 		HBox requestCont = new HBox(10);
 		requestCont.setAlignment(Pos.CENTER_LEFT);
 		Label reqLabel = new Label("         Requests: ");
@@ -280,35 +224,17 @@ public class ReceptionistView extends View
 		requestCont.getChildren().add(reqLabel);
 		logRequestButton = new Button("Log");
 		logRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		logRequestButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("LogRequest", null);    
-            	     }
-        	});
+		logRequestButton.setOnAction(e -> myModel.stateChangeRequest("LogRequest", null));
 		requestCont.getChildren().add(logRequestButton);
 		
 		fulfillRequestButton = new Button(" Fulfill ");
 		fulfillRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		fulfillRequestButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("FulfillRequest", null);    
-            	     }
-        	});
+		fulfillRequestButton.setOnAction(e -> myModel.stateChangeRequest("FulfillRequest", null));
 		requestCont.getChildren().add(fulfillRequestButton);
 
 		removeRequestButton = new Button("Remove");
 		removeRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		removeRequestButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("RemoveRequest", null);    
-            	     }
-        	});
+		removeRequestButton.setOnAction(e -> myModel.stateChangeRequest("RemoveRequest", null));
 		requestCont.getChildren().add(removeRequestButton);
 		
 		container.getChildren().add(requestCont);
@@ -317,13 +243,7 @@ public class ReceptionistView extends View
 		listAvailCont.setAlignment(Pos.CENTER);
 		listAvailableInventoryButton = new Button("List Available Inventory");
 		listAvailableInventoryButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		listAvailableInventoryButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("ListAvailableInventory", null);    
-            	     }
-        	});
+		listAvailableInventoryButton.setOnAction(e -> myModel.stateChangeRequest("ListAvailableInventory", null));
 		listAvailCont.getChildren().add(listAvailableInventoryButton);
 		
 		container.getChildren().add(listAvailCont);
@@ -332,13 +252,7 @@ public class ReceptionistView extends View
 		doneCont.setAlignment(Pos.CENTER);
 		cancelButton = new Button("Exit System");
 		cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("ExitSystem", null);    
-            	     }
-        	});
+		cancelButton.setOnAction(e -> myModel.stateChangeRequest("ExitSystem", null));
 		doneCont.getChildren().add(cancelButton);
 
 		container.getChildren().add(doneCont);
@@ -366,7 +280,7 @@ public class ReceptionistView extends View
 	//---------------------------------------------------------
 	public void updateState(String key, Object value)
 	{
-		if (key.equals("TransactionError") == true)
+		if (key.equals("TransactionError"))
 		{
 			// display the passed text
 			displayErrorMessage((String)value);

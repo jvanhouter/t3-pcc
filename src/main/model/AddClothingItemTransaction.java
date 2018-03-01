@@ -43,6 +43,7 @@ public class AddClothingItemTransaction extends Transaction
 		dependencies.setProperty("CancelAddClothingItem", "CancelTransaction");
 		dependencies.setProperty("OK", "CancelTransaction");
 		dependencies.setProperty("ClothingItemData", "TransactionError");
+		dependencies.setProperty("ProcessBarcode", "TransactionError");
 
 		myRegistry.setDependencies(dependencies);
 	}
@@ -133,18 +134,32 @@ public class AddClothingItemTransaction extends Transaction
 	{
 		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
-		if (key.equals("DoYourJob"))
-		{
+		if (key.equals("DoYourJob")) {
+		    createAndShowBarcodeScannerView();
+//			doYourJob();
+		} else if (key.equals("ProcessBarcode")) {
 			doYourJob();
-		}
-		else
-		if (key.equals("ClothingItemData"))
-		{
+		} else if (key.equals("ClothingItemData")) {
 			processTransaction((Properties)value);
 		}
 
 		myRegistry.updateSubscribers(key, this);
 	}
+
+    //------------------------------------------------------------
+    private void createAndShowBarcodeScannerView() {
+        Scene currentScene = (Scene) myViews.get("BarcodeScannerView");
+
+        if (currentScene == null) {
+            // create our initial view
+            View newView = ViewFactory.createView("BarcodeScannerView", this); // USE VIEW FACTORY
+            currentScene = new Scene(newView);
+            myViews.put("BarcodeScannerView", currentScene);
+        }
+
+        swapToView(currentScene);
+
+    }
 
 	/**
 	 * Create the view of this class. And then the super-class calls

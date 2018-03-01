@@ -14,14 +14,13 @@ import java.util.Properties;
 
 // project imports
 
-/** The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application */
+/** The class containing the BarcodeSearchTransaction for the Professional Clothes Closet application */
 //==============================================================
 public class BarcodeSearchTransaction extends Transaction
 {
 
 	private ArticleType myArticleType;
 //	private Color myColor;
-    private String transType;
 
 
 	// GUI Components
@@ -33,10 +32,9 @@ public class BarcodeSearchTransaction extends Transaction
 	 *
 	 */
 	//----------------------------------------------------------
-	public BarcodeSearchTransaction(String transType) throws Exception
+	public BarcodeSearchTransaction() throws Exception
 	{
 	    super();
-		this.transType = transType;
 
 	}
 
@@ -46,7 +44,7 @@ public class BarcodeSearchTransaction extends Transaction
 		dependencies = new Properties();
 		dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
 		dependencies.setProperty("OK", "CancelTransaction");
-		dependencies.setProperty("ArticleTypeData", "TransactionError");
+		dependencies.setProperty("ProcessBarcode", "TransactionError");
 
 		myRegistry.setDependencies(dependencies);
 	}
@@ -60,7 +58,10 @@ public class BarcodeSearchTransaction extends Transaction
 	{
 		if (props.getProperty("Barcode") != null)
 		{
-//			String barcode = props.getProperty("Barcode");
+			String barcode = props.getProperty("Barcode");
+            if (transType.equals("AddClothingItem")) {
+
+            }
 //			try
 //			{
 //
@@ -142,7 +143,7 @@ public class BarcodeSearchTransaction extends Transaction
 			doYourJob();
 		}
 		else
-		if (key.equals("ArticleTypeData"))
+		if (key.equals("ProcessBarcode"))
 		{
 			processTransaction((Properties)value);
 		}
@@ -157,14 +158,14 @@ public class BarcodeSearchTransaction extends Transaction
 	//------------------------------------------------------
 	protected Scene createView()
 	{
-		Scene currentScene = myViews.get("BarcodeSearchView");
+		Scene currentScene = myViews.get("BarcodeScannerView");
 
 		if (currentScene == null)
 		{
 			// create our initial view
-			View newView = ViewFactory.createView("BarcodeSearchView", this);
+			View newView = ViewFactory.createView("BarcodeScannerView", this);
 			currentScene = new Scene(newView);
-			myViews.put("BarcodeSearchView", currentScene);
+			myViews.put("BarcodeScannerView", currentScene);
 
 			return currentScene;
 		}

@@ -82,7 +82,7 @@ public class Event
 	
 	/**
 	 * A list of optional parameters that are embedded into the corresponding
-	 * parameter points in the description. A typical description example is as follows:
+	 * parameter points in the description. A typical primaryColorCombo example is as follows:
 	 * 
 	 * "Failed to find file <0> in directory <1>".
 	 *

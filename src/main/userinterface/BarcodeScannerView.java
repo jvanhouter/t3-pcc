@@ -29,7 +29,7 @@ import java.util.Properties;
  * Closet application
  */
 //==============================================================
-public class BarcodeSearchView extends View {
+public class BarcodeScannerView extends View {
 
     // GUI components
     protected TextField barcodePrefix;
@@ -44,8 +44,8 @@ public class BarcodeSearchView extends View {
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public BarcodeSearchView(IModel at) {
-        super(at, "BarcodeSearchView");
+    public BarcodeScannerView(IModel clothingItem) {
+        super(clothingItem, "BarcodeScannerView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -106,7 +106,7 @@ public class BarcodeSearchView extends View {
         container.getChildren().add(blankText);
 
         Text actionText = new Text("     " + getActionText() + "       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
         actionText.setFill(Color.BLACK);
@@ -120,11 +120,11 @@ public class BarcodeSearchView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("Scan or manually enter \nClothing Item barcode");
+        Text prompt = new Text("Scan or manually enter clothing item barcode");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         vbox.getChildren().add(prompt);
 
 
@@ -142,24 +142,14 @@ public class BarcodeSearchView extends View {
 //        grid.add(barcodePrefixLabel, 0, 1);
 
         barcodePrefix = new TextField();
+        barcodePrefix.setOnAction(this::processAction);
         grid.add(barcodePrefix, 0, 1,4,1);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-            String barcode = barcodePrefix.getText();
-            if (barcode.length() == 8) {
-                props.setProperty("Barcode", barcode);
-            } else {
-                displayErrorMessage("ERROR: Please enter a valid barcode!");
-
-            }
-
-        });
+        submitButton.setOnAction(this::processAction);
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new Button("Return");
@@ -174,6 +164,19 @@ public class BarcodeSearchView extends View {
         vbox.getChildren().add(doneCont);
 
         return vbox;
+    }
+
+    private void processAction(ActionEvent actionEvent) {
+        clearErrorMessage();
+        Properties props = new Properties();
+        String barcode = barcodePrefix.getText();
+        if (barcode.length() == 8) {
+            props.setProperty("Barcode", barcode);
+            myModel.stateChangeRequest("ProcessBarcode", props);
+        } else {
+            displayErrorMessage("ERROR: Please enter a valid barcode!");
+        }
+
     }
 
     // Create the status log field
