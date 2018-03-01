@@ -39,6 +39,7 @@ public class CheckoutClothingItemTransaction extends Transaction
     protected void setDependencies()
     {
         dependencies = new Properties();
+        dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
         dependencies.setProperty("CancelCheckoutCI", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
         dependencies.setProperty("InventoryData", "TransactionError");
@@ -137,14 +138,14 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     protected Scene createView()
     {
-        Scene currentScene = myViews.get("EnterClothingItemBarcodeView");
+        Scene currentScene = myViews.get("BarcodeScannerView");
 
         if (currentScene == null)
         {
             // create our initial view
-            View newView = ViewFactory.createView("EnterClothingItemBarcodeView", this);
+            View newView = ViewFactory.createView("BarcodeScannerView", this);
             currentScene = new Scene(newView);
-            myViews.put("EnterClothingItemBarcodeView", currentScene);
+            myViews.put("BarcodeScannerView", currentScene);
 
             return currentScene;
         }
