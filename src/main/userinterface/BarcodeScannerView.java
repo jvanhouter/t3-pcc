@@ -5,7 +5,6 @@ package userinterface;
 
 import impresario.IModel;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -57,7 +56,7 @@ public class BarcodeScannerView extends View {
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
 
-        container.getChildren().add(createStatusLog("             "));
+        container.getChildren().add(createStatusLog());
 
         getChildren().add(container);
 
@@ -133,13 +132,6 @@ public class BarcodeScannerView extends View {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
-//
-//        Text barcodePrefixLabel = new Text(" Barcode Prefix : ");
-//        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
-//        barcodePrefixLabel.setFont(myFont);
-//        barcodePrefixLabel.setWrappingWidth(150);
-//        barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
-//        grid.add(barcodePrefixLabel, 0, 1);
 
         barcodePrefix = new TextField();
         barcodePrefix.setOnAction(this::processAction);
@@ -180,8 +172,8 @@ public class BarcodeScannerView extends View {
     }
 
     // Create the status log field
-    protected MessageView createStatusLog(String initialMessage) {
-        statusLog = new MessageView(initialMessage);
+    protected MessageView createStatusLog() {
+        statusLog = new MessageView("             ");
 
         return statusLog;
     }
@@ -195,16 +187,16 @@ public class BarcodeScannerView extends View {
      */
     public void updateState(String key, Object value) {
         clearErrorMessage();
-
-        if (key.equals("TransactionError")) {
-            String val = (String) value;
-            if (val.startsWith("ERR")) {
-                displayErrorMessage(val);
-            } else {
-                displayMessage(val);
-            }
-
-        }
+//
+//        if (key.equals("TransactionError")) {
+//            String val = (String) value;
+//            if (val.startsWith("ERR")) {
+//                displayErrorMessage(val);
+//            } else {
+//                displayMessage(val);
+//            }
+//
+//        }
     }
 
     /**

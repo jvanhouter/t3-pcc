@@ -22,8 +22,8 @@ public class TransactionFactory {
             return null; //new UpdateClothingItemTransaction();
         } else if (transType.equals("RemoveClothingItem")) {
             return null; //new RemoveClothingItemTransaction();
-        } else if (transType.equals("BarcodeSearch")) {
-            return new BarcodeSearchTransaction();
+//        } else if (transType.equals("BarcodeSearch")) {
+//            return new BarcodeSearchTransaction();
         } else {
             return null;
         }
