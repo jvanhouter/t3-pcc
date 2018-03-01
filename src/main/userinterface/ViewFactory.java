@@ -18,6 +18,10 @@ public class ViewFactory {
             return new SearchArticleTypeView(model);
         } else if (viewName.equals("EnterReceiverInformationView")) {
             return new EnterReceiverInformationView(model);
+        } else if (viewName.equals("AddClothingItemView")) {
+            return new AddClothingItemView(model);
+        } else if (viewName.equals("BarcodeSearchView")) {
+            return new BarcodeSearchView(model);
         } else
             return null;
     }

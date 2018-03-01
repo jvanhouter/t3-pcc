@@ -16,6 +16,11 @@ public class TransactionFactory {
             return new UpdateArticleTypeTransaction();
         } else if (transType.equals("CheckoutClothingItem")) {
             return new CheckoutClothingItemTransaction();
+        } else if (transType.equals("AddClothingItem") ||
+                transType.equals("CheckoutClothingItem") ||
+                transType.equals("UpdateClothingItem") ||
+                transType.equals("RemoveClothingItem"))  {
+            return new BarcodeSearchTransaction(transType);
         } else {
             return null;
         }
