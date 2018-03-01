@@ -33,13 +33,14 @@ import java.util.Properties;
 public class AddClothingItemView extends View {
 
     // GUI components
-    protected ComboBox<String> genderCombo;
-    protected ComboBox<String> primaryColorCombo;
-    protected ComboBox<String> secondaryColorCombo;
+    private ComboBox<String> genderCombo;
+    private ComboBox<String> articleTypeCombo;
+    private ComboBox<String> primaryColorCombo;
+    private ComboBox<String> secondaryColorCombo;
     protected TextField alphaCode;
 
-    protected Button submitButton;
-    protected Button cancelButton;
+    private Button submitButton;
+    private Button cancelButton;
 
     // For showing error message
     protected MessageView statusLog;
@@ -145,27 +146,39 @@ public class AddClothingItemView extends View {
 
         grid.add(genderCombo, 1, 1);
 
+        Text articleTypeLabel = new Text(" Article Type : ");
+        articleTypeLabel.setFont(myFont);
+        articleTypeLabel.setWrappingWidth(150);
+        articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(articleTypeLabel, 0, 2);
+
+        articleTypeCombo = new ComboBox<String>();
+        articleTypeCombo.getItems().addAll("Pant Suit", "Skirt Suit");
+        articleTypeCombo.setValue("Pant Suit");
+
+        grid.add(articleTypeCombo, 1, 2);
+
         Text primaryColorLabel = new Text(" Primary Color : ");
         primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(primaryColorLabel, 0, 2);
+        grid.add(primaryColorLabel, 0, 3);
 
         primaryColorCombo = new ComboBox<String>();
         primaryColorCombo.getItems().addAll("None", "Navy", "Blue", "etc.");
         primaryColorCombo.setValue("Navy");
-        grid.add(primaryColorCombo, 1, 2);
+        grid.add(primaryColorCombo, 1, 3);
 
         Text secondaryColorLabel = new Text(" Secondary Color : ");
         secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(secondaryColorLabel, 0, 3);
+        grid.add(secondaryColorLabel, 0, 4);
 
         secondaryColorCombo = new ComboBox<String>();
         secondaryColorCombo.getItems().addAll("None", "Navy", "Blue", "etc.");
         secondaryColorCombo.setValue("None");
-        grid.add(secondaryColorCombo, 1, 3);
+        grid.add(secondaryColorCombo, 1, 4);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);

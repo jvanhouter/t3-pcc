@@ -112,6 +112,7 @@ public class Receptionist implements IView, IModel
             transType = transType.trim();
 
             doTransaction(transType);
+            System.out.println("TEST");
         }
 
         myRegistry.updateSubscribers(key, this);
