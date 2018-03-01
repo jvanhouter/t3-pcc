@@ -20,6 +20,8 @@ public class AddClothingItemTransaction extends Transaction
 {
 
 	private ArticleType myArticleType;
+	private ArticleTypeCollection myArticleTypeList;
+
 
 
 	// GUI Components
@@ -41,6 +43,7 @@ public class AddClothingItemTransaction extends Transaction
 	{
 		dependencies = new Properties();
 		dependencies.setProperty("CancelAddClothingItem", "CancelTransaction");
+		dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
 		dependencies.setProperty("OK", "CancelTransaction");
 		dependencies.setProperty("ClothingItemData", "TransactionError");
 		dependencies.setProperty("ProcessBarcode", "TransactionError");
@@ -135,19 +138,21 @@ public class AddClothingItemTransaction extends Transaction
 				String sequence = barcode.substring(5, 8);
 //			}
             ArticleType test = null;
-            try {
-                test = new ArticleType(articleTypePrefix);
-            } catch (InvalidPrimaryKeyException ex) {
-                System.out.println("DEBUG");
-
-            } catch (MultiplePrimaryKeysException ex2) {
-                transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
-                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Found multiple article types with barcode prefix : " + articleTypePrefix + ". Reason: " + ex2.toString(),
-                        Event.ERROR);
-
-            }
-            System.out.println(test);
+//            try {
+                myArticleTypeList = new ArticleTypeCollection();
+                myArticleTypeList.findAll();
+//            } catch (InvalidPrimaryKeyException ex) {
+//                System.out.println("DEBUG");
+//
+//            } catch (MultiplePrimaryKeysException ex2) {
+//                transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
+//                new Event(Event.getLeafLevelClassName(this), "processTransaction",
+//                        "Found multiple article types with barcode prefix : " + articleTypePrefix + ". Reason: " + ex2.toString(),
+//                        Event.ERROR);
+//
+//            }
+            System.out.println(myArticleTypeList);
+            createAndShowAddClothingItemView();
 		}
 
 	}
@@ -169,11 +174,11 @@ public class AddClothingItemTransaction extends Transaction
 	{
 		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
-		if (key.equals("DoYourJob")) {
-		    createAndShowBarcodeScannerView();
-//			doYourJob();
-		} else if (key.equals("ProcessBarcode")) {
+		if (key.equals("DoYourJob") || key.equals("CancelAddClothingItem")) {
+//		    createAndShowBarcodeScannerView();
 			doYourJob();
+		} else if (key.equals("ProcessBarcode")) {
+//			doYourJob();
 			processBarcode((Properties) value);
 		} else if (key.equals("ClothingItemData")) {
 			processTransaction((Properties)value);
@@ -183,14 +188,14 @@ public class AddClothingItemTransaction extends Transaction
 	}
 
     //------------------------------------------------------------
-    private void createAndShowBarcodeScannerView() {
-        Scene currentScene = (Scene) myViews.get("BarcodeScannerView");
+    private void createAndShowAddClothingItemView() {
+        Scene currentScene = (Scene) myViews.get("AddClothingItemView");
 
         if (currentScene == null) {
             // create our initial view
-            View newView = ViewFactory.createView("BarcodeScannerView", this); // USE VIEW FACTORY
+            View newView = ViewFactory.createView("AddClothingItemView", this); // USE VIEW FACTORY
             currentScene = new Scene(newView);
-            myViews.put("BarcodeScannerView", currentScene);
+            myViews.put("AddClothingItemView", currentScene);
         }
 
         swapToView(currentScene);
@@ -204,13 +209,13 @@ public class AddClothingItemTransaction extends Transaction
 	//------------------------------------------------------
 	protected Scene createView()
 	{
-		Scene currentScene = myViews.get("AddClothingItemView");
+		Scene currentScene = myViews.get("BarcodeScannerView");
 
 		if (currentScene == null)
 		{
 			// create our initial view
-			currentScene = new Scene(ViewFactory.createView("AddClothingItemView", this));
-			myViews.put("AddClothingItemView", currentScene);
+			currentScene = new Scene(ViewFactory.createView("BarcodeScannerView", this));
+			myViews.put("BarcodeScannerView", currentScene);
 
 			return currentScene;
 		}

@@ -187,16 +187,16 @@ public class BarcodeScannerView extends View {
      */
     public void updateState(String key, Object value) {
         clearErrorMessage();
-//
-//        if (key.equals("TransactionError")) {
-//            String val = (String) value;
-//            if (val.startsWith("ERR")) {
-//                displayErrorMessage(val);
-//            } else {
-//                displayMessage(val);
-//            }
-//
-//        }
+
+        if (key.equals("TransactionError")) {
+            String val = (String) value;
+            if (val.startsWith("ERR")) {
+                displayErrorMessage(val);
+            } else {
+                displayMessage(val);
+            }
+
+        }
     }
 
     /**
