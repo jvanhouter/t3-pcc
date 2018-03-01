@@ -38,6 +38,7 @@ public class Receptionist implements IView, IModel
     private Stage myStage;
 
     private String transactionErrorMessage = "";
+    private String historyEvent = "";
 
     // constructor for this class
     //----------------------------------------------------------
@@ -97,8 +98,14 @@ public class Receptionist implements IView, IModel
             createAndShowReceptionistView();
         } else if (key.equals("ExitSystem")) {
             System.exit(0);
-        } else if (key.equals("ExitSystem")) {
-            System.exit(0);
+        } else if (key.equals("ScannedBarcode")) {
+            if (historyEvent.equals("AddClothingItem")) {
+                doTransaction("AddClothingItem");
+            }
+        } else if (key.equals("AddClothingItem")) {
+            historyEvent = "AddClothingItem";
+            createAndShowBarcodeScannerView();
+
         } else if ((key.equals("AddArticleType")) || (key.equals("UpdateArticleType")) ||
                 (key.equals("RemoveArticleType")) || (key.equals("AddColor")) ||
                 (key.equals("UpdateColor")) || (key.equals("RemoveColor")) ||
@@ -112,7 +119,6 @@ public class Receptionist implements IView, IModel
             transType = transType.trim();
 
             doTransaction(transType);
-            System.out.println("TEST");
         }
 
         myRegistry.updateSubscribers(key, this);
@@ -165,6 +171,19 @@ public class Receptionist implements IView, IModel
 
     }
 
+    private void createAndShowBarcodeScannerView() {
+        Scene currentScene = (Scene) myViews.get("BarcodeScannerView");
+
+        if (currentScene == null) {
+            // create our initial view
+            View newView = ViewFactory.createView("BarcodeScannerView", this); // USE VIEW FACTORY
+            currentScene = new Scene(newView);
+            myViews.put("BarcodeScannerView", currentScene);
+        }
+
+        swapToView(currentScene);
+
+    }
 
     /**
      * Register objects to receive state updates.
