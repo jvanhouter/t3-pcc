@@ -31,12 +31,13 @@ public class TransactionFactory
 		if (transType.equals("UpdateArticleType") == true)
 		{
 			retValue = new UpdateArticleTypeTransaction();
-		} /*
-		else
-		if (transType.equals("Transfer") == true)
-		{
-			retValue = new TransferTransaction(cust);
 		}
+		else
+		if (transType.equals("RemoveArticleType") == true)
+		{
+			retValue = new RemoveArticleTypeTransaction();
+		}
+		/*
 		else
 		if (transType.equals("BalanceInquiry") == true)
 		{
