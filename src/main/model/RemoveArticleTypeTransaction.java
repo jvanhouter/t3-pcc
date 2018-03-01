@@ -30,7 +30,7 @@ public class RemoveArticleTypeTransaction extends Transaction
      *
      */
     //----------------------------------------------------------
-    publicRemoveArticleTypeTransaction() throws Exception
+    public RemoveArticleTypeTransaction() throws Exception
     {
         super();
     }
@@ -87,109 +87,19 @@ public class RemoveArticleTypeTransaction extends Transaction
     //--------------------------------------------------------------------------
     private void articleTypeRemoverHelper(Properties props)
     {
-        String descriptionOfAT = props.getProperty("Description");
-        if (descriptionOfAT.length() > 30)
-        {
-            transactionErrorMessage = "ERROR: Article Type Description too long! ";
-        }
-        else
-        {
-            String alphaCode = props.getProperty("AlphaCode");
-            if (alphaCode.length() > 5)
-            {
-                transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
-            }
-            else
-            {
-                // Everything OK
 
-                mySelectedArticleType.stateChangeRequest("Description", descriptionOfAT);
-                mySelectedArticleType.stateChangeRequest("AlphaCode", alphaCode);
-                mySelectedArticleType.update();
-                transactionErrorMessage = (String)mySelectedArticleType.getState("UpdateStatusMessage");//NEEDED?????
-            }
-        }
     }
 
     /**
-     * This method encapsulates all the logic of modifiying the article type,
+     * This method encapsulates all the logic of removing the article type,
      * verifying the new barcode, etc.
      */
     //----------------------------------------------------------
     private void processArticleTypeRemoval(Properties props)
     {
-        if (props.getProperty("Status")!= null){
-            if (props.getProperty("Status").equals("Active")){
-                //change status to inactive and update the database
-            }
-            else{
-                //create an error message If ArticleType.AlphaCode,Status = "Inactive"
-                //i.e. ArticleType is already "removed"
-            }
-
-        }
-        else{
-            //create an error message if props.getProperty("Status")= null
-            //this means the ArticleType was never added to the database to begin with
-            //return View to where?
-        }
+        props.setProperty("Status", "Inactive");
     }
-        /*
-        if (props.getProperty("BarcodePrefix") != null)
-        {
-            String barcodePrefix = props.getProperty("BarcodePrefix");
-            String originalBarcodePrefix = (String)mySelectedArticleType.getState("BarcodePrefix");
-            if (barcodePrefix.equals(originalBarcodePrefix) == false)
-            {
-                try
-                {
-                    ArticleType oldArticleType = new ArticleType(barcodePrefix);
-                    transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
-                            + " already exists!";
-                    new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                            "Article type with barcode prefix : " + barcodePrefix + " already exists!",
-                            Event.ERROR);
-                }
-                catch (InvalidPrimaryKeyException ex)
-                {
-                    // Barcode prefix does not exist, validate data
-                    try
-                    {
-                        int barcodePrefixVal = Integer.parseInt(barcodePrefix);
-                        // Barcode prefix ok, so set it
-                        mySelectedArticleType.stateChangeRequest("BarcodePrefix", barcodePrefix);
-                        // Process the rest (description, alpha code). Helper does all that
-                        articleTypeModificationHelper(props);
-                    }
-                    catch (Exception excep)
-                    {
-                        transactionErrorMessage = "ERROR: Invalid barcode prefix: " + barcodePrefix
-                                + "! Must be numerical.";
-                        new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                                "Invalid barcode prefix : " + barcodePrefix + "! Must be numerical.",
-                                Event.ERROR);
-                    }
 
-                }
-                catch (MultiplePrimaryKeysException ex2)
-                {
-                    transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
-                    new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                            "Found multiple article types with barcode prefix : " + barcodePrefix + ". Reason: " + ex2.toString(),
-                            Event.ERROR);
-
-                }
-            }
-            else
-            {
-                // No change in barcode prefix, so just process the rest (description, alpha code). Helper does all that
-                articleTypeModificationHelper(props);
-            }
-
-        }
-
-    }
-*/
     //-----------------------------------------------------------
     public Object getState(String key)
     {
@@ -267,7 +177,9 @@ public class RemoveArticleTypeTransaction extends Transaction
         {
             processArticleTypeRemoval((Properties)value);
         }
-
+        if (key.equals("RemoveArticleType")) {
+            mySelectedArticleType.//finish this method
+        }
         myRegistry.updateSubscribers(key, this);
     }
 

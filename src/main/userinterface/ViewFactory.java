@@ -26,11 +26,12 @@ public class ViewFactory {
 		else if(viewName.equals("SearchArticleTypeView") == true)
 		{
 			return new SearchArticleTypeView(model);
-		} /*
-		else if(viewName.equals("DepositTransactionView") == true)
-		{
-			return new DepositTransactionView(model);
 		}
+		else if(viewName.equals("RemoveArticleTypeView") == true)
+		{
+			return new RemoveArticleTypeView(model);
+		}
+		/*
 		else if(viewName.equals("DepositAmountView") == true)
 		{
 			return new DepositAmountView(model);
