@@ -24,11 +24,11 @@ import java.util.Properties;
 
 // project imports
 
-/** The class containing the Add Clothing Item View  for the Professional Clothes
+/** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application 
  */
 //==============================================================
-public class AddClothingItemView extends View
+public class BarcodeSearchView extends View
 {
 
 	// GUI components
@@ -44,9 +44,9 @@ public class AddClothingItemView extends View
 
 	// constructor for this class -- takes a model object
 	//----------------------------------------------------------
-	public AddClothingItemView(IModel at)
+	public BarcodeSearchView(IModel at)
 	{
-		super(at, "AddClothingItemView");
+		super(at, "AddArticleTypeView");
 
 		// create a container for showing the contents
 		VBox container = new VBox(10);
