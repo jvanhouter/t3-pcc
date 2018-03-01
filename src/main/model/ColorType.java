@@ -99,7 +99,6 @@ public class ColorType extends EntityBase{
 
     private void updateStateInDatabase()
     {
-        System.out.println("Here");
         try
         {
             if (persistentState.getProperty("ID") != null)
@@ -156,7 +155,10 @@ public class ColorType extends EntityBase{
 
     public void stateChangeRequest(String key, Object value)
     {
-
+        if (persistentState.getProperty(key) != null)
+        {
+            persistentState.setProperty(key, (String)value);
+        }
         myRegistry.updateSubscribers(key, this);
     }
 
