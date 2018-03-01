@@ -21,11 +21,13 @@ public class RemoveColorTransaction extends Transaction
 {
 
     private ColorType myColorType;
+    private String color;
 
 
     // GUI Components
 
     private String transactionErrorMessage = "";
+    private String colorRemoveStatusMessage = "";
 
     /**
      * Constructor for this class.
@@ -58,51 +60,24 @@ public class RemoveColorTransaction extends Transaction
         if (props.getProperty("BarcodePrefix") != null)
         {
             String barcodePrefix = props.getProperty("BarcodePrefix");
-            try
-            {
-
-                ArticleType oldArticleType = new ArticleType(barcodePrefix);
-                transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
-                        + " already exists!";
-                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Article type with barcode prefix : " + barcodePrefix + " already exists!",
-                        Event.ERROR);
-            }
-            catch (InvalidPrimaryKeyException ex)
-            {
-                // Barcode prefix does not exist, validate data
-                try
-                {
-                    int barcodePrefixVal = Integer.parseInt(barcodePrefix);
-                    String descriptionOfAT = props.getProperty("Description");
-                    if (descriptionOfAT.length() > 30)
-                    {
-                        transactionErrorMessage = "ERROR: Article Type Description too long! ";
-                    }
-                    else
-                    {
-                        String alphaCode = props.getProperty("AlphaCode");
-                        if (alphaCode.length() > 5)
-                        {
-                            transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
-                        }
-                        else
-                        {
-                            props.setProperty("Status", "Active");
-                            myColorType = new ColorType(props);
-                            myColorType.update();
-                            transactionErrorMessage = (String)myColorType.getState("UpdateStatusMessage");
-                        }
-                    }
-                }
-                catch (Exception excep)
-                {
-                    transactionErrorMessage = "ERROR: Invalid barcode prefix: " + barcodePrefix
-                            + "! Must be numerical.";
-                    new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                            "Invalid barcode prefix : " + barcodePrefix + "! Must be numerical.",
-                            Event.ERROR);
-                }
+            myColorList.findByBarcodePrefix(barcodePrefix);
+        }
+        else
+        {
+            String desc = props.getProperty("Description");
+            String alfaC = props.getProperty("AlphaCode");
+            myColorList.findByCriteria(desc, alfaC);
+        }
+        try
+        {
+            Scene newScene = createColorCollectionView();
+            swapToView(newScene);
+        }
+        catch (Exception ex)
+        {
+            new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                    "Error in creating ColorCollectionView", Event.ERROR);
+        }
 
             }
             catch (MultiplePrimaryKeysException ex2)
