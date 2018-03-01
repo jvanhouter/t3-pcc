@@ -43,9 +43,9 @@ public class RemoveColorTransaction extends Transaction
     protected void setDependencies()
     {
         dependencies = new Properties();
-        dependencies.setProperty("CancelRemoveTransaction", "CancelTransaction");
+        dependencies.setProperty("CancelRemoveColorTransaction", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
-        dependencies.setProperty("ColorTypeData", "TransactionError");
+        dependencies.setProperty("ColorData", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
     }
@@ -97,14 +97,13 @@ public class RemoveColorTransaction extends Transaction
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value)
     {
-        // DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
         if (key.equals("DoYourJob") == true)
         {
             doYourJob();
         }
         else
-        if (key.equals("ArticleTypeData") == true)
+        if (key.equals("ColorData") == true)
         {
             processTransaction((Properties)value);
         }
