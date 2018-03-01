@@ -151,7 +151,7 @@ public class ColorCollectionView extends View
         blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
-        Text actionText = new Text("      ** Matching Article Types **       ");
+        Text actionText = new Text("      ** Matching Colors **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
@@ -186,32 +186,32 @@ public class ColorCollectionView extends View
         TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
         barcodePrefixColumn.setMinWidth(50);
         barcodePrefixColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("barcodePrefix"));
+                new PropertyValueFactory<ColorTableModel, String>("barcodePrefix"));
 
         TableColumn descriptionColumn = new TableColumn("Description") ;
         descriptionColumn.setMinWidth(150);
         descriptionColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("description"));
+                new PropertyValueFactory<ColorTableModel, String>("description"));
 
         TableColumn alphaCodeColumn = new TableColumn("Alpha Code") ;
         alphaCodeColumn.setMinWidth(50);
         alphaCodeColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("alphaCode"));
+                new PropertyValueFactory<ColorTableModel, String>("alphaCode"));
 
         TableColumn statusColumn = new TableColumn("Status") ;
         statusColumn.setMinWidth(50);
         statusColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
+                new PropertyValueFactory<ColorTableModel, String>("status"));
 
-        tableOfColorTypes.getColumns().addAll(descriptionColumn,
-                barcodePrefixColumn, alphaCodeColumn, statusColumn);
+                tableOfColorTypes.getColumns().addAll(descriptionColumn,
+                        barcodePrefixColumn, alphaCodeColumn, statusColumn);
 
-        tableOfColorTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event)
-            {
-                if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processArticleTypeSelected();
+                tableOfColorTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event)
+                    {
+                        if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+                    processColorSelected();
                 }
             }
         });
@@ -227,7 +227,7 @@ public class ColorCollectionView extends View
             public void handle(ActionEvent e) {
                 clearErrorMessage();
                 // do the inquiry
-                processArticleTypeSelected();
+                processColorSelected();
 
             }
         });
@@ -269,7 +269,7 @@ public class ColorCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void processArticleTypeSelected()
+    protected void processColorSelected()
     {
         ColorTableModel selectedItem = tableOfColorTypes.getSelectionModel().getSelectedItem();
 
@@ -277,7 +277,7 @@ public class ColorCollectionView extends View
         {
             String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
 
-            myModel.stateChangeRequest("ColorTypeSelected", selectedBarcodePrefix);
+            myModel.stateChangeRequest("ColorSelected", selectedBarcodePrefix);
         }
     }
 
