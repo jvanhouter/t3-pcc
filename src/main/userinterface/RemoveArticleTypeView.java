@@ -139,6 +139,8 @@ public class RemoveArticleTypeView extends View
             @Override
             public void handle(ActionEvent e) {
                 myModel.stateChangeRequest("RemoveArticleType", null);
+
+                clearErrorMessage();
             }
         });
         doneCont.getChildren().add(submitButton);
@@ -150,7 +152,7 @@ public class RemoveArticleTypeView extends View
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelSearchArticleType", null);
+                myModel.stateChangeRequest("CancelRemoveAT", null);
             }
         });
         doneCont.getChildren().add(cancelButton);

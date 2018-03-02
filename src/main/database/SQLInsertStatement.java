@@ -111,7 +111,6 @@ public class SQLInsertStatement extends SQLStatement
 		theSQLStatement += theValuesString;
 
 		theSQLStatement += ";";
-		System.out.println("IN SQLINSERTSTATEMENT.java -> " + theSQLStatement);
 	
 	}
 }

@@ -40,8 +40,8 @@ public class RemoveArticleTypeTransaction extends Transaction
     {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchArticleType", "CancelTransaction");
-        dependencies.setProperty("CancelAddAT", "CancelTransaction");
-        dependencies.setProperty("ArticleTypeData", "TransactionError");
+        dependencies.setProperty("CancelRemoveAT", "CancelTransaction");
+        dependencies.setProperty("RemoveArticleType", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
     }
@@ -87,7 +87,8 @@ public class RemoveArticleTypeTransaction extends Transaction
     {
         if(mySelectedArticleType != null) {
             mySelectedArticleType.stateChangeRequest("Status", "Inactive");
-
+            mySelectedArticleType.update();
+            transactionErrorMessage = (String)mySelectedArticleType.getState("UpdateStatusMessage");
         }
     }
 
@@ -164,7 +165,7 @@ public class RemoveArticleTypeTransaction extends Transaction
             }
         }
         else
-        if (key.equals("RemoveArticleType")) {
+        if (key.equals("RemoveArticleType") == true) {
             processArticleTypeRemoval();
         }
         myRegistry.updateSubscribers(key, this);

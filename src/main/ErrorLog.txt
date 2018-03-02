@@ -61,3 +61,5 @@
 [3/1/18 2:00 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[com.mysql.jdbc.Driver]>
 [3/1/18 3:45 PM]|AddColorTransaction|processTransaction|Error|NOTAG|null<Color type with barcode prefix : 02 already exists!>
 [3/2/18 11:45 AM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[3/2/18 12:09 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Article type with barcode prefix : 222 already exists!>
+[3/2/18 12:34 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Article type with barcode prefix : 114 already exists!>
