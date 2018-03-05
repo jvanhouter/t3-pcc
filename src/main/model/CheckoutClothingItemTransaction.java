@@ -20,7 +20,7 @@ import userinterface.ViewFactory;
 public class CheckoutClothingItemTransaction extends Transaction
 {
     //TODO create ClothingItem model class
-//    private ClothingItem myClothingItem;
+    private ClothingItem myClothingItem;
 
     // GUI Components
 
@@ -53,11 +53,16 @@ public class CheckoutClothingItemTransaction extends Transaction
      */
     //----------------------------------------------------------
     //TODO parameters might need to be "String barcode"?
-    public void processTransaction(Properties props)
-    {
+    public void processTransaction(String barcode){
         //TODO a constructor needs to be created with functionality to retrieve by barcode
         //TODO should this be an InventoryItem? Not a ClothingItem?
-//        myClothingItem = new ClothingItem(props);
+        try {
+            myClothingItem = new ClothingItem(barcode);
+        } catch (InvalidPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (MultiplePrimaryKeysException e) {
+            e.printStackTrace();
+        }
         try
         {
             Scene newScene = createEnterReceiverInformationView();
@@ -96,12 +101,12 @@ public class CheckoutClothingItemTransaction extends Transaction
                 {
                     // Everything OK
                     // Set receiver properties change status to received and update
-//                    myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
-//                    myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
-//                    myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
-//                    myClothingItem.stateChangeRequest("Status", "Received");
-//                    myClothingItem.update();
-//                    transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+                    myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
+                    myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
+                    myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
+                    myClothingItem.stateChangeRequest("Status", "Received");
+                    myClothingItem.update();
+                    transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
                 }
             }
         }
@@ -118,7 +123,7 @@ public class CheckoutClothingItemTransaction extends Transaction
         //The EnterClothingItemBarcodeView should call here
         else if (key.equals("InventoryData") == true)
         {
-            processTransaction((Properties)value);
+            processTransaction((String)value);
         }
         //The EnterReceiverInformationView should call here
         else if (key.equals("ReceiverData") == true)

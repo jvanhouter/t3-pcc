@@ -177,7 +177,6 @@ public class EnterReceiverInformationView extends View {
                 String netIdReceiver = netId.getText();
                 if (netIdReceiver.length() > 0)
                 {
-                    // TODO IN THE DATABASE "ReceiverNetid" HAS LOWERCASE i In id (NOT CAMELCASE)
                     props.setProperty("ReceiverNetid", netIdReceiver);
                     String fNameReceiver = fName.getText();
                     if (fNameReceiver.length() > 0)
@@ -218,7 +217,7 @@ public class EnterReceiverInformationView extends View {
             public void handle(ActionEvent e) {
                 clearErrorMessage();
                 //TODO "CancelCheckoutItem" MAY BE DEPENDANT ON CONTROLLER AND THUS SUBJECT TO CHANGE OR FUTURE USE.
-                myModel.stateChangeRequest("CancelCheckoutItem", null);
+                myModel.stateChangeRequest("CancelCheckoutCI", null);
             }
         });
         doneCont.getChildren().add(cancelButton);
