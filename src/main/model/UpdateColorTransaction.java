@@ -209,7 +209,7 @@ public class UpdateColorTransaction extends Transaction {
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value)
     {
-        // DEBUG System.out.println("UpdateArticleTypeTransaction.sCR: key: " + key);
+
 
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
         {
