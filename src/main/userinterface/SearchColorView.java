@@ -127,6 +127,7 @@ public class SearchColorView extends View
     private VBox createFormContent()
     {
         VBox vbox = new VBox(10);
+        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
 
         Text prompt1 = new Text("Enter Color Barcode Prefix (if known)");
         prompt1.setWrappingWidth(400);
@@ -140,9 +141,8 @@ public class SearchColorView extends View
         grid0.setHgap(10);
         grid0.setVgap(10);
         grid0.setPadding(new Insets(0, 25, 10, 0));
-
+/*
         Text barcodePrefixLabel = new Text(" Barcode Prefix : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
         barcodePrefixLabel.setFont(myFont);
         barcodePrefixLabel.setWrappingWidth(150);
         barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -164,7 +164,7 @@ public class SearchColorView extends View
             }
         });
         grid0.add(barcodePrefix, 1, 1);
-
+*/
         vbox.getChildren().add(grid0);
 
         Text prompt2 = new Text(" - Otherwise, enter other criteria below - ");
@@ -223,20 +223,20 @@ public class SearchColorView extends View
             public void handle(ActionEvent e) {
                 clearErrorMessage();
                 Properties props = new Properties();
-                String bcPrfx = barcodePrefix.getText();
-                if (bcPrfx.length() > 0)
-                {
-                    props.setProperty("BarcodePrefix", bcPrfx);
-                    myModel.stateChangeRequest("SearchColor", props);
-                }
-                else
-                {
+                //String bcPrfx = barcodePrefix.getText();
+                //if (bcPrfx.length() > 0)
+                //{
+                //    props.setProperty("BarcodePrefix", bcPrfx);
+                 //   myModel.stateChangeRequest("SearchColor", props);
+                //}
+               // else
+                //{
                     String descrip = description.getText();
                     props.setProperty("Description", descrip);
                     String alfaC = alphaCode.getText();
                     props.setProperty("AlphaCode", alfaC);
                     myModel.stateChangeRequest("SearchColor", props);
-                }
+                //}
             }
         });
         doneCont.getChildren().add(submitButton);
