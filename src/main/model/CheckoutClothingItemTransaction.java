@@ -53,16 +53,10 @@ public class CheckoutClothingItemTransaction extends Transaction
      */
     //----------------------------------------------------------
     //TODO parameters might need to be "String barcode"?
-    public void processTransaction(String barcode){
+    public void processTransaction(Properties props){
         //TODO a constructor needs to be created with functionality to retrieve by barcode
         //TODO should this be an InventoryItem? Not a ClothingItem?
-        try {
-            myClothingItem = new ClothingItem(barcode);
-        } catch (InvalidPrimaryKeyException e) {
-            e.printStackTrace();
-        } catch (MultiplePrimaryKeysException e) {
-            e.printStackTrace();
-        }
+        myClothingItem = new ClothingItem(props);
         try
         {
             Scene newScene = createEnterReceiverInformationView();
@@ -121,9 +115,9 @@ public class CheckoutClothingItemTransaction extends Transaction
             doYourJob();
         }
         //The EnterClothingItemBarcodeView should call here
-        else if (key.equals("InventoryData") == true)
+        else if (key.equals("ProcessBarcode") == true)
         {
-            processTransaction((String)value);
+            processTransaction((Properties)value);
         }
         //The EnterReceiverInformationView should call here
         else if (key.equals("ReceiverData") == true)

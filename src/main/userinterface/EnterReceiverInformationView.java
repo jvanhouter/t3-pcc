@@ -155,7 +155,7 @@ public class EnterReceiverInformationView extends View {
         fName = new TextField();
         grid.add(fName, 1, 2);
 
-        Text lNameLabel = new Text(" Alpha Code : ");
+        Text lNameLabel = new Text(" Last Name : ");
         lNameLabel.setFont(myFont);
         lNameLabel.setWrappingWidth(150);
         lNameLabel.setTextAlignment(TextAlignment.RIGHT);
