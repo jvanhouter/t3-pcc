@@ -56,7 +56,14 @@ public class CheckoutClothingItemTransaction extends Transaction
     public void processTransaction(Properties props){
         //TODO a constructor needs to be created with functionality to retrieve by barcode
         //TODO should this be an InventoryItem? Not a ClothingItem?
-        myClothingItem = new ClothingItem(props);
+        String barcode = props.getProperty("Barcode");
+        try {
+            myClothingItem = new ClothingItem(barcode);
+        } catch (InvalidPrimaryKeyException e) {
+            e.printStackTrace();
+        } catch (MultiplePrimaryKeysException e) {
+            e.printStackTrace();
+        }
         try
         {
             Scene newScene = createEnterReceiverInformationView();

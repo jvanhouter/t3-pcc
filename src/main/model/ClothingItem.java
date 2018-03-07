@@ -11,7 +11,7 @@ import impresario.IView;
 
 	public class ClothingItem extends EntityBase implements IView
 	{
-		private static final String myTableName = "ClothingItem";
+		private static final String myTableName = "Inventory";
 
 		protected Properties dependencies;
 
