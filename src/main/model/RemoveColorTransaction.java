@@ -39,9 +39,9 @@ public class RemoveColorTransaction extends Transaction {
     //----------------------------------------------------------
     protected void setDependencies() {
         dependencies = new Properties();
-        dependencies.setProperty("CancelRemoveColorTransaction", "CancelTransaction");
-        dependencies.setProperty("CancelAddAt", "CancelTransaction");
-        dependencies.setProperty("ColorData", "TransactionError");
+        dependencies.setProperty("CancelSearchColor", "CancelTransaction");
+        dependencies.setProperty("CancelRemoveCT", "CancelTransaction");
+        dependencies.setProperty("RemoveColor", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
     }
@@ -74,9 +74,13 @@ public class RemoveColorTransaction extends Transaction {
 
     }
 
-    private void processColorRemoval(Properties props)
+    private void processColorRemoval()
     {
-        props.setProperty("Status", "Inactive");
+        if(mySelectedColor != null) {
+            mySelectedColor.stateChangeRequest("Status", "Inactive");
+            mySelectedColor.update();
+            transactionErrorMessage = (String)mySelectedColor.getState("UpdateStatusMessage");
+        }
     }
 
 
@@ -84,9 +88,35 @@ public class RemoveColorTransaction extends Transaction {
     public Object getState(String key) {
         if (key.equals("TransactionError") == true) {
             return transactionErrorMessage;
+        } 
+		else
+		if (key.equals("ColorList") == true) {
+			return myColorList;
+		}
+		else
+        if (key.equals("BarcodePrefix") == true)
+        {
+            if (mySelectedColor != null)
+                return mySelectedColor.getState("BarcodePrefix");
+            else
+                return "";
         }
-
-
+        else
+        if (key.equals("Description") == true)
+        {
+            if (mySelectedColor != null)
+                return mySelectedColor.getState("Description");
+            else
+                return "";
+        }
+        else
+        if (key.equals("AlphaCode") == true)
+        {
+            if (mySelectedColor != null)
+                return mySelectedColor.getState("AlphaCode");
+            else
+                return "";
+        }
         return null;
     }
 
@@ -121,9 +151,9 @@ public class RemoveColorTransaction extends Transaction {
             }
         }
         else
-        if (key.equals("ColorData") == true)
+        if (key.equals("RemoveColor") == true)
         {
-            processColorRemoval((Properties)value);
+            processColorRemoval();
         }
 
         myRegistry.updateSubscribers(key, this);
@@ -135,11 +165,11 @@ public class RemoveColorTransaction extends Transaction {
      */
     //------------------------------------------------------
     protected Scene createView() {
-        Scene currentScene = myViews.get("AddArticleTypeView");
+        Scene currentScene = myViews.get("SearchColorView");
 
         if (currentScene == null) {
             // create our initial view
-            View newView = ViewFactory.createView("AddArticleTypeView", this);
+            View newView = ViewFactory.createView("SearchColorView", this);
             currentScene = new Scene(newView);
             myViews.put("SearchColorView", currentScene);
 

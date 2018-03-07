@@ -46,6 +46,10 @@ public class ViewFactory {
 		{
 			return new SearchColorView(model);
 		}
+		else if(viewName.equals("RemoveColorView") == true)
+		{
+			return new RemoveColorView(model);
+		}
 		/*
 		else if(viewName.equals("DepositTransactionView") == true)
 		{

@@ -15,10 +15,10 @@ public class ColorTableModel
     //----------------------------------------------------------------------------
     public ColorTableModel(Vector<String> atData)
     {
-        barcodePrefix =  new SimpleStringProperty(atData.elementAt(0));
+        barcodePrefix =  new SimpleStringProperty(atData.elementAt(2));
         description =  new SimpleStringProperty(atData.elementAt(1));
-        alphaCode =  new SimpleStringProperty(atData.elementAt(2));
-        status =  new SimpleStringProperty(atData.elementAt(3));
+        alphaCode =  new SimpleStringProperty(atData.elementAt(3));
+        status =  new SimpleStringProperty(atData.elementAt(4));
     }
 
     //----------------------------------------------------------------------------
