@@ -27,12 +27,12 @@ public class ColorType extends EntityBase{
 
     private String updateStatusMessage = "";
 
-    public ColorType(String ID) throws InvalidPrimaryKeyException
+    public ColorType(String barcodePrefix) throws InvalidPrimaryKeyException
     {
         super(myTableName);
 
         setDependencies();
-        String query = "SELECT * FROM " + myTableName + " WHERE (ID = " + ID + ")";
+        String query = "SELECT * FROM " + myTableName + " WHERE (BarcodePrefix = " + barcodePrefix + ")";
 
         Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
@@ -42,8 +42,8 @@ public class ColorType extends EntityBase{
 
             if (size != 1)
             {
-                throw new InvalidPrimaryKeyException("Multiple colors matching id : "
-                        + ID + " found.");
+                throw new InvalidPrimaryKeyException("Multiple colors matching Barcode Prefix : "
+                        + barcodePrefix + " found.");
             }
             else
             {
@@ -68,8 +68,8 @@ public class ColorType extends EntityBase{
         // If no account found for this user name, throw an exception
         else
         {
-            throw new InvalidPrimaryKeyException("No color matching id : "
-                    + ID + " found.");
+            throw new InvalidPrimaryKeyException("No color matching Barcode Prefix : "
+                    + barcodePrefix + " found.");
         }
     }
 

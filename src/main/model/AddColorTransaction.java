@@ -60,7 +60,6 @@ public class AddColorTransaction extends Transaction
             String barcodePrefix = props.getProperty("BarcodePrefix");
             try
             {
-
                 ColorType oldColorType = new ColorType(barcodePrefix);
                 oldColorType.update();
                 transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
