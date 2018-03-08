@@ -51,17 +51,11 @@ public class UpdateColorTransaction extends Transaction {
     public void processTransaction(Properties props)
     {
         myColorList = new ColorCollection();
-        if (props.getProperty("BarcodePrefix") != null)
-        {
-            String barcodePrefix = props.getProperty("BarcodePrefix");
-            myColorList.findByBarcodePrefix(barcodePrefix);
-        }
-        else
-        {
-            String desc = props.getProperty("Description");
-            String alfaC = props.getProperty("AlphaCode");
-            myColorList.findByCriteria(desc, alfaC);
-        }
+        
+		String desc = props.getProperty("Description");
+		String alfaC = props.getProperty("AlphaCode");
+		myColorList.findByCriteria(desc, alfaC);
+        
         try
         {
             Scene newScene = createColorCollectionView();

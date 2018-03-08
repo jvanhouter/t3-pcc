@@ -36,7 +36,6 @@ public class SearchColorView extends View
 {
 
     // GUI components
-    protected TextField barcodePrefix;
     protected TextField description;
     protected TextField alphaCode;
 
@@ -141,30 +140,7 @@ public class SearchColorView extends View
         grid0.setHgap(10);
         grid0.setVgap(10);
         grid0.setPadding(new Insets(0, 25, 10, 0));
-/*
-        Text barcodePrefixLabel = new Text(" Barcode Prefix : ");
-        barcodePrefixLabel.setFont(myFont);
-        barcodePrefixLabel.setWrappingWidth(150);
-        barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid0.add(barcodePrefixLabel, 0, 1);
 
-        barcodePrefix = new TextField();
-        barcodePrefix.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                Properties props = new Properties();
-                String bcPrfx = barcodePrefix.getText();
-                if (bcPrfx.length() > 0)
-                {
-                    props.setProperty("BarcodePrefix", bcPrfx);
-                    myModel.stateChangeRequest("SearchColor", props);
-                }
-            }
-        });
-        grid0.add(barcodePrefix, 1, 1);
-*/
         vbox.getChildren().add(grid0);
 
         Text prompt2 = new Text(" - Otherwise, enter other criteria below - ");
@@ -211,6 +187,21 @@ public class SearchColorView extends View
         grid.add(alphaCodeLabel, 0, 2);
 
         alphaCode = new TextField();
+		alphaCode.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                clearErrorMessage();
+                Properties props = new Properties();
+
+                String descrip = description.getText();
+                props.setProperty("Description", descrip);
+                String alfaC = alphaCode.getText();
+                props.setProperty("AlphaCode", alfaC);
+                myModel.stateChangeRequest("SearchColor", props);
+
+            }
+        });
         grid.add(alphaCode, 1, 2);
 
         HBox doneCont = new HBox(10);
@@ -223,20 +214,13 @@ public class SearchColorView extends View
             public void handle(ActionEvent e) {
                 clearErrorMessage();
                 Properties props = new Properties();
-                //String bcPrfx = barcodePrefix.getText();
-                //if (bcPrfx.length() > 0)
-                //{
-                //    props.setProperty("BarcodePrefix", bcPrfx);
-                 //   myModel.stateChangeRequest("SearchColor", props);
-                //}
-               // else
-                //{
-                    String descrip = description.getText();
-                    props.setProperty("Description", descrip);
-                    String alfaC = alphaCode.getText();
-                    props.setProperty("AlphaCode", alfaC);
-                    myModel.stateChangeRequest("SearchColor", props);
-                //}
+                
+				String descrip = description.getText();
+				props.setProperty("Description", descrip);
+				String alfaC = alphaCode.getText();
+				props.setProperty("AlphaCode", alfaC);
+				myModel.stateChangeRequest("SearchColor", props);
+		   
             }
         });
         doneCont.getChildren().add(submitButton);

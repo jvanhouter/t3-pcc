@@ -72,3 +72,14 @@
 [3/8/18 3:23 PM]|ColorType|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry '69' for key 'BarcodePrefix'>
 [3/8/18 3:23 PM]|AddColorTransaction|processTransaction|Error|NOTAG|null<Color type with barcode prefix : 26 already exists!>
 [3/8/18 3:26 PM]|AddColorTransaction|processTransaction|Error|NOTAG|null<Color type with barcode prefix : 26 already exists!>
+[3/8/18 5:03 PM]|AddColorTransaction|processTransaction|Error|NOTAG|null<Color type with barcode prefix : 100 already exists!>
+[3/8/18 5:17 PM]|ColorCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: Communications link failure
+
+The last packet successfully received from the server was 880,171 milliseconds ago.  The last packet sent successfully to the server was 21,603 milliseconds ago.>
+[3/8/18 5:17 PM]|ColorCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[3/8/18 5:18 PM]|ColorCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[3/8/18 5:18 PM]|ColorCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[3/8/18 5:18 PM]|ColorCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[3/8/18 5:18 PM]|ColorCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[3/8/18 5:18 PM]|ColorCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[3/8/18 5:18 PM]|ColorCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
