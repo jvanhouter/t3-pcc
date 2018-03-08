@@ -45,7 +45,7 @@ public class CheckoutClothingItemTransaction extends Transaction
         dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
         dependencies.setProperty("CancelCheckoutCI", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
-        dependencies.setProperty("InventoryData", "TransactionError");
+        dependencies.setProperty("ReceiverData", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
     }
@@ -120,6 +120,7 @@ public class CheckoutClothingItemTransaction extends Transaction
 //                  System.out.println(myClothingItem.getEntryListView());
                     myClothingItem.update();
                     transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+
 
                 }
             }
