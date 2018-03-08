@@ -123,6 +123,7 @@ import impresario.IView;
 		{
 			if (persistentState.getProperty(key) != null)
 			{
+//				System.out.println(value);
 				persistentState.setProperty(key, (String)value);
 			}
 			myRegistry.updateSubscribers(key, this);
@@ -156,13 +157,14 @@ import impresario.IView;
 		{
 			try
 			{
-				if (persistentState.getProperty("ID") != null)
+				if (persistentState.getProperty("Barcode") != null)
 				{
 					Properties whereClause = new Properties();
-					whereClause.setProperty("ID", persistentState.getProperty("ID"));
+					whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
 					updatePersistentState(mySchema, persistentState, whereClause);
 					updateStatusMessage = "ClothingItem with prefix : " + persistentState.getProperty("Barcode") + " updated successfully!";
 				}
+				//TODO this should not use ID, I have no idea what it should be though.
 				else
 				{
 					Integer ciID =
@@ -191,13 +193,24 @@ import impresario.IView;
 			
 			v.addElement(persistentState.getProperty("Barcode"));
 			v.addElement(persistentState.getProperty("Gender"));
+			v.addElement(persistentState.getProperty("Size"));
 			v.addElement(persistentState.getProperty("ArticleType"));
 			v.addElement(persistentState.getProperty("Color1"));
 			v.addElement(persistentState.getProperty("Color2"));
 			v.addElement(persistentState.getProperty("Brand"));
 			v.addElement(persistentState.getProperty("Notes"));
-			v.addElement(persistentState.getProperty("DonorInformation"));
-			
+			v.addElement(persistentState.getProperty("Status"));
+			v.addElement(persistentState.getProperty("DonorLastName"));
+			v.addElement(persistentState.getProperty("DonorFirstName"));
+			v.addElement(persistentState.getProperty("DonorPhone"));
+			v.addElement(persistentState.getProperty("DonorEmail"));
+			v.addElement(persistentState.getProperty("ReveiverNetid"));
+			v.addElement(persistentState.getProperty("ReveiverLastName"));
+			v.addElement(persistentState.getProperty("ReveiverFirstName"));
+			v.addElement(persistentState.getProperty("DateDonated"));
+			v.addElement(persistentState.getProperty("DateTaken"));
+
+
 			return v;
 		}
 

@@ -4,6 +4,9 @@ package model;
 // system imports
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -59,6 +62,7 @@ public class CheckoutClothingItemTransaction extends Transaction
         String barcode = props.getProperty("Barcode");
         try {
             myClothingItem = new ClothingItem(barcode);
+//            System.out.println(myClothingItem.getEntryListView());
         } catch (InvalidPrimaryKeyException e) {
             e.printStackTrace();
         } catch (MultiplePrimaryKeysException e) {
@@ -106,8 +110,17 @@ public class CheckoutClothingItemTransaction extends Transaction
                     myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
                     myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
                     myClothingItem.stateChangeRequest("Status", "Received");
+
+                    //Compose current date
+                    Calendar currDate = Calendar.getInstance();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                    String date = dateFormat.format(currDate.getTime());
+                    myClothingItem.stateChangeRequest("DateTaken", date);
+
+//                  System.out.println(myClothingItem.getEntryListView());
                     myClothingItem.update();
                     transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+
                 }
             }
         }
@@ -124,21 +137,28 @@ public class CheckoutClothingItemTransaction extends Transaction
         //The EnterClothingItemBarcodeView should call here
         else if (key.equals("ProcessBarcode") == true)
         {
+//            System.out.println("BarcodeView returned: " + value);
             processTransaction((Properties)value);
         }
         //The EnterReceiverInformationView should call here
         else if (key.equals("ReceiverData") == true)
         {
+//            System.out.println("ReceiverView returned: " + value);
             processReceiver((Properties)value);
         }
-
+//        System.out.println(key);
         myRegistry.updateSubscribers(key, this);
     }
 
 
     public Object getState(String key)
     {
-        //TODO
+        if (key.equals("TransactionError") == true)
+        {
+            return transactionErrorMessage;
+        }
+
+
         return null;
     }
 

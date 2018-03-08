@@ -59,9 +59,9 @@ public class BarcodeSearchTransaction extends Transaction
 		if (props.getProperty("Barcode") != null)
 		{
 			String barcode = props.getProperty("Barcode");
-            if (transType.equals("AddClothingItem")) {
-
-            }
+//            if (transType.equals("AddClothingItem")) {
+//
+//            }
 //			try
 //			{
 //
