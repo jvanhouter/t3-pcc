@@ -175,15 +175,15 @@ public class EnterReceiverInformationView extends View {
                 clearErrorMessage();
                 Properties props = new Properties();
                 String netIdReceiver = netId.getText();
-                if (netIdReceiver.length() > 0)
+                if (netIdReceiver.length() == 9)
                 {
                     props.setProperty("ReceiverNetid", netIdReceiver);
                     String fNameReceiver = fName.getText();
-                    if (fNameReceiver.length() > 0)
+                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < 36)
                     {
                         props.setProperty("ReceiverFirstName", fNameReceiver);
                         String lNameReceiver = lName.getText();
-                        if (lNameReceiver.length() > 0)
+                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < 36)
                         {
                             props.setProperty("ReceiverLastName", lNameReceiver);
                             myModel.stateChangeRequest("ReceiverData", props);
@@ -201,7 +201,7 @@ public class EnterReceiverInformationView extends View {
                 }
                 else
                 {
-                    displayErrorMessage("ERROR: Please enter a valid netid!");
+                    displayErrorMessage("ERROR: NetId Incorrect Size!");
 
                 }
 

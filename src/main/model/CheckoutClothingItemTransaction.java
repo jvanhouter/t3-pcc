@@ -84,47 +84,25 @@ public class CheckoutClothingItemTransaction extends Transaction
     private void processReceiver(Properties props) {
 
         String receiverNetid = props.getProperty("ReceiverNetid");
-        if (receiverNetid.length() != 9)
-        {
-            transactionErrorMessage = "ERROR: NetId not correct size! ";
-        }
-        else
-        {
-            String receiverFirstName = props.getProperty("ReceiverFirstName");
-            if (receiverFirstName.length() > 30)
-            {
-                transactionErrorMessage = "ERROR: First name too long (max length = 30)! ";
-            }
-            else
-            {
-                String receiverLastName = props.getProperty("ReceiverLastName");
-                if (receiverLastName.length() > 30)
-                {
-                    transactionErrorMessage = "ERROR: Last name too long (max length = 30)! ";
-                }
-                else
-                {
-                    // Everything OK
-                    // Set receiver properties change status to received and update
-                    myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
-                    myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
-                    myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
-                    myClothingItem.stateChangeRequest("Status", "Received");
+        String receiverFirstName = props.getProperty("ReceiverFirstName");
+        String receiverLastName = props.getProperty("ReceiverLastName");
 
-                    //Compose current date
-                    Calendar currDate = Calendar.getInstance();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-                    String date = dateFormat.format(currDate.getTime());
-                    myClothingItem.stateChangeRequest("DateTaken", date);
+        // Set receiver properties change status to received and update
+        myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
+        myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
+        myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
+        myClothingItem.stateChangeRequest("Status", "Received");
+
+         //Compose current date
+        Calendar currDate = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        String date = dateFormat.format(currDate.getTime());
+        myClothingItem.stateChangeRequest("DateTaken", date);
 
 //                  System.out.println(myClothingItem.getEntryListView());
-                    myClothingItem.update();
-                    transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+        myClothingItem.update();
+        transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
 
-
-                }
-            }
-        }
     }
 
     public void stateChangeRequest(String key, Object value)
