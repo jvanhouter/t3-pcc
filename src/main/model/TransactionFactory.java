@@ -23,15 +23,33 @@ public class TransactionFactory
 	{
 		Transaction retValue = null;
 
-		if (transType.equals("AddArticleType") == true)
-		{
+		if (transType.equals("AddArticleType") == true) {
 			retValue = new AddArticleTypeTransaction();
-		} 
+		}
 		else
 		if (transType.equals("UpdateArticleType") == true)
 		{
 			retValue = new UpdateArticleTypeTransaction();
-		} /*
+		}
+		else
+		if (transType.equals("RemoveArticleType") == true)
+		{
+			retValue = new RemoveArticleTypeTransaction();
+		}
+		if (transType.equals("AddColor") == true) {
+			retValue = new AddColorTransaction();
+		}
+		else
+		if (transType.equals("UpdateColor") == true)
+		{
+			retValue = new UpdateColorTransaction();
+		}
+		else
+		if (transType.equals("RemoveColor") == true)
+		{
+			retValue = new RemoveColorTransaction();
+		}
+		/*
 		else
 		if (transType.equals("Transfer") == true)
 		{
