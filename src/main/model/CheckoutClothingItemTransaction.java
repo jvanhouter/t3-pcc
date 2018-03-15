@@ -54,46 +54,54 @@ public class CheckoutClothingItemTransaction extends Transaction
      * verifying its uniqueness, etc.
      */
     //----------------------------------------------------------
-    //TODO parameters might need to be "String barcode"?
-    public void processTransaction(Properties props){
-        //TODO a constructor needs to be created with functionality to retrieve by barcode
-        //TODO should this be an InventoryItem? Not a ClothingItem?
+    public void processTransaction(Properties props)
+    {
         String barcode = props.getProperty("Barcode");
         try
         {
+            // Try to create a new ClothingItem
             myClothingItem = new ClothingItem(barcode);
-            System.out.println(myClothingItem.getState("Status"));
-//            DEBUG System.out.println(myClothingItem.getEntryListView());
-            if(myClothingItem != null && myClothingItem.getState("Status") != "Received")
+//          DEBUG System.out.println(myClothingItem.getEntryListView());
+            // If the clothing item exists and is not "Received"
+            if(myClothingItem != null && myClothingItem.getState("Status").equals("Donated"))
             {
+                // Add the ClothingItem to a list
                 clothingItems.add(myClothingItem);
+                // Swap to a scene that asks if the user wishes to enter another barcode or continue onwards.
+                try
+                {
+                    Scene newScene = createBarcodeHelperView();
+                    swapToView(newScene);
+                }
+                catch (Exception ex)
+                {
+                    new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                            "Error in creating BarcodeHelperView", Event.ERROR);
+                }
+            }
+            // Otherwise let the user know the barcode was not added to the list
+            else
+            {
+                handleBarcodeProblems();
             }
 //            DEBUG
 //            Iterator<ClothingItem> i = clothingItems.iterator();
 //            while(i.hasNext()){
 //                System.out.println(i.next().getEntryListView());
 //            }
-
         }
-        catch (InvalidPrimaryKeyException e) {
-            e.printStackTrace();
-        }
-        catch (MultiplePrimaryKeysException e) {
-            e.printStackTrace();
-        }
-        try
+        catch (InvalidPrimaryKeyException e)
         {
-            Scene newScene = createBarcodeHelperSuccessfulView();
-            swapToView(newScene);
+//          DEBUG e.printStackTrace();
+            // Let the user know the barcode was not added to the list
+            handleBarcodeProblems();
         }
-        catch (Exception ex)
+        catch (MultiplePrimaryKeysException e)
         {
-            new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                    "Error in creating BarcodeHelperView", Event.ERROR);
+            e.printStackTrace();
         }
     }
 
-    //TODO check this with team, namely the error checks.
     private void processReceiver(Properties props) {
 
         String receiverNetid = props.getProperty("ReceiverNetid");
@@ -120,15 +128,14 @@ public class CheckoutClothingItemTransaction extends Transaction
             currItem.update();
             transactionErrorMessage = (String) currItem.getState("UpdateStatusMessage");
         }
-
     }
 
-    private void switchToEnterReceiverInformationView() {
+    private void switchToEnterReceiverInformationView()
+    {
 
         Scene newScene = createEnterReceiverInformationView();
         swapToView(newScene);
     }
-
 
     public void stateChangeRequest(String key, Object value)
     {
@@ -169,7 +176,6 @@ public class CheckoutClothingItemTransaction extends Transaction
             return transactionErrorMessage;
         }
 
-
         return null;
     }
 
@@ -201,12 +207,33 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     }
 
-    protected Scene createBarcodeHelperSuccessfulView()
+    protected Scene createBarcodeHelperView()
     {
-        View newView = ViewFactory.createView("BarcodeHelperSuccessfulView", this);
+        View newView = ViewFactory.createView("BarcodeHelperView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;
 
+    }
+    protected Scene createCheckoutInvalidItemView()
+    {
+        View newView = ViewFactory.createView("CheckoutInvalidItemView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+    }
+
+    private void handleBarcodeProblems()
+    {
+        try
+        {
+            Scene newScene = createCheckoutInvalidItemView();
+            swapToView(newScene);
+        }
+        catch (Exception ex)
+        {
+            new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                    "Error in creating CheckoutInvalidItemView", Event.ERROR);
+        }
     }
 }
