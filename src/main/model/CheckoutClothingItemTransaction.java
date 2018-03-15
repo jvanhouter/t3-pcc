@@ -6,9 +6,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 
 // project imports
 import event.Event;
@@ -24,6 +22,7 @@ public class CheckoutClothingItemTransaction extends Transaction
 {
     //TODO create ClothingItem model class
     private ClothingItem myClothingItem;
+    private LinkedList<ClothingItem> clothingItems = new LinkedList<ClothingItem>();
 
     // GUI Components
 
@@ -60,23 +59,37 @@ public class CheckoutClothingItemTransaction extends Transaction
         //TODO a constructor needs to be created with functionality to retrieve by barcode
         //TODO should this be an InventoryItem? Not a ClothingItem?
         String barcode = props.getProperty("Barcode");
-        try {
+        try
+        {
             myClothingItem = new ClothingItem(barcode);
-//            System.out.println(myClothingItem.getEntryListView());
-        } catch (InvalidPrimaryKeyException e) {
+            System.out.println(myClothingItem.getState("Status"));
+//            DEBUG System.out.println(myClothingItem.getEntryListView());
+            if(myClothingItem != null && myClothingItem.getState("Status") != "Received")
+            {
+                clothingItems.add(myClothingItem);
+            }
+//            DEBUG
+//            Iterator<ClothingItem> i = clothingItems.iterator();
+//            while(i.hasNext()){
+//                System.out.println(i.next().getEntryListView());
+//            }
+
+        }
+        catch (InvalidPrimaryKeyException e) {
             e.printStackTrace();
-        } catch (MultiplePrimaryKeysException e) {
+        }
+        catch (MultiplePrimaryKeysException e) {
             e.printStackTrace();
         }
         try
         {
-            Scene newScene = createEnterReceiverInformationView();
+            Scene newScene = createBarcodeHelperSuccessfulView();
             swapToView(newScene);
         }
         catch (Exception ex)
         {
             new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                    "Error in creating EnterReceiverInformationView", Event.ERROR);
+                    "Error in creating BarcodeHelperView", Event.ERROR);
         }
     }
 
@@ -88,26 +101,38 @@ public class CheckoutClothingItemTransaction extends Transaction
         String receiverLastName = props.getProperty("ReceiverLastName");
 
         // Set receiver properties change status to received and update
-        myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
-        myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
-        myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
-        myClothingItem.stateChangeRequest("Status", "Received");
+        Iterator<ClothingItem> i = clothingItems.iterator();
+        while(i.hasNext()) {
 
-         //Compose current date
-        Calendar currDate = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        String date = dateFormat.format(currDate.getTime());
-        myClothingItem.stateChangeRequest("DateTaken", date);
+            ClothingItem currItem = i.next();
+            currItem.stateChangeRequest("ReceiverNetid", receiverNetid);
+            currItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
+            currItem.stateChangeRequest("ReceiverLastName", receiverLastName);
+            currItem.stateChangeRequest("Status", "Received");
 
-//                  System.out.println(myClothingItem.getEntryListView());
-        myClothingItem.update();
-        transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+            //Compose current date
+            Calendar currDate = Calendar.getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+            String date = dateFormat.format(currDate.getTime());
+            currItem.stateChangeRequest("DateTaken", date);
+
+//          System.out.println(myClothingItem.getEntryListView());
+            currItem.update();
+            transactionErrorMessage = (String) currItem.getState("UpdateStatusMessage");
+        }
 
     }
 
+    private void switchToEnterReceiverInformationView() {
+
+        Scene newScene = createEnterReceiverInformationView();
+        swapToView(newScene);
+    }
+
+
     public void stateChangeRequest(String key, Object value)
     {
-        // DEBUG System.out.println("UpdateArticleTypeTransaction.sCR: key: " + key);
+        //DEBUG System.out.println("CheckoutClothingItemTransaction.sCR: key: " + key);
         //This should bring up the EnterClothingItemBarcodeView
         if (key.equals("DoYourJob") == true)
         {
@@ -125,10 +150,17 @@ public class CheckoutClothingItemTransaction extends Transaction
 //            System.out.println("ReceiverView returned: " + value);
             processReceiver((Properties)value);
         }
-//        System.out.println(key);
+        else if (key.equals("MoreData") == true)
+        {
+           doYourJob();
+        }
+        else if (key.equals("NoMoreData") == true)
+        {
+           switchToEnterReceiverInformationView();
+        }
+//      System.out.println(key);
         myRegistry.updateSubscribers(key, this);
     }
-
 
     public Object getState(String key)
     {
@@ -163,6 +195,15 @@ public class CheckoutClothingItemTransaction extends Transaction
     protected Scene createEnterReceiverInformationView()
     {
         View newView = ViewFactory.createView("EnterReceiverInformationView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+
+    }
+
+    protected Scene createBarcodeHelperSuccessfulView()
+    {
+        View newView = ViewFactory.createView("BarcodeHelperSuccessfulView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;

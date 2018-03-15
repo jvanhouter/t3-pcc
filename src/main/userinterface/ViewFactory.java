@@ -22,6 +22,8 @@ public class ViewFactory {
             return new AddClothingItemView(model);
         } else if (viewName.equals("BarcodeScannerView")) {
             return new BarcodeScannerView(model);
+        } else if (viewName.equals("BarcodeHelperSuccessfulView")) {
+            return new CheckoutHelperView(model);
         } else
             return null;
     }

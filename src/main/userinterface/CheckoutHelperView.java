@@ -27,14 +27,12 @@ import java.util.Properties;
 // project imports
 import impresario.IModel;
 
-public class EnterReceiverInformationView extends View {
+public class CheckoutHelperView extends View {
 
     // GUI components
-    protected TextField netId;
-    protected TextField fName;
-    protected TextField lName;
 
-    protected Button submitButton;
+    protected Button addAnotherBarcodeButton;
+    protected Button enterReceiverInformationButton;
     protected Button cancelButton;
 
     // For showing error message
@@ -42,7 +40,7 @@ public class EnterReceiverInformationView extends View {
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public EnterReceiverInformationView(IModel at)
+    public CheckoutHelperView(IModel at)
     {
         super(at, "EnterReceiverInformationView");
 
@@ -68,7 +66,7 @@ public class EnterReceiverInformationView extends View {
     //-------------------------------------------------------------
     protected String getActionText()
     {
-        return "** Checkout a Clothing Item **";
+        return "** Barcode Added! **";
     }
 
     // Create the title container
@@ -122,12 +120,12 @@ public class EnterReceiverInformationView extends View {
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("ENTER RECIPIENT INFORMATION");
-        prompt.setWrappingWidth(400);
-        prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        vbox.getChildren().add(prompt);
+//        Text prompt = new Text("Clothing Item Procesed!");
+//        prompt.setWrappingWidth(400);
+//        prompt.setTextAlignment(TextAlignment.CENTER);
+//        prompt.setFill(Color.BLACK);
+//        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+//        vbox.getChildren().add(prompt);
 
 
         GridPane grid = new GridPane();
@@ -136,88 +134,48 @@ public class EnterReceiverInformationView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        Text netIdLabel = new Text(" Net ID : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
-        netIdLabel.setFont(myFont);
-        netIdLabel.setWrappingWidth(150);
-        netIdLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(netIdLabel, 0, 1);
-
-        netId = new TextField();
-        grid.add(netId, 1, 1);
-
-        Text fNameLabel = new Text(" First Name : ");
-        fNameLabel.setFont(myFont);
-        fNameLabel.setWrappingWidth(150);
-        fNameLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(fNameLabel, 0, 2);
-
-        fName = new TextField();
-        grid.add(fName, 1, 2);
-
-        Text lNameLabel = new Text(" Last Name : ");
-        lNameLabel.setFont(myFont);
-        lNameLabel.setWrappingWidth(150);
-        lNameLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(lNameLabel, 0, 3);
-
-        lName = new TextField();
-        grid.add(lName, 1, 3);
-
-        HBox doneCont = new HBox(10);
+        VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        submitButton = new Button("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+        addAnotherBarcodeButton = new Button("Add Another Barcode");
+        addAnotherBarcodeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        addAnotherBarcodeButton.setPrefSize(250, 20);
+        addAnotherBarcodeButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                Properties props = new Properties();
-                String netIdReceiver = netId.getText();
-                if (netIdReceiver.length() == 9)
-                {
-                    props.setProperty("ReceiverNetid", netIdReceiver);
-                    String fNameReceiver = fName.getText();
-                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < 36)
-                    {
-                        props.setProperty("ReceiverFirstName", fNameReceiver);
-                        String lNameReceiver = lName.getText();
-                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < 36)
-                        {
-                            props.setProperty("ReceiverLastName", lNameReceiver);
-                            myModel.stateChangeRequest("ReceiverData", props);
-                        }
-                        else
-                        {
-                            displayErrorMessage("ERROR: Last name incorrect size!");
-                        }
-                    }
-                    else
-                    {
-                        displayErrorMessage("ERROR: First name incorrect size!");
-                    }
 
-                }
-                else
-                {
-                    displayErrorMessage("ERROR: NetId Incorrect Size!");
+                            myModel.stateChangeRequest("MoreData", null);
 
-                }
 
             }
         });
-        doneCont.getChildren().add(submitButton);
+        doneCont.getChildren().add(addAnotherBarcodeButton);
 
-        cancelButton = new Button("Return");
+        enterReceiverInformationButton = new Button("Enter Recipient Information");
+        enterReceiverInformationButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        enterReceiverInformationButton.setPrefSize(250, 20);
+        enterReceiverInformationButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                clearErrorMessage();
+                myModel.stateChangeRequest("NoMoreData", null);
+            }
+        });
+        doneCont.getChildren().add(enterReceiverInformationButton);
+
+
+        doneCont.setAlignment(Pos.CENTER);
+        cancelButton = new Button("Cancel");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                //TODO "CancelCheckoutItem" MAY BE DEPENDANT ON CONTROLLER AND THUS SUBJECT TO CHANGE OR FUTURE USE.
-                myModel.stateChangeRequest("CancelCheckoutCI", null);
+                myModel.stateChangeRequest("CancelBarcodeSearch", null);
             }
         });
         doneCont.getChildren().add(cancelButton);
@@ -297,4 +255,3 @@ public class EnterReceiverInformationView extends View {
 
 //---------------------------------------------------------------
 //	Revision History:
-//
