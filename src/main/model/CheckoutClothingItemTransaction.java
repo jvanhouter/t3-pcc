@@ -26,7 +26,7 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     // GUI Components
 
-    private String transactionErrorMessage = "";
+    private String transactionErrorMessage = "Barcodes: ";
 
     /**
      * Constructor for this class.
@@ -108,25 +108,35 @@ public class CheckoutClothingItemTransaction extends Transaction
         String receiverFirstName = props.getProperty("ReceiverFirstName");
         String receiverLastName = props.getProperty("ReceiverLastName");
 
-        // Set receiver properties change status to received and update
-        Iterator<ClothingItem> i = clothingItems.iterator();
-        while(i.hasNext()) {
+        if(clothingItems.size() > 0) {
+            // Set receiver properties change status to received and update
+            Iterator<ClothingItem> i = clothingItems.iterator();
+            while (i.hasNext()) {
 
-            ClothingItem currItem = i.next();
-            currItem.stateChangeRequest("ReceiverNetid", receiverNetid);
-            currItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
-            currItem.stateChangeRequest("ReceiverLastName", receiverLastName);
-            currItem.stateChangeRequest("Status", "Received");
+                ClothingItem currItem = i.next();
+                currItem.stateChangeRequest("ReceiverNetid", receiverNetid);
+                currItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
+                currItem.stateChangeRequest("ReceiverLastName", receiverLastName);
+                currItem.stateChangeRequest("Status", "Received");
 
-            //Compose current date
-            Calendar currDate = Calendar.getInstance();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-            String date = dateFormat.format(currDate.getTime());
-            currItem.stateChangeRequest("DateTaken", date);
+                //Compose current date
+                Calendar currDate = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                String date = dateFormat.format(currDate.getTime());
+                currItem.stateChangeRequest("DateTaken", date);
 
 //          System.out.println(myClothingItem.getEntryListView());
-            currItem.update();
-            transactionErrorMessage = (String) currItem.getState("UpdateStatusMessage");
+                currItem.update();
+                if(((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully"))
+                {
+                    transactionErrorMessage = transactionErrorMessage + currItem.getState("Barcode") + " ";
+                }
+            }
+            transactionErrorMessage = transactionErrorMessage + " Updated!";
+        }
+        else
+        {
+            transactionErrorMessage = "There are no Clothing Items to update.";
         }
     }
 

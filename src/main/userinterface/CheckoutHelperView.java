@@ -66,7 +66,7 @@ public class CheckoutHelperView extends View {
     //-------------------------------------------------------------
     protected String getActionText()
     {
-        return "** Barcode Added! **";
+        return "** Success! **";
     }
 
     // Create the title container
@@ -108,7 +108,7 @@ public class CheckoutHelperView extends View {
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
+        actionText.setFill(Color.BLUE);
         container.getChildren().add(actionText);
 
         return container;
@@ -120,12 +120,12 @@ public class CheckoutHelperView extends View {
     {
         VBox vbox = new VBox(10);
 
-//        Text prompt = new Text("Clothing Item Procesed!");
-//        prompt.setWrappingWidth(400);
-//        prompt.setTextAlignment(TextAlignment.CENTER);
-//        prompt.setFill(Color.BLACK);
-//        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-//        vbox.getChildren().add(prompt);
+        Text prompt = new Text("Clothing Item added to checkout list!");
+        prompt.setWrappingWidth(400);
+        prompt.setTextAlignment(TextAlignment.CENTER);
+        prompt.setFill(Color.BLACK);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        vbox.getChildren().add(prompt);
 
 
         GridPane grid = new GridPane();
