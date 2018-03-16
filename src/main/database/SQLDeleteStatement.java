@@ -83,15 +83,15 @@ public class SQLDeleteStatement extends SQLStatement
 					String actualType = "Text";
 
 					String whereTypeValue = schema.getProperty(theColumnName);
-					if (whereTypeValue != null)
-					{
-						actualType = whereTypeValue;
-					}
+						if (whereTypeValue != null)
+						{
+							actualType = whereTypeValue;
+						}
 
-					actualType = actualType.toLowerCase();
+						actualType = actualType.toLowerCase();
 
-					if (actualType.equals("numeric") == true)
-					{
+						if (actualType.equals("numeric") == true)
+						{
 						theWhereString += theColumnName + " = " + theColumnValue;
 					}
 					else
