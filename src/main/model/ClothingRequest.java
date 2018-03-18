@@ -33,14 +33,27 @@ public class ClothingRequest extends EntityBase implements IView
 
     // constructor for this class
     //----------------------------------------------------------
-    public ClothingRequest(String barcodePrefix) throws InvalidPrimaryKeyException, MultiplePrimaryKeysException
+    /* Kyle - Reasons for parameters as such, free to change.
+       Any parameter changes will need to be changed inside LogRequestTransaction.java as well
+    1. Requires netid, netid also would tell us First and Last name
+    2. Phone numbers may change, thus not searching
+    3. Requested Gender, Type, Size, Color 1 & 2, and brand will be searched
+     */
+    public ClothingRequest(String netId, String gender, String type, String reqSize, String color1, String color2, String brand) throws InvalidPrimaryKeyException, MultiplePrimaryKeysException
     {
         super(myTableName);
-        /*
+
         setDependencies();
 
-        barcodePrefix = barcodePrefix.trim();
-        String query = "SELECT * FROM " + myTableName + " WHERE (BarcodePrefix = '" + barcodePrefix + "')";
+        netId = netId.trim();
+        gender = gender.trim();
+        type = type.trim();
+        reqSize = reqSize.trim();
+        color1 = color1.trim();
+        color2 = color2.trim();
+        brand = brand.trim();
+        String query = "SELECT * FROM " + myTableName + " WHERE (RequesterNetid = '" + netId + "' AND RequestedGender = '" + gender + "' AND RequestedArticleType = '" + type + "'" +
+                " AND RequestedColor1 = '" + color1 + "' AND RequestedColor2 = '" + color2 + "' AND RequestedSize = '" + reqSize + "' AND RequestedBrand = '" + brand + "')";
 
         Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
@@ -51,16 +64,16 @@ public class ClothingRequest extends EntityBase implements IView
             // if size = 0 throw the Invalid Primary Key Exception
             if (size == 0)
             {
-                throw new InvalidPrimaryKeyException("No article type matching barcode prefix : "
-                        + barcodePrefix + " found.");
+                throw new InvalidPrimaryKeyException("No clothing request match for requester id : "
+                        + netId + " found.");
             }
             else
                 // There should be EXACTLY one article type. More than that is an error
                 if (size != 1)
                 {
 
-                    throw new MultiplePrimaryKeysException("Multiple article types matching barcode prefix : "
-                            + barcodePrefix + " found.");
+                    throw new MultiplePrimaryKeysException("Multiple clothing requests matching requests for requester id : "
+                            + netId + " found.");
                 }
                 else
                 {
@@ -86,10 +99,10 @@ public class ClothingRequest extends EntityBase implements IView
         // If no article type found for this barcode prefix, throw an Invalid Primary key exception
         else
         {
-            throw new InvalidPrimaryKeyException("No article type matching barcode prefix : "
-                    + barcodePrefix + " found.");
+            throw new InvalidPrimaryKeyException("No clothing request match for requester id : "
+                    + netId + " found.");
         }
-        This constructor needs to be reworked in figuring out what parameters are passed to search for such request*/
+
     }
 
     /**

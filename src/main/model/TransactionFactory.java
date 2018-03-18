@@ -32,6 +32,11 @@ public class TransactionFactory
 			retValue = new UpdateArticleTypeTransaction();
 		}
 		else
+		if (transType.equals("LogRequest") == true)
+		{
+			retValue = new LogRequestTransaction();
+		}
+			/*
 		if (transType.equals("RemoveArticleType") == true)
 		{
 			retValue = new RemoveArticleTypeTransaction();
@@ -49,7 +54,7 @@ public class TransactionFactory
 		{
 			retValue = new RemoveColorTransaction();
 		}
-		/*
+
 		else
 		if (transType.equals("Transfer") == true)
 		{
