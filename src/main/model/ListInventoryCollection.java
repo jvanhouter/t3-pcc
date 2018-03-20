@@ -1,5 +1,9 @@
+import exception.InvalidPrimaryKeyException;
 import impresario.IView;
+import javafx.scene.Scene;
 import model.EntityBase;
+import userinterface.View;
+import userinterface.ViewFactory;
 
 import java.util.Properties;
 import java.util.Vector;
@@ -21,10 +25,7 @@ public class ListInventoryCollection  extends EntityBase implements IView
             Exception
     {
         super(myTableName);
-
-        String accountHolderId = (String)cust.getState("ID");
-
-
+        
         String query = "SELECT inv.Barcode, inv.Gender, inv.Size, inv.Brand, c1.Description as color_1, c2.Description as color_2, atype.Description as article_type, inv.Notes, inv.Status\n" +
                 "FROM inventory as inv \n" +
                 "LEFT JOIN color as c1 on c1.ID=inv.Color1 \n" +
@@ -59,14 +60,14 @@ public class ListInventoryCollection  extends EntityBase implements IView
     // keys we are using?
 
 
-        public Object getState(String key)
-        {
-            if (key.equals("Accounts"))
-                return list;                            //change
-            else
-            if (key.equals("AccountList"))
-                return this;
-            return null;
+    public Object getState(String key)
+    {
+        if (key.equals("Accounts"))
+            return list;                            //change
+        else if (key.equals("AccountList"))
+            return this;
+
+        return null;
     }
 
     //----------------------------------------------------------------
@@ -121,8 +122,7 @@ public class ListInventoryCollection  extends EntityBase implements IView
     //-----------------------------------------------------------------------------------
     protected void initializeSchema(String tableName)
     {
-        if (mySchema == null)
-        {
+        if (mySchema == null) {
             mySchema = getSchemaInfo(tableName);
         }
     }
