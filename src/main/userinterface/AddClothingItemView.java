@@ -184,35 +184,31 @@ public class AddClothingItemView extends View {
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                Properties props = new Properties();
-                String barcodePrefix = genderCombo.getValue();
-                if (barcodePrefix.length() > 0) {
-                    props.setProperty("BarcodePrefix", barcodePrefix);
-                    String descrip = primaryColorCombo.getValue();
-                    if (descrip.length() > 0) {
-                        props.setProperty("Description", descrip);
-                        String alphaCode = alphaCodeField.getText();
-                        if (alphaCode.length() > 0) {
-                            props.setProperty("AlphaCode", alphaCode);
-                            myModel.stateChangeRequest("ClothingItemData", props);
-                        } else {
-                            displayErrorMessage("ERROR: Please enter a valid alpha code!");
-                        }
+        submitButton.setOnAction(e -> {
+            clearErrorMessage();
+            Properties props = new Properties();
+            String barcodePrefix = genderCombo.getValue();
+            if (barcodePrefix.length() > 0) {
+                props.setProperty("BarcodePrefix", barcodePrefix);
+                String descrip = primaryColorCombo.getValue();
+                if (descrip.length() > 0) {
+                    props.setProperty("Description", descrip);
+                    String alphaCode = alphaCodeField.getText();
+                    if (alphaCode.length() > 0) {
+                        props.setProperty("AlphaCode", alphaCode);
+                        myModel.stateChangeRequest("ClothingItemData", props);
                     } else {
-                        displayErrorMessage("ERROR: Please enter a valid primaryColorCombo!");
+                        displayErrorMessage("ERROR: Please enter a valid alpha code!");
                     }
-
                 } else {
-                    displayErrorMessage("ERROR: Please enter a barcode prefix!");
-
+                    displayErrorMessage("ERROR: Please enter a valid primaryColorCombo!");
                 }
 
+            } else {
+                displayErrorMessage("ERROR: Please enter a barcode prefix!");
+
             }
+
         });
         doneCont.getChildren().add(submitButton);
 
