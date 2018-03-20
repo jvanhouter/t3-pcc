@@ -37,7 +37,7 @@ public class AddClothingItemView extends View {
     private ComboBox<String> articleTypeCombo;
     private ComboBox<String> primaryColorCombo;
     private ComboBox<String> secondaryColorCombo;
-    protected TextField alphaCode;
+    protected TextField alphaCodeField;
 
     private Button submitButton;
     private Button cancelButton;
@@ -190,15 +190,15 @@ public class AddClothingItemView extends View {
             public void handle(ActionEvent e) {
                 clearErrorMessage();
                 Properties props = new Properties();
-                String bcPrfx = genderCombo.getValue();
-                if (bcPrfx.length() > 0) {
-                    props.setProperty("BarcodePrefix", bcPrfx);
+                String barcodePrefix = genderCombo.getValue();
+                if (barcodePrefix.length() > 0) {
+                    props.setProperty("BarcodePrefix", barcodePrefix);
                     String descrip = primaryColorCombo.getValue();
                     if (descrip.length() > 0) {
                         props.setProperty("Description", descrip);
-                        String alfaC = alphaCode.getText();
-                        if (alfaC.length() > 0) {
-                            props.setProperty("AlphaCode", alfaC);
+                        String alphaCode = alphaCodeField.getText();
+                        if (alphaCode.length() > 0) {
+                            props.setProperty("AlphaCode", alphaCode);
                             myModel.stateChangeRequest("ClothingItemData", props);
                         } else {
                             displayErrorMessage("ERROR: Please enter a valid alpha code!");
@@ -218,13 +218,9 @@ public class AddClothingItemView extends View {
 
         cancelButton = new Button("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelAddClothingItem", null);
-            }
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelAddClothingItem", null);
         });
         doneCont.getChildren().add(cancelButton);
 
