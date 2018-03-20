@@ -1,5 +1,8 @@
 import impresario.IView;
+import javafx.scene.Scene;
 import model.EntityBase;
+import userinterface.View;
+import userinterface.ViewFactory;
 
 import java.util.Properties;
 import java.util.Vector;
@@ -59,7 +62,7 @@ public class ListInventoryCollection  extends EntityBase implements IView
     // keys we are using?
 
 
-        public Object getState(String key)
+    public Object getState(String key)
         {
             if (key.equals("Accounts"))
                 return list;                            //change
@@ -76,12 +79,12 @@ public class ListInventoryCollection  extends EntityBase implements IView
     }
 
     //----------------------------------------------------------
-    public Inventory retrieve(String barcode)
+    public void inventoryRetrieve(String barcode)
     {
-        Inventory retValue = null;
+        ClothingItem retValue = null;
         for (int cnt = 0; cnt < list.size(); cnt++)
         {
-            Inventory nextItem = list.elementAt(cnt);
+            ClothingItem nextItem = list.elementAt(cnt);
             String nextBarcode = (String)nextItem.getState("Barcode");
             if (nextBarcode.equals(barcode) == true)
             {
