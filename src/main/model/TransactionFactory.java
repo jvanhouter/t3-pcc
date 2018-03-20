@@ -24,23 +24,13 @@ public class TransactionFactory {
             return null; //new RemoveClothingItemTransaction();
 //        } else if (transType.equals("BarcodeSearch")) {
 //            return new BarcodeSearchTransaction();
-        }
-        else
-        if (transType.equals("RemoveArticleType") == true)
-        {
+        } else if (transType.equals("RemoveArticleType")) {
             return new RemoveArticleTypeTransaction();
-        }
-        if (transType.equals("AddColor") == true) {
+        } else if (transType.equals("AddColor")) {
             return new AddColorTransaction();
-        }
-        else
-        if (transType.equals("UpdateColor") == true)
-        {
+        } else if (transType.equals("UpdateColor")) {
             return new UpdateColorTransaction();
-        }
-        else
-        if (transType.equals("RemoveColor") == true)
-        {
+        } else if (transType.equals("RemoveColor")) {
             return new RemoveColorTransaction();
         } else {
             return null;
