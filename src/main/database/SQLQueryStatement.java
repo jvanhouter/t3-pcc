@@ -33,7 +33,32 @@ import java.util.Properties;
 
 // Beginning of DatabaseManipulator class
 //---------------------------------------------------------------------------------------------------------
-public class SQLQueryStatement extends SQLStatement
+public class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SQLQueryStatement extends SQLStatement
 {  
     /**
      *
