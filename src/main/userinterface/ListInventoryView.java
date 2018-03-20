@@ -42,7 +42,7 @@ import model.AccountCollection;
 import model.ListInventoryCollection;
 
 //==============================================================================
-public class AccountCollectionView extends View
+public class ListInventoryView extends View
 {
     protected TableView<AccountTableModel> tableOfAccounts;
     protected Button cancelButton;
@@ -52,9 +52,9 @@ public class AccountCollectionView extends View
 
 
     //--------------------------------------------------------------------------
-    public AccountCollectionView(IModel wsc)
+    public ListInventoryView(IModel wsc)
     {
-        super(wsc, "AccountCollectionView");
+        super(wsc, "ListInventoryView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);

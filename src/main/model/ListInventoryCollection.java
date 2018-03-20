@@ -1,9 +1,9 @@
-<<<<<<< HEAD
-=======
+package model;
+
 import exception.InvalidPrimaryKeyException;
->>>>>>> origin/AwesomeSauce
 import impresario.IView;
 import javafx.scene.Scene;
+import model.ClothingItem;
 import model.EntityBase;
 import userinterface.View;
 import userinterface.ViewFactory;
@@ -21,7 +21,7 @@ public class ListInventoryCollection  extends EntityBase implements IView
     // constructor for this class
     //----------------------------------------------------------
     // Replaced words: AccountCollection = InventoryCollection, accounts = list, Account = inventory,
-    //                 nextAcct = nextItem, AccountCollectionView = InventoryCollectionView,
+    //                 nextAcct = nextItem, ListInventoryView = InventoryCollectionView,
     //                 nextAccountData = ---------, nextAccNum = ---------,
     //----------------------------------------------------------
     public ListInventoryCollection( ) throws
