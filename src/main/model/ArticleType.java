@@ -24,6 +24,7 @@ import userinterface.ViewFactory;
 //==============================================================
 public class ArticleType extends EntityBase implements IView
 {
+
 	private static final String myTableName = "ArticleType";
 
 	protected Properties dependencies;

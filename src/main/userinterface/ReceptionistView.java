@@ -57,6 +57,10 @@ public class ReceptionistView extends View
 
 	private MessageView statusLog;
 
+	/* Remove later --> Testing */
+
+	private Button testing;
+
 	// constructor for this class -- takes a model object
 	//----------------------------------------------------------
 	public ReceptionistView(IModel teller)

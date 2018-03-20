@@ -16,7 +16,19 @@ public class ViewFactory {
             return new ArticleTypeCollectionView(model);
         } else if (viewName.equals("SearchArticleTypeView")) {
             return new SearchArticleTypeView(model);
-        } else if (viewName.equals("EnterReceiverInformationView")) {
+        } else if(viewName.equals("RemoveArticleTypeView")) {
+            return new RemoveArticleTypeView(model);
+        } else if(viewName.equals("AddColorView")) {
+            return new AddColorView(model);
+        } else if(viewName.equals("ModifyColorView")) {
+            return new ModifyColorView(model);
+        } else if(viewName.equals("ColorCollectionView")) {
+            return new ColorCollectionView(model);
+        } else if(viewName.equals("SearchColorView")) {
+            return new SearchColorView(model);
+        } else if(viewName.equals("RemoveColorView")) {
+            return new RemoveColorView(model);
+        }else if (viewName.equals("EnterReceiverInformationView")) {
             return new EnterReceiverInformationView(model);
         } else if (viewName.equals("AddClothingItemView")) {
             return new AddClothingItemView(model);

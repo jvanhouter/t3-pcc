@@ -97,6 +97,7 @@ public class AddArticleTypeTransaction extends Transaction
 				}
 				catch (Exception excep)
 				{
+					excep.printStackTrace();
 					transactionErrorMessage = "ERROR: Invalid barcode prefix: " + barcodePrefix 
 						+ "! Must be numerical.";
 					new Event(Event.getLeafLevelClassName(this), "processTransaction",
