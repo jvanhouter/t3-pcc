@@ -39,6 +39,7 @@ import java.util.Enumeration;
 import impresario.IModel;
 import model.Account;
 import model.AccountCollection;
+import model.ListInventoryCollection;
 
 //==============================================================================
 public class AccountCollectionView extends View
@@ -231,17 +232,17 @@ public class AccountCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void processAccountSelected()
-    {
-        AccountTableModel selectedItem = tableOfAccounts.getSelectionModel().getSelectedItem();
-
-        if(selectedItem != null)
-        {
-            String selectedAcctNumber = selectedItem.getAccountNumber();
-
-            myModel.stateChangeRequest("AccountSelected", selectedAcctNumber);
-        }
-    }
+//    protected void processAccountSelected()
+//    {
+//        AccountTableModel selectedItem = tableOfAccounts.getSelectionModel().getSelectedItem();
+//
+//        if(selectedItem != null)
+//        {
+//            String selectedAcctNumber = selectedItem.getAccountNumber();
+//
+//            myModel.stateChangeRequest("AccountSelected", selectedAcctNumber);
+//        }
+//    }
 
     //--------------------------------------------------------------------------
     protected MessageView createStatusLog(String initialMessage)

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import exception.InvalidPrimaryKeyException;
+>>>>>>> origin/AwesomeSauce
 import impresario.IView;
 import javafx.scene.Scene;
 import model.EntityBase;
@@ -24,9 +28,6 @@ public class ListInventoryCollection  extends EntityBase implements IView
             Exception
     {
         super(myTableName);
-
-        String accountHolderId = (String)cust.getState("ID");
-
 
         String query = "SELECT inv.Barcode, inv.Gender, inv.Size, inv.Brand, c1.Description as color_1, c2.Description as color_2, atype.Description as article_type, inv.Notes, inv.Status\n" +
                 "FROM inventory as inv \n" +
@@ -63,13 +64,13 @@ public class ListInventoryCollection  extends EntityBase implements IView
 
 
     public Object getState(String key)
-        {
-            if (key.equals("Accounts"))
-                return list;                            //change
-            else
-            if (key.equals("AccountList"))
-                return this;
-            return null;
+    {
+        if (key.equals("Accounts"))
+            return list;                            //change
+        else if (key.equals("AccountList"))
+            return this;
+
+        return null;
     }
 
     //----------------------------------------------------------------
@@ -79,7 +80,7 @@ public class ListInventoryCollection  extends EntityBase implements IView
     }
 
     //----------------------------------------------------------
-    public void inventoryRetrieve(String barcode)
+    public ClothingItem inventoryRetrieve(String barcode)
     {
         ClothingItem retValue = null;
         for (int cnt = 0; cnt < list.size(); cnt++)
@@ -124,8 +125,7 @@ public class ListInventoryCollection  extends EntityBase implements IView
     //-----------------------------------------------------------------------------------
     protected void initializeSchema(String tableName)
     {
-        if (mySchema == null)
-        {
+        if (mySchema == null) {
             mySchema = getSchemaInfo(tableName);
         }
     }
