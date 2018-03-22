@@ -18,11 +18,13 @@ import exception.MultiplePrimaryKeysException;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-//----------------------------------------------------------
+
 public class FulfilRequestTransaction extends Transaction
 {
+    private RequestTransaction myRequestTransaction;
+
     private String transactionErrorMessage = "";
-}
+
 
 //----------------------------------------------------------
 public FulfilRequestTransaction() throws Exception
@@ -32,11 +34,103 @@ public FulfilRequestTransaction() throws Exception
 
 //----------------------------------------------------------
 protected void setDependencies()
-    {
-        dependencies = new Properties();
-        dependencies.setProperty("CancelFulfilRequest", "CancelTransaction");
-        dependencies.setProperty("OK", "CancelTransaction");
-        dependencies.setProperty("ClothingRequestData", "TransactionError");
+{
+      dependencies = new Properties();
+      dependencies.setProperty("CancelFulfilRequest", "CancelTransaction");
+      dependencies.setProperty("OK", "CancelTransaction");
+      dependencies.setProperty("ClothingRequestData", "TransactionError");
 
-        myRegistry.setDependencies(dependencies);
+      myRegistry.setDependencies(dependencies);
+}
+
+//-----------------------------------------------------------
+public void processTransaction(Properties props)
+{
+    myRequestTransaction = new RequestTransaction();
+
+    try
+       {
+           Scene newScene = createRequestCollectionView();
+           swapToView(newScene);
+       }
+       catch (Exception ex)
+       {
+           new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                   "Error in creating ColorCollectionView", Event.ERROR);
+       }
+}
+
+//----------------------------------------------------------------
+public void stateChangeRequest(String key, Object value)
+    {
+        if ((key.equals("DoYourJob") == true) || (key.equals("CancelTransaction") == true))
+        {
+            doYourJob();
+        }
+        else
+        if (key.equals("SearchRequest") == true)
+        {
+            processTransaction((Properties)value);
+        }
+        else
+        if (key.equals("RequestSelected") == true)
+        {
+            mySelectedColor = myColorList.retrieve((String)value);
+            try
+            {
+
+                Scene newScene = createModifyColorView();
+
+                swapToView(newScene);
+
+            }
+            catch (Exception ex)
+            {
+                new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                        "Error in creating ModifyColorView", Event.ERROR);
+            }
+        }
+        else
+        if (key.equals("ColorData") == true)
+        {
+            processColorModification((Properties)value);
+        }
+
+        myRegistry.updateSubscribers(key, this);
     }
+
+//-------------------------------------------------------------
+protected Scene createView()
+    {
+        Scene currentScene = myViews.get("SearchColorView");
+
+        if (currentScene == null)
+        {
+            // create our initial view
+            View newView = ViewFactory.createView("SearchColorView", this);
+            currentScene = new Scene(newView);
+            myViews.put("SearchColorView", currentScene);
+
+            return currentScene;
+        }
+        else
+        {
+            return currentScene;
+        }
+    }
+
+
+//-------------------------------------------------------------
+protected Scene createRequestCollectionView()
+    {
+        View newView = ViewFactory.createView("RequestCollectionView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+  }
+
+//----------------------------------------------------------------
+
+
+
+}
