@@ -75,11 +75,11 @@ public void stateChangeRequest(String key, Object value)
         else
         if (key.equals("RequestSelected") == true)
         {
-            mySelectedColor = myColorList.retrieve((String)value);
+            mySelectedRequest = RequestCollection.retrieve((String)value);
             try
             {
 
-                Scene newScene = createModifyColorView();
+                Scene newScene = createRequestCollectionView();
 
                 swapToView(newScene);
 
@@ -91,13 +91,23 @@ public void stateChangeRequest(String key, Object value)
             }
         }
         else
-        if (key.equals("ColorData") == true)
+        if (key.equals("RequestData") == true)
         {
-            processColorModification((Properties)value);
+            processFufilRequest((Properties)value);
         }
 
         myRegistry.updateSubscribers(key, this);
     }
+
+//------------------------------------------------------------
+public Object getState(String key)
+{
+  if (key.equals("RequestList") == true)
+     {
+         return myRequestTransaction;
+     }
+     return null;
+}
 
 //-------------------------------------------------------------
 protected Scene createView()
@@ -130,7 +140,10 @@ protected Scene createRequestCollectionView()
   }
 
 //----------------------------------------------------------------
-
+private void processFufilRequest(Properties props)
+{
+  
+}
 
 
 }
