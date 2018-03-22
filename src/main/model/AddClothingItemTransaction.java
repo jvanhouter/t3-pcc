@@ -10,7 +10,9 @@ import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Vector;
 
 // project imports
 
@@ -21,12 +23,14 @@ public class AddClothingItemTransaction extends Transaction
 
 	private ArticleType myArticleType;
 	private ArticleTypeCollection myArticleTypeList;
+	private ColorCollection myColorList;
 
 
 
 	// GUI Components
 
 	private String transactionErrorMessage = "";
+	private String gender = "";
 
 	/**
 	 * Constructor for this class.
@@ -123,36 +127,57 @@ public class AddClothingItemTransaction extends Transaction
 	private void processBarcode(Properties props) {
 		if (props.getProperty("Barcode") != null) {
 			String barcode = props.getProperty("Barcode");
-//			try {
-//				ClothingItem oldClothingItem = new ClothingItem(barcode);
-//				transactionErrorMessage = "ERROR: Barcode Prefix " + barcode
-//						+ " already exists!";
-//				new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//						"Clothing item with barcode : " + barcode + " already exists!",
-//						Event.ERROR);
-//			} catch (InvalidPrimaryKeyException ex){
-//				// Barcode does not exist, parse barcode and populate view
-				String gender = barcode.substring(0, 1);
-				String articleTypePrefix = barcode.substring(1, 3);
-				String colorP1Prefix = barcode.substring(3, 5);
-				String sequence = barcode.substring(5, 8);
-//			}
-            ArticleType test = null;
+			try {
+				ClothingItem oldClothingItem = new ClothingItem(barcode);
+				transactionErrorMessage = "ERROR: Barcode Prefix " + barcode
+						+ " already exists!";
+				new Event(Event.getLeafLevelClassName(this), "processTransaction",
+						"Clothing item with barcode : " + barcode + " already exists!",
+						Event.ERROR);
+			} catch (InvalidPrimaryKeyException ex){
+				// Barcode does not exist, parse barcode and populate view
+			} catch (MultiplePrimaryKeysException ex2) {
+				transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
+				new Event(Event.getLeafLevelClassName(this), "processTransaction",
+						"Found multiple clothing items with barcode: " + barcode + ". Reason: " + ex2.toString(),
+						Event.ERROR);
+
+			}
+			if (barcode.substring(0, 1).equals("1")) {
+				gender = "Male";
+			} else {
+				gender = "Female";
+			}
+//			gender = barcode.substring(0, 1);
+//            ArticleType test = null;
 //            try {
                 myArticleTypeList = new ArticleTypeCollection();
                 myArticleTypeList.findAll();
+                myColorList = new ColorCollection();
+                myColorList.findAll();
 //            } catch (InvalidPrimaryKeyException ex) {
 //                System.out.println("DEBUG");
-//
+
 //            } catch (MultiplePrimaryKeysException ex2) {
 //                transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
 //                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//                        "Found multiple article types with barcode prefix : " + articleTypePrefix + ". Reason: " + ex2.toString(),
+//                        "Found multiple clothing items with barcode: " + barcode + ". Reason: " + ex2.toString(),
 //                        Event.ERROR);
-//
+
 //            }
-            System.out.println(myArticleTypeList);
+//            System.out.println(myArticleTypeList);
+//			for (String article : myArticleTypeList) {
+//				System.out.println(article);
+//			}
+//			Vector test = myArticleTypeList.retrieveAll();
+//			Iterator test_two = test.iterator();
+//			while (test_two.hasNext()) {
+//			    ArticleType current = (ArticleType)test_two.next();
+//				System.out.println(current.getState("Description"));
+//
+//			}
             createAndShowAddClothingItemView();
+
 		}
 
 	}
@@ -160,12 +185,15 @@ public class AddClothingItemTransaction extends Transaction
 	//-----------------------------------------------------------
 	public Object getState(String key)
 	{
-		if (key.equals("TransactionError"))
-		{
+		if (key.equals("TransactionError")) {
 			return transactionErrorMessage;
+		} else if (key.equals("Gender")) {
+			return gender;
+		} else if (key.equals("Articles")) {
+			return myArticleTypeList.retrieveAll();
+		} else if (key.equals("Colors")) {
+		    return myColorList.retrieveAll();
 		}
-		
-		
 		return null;
 	}
 

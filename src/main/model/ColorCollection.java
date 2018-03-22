@@ -184,6 +184,9 @@ public class ColorCollection  extends EntityBase implements IView
 
         return retValue;
     }
+    public Vector retrieveAll() {
+		return colorTypes;
+	}
 
     /** Called via the IView relationship */
     //----------------------------------------------------------

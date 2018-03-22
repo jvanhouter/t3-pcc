@@ -4,6 +4,8 @@ package userinterface;
 // system imports
 
 import impresario.IModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -20,8 +22,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.util.StringConverter;
+import model.ArticleType;
+import model.ColorType;
 
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Vector;
 
 // project imports
 
@@ -34,9 +41,9 @@ public class AddClothingItemView extends View {
 
     // GUI components
     private ComboBox<String> genderCombo;
-    private ComboBox<String> articleTypeCombo;
-    private ComboBox<String> primaryColorCombo;
-    private ComboBox<String> secondaryColorCombo;
+    private ComboBox<ArticleType> articleTypeCombo;
+    private ComboBox<ColorType> primaryColorCombo;
+    private ComboBox<ColorType> secondaryColorCombo;
     protected TextField alphaCodeField;
 
     private Button submitButton;
@@ -48,7 +55,6 @@ public class AddClothingItemView extends View {
     // constructor for this class -- takes a model object
     public AddClothingItemView(IModel clothingItem) {
         super(clothingItem, "AddClothingItemView");
-
         // create a container for showing the contents
         VBox container = new VBox(10);
         container.setPadding(new Insets(15, 5, 5, 5));
@@ -142,7 +148,7 @@ public class AddClothingItemView extends View {
 
         genderCombo = new ComboBox<String>();
         genderCombo.getItems().addAll("Mens", "Womens");
-        genderCombo.setValue("Mens");
+//        genderCombo.setValue("Mens");
 
         grid.add(genderCombo, 1, 1);
 
@@ -152,9 +158,21 @@ public class AddClothingItemView extends View {
         articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(articleTypeLabel, 0, 2);
 
-        articleTypeCombo = new ComboBox<String>();
-        articleTypeCombo.getItems().addAll("Pant Suit", "Skirt Suit");
-        articleTypeCombo.setValue("Pant Suit");
+        articleTypeCombo = new ComboBox<>();
+        articleTypeCombo.setConverter(new StringConverter<ArticleType>() {
+            @Override
+            public String toString(ArticleType object) {
+                return (String) object.getState("Description");
+            }
+
+            @Override
+            public ArticleType fromString(String string) {
+                return articleTypeCombo.getItems().stream().filter(ap ->
+                        ap.getState("Description").equals(string)).findFirst().orElse(null);
+            }
+        });
+//        articleTypeCombo.getItems().addAll("Pant Suit", "Skirt Suit");
+//        articleTypeCombo.setValue("Pant Suit");
 
         grid.add(articleTypeCombo, 1, 2);
 
@@ -164,9 +182,19 @@ public class AddClothingItemView extends View {
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(primaryColorLabel, 0, 3);
 
-        primaryColorCombo = new ComboBox<String>();
-        primaryColorCombo.getItems().addAll("None", "Navy", "Blue", "etc.");
-        primaryColorCombo.setValue("Navy");
+        primaryColorCombo = new ComboBox<>();
+        primaryColorCombo.setConverter(new StringConverter<ColorType>() {
+            @Override
+            public String toString(ColorType object) {
+                return (String) object.getState("Description");
+            }
+
+            @Override
+            public ColorType fromString(String string) {
+                return primaryColorCombo.getItems().stream().filter(ct ->
+                        ct.getState("Description").equals(string)).findFirst().orElse(null);
+            }
+        });
         grid.add(primaryColorCombo, 1, 3);
 
         Text secondaryColorLabel = new Text(" Secondary Color : ");
@@ -175,41 +203,26 @@ public class AddClothingItemView extends View {
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(secondaryColorLabel, 0, 4);
 
-        secondaryColorCombo = new ComboBox<String>();
-        secondaryColorCombo.getItems().addAll("None", "Navy", "Blue", "etc.");
-        secondaryColorCombo.setValue("None");
+        secondaryColorCombo = new ComboBox<>();
+        secondaryColorCombo.setConverter(new StringConverter<ColorType>() {
+            @Override
+            public String toString(ColorType object) {
+                return (String) object.getState("Description");
+            }
+
+            @Override
+            public ColorType fromString(String string) {
+                return secondaryColorCombo.getItems().stream().filter(ct ->
+                        ct.getState("Description").equals(string)).findFirst().orElse(null);
+            }
+        });
         grid.add(secondaryColorCombo, 1, 4);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-            String barcodePrefix = genderCombo.getValue();
-            if (barcodePrefix.length() > 0) {
-                props.setProperty("BarcodePrefix", barcodePrefix);
-                String descrip = primaryColorCombo.getValue();
-                if (descrip.length() > 0) {
-                    props.setProperty("Description", descrip);
-                    String alphaCode = alphaCodeField.getText();
-                    if (alphaCode.length() > 0) {
-                        props.setProperty("AlphaCode", alphaCode);
-                        myModel.stateChangeRequest("ClothingItemData", props);
-                    } else {
-                        displayErrorMessage("ERROR: Please enter a valid alpha code!");
-                    }
-                } else {
-                    displayErrorMessage("ERROR: Please enter a valid primaryColorCombo!");
-                }
-
-            } else {
-                displayErrorMessage("ERROR: Please enter a barcode prefix!");
-
-            }
-
-        });
+        submitButton.setOnAction(this::processAction);
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new Button("Return");
@@ -235,9 +248,50 @@ public class AddClothingItemView extends View {
     }
 
     public void populateFields() {
+        genderCombo.setValue((String)myModel.getState("Gender"));
+        Vector ArticleList = (Vector) myModel.getState("Articles");
+        Iterator articles = ArticleList.iterator();
+        ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
+        while (articles.hasNext()) {
+            articleTypes.add((ArticleType)articles.next());
+        }
+        articleTypeCombo.setItems(articleTypes);
 
+        Vector ColorList = (Vector) myModel.getState("Colors");
+        Iterator colors = ColorList.iterator();
+        ObservableList<ColorType> colorItems = FXCollections.observableArrayList();
+        while (colors.hasNext()) {
+            colorItems.add((ColorType) colors.next());
+        }
+        primaryColorCombo.setItems(colorItems);
+        secondaryColorCombo.setItems(colorItems);
     }
 
+    private void processAction(ActionEvent e) {
+            clearErrorMessage();
+            Properties props = new Properties();
+            String barcodePrefix = genderCombo.getValue();
+            if (barcodePrefix.length() > 0) {
+                props.setProperty("BarcodePrefix", barcodePrefix);
+                String descrip = (String) primaryColorCombo.getValue().getState("Description");
+                if (descrip.length() > 0) {
+                    props.setProperty("Description", descrip);
+                    String alphaCode = alphaCodeField.getText();
+                    if (alphaCode.length() > 0) {
+                        props.setProperty("AlphaCode", alphaCode);
+                        myModel.stateChangeRequest("ClothingItemData", props);
+                    } else {
+                        displayErrorMessage("ERROR: Please enter a valid alpha code!");
+                    }
+                } else {
+                    displayErrorMessage("ERROR: Please enter a valid primaryColorCombo!");
+                }
+
+            } else {
+                displayErrorMessage("ERROR: Please enter a barcode prefix!");
+
+            }
+    }
     /**
      * Update method
      */
