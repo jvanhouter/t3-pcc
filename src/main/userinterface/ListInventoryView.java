@@ -37,14 +37,12 @@ import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
-import model.Account;
-import model.AccountCollection;
 import model.ListInventoryCollection;
 
 //==============================================================================
 public class ListInventoryView extends View
 {
-    protected TableView<AccountTableModel> tableOfAccounts;
+    protected TableView<InventoryTableModel> tableOfAccounts;
     protected Button cancelButton;
     protected Button submitButton;
 
@@ -82,26 +80,26 @@ public class ListInventoryView extends View
     protected void getEntryTableModelValues()
     {
 
-        ObservableList<AccountTableModel> tableData = FXCollections.observableArrayList();
+        ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
         try
         {
-            AccountCollection accountCollection = (AccountCollection)myModel.getState("AccountList");
+            ClothingItemCollection itemCollection = (ClothingItemCollection)myModel.getState("AccountList");
 
-            Vector entryList = (Vector)accountCollection.getState("Accounts");
+            Vector entryList = (Vector)itemCollection.getState("Accounts");
             Enumeration entries = entryList.elements();
 
             while (entries.hasMoreElements() == true)
             {
-                Account nextAccount = (Account)entries.nextElement();
-                Vector<String> view = nextAccount.getEntryListView();
+                Item nextAccount = (Item)entries.nextElement();
+                Vector<String> view = nextItem.getEntryListView();
 
                 // add this list entry to the list
-                AccountTableModel nextTableRowData = new AccountTableModel(view);
+                InventoryTableModel nextTableRowData = new InventoryTableModel(view);
                 tableData.add(nextTableRowData);
 
             }
 
-            tableOfAccounts.setItems(tableData);
+            tableOfInventory.setItems(tableData);
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
@@ -137,62 +135,99 @@ public class ListInventoryView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text prompt = new Text("LIST OF ACCOUNTS");
+        Text prompt = new Text("List Of Items");
         prompt.setWrappingWidth(350);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         grid.add(prompt, 0, 0, 2, 1);
 
-        tableOfAccounts = new TableView<AccountTableModel>();
-        tableOfAccounts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableOfInventory = new TableView<InventoryTableModel>();
+        tableOfInventory.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         TableColumn accountNumberColumn = new TableColumn("Account Number") ;
         accountNumberColumn.setMinWidth(100);
         accountNumberColumn.setCellValueFactory(
-                new PropertyValueFactory<AccountTableModel, String>("status"));
+                new PropertyValueFactory<InventoryTableModel, String>("status"));
+        TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));TableColumn accountNumberColumn = new TableColumn("Account Number") ;
+        accountNumberColumn.setMinWidth(100);
+        accountNumberColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("status"));
 
-        TableColumn accountTypeColumn = new TableColumn("Account Type") ;
-        accountTypeColumn.setMinWidth(100);
-        accountTypeColumn.setCellValueFactory(
-                new PropertyValueFactory<AccountTableModel, String>("accountType"));
-
-        TableColumn balanceColumn = new TableColumn("Balance") ;
-        balanceColumn.setMinWidth(100);
-        balanceColumn.setCellValueFactory(
-                new PropertyValueFactory<AccountTableModel, String>("balance"));
-
-        TableColumn serviceChargeColumn = new TableColumn("Service Charge") ;
-        serviceChargeColumn.setMinWidth(100);
-        serviceChargeColumn.setCellValueFactory(
-                new PropertyValueFactory<AccountTableModel, String>("serviceCharge"));
-
-        tableOfAccounts.getColumns().addAll(accountNumberColumn,
+        tableOfInventory.getColumns().addAll(accountNumberColumn,
                 accountTypeColumn, balanceColumn, serviceChargeColumn);
 
-        tableOfAccounts.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event)
-            {
-                if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processAccountSelected();
-                }
-            }
-        });
+//        tableOfAccounts.setOnMousePressed(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event)
+//            {
+//                if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+//                    processAccountSelected();
+//                }
+//            }
+//        });
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(115, 150);
-        scrollPane.setContent(tableOfAccounts);
+        scrollPane.setContent(tableOfInventory);
 
         submitButton = new Button("Submit");
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                // do the inquiry
-                processAccountSelected();
-
-            }
-        });
+//        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+//
+//            @Override
+//            public void handle(ActionEvent e) {
+//                clearErrorMessage();
+//                // do the inquiry
+//                processAccountSelected();
+//
+//            }
+//        });
 
         cancelButton = new Button("Back");
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -234,7 +269,7 @@ public class ListInventoryView extends View
     //--------------------------------------------------------------------------
 //    protected void processAccountSelected()
 //    {
-//        AccountTableModel selectedItem = tableOfAccounts.getSelectionModel().getSelectedItem();
+//        InventoryTableModel selectedItem = tableOfAccounts.getSelectionModel().getSelectedItem();
 //
 //        if(selectedItem != null)
 //        {
