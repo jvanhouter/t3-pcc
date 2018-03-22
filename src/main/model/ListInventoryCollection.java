@@ -1,5 +1,6 @@
 package model;
 
+//System imports
 import exception.InvalidPrimaryKeyException;
 import impresario.IView;
 import javafx.scene.Scene;
@@ -8,12 +9,13 @@ import model.EntityBase;
 import userinterface.View;
 import userinterface.ViewFactory;
 
+//Project imports
 import java.util.Properties;
 import java.util.Vector;
 
 public class ListInventoryCollection  extends EntityBase implements IView
 {
-    private static final String myTableName = "inventory";
+    private static final String myTableName = "Inventory";
 
     private Vector<ClothingItem> list;
     // GUI Components
@@ -65,11 +67,11 @@ public class ListInventoryCollection  extends EntityBase implements IView
 
     public Object getState(String key)
     {
-        if (key.equals("Accounts"))
+        if (key.equals("Inventory"))
         {
             return list;  //change     
             }
-        else if (key.equals("AccountList"))
+        else if (key.equals("InventoryList"))
         {
             return this;
             }
