@@ -66,11 +66,17 @@ public class ListInventoryCollection  extends EntityBase implements IView
     public Object getState(String key)
     {
         if (key.equals("Accounts"))
-            return list;                            //change
+        {
+            return list;  //change     
+            }
         else if (key.equals("AccountList"))
+        {
             return this;
+            }
+            else{
 
         return null;
+        }
     }
 
     //----------------------------------------------------------------
