@@ -38,7 +38,8 @@ import java.util.Enumeration;
 // project imports
 import impresario.IModel;
 //import model.Item;
-//import model.ListInvenotryCollection;
+import model.ClothingItem;
+import model.ListInventoryCollection;
 
 //==============================================================================
 public class ListInventoryView extends View
@@ -84,10 +85,10 @@ public class ListInventoryView extends View
         ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
         try
         {
-            ListInventoryCollection listInvenotryCollection =
-                    (ListInvenotryCollection)myModel.getState("InventoryList");
+            ListInventoryCollection listInventoryCollection =
+                    (ListInventoryCollection)myModel.getState("InventoryList");
 
-            Vector entryList = (Vector)listInvenotryCollection.getState("Inventory");
+            Vector entryList = (Vector)listInventoryCollection.getState("Inventory");
 
             if (entryList.size() > 0)
             {
@@ -95,7 +96,7 @@ public class ListInventoryView extends View
 
                 while (entries.hasMoreElements() == true)
                 {
-                    Item nextAT = (Item)entries.nextElement();
+                    ClothingItem nextAT = (ClothingItem)entries.nextElement();
                     Vector<String> view = nextAT.getEntryListView();
 
                     // add this list entry to the list
