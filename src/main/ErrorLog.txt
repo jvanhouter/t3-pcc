@@ -84,3 +84,5 @@
 [3/18/18 3:13 PM]|LogRequestTransaction|processTransaction|Error|NOTAG|null<ERROR: Invalid requester net id : 800696728! Must be numerical.>
 [3/18/18 3:14 PM]|ClothingRequest|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'RequestFulfilledDate' doesn't have a default value>
 [3/18/18 3:15 PM]|ClothingRequest|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'FulfilItemBarcode' doesn't have a default value>
+[3/22/18 3:59 PM]|ClothingRequest|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'FulfilItemBarcode' doesn't have a default value>
+[3/22/18 3:59 PM]|ClothingRequest|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'FulfilItemBarcode' doesn't have a default value>

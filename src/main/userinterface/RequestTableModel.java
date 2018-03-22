@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 //==============================================================================
 public class RequestTableModel
 {
+    private final SimpleStringProperty id;
     private final SimpleStringProperty requesterNetId;
     private final SimpleStringProperty phone;
     private final SimpleStringProperty lastName;
@@ -25,31 +26,34 @@ public class RequestTableModel
     //----------------------------------------------------------------------------
     public RequestTableModel(Vector<String> atData)
     {
-        requesterNetId = new SimpleStringProperty(atData.elementAt(0));
-        phone = new SimpleStringProperty(atData.elementAt(1));
-        lastName = new SimpleStringProperty(atData.elementAt(2));
-        firstName = new SimpleStringProperty(atData.elementAt(3));
-        gender = new SimpleStringProperty(atData.elementAt(4));
-        articleType = new SimpleStringProperty(atData.elementAt(5));
-        color1 = new SimpleStringProperty(atData.elementAt(6));
-        color2 = new SimpleStringProperty(atData.elementAt(7));
-        size = new SimpleStringProperty(atData.elementAt(8));
-        brand = new SimpleStringProperty(atData.elementAt(9));
-        status = new SimpleStringProperty(atData.elementAt(10));
-        fulfillItemBarcode = new SimpleStringProperty(atData.elementAt(11));
-        requestMadeDate = new SimpleStringProperty(atData.elementAt(12));
-        requestFulfilledDate = new SimpleStringProperty(atData.elementAt(13));
+        id = new SimpleStringProperty(atData.elementAt(0));
+        requesterNetId = new SimpleStringProperty(atData.elementAt(1));
+        phone = new SimpleStringProperty(atData.elementAt(2));
+        lastName = new SimpleStringProperty(atData.elementAt(3));
+        firstName = new SimpleStringProperty(atData.elementAt(4));
+        gender = new SimpleStringProperty(atData.elementAt(5));
+        articleType = new SimpleStringProperty(atData.elementAt(6));
+        color1 = new SimpleStringProperty(atData.elementAt(7));
+        color2 = new SimpleStringProperty(atData.elementAt(8));
+        size = new SimpleStringProperty(atData.elementAt(9));
+        brand = new SimpleStringProperty(atData.elementAt(10));
+        status = new SimpleStringProperty(atData.elementAt(11));
+        fulfillItemBarcode = new SimpleStringProperty(atData.elementAt(12));
+        requestMadeDate = new SimpleStringProperty(atData.elementAt(13));
+        requestFulfilledDate = new SimpleStringProperty(atData.elementAt(14));
     }
 
     //----------------------------------------------------------------------------
-    public String getRequesterNetid() {
-        return requesterNetId.get();
-    }
+    public String getId() { return id.get(); }
 
     //----------------------------------------------------------------------------
-    public void setRequesterNetid(String pref) {
-        requesterNetId.set(pref);
-    }
+    public void setId(String pref) { id.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getRequesterNetid() { return requesterNetId.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setRequesterNetid(String pref) { requesterNetId.set(pref); }
 
     //----------------------------------------------------------------------------
     public String getPhone() { return phone.get(); }

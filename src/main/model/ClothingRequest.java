@@ -18,7 +18,7 @@ import impresario.IView;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-/** The class containing the Article Type for the Professional Clothes Closet
+/** The class containing the request for the Professional Clothes Closet
  * application
  */
 //==============================================================
@@ -57,7 +57,7 @@ public class ClothingRequest extends EntityBase implements IView
 
         Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
-        // You must get one article type at least
+        // You must get one request at least
         if (allDataRetrieved != null)
         {
             int size = allDataRetrieved.size();
@@ -68,7 +68,7 @@ public class ClothingRequest extends EntityBase implements IView
                         + netId + " found.");
             }
             else
-                // There should be EXACTLY one article type. More than that is an error
+                // There should be EXACTLY one request. More than that is an error
                 if (size != 1)
                 {
 
@@ -96,7 +96,7 @@ public class ClothingRequest extends EntityBase implements IView
 
                 }
         }
-        // If no article type found for this barcode prefix, throw an Invalid Primary key exception
+        // If no request found for this barcode prefix, throw an Invalid Primary key exception
         else
         {
             throw new InvalidPrimaryKeyException("No clothing request match for requester id : "
@@ -106,7 +106,7 @@ public class ClothingRequest extends EntityBase implements IView
     }
 
     /**
-     * Alternate constructor. Can be used to create a NEW Article Type
+     * Alternate constructor. Can be used to create a NEW request
      */
     //----------------------------------------------------------
     public ClothingRequest(Properties props)

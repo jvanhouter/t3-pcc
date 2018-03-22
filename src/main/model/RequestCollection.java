@@ -167,16 +167,16 @@ public class RequestCollection  extends EntityBase implements IView
     }
 
     //----------------------------------------------------------
-    public ClothingRequest retrieve(String barcodePrefix)
+    public ClothingRequest retrieve(String id)
     {
         ClothingRequest retValue = null;
         for (int cnt = 0; cnt < requests.size(); cnt++)
         {
-            ClothingRequest nextAT = requests.elementAt(cnt);
-            String nextBarcodePrefix = (String)nextAT.getState("BarcodePrefix");
-            if (nextBarcodePrefix.equals(barcodePrefix) == true)
+            ClothingRequest nextRQ = requests.elementAt(cnt);
+            String nextId = (String)nextRQ.getState("ID");
+            if (nextId.equals(id) == true)
             {
-                retValue = nextAT;
+                retValue = nextRQ;
                 return retValue; // we should say 'break;' here
             }
         }

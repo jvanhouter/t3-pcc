@@ -39,11 +39,13 @@ import java.util.Enumeration;
 import impresario.IModel;
 import model.ArticleType;
 import model.ArticleTypeCollection;
+import model.ClothingRequest;
+import model.RequestCollection;
 
 //==============================================================================
 public class RequestCollectionView extends View
 {
-    protected TableView<ArticleTypeTableModel> tableOfArticleTypes;
+    protected TableView<RequestTableModel> tableOfRequests;
     protected Button cancelButton;
     protected Button submitButton;
 
@@ -53,7 +55,7 @@ public class RequestCollectionView extends View
     //--------------------------------------------------------------------------
     public RequestCollectionView(IModel matt)
     {
-        super(matt, "ArticleTypeCollectionView");
+        super(matt, "RequestCollectionView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -81,13 +83,13 @@ public class RequestCollectionView extends View
     protected void getEntryTableModelValues()
     {
 
-        ObservableList<ArticleTypeTableModel> tableData = FXCollections.observableArrayList();
+        ObservableList<RequestTableModel> tableData = FXCollections.observableArrayList();
         try
         {
-            ArticleTypeCollection articleTypeCollection =
-                    (ArticleTypeCollection)myModel.getState("ArticleTypeList");
+            RequestCollection requestCollection =
+                    (RequestCollection)myModel.getState("RequestList");
 
-            Vector entryList = (Vector)articleTypeCollection.getState("ArticleTypes");
+            Vector entryList = (Vector)requestCollection.getState("Requests");
 
             if (entryList.size() > 0)
             {
@@ -95,11 +97,11 @@ public class RequestCollectionView extends View
 
                 while (entries.hasMoreElements() == true)
                 {
-                    ArticleType nextAT = (ArticleType)entries.nextElement();
-                    Vector<String> view = nextAT.getEntryListView();
+                    ClothingRequest nextRQ = (ClothingRequest) entries.nextElement();
+                    Vector<String> view = nextRQ.getEntryListView();
 
                     // add this list entry to the list
-                    ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
+                    RequestTableModel nextTableRowData = new RequestTableModel(view);
                     tableData.add(nextTableRowData);
 
                 }
@@ -109,7 +111,7 @@ public class RequestCollectionView extends View
                 displayMessage("No matching entries found!");
             }
 
-            tableOfArticleTypes.setItems(tableData);
+            tableOfRequests.setItems(tableData);
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
@@ -151,7 +153,7 @@ public class RequestCollectionView extends View
         blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
-        Text actionText = new Text("      ** Matching Article Types **       ");
+        Text actionText = new Text("      ** Matching Requests **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
@@ -180,44 +182,91 @@ public class RequestCollectionView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        tableOfArticleTypes = new TableView<ArticleTypeTableModel>();
-        tableOfArticleTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableOfRequests = new TableView<RequestTableModel>();
+        tableOfRequests.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
-        barcodePrefixColumn.setMinWidth(50);
-        barcodePrefixColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("barcodePrefix"));
+        TableColumn id = new TableColumn("ID");
+        id.setMaxWidth(50);
+        id.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("id"));
 
-        TableColumn descriptionColumn = new TableColumn("Description") ;
-        descriptionColumn.setMinWidth(150);
-        descriptionColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("description"));
+        TableColumn requesterNetid = new TableColumn("Net ID");
+        requesterNetid.setMaxWidth(50);
+        requesterNetid.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("requesterNetid"));
 
-        TableColumn alphaCodeColumn = new TableColumn("Alpha Code") ;
-        alphaCodeColumn.setMinWidth(50);
-        alphaCodeColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("alphaCode"));
+        TableColumn phone = new TableColumn("Phone");
+        phone.setMaxWidth(50);
+        phone.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("phone"));
+
+        TableColumn lastName = new TableColumn("Last Name");
+        lastName.setMaxWidth(50);
+        lastName.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("lastName"));
+
+        TableColumn firstName = new TableColumn("First Name");
+        firstName.setMaxWidth(50);
+        firstName.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("firstName"));
+
+        TableColumn gender = new TableColumn("Gender");
+        gender.setMaxWidth(50);
+        gender.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("gender"));
+
+        TableColumn articleType = new TableColumn("Article Type");
+        articleType.setMaxWidth(50);
+        articleType.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("articleType"));
+
+        TableColumn color1 = new TableColumn("Color 1");
+        color1.setMaxWidth(50);
+        color1.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("color1"));
+
+        TableColumn color2 = new TableColumn("Color 2");
+        color2.setMaxWidth(50);
+        color2.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("color2"));
+
+        TableColumn size = new TableColumn("Size");
+        size.setMaxWidth(50);
+        size.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("size"));
+
+        TableColumn brand = new TableColumn("Brand");
+        brand.setMaxWidth(50);
+        brand.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("brand"));
+
+        TableColumn requestMadeDate = new TableColumn("Made Date");
+        requestMadeDate.setMaxWidth(50);
+        requestMadeDate.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("requestMadeDate"));
 
         TableColumn statusColumn = new TableColumn("Status") ;
         statusColumn.setMinWidth(50);
         statusColumn.setCellValueFactory(
                 new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
 
-        tableOfArticleTypes.getColumns().addAll(descriptionColumn,
-                barcodePrefixColumn, alphaCodeColumn, statusColumn);
+        tableOfRequests.getColumns().addAll(id,
+                requesterNetid, phone, lastName, firstName,
+                gender, articleType, color1, color2, size, brand,
+                requestMadeDate, statusColumn);
 
-        tableOfArticleTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
+        tableOfRequests.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event)
             {
                 if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processArticleTypeSelected();
+                    processRequestSelected();
                 }
             }
         });
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfArticleTypes);
+        scrollPane.setContent(tableOfRequests);
 
         submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -227,7 +276,7 @@ public class RequestCollectionView extends View
             public void handle(ActionEvent e) {
                 clearErrorMessage();
                 // do the inquiry
-                processArticleTypeSelected();
+                processRequestSelected();
 
             }
         });
@@ -247,7 +296,7 @@ public class RequestCollectionView extends View
                  */
                 //----------------------------------------------------------
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelArticleTypeList", null);
+                myModel.stateChangeRequest("CancelFulfillRequest", null);
             }
         });
 
@@ -269,15 +318,14 @@ public class RequestCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void processArticleTypeSelected()
+    protected void processRequestSelected()
     {
-        ArticleTypeTableModel selectedItem = tableOfArticleTypes.getSelectionModel().getSelectedItem();
+        RequestTableModel selectedItem = tableOfRequests.getSelectionModel().getSelectedItem();
 
         if(selectedItem != null)
         {
-            String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
-
-            myModel.stateChangeRequest("ArticleTypeSelected", selectedBarcodePrefix);
+            String id = selectedItem.getId();
+            myModel.stateChangeRequest("RequestSelected", id);
         }
     }
 

@@ -65,7 +65,8 @@ public class LogRequestTransaction extends Transaction
                 props.getProperty("RequestedColor1") != null &&
                 props.getProperty("RequestedColor2") != null &&
                 props.getProperty("RequestedSize") != null &&
-                props.getProperty("RequestedBrand") != null) {
+                props.getProperty("RequestedBrand") != null)
+        {
 
             String netId = props.getProperty("RequesterNetid");
             String gender = props.getProperty("RequestedGender");
@@ -75,22 +76,28 @@ public class LogRequestTransaction extends Transaction
             String brand = props.getProperty("RequestedBrand");
             String size = props.getProperty("RequestedSize");
 
-            try {
+            try
+            {
                 ClothingRequest oldClothingRequest = new ClothingRequest(netId, gender, articleType, size, color1, color2, brand);
                 transactionErrorMessage = "ERROR: Requester ID : " + netId + " of request for " + gender + ", " + articleType + ", " + size + ", " + size + ", " + color1 + ", " + color2 + ", " + brand + " already exists!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         transactionErrorMessage,
                         Event.ERROR);
-            } catch (InvalidPrimaryKeyException ex) {
+            }
+            catch (InvalidPrimaryKeyException ex)
+            {
                 // Barcode prefix does not exist, validate data
-                try {
+                try
+                {
                     int netIdInt = Integer.parseInt(netId);
                     String phoneNumber = props.getProperty("RequesterPhone");
                     String firstName = props.getProperty("RequesterFirstName");
                     String lastName = props.getProperty("RequesterLastName");
+
                     /*
                     Perform specific checks on data before updating into clothing request
                      */
+
                     props.setProperty("Status", "Pending");
                     Date date = new Date();
                     String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date); // sql may only take yyyy-mm-dd
@@ -98,14 +105,18 @@ public class LogRequestTransaction extends Transaction
                     myClothingRequest = new ClothingRequest(props);
                     myClothingRequest.update();
                     transactionErrorMessage = (String) myClothingRequest.getState("UpdateStatusMessage");
-                } catch (Exception excep) {
+                }
+                catch (Exception excep)
+                {
                     transactionErrorMessage = "ERROR: Invalid requester net id : " + netId
                             + "! Must be numerical.";
                     new Event(Event.getLeafLevelClassName(this), "processTransaction",
                             transactionErrorMessage,
                             Event.ERROR);
                 }
-            } catch (MultiplePrimaryKeysException ex2) {
+            }
+            catch (MultiplePrimaryKeysException ex2)
+            {
                 transactionErrorMessage = "ERROR: Mutliple clothing requests for specified information provided!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Found multiple clothing requests with requester id : " + netId + ". Reason: " + ex2.toString(),
