@@ -42,53 +42,90 @@ public class RequestTableModel
     }
 
     //----------------------------------------------------------------------------
-    public String getRequesterNetId() {
+    public String getRequesterNetid() {
         return requesterNetId.get();
     }
 
     //----------------------------------------------------------------------------
-    public void setRequesterNetId(String pref) {
+    public void setRequesterNetid(String pref) {
         requesterNetId.set(pref);
     }
 
     //----------------------------------------------------------------------------
-    public String getBarcodePrefix() {
-        return barcodePrefix.get();
-    }
+    public String getPhone() { return phone.get(); }
 
     //----------------------------------------------------------------------------
-    public void setBarcodePrefix(String pref) {
-        barcodePrefix.set(pref);
-    }
+    public void setPhone(String pref) { phone.set(pref); }
 
     //----------------------------------------------------------------------------
-    public String getDescription() {
-        return description.get();
-    }
+    public String getLastName() { return lastName.get(); }
 
     //----------------------------------------------------------------------------
-    public void setDescription(String desc) {
-        description.set(desc);
-    }
+    public void setLastName(String pref) { lastName.set(pref); }
 
     //----------------------------------------------------------------------------
-    public String getAlphaCode() {
-        return alphaCode.get();
-    }
+    public String getFirstName() { return firstName.get(); }
 
     //----------------------------------------------------------------------------
-    public void setAlphaCode(String code) {
-        alphaCode.set(code);
-    }
+    public void setFirstName(String pref) { firstName.set(pref); }
 
     //----------------------------------------------------------------------------
-    public String getStatus() {
-        return status.get();
-    }
+    public String getGender() { return gender.get(); }
 
     //----------------------------------------------------------------------------
-    public void setStatus(String stat)
-    {
-        status.set(stat);
-    }
+    public void setGender(String pref) { gender.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getArticleType() { return articleType.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setArticleType(String pref) { articleType.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getColor1() { return color1.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setColor1(String pref) { color1.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getColor2() { return color2.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setColor2(String pref) { color2.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getSize() { return size.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setSize(String pref) { size.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getBrand() { return brand.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setBrand(String pref) { brand.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getStatus() { return status.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setStatus(String stat) { status.set(stat); }
+
+    //----------------------------------------------------------------------------
+    public String getFulfillItemBarcode() { return fulfillItemBarcode.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setFulfillItemBarcode(String pref) { fulfillItemBarcode.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getRequestMadeDate() { return requestMadeDate.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setRequestMadeDate(String pref)  { requestMadeDate.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getRequestFulfilledDate() { return requestFulfilledDate.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setRequestFulfilledDate(String pref) { requestFulfilledDate.set(pref); }
 }
