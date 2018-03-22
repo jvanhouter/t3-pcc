@@ -54,7 +54,10 @@ public class CheckoutInvalidItemView extends View {
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
 
-        container.getChildren().add(createStatusLog("             "));
+        //The initial status message needs to be the current barcodes.
+        String initialMessage = (String) myModel.getState("BarcodeError");
+        container.getChildren().add(createStatusLog(""));
+        displayErrorMessage(initialMessage);
 
         getChildren().add(container);
 
@@ -127,12 +130,13 @@ public class CheckoutInvalidItemView extends View {
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         vbox.getChildren().add(prompt);
 
-        Text prompt2 = new Text("Either the barcode does not exist or Clothing Item Status is not \"Donated\". ");
-        prompt2.setWrappingWidth(400);
-        prompt2.setTextAlignment(TextAlignment.CENTER);
-        prompt2.setFill(Color.BLACK);
-        prompt2.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 12));
-        vbox.getChildren().add(prompt2);
+//        Text prompt2 = new Text("The Barcode may not exist. The status may not be \"Donated\". " +
+//                "The ");
+//        prompt2.setWrappingWidth(400);
+//        prompt2.setTextAlignment(TextAlignment.CENTER);
+//        prompt2.setFill(Color.BLACK);
+//        prompt2.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 12));
+//        vbox.getChildren().add(prompt2);
 
 
         GridPane grid = new GridPane();

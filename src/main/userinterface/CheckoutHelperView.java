@@ -54,13 +54,26 @@ public class CheckoutHelperView extends View {
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
 
-        container.getChildren().add(createStatusLog("             "));
+        //The initial status message needs to be the current barcodes.
+        String initialMessage = "";
+        String barcodeList = (String) myModel.getState("Cart");
+        if(barcodeList == null || barcodeList.equals(""))
+        {
+            initialMessage = "Cart is empty";
+        }
+        else
+        {
+            initialMessage = "Cart: " + barcodeList;
+        }
+        container.getChildren().add(createStatusLog(initialMessage));
 
         getChildren().add(container);
 
         populateFields();
 
         myModel.subscribe("TransactionError", this);
+
+
     }
 
     //-------------------------------------------------------------
@@ -220,7 +233,6 @@ public class CheckoutHelperView extends View {
             {
                 displayMessage(val);
             }
-
         }
     }
 
