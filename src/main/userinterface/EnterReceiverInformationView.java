@@ -57,15 +57,15 @@ public class EnterReceiverInformationView extends View {
         container.getChildren().add(createFormContent());
 
         //The initial status message neds to be the current barcodes.
-        String initialMessage = "Cart: ";
+        String initialMessage = "";
         String barcodeList = (String) myModel.getState("Cart");
         if(barcodeList == null || barcodeList.equals(""))
         {
-            initialMessage = initialMessage + "Empty";
+            initialMessage = "Cart is empty";
         }
         else
         {
-            initialMessage = initialMessage + barcodeList;
+            initialMessage = "Cart: " + barcodeList;
         }
         container.getChildren().add(createStatusLog(initialMessage));
 
@@ -183,7 +183,8 @@ public class EnterReceiverInformationView extends View {
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
-            public void handle(ActionEvent e) {
+            public void handle(ActionEvent e)
+            {
                 clearErrorMessage();
                 Properties props = new Properties();
                 String netIdReceiver = netId.getText();

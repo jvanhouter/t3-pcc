@@ -55,15 +55,15 @@ public class CheckoutHelperView extends View {
         container.getChildren().add(createFormContent());
 
         //The initial status message needs to be the current barcodes.
-        String initialMessage = "Cart: ";
+        String initialMessage = "";
         String barcodeList = (String) myModel.getState("Cart");
-        if(barcodeList.equals(""))
+        if(barcodeList == null || barcodeList.equals(""))
         {
-            initialMessage = initialMessage + "Empty";
+            initialMessage = "Cart is empty";
         }
         else
         {
-            initialMessage = initialMessage + barcodeList;
+            initialMessage = "Cart: " + barcodeList;
         }
         container.getChildren().add(createStatusLog(initialMessage));
 
@@ -233,7 +233,6 @@ public class CheckoutHelperView extends View {
             {
                 displayMessage(val);
             }
-
         }
     }
 

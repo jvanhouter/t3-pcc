@@ -16,18 +16,16 @@ import exception.MultiplePrimaryKeysException;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-
-//TODO This class is still a work in progress, presently all errors are due to the absence of a model class.
 public class CheckoutClothingItemTransaction extends Transaction
 {
-    //TODO create ClothingItem model class
     private ClothingItem myClothingItem;
     private LinkedList<ClothingItem> clothingItems = new LinkedList<ClothingItem>();
 
     // GUI Components
-
     private String transactionErrorMessage = "";
+    //A string list of barcodes which will be updated upon entering user information
     private String cart = "";
+    //A string to display to the user what error occurred in the gui
     private String barcodeError = "";
 
     /**
@@ -61,20 +59,20 @@ public class CheckoutClothingItemTransaction extends Transaction
         barcode = barcode.toUpperCase();
         try
         {
-            // Try to create a new ClothingItem
             myClothingItem = new ClothingItem(barcode);
 //          DEBUG System.out.println(myClothingItem.getEntryListView());
-            // If the clothing item exists and is not "Received"
             if(myClothingItem != null)
             {
                 if( myClothingItem.getState("Status").equals("Donated"))
                 {
+                    //if the barcode has not already been added to the cart
                    if(!cart.contains(barcode))
                    {
-                       // Add the ClothingItem to a list
+                       // add the ClothingItem to a list
                        clothingItems.add(myClothingItem);
-                       cart = cart + barcode.toUpperCase() + " ";
-                       // Swap to a scene that asks if the user wishes to enter another barcode or continue onwards.
+                       // update the barcode list for the user
+                       cart = generateCart();
+                       // swap to a scene that asks if the user wishes to enter another barcode or continue onwards.
                        try
                        {
                            Scene newScene = createCheckoutHelperView();
@@ -108,7 +106,8 @@ public class CheckoutClothingItemTransaction extends Transaction
             }
 //            DEBUG
 //            Iterator<ClothingItem> i = clothingItems.iterator();
-//            while(i.hasNext()){
+//            while(i.hasNext())
+//            {
 //                System.out.println(i.next().getEntryListView());
 //            }
         }
@@ -124,31 +123,49 @@ public class CheckoutClothingItemTransaction extends Transaction
         }
     }
 
+    private String generateCart()
+    {
+        String cart = "";
+        ClothingItem temp = null;
+        Iterator i = clothingItems.iterator();
+
+        while(i.hasNext())
+        {
+            temp = (ClothingItem)i.next();
+            cart = cart + temp.getState("Barcode") + " ";
+        }
+
+        return cart;
+    }
+
     private void processReceiver(Properties props) {
 
         String receiverNetid = props.getProperty("ReceiverNetid");
         String receiverFirstName = props.getProperty("ReceiverFirstName");
         String receiverLastName = props.getProperty("ReceiverLastName");
 
-        if(clothingItems.size() > 0) {
+        if(clothingItems.size() > 0)
+        {
             // Set receiver properties change status to received and update
             Iterator<ClothingItem> i = clothingItems.iterator();
-            while (i.hasNext()) {
 
+            while (i.hasNext())
+            {
                 ClothingItem currItem = i.next();
                 currItem.stateChangeRequest("ReceiverNetid", receiverNetid);
                 currItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
                 currItem.stateChangeRequest("ReceiverLastName", receiverLastName);
                 currItem.stateChangeRequest("Status", "Received");
 
-                //Compose current date
+                // Compose timestamp
                 Calendar currDate = Calendar.getInstance();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
                 String date = dateFormat.format(currDate.getTime());
                 currItem.stateChangeRequest("DateTaken", date);
 
-//          System.out.println(myClothingItem.getEntryListView());
+//                System.out.println(myClothingItem.getEntryListView());
                 currItem.update();
+
                 if(((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully"))
                 {
                     transactionErrorMessage = transactionErrorMessage + currItem.getState("Barcode") + " ";
@@ -164,7 +181,6 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     private void switchToEnterReceiverInformationView()
     {
-
         Scene newScene = createEnterReceiverInformationView();
         swapToView(newScene);
     }
@@ -172,27 +188,27 @@ public class CheckoutClothingItemTransaction extends Transaction
     public void stateChangeRequest(String key, Object value)
     {
         //DEBUG System.out.println("CheckoutClothingItemTransaction.sCR: key: " + key);
-        //This should bring up the EnterClothingItemBarcodeView
         if (key.equals("DoYourJob") == true)
         {
             doYourJob();
         }
-        //The EnterClothingItemBarcodeView should call here
+        //The BarcodeScannerView should call here
         else if (key.equals("ProcessBarcode") == true)
         {
-//            System.out.println("BarcodeView returned: " + value);
             processTransaction((Properties)value);
         }
         //The EnterReceiverInformationView should call here
         else if (key.equals("ReceiverData") == true)
         {
-//            System.out.println("ReceiverView returned: " + value);
             processReceiver((Properties)value);
         }
+        //The CheckoutHelperView and CheckoutInvalidItemView should call here if the user selects to
+            // add another barcode
         else if (key.equals("MoreData") == true)
         {
            doYourJob();
         }
+        //The CheckoutHelperView and CheckoutInvalidItemView should call here if the user selects checkout
         else if (key.equals("NoMoreData") == true)
         {
            switchToEnterReceiverInformationView();
@@ -244,15 +260,14 @@ public class CheckoutClothingItemTransaction extends Transaction
         Scene currentScene = new Scene(newView);
 
         return currentScene;
-
     }
 
     protected Scene createCheckoutHelperView()
     {
         View newView = ViewFactory.createView("CheckoutHelperView", this);
         Scene currentScene = new Scene(newView);
-        return currentScene;
 
+        return currentScene;
     }
     protected Scene createCheckoutInvalidItemView()
     {
