@@ -162,7 +162,7 @@ public class BarcodeScannerView extends View {
         clearErrorMessage();
         Properties props = new Properties();
         String barcode = barcodePrefix.getText();
-        if (barcode.length() == 8) {
+        if (barcode.substring(0,1).equals("0") || (barcode.substring(0,1).equals("1"))) {
             props.setProperty("Barcode", barcode);
             myModel.stateChangeRequest("ProcessBarcode", props);
         } else {

@@ -21,7 +21,7 @@ import java.util.Vector;
 public class AddClothingItemTransaction extends Transaction
 {
 
-	private ArticleType myArticleType;
+	private ClothingItem myClothingItem;
 	private ArticleTypeCollection myArticleTypeList;
 	private ColorCollection myColorList;
 
@@ -62,17 +62,17 @@ public class AddClothingItemTransaction extends Transaction
 	//----------------------------------------------------------
 	public void processTransaction(Properties props)
 	{
-		if (props.getProperty("BarcodePrefix") != null)
+		if (props.getProperty("Barcode") != null)
 		{
-			String barcodePrefix = props.getProperty("BarcodePrefix");
+			String barcode = props.getProperty("Barcode");
 			try
 			{
 
-				ArticleType oldArticleType = new ArticleType(barcodePrefix);
-				transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix 
+				ClothingItem oldClothingItem = new ClothingItem(barcode);
+				transactionErrorMessage = "ERROR: Barcode" + barcode
 					+ " already exists!";
 				new Event(Event.getLeafLevelClassName(this), "processTransaction",
-						"Article type with barcode prefix : " + barcodePrefix + " already exists!",
+						"Clothing Item with barcode: " + barcode + " already exists!",
 						Event.ERROR);
 			}
 			catch (InvalidPrimaryKeyException ex)
@@ -80,7 +80,7 @@ public class AddClothingItemTransaction extends Transaction
 				// Barcode prefix does not exist, validate data
 				try
 				{
-					int barcodePrefixVal = Integer.parseInt(barcodePrefix);
+					int barcodePrefixVal = Integer.parseInt(barcode);
 					String descriptionOfAT = props.getProperty("Description");
 					if (descriptionOfAT.length() > 30)
 					{
@@ -96,18 +96,18 @@ public class AddClothingItemTransaction extends Transaction
 						else
 						{
 								props.setProperty("Status", "Active");
-								myArticleType = new ArticleType(props);
-								myArticleType.update();
-								transactionErrorMessage = (String)myArticleType.getState("UpdateStatusMessage");
+								myClothingItem = new ClothingItem(props);
+								myClothingItem.update();
+								transactionErrorMessage = (String)myClothingItem.getState("UpdateStatusMessage");
 						}
 					}
 				}
 				catch (Exception excep)
 				{
-					transactionErrorMessage = "ERROR: Invalid barcode prefix: " + barcodePrefix 
+					transactionErrorMessage = "ERROR: Invalid barcode prefix: " + barcode
 						+ "! Must be numerical.";
 					new Event(Event.getLeafLevelClassName(this), "processTransaction",
-						"Invalid barcode prefix : " + barcodePrefix + "! Must be numerical.",
+						"Invalid barcode prefix : " + barcode + "! Must be numerical.",
 						Event.ERROR);
 				}
 
@@ -116,7 +116,7 @@ public class AddClothingItemTransaction extends Transaction
 			{
 				transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
 				new Event(Event.getLeafLevelClassName(this), "processTransaction",
-					"Found multiple article types with barcode prefix : " + barcodePrefix + ". Reason: " + ex2.toString(),
+					"Found multiple article types with barcode prefix : " + barcode + ". Reason: " + ex2.toString(),
 					Event.ERROR);
 
 			}

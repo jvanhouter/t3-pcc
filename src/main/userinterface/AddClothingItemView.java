@@ -7,12 +7,12 @@ import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -41,10 +41,16 @@ public class AddClothingItemView extends View {
 
     // GUI components
     private ComboBox<String> genderCombo;
+    private TextField sizeText;
     private ComboBox<ArticleType> articleTypeCombo;
     private ComboBox<ColorType> primaryColorCombo;
     private ComboBox<ColorType> secondaryColorCombo;
-    protected TextField alphaCodeField;
+    private TextField brandText;
+    private TextArea notesText;
+    private TextField donorLastNameText;
+    private TextField donorFirstNameText;
+    private TextField donorPhoneText;
+    private TextField donorEmailText;
 
     private Button submitButton;
     private Button cancelButton;
@@ -139,6 +145,7 @@ public class AddClothingItemView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
+        // Gender UI items ==================================================
         Text genderLabel = new Text(" Gender : ");
         Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
         genderLabel.setFont(myFont);
@@ -146,12 +153,23 @@ public class AddClothingItemView extends View {
         genderLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(genderLabel, 0, 1);
 
-        genderCombo = new ComboBox<String>();
+        genderCombo = new ComboBox<>();
         genderCombo.getItems().addAll("Mens", "Womens");
-//        genderCombo.setValue("Mens");
 
         grid.add(genderCombo, 1, 1);
+        // =================================================================
+        // Size UI Items ===================================================
+        Text sizeLabel = new Text(" Size : ");
+        sizeLabel.setFont(myFont);
+        sizeLabel.setWrappingWidth(150);
+        sizeLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(sizeLabel, 0, 2);
 
+        sizeText = new TextField();
+        grid.add(sizeText, 1, 2);
+
+        // =================================================================
+        // Article Type UI Items ===========================================
         Text articleTypeLabel = new Text(" Article Type : ");
         articleTypeLabel.setFont(myFont);
         articleTypeLabel.setWrappingWidth(150);
@@ -167,15 +185,14 @@ public class AddClothingItemView extends View {
 
             @Override
             public ArticleType fromString(String string) {
-                return articleTypeCombo.getItems().stream().filter(ap ->
-                        ap.getState("Description").equals(string)).findFirst().orElse(null);
+                return articleTypeCombo.getItems().stream().filter(at ->
+                        at.getState("Description").equals(string)).findFirst().orElse(null);
             }
         });
-//        articleTypeCombo.getItems().addAll("Pant Suit", "Skirt Suit");
-//        articleTypeCombo.setValue("Pant Suit");
 
         grid.add(articleTypeCombo, 1, 2);
-
+        // =================================================================
+        // Primary Color UI Items ==========================================
         Text primaryColorLabel = new Text(" Primary Color : ");
         primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
@@ -196,7 +213,8 @@ public class AddClothingItemView extends View {
             }
         });
         grid.add(primaryColorCombo, 1, 3);
-
+        // =================================================================
+        // Secondary Color UI Items ========================================
         Text secondaryColorLabel = new Text(" Secondary Color : ");
         secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
@@ -217,7 +235,65 @@ public class AddClothingItemView extends View {
             }
         });
         grid.add(secondaryColorCombo, 1, 4);
+        // =================================================================
+        // Brand UI Items ==================================================
+        Text brandLabel = new Text(" Brand : ");
+        brandLabel.setFont(myFont);
+        brandLabel.setWrappingWidth(150);
+        brandLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(brandLabel, 0,5);
 
+        brandText = new TextField();
+        grid.add(brandText, 1, 5);
+
+        // =================================================================
+        // Notes UI Items ==================================================
+        Text notesLabel = new Text(" Notes : ");
+        notesLabel.setFont(myFont);
+        notesLabel.setWrappingWidth(150);
+        notesLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(notesLabel, 0, 6);
+
+        notesText = new TextArea();
+        grid.add(notesText, 1, 6);
+
+        // =================================================================
+        // Donor UI Items ==================================================
+        Text donorFirstNameLabel = new Text(" Donor First Name : ");
+        Text donorLastNameLabel= new Text(" Donor Last Name : ");
+        Text donorPhoneLabel = new Text(" Donor Phone Number : ");
+        Text donorEmailLabel = new Text(" Donor E-Mail : ");
+
+        donorFirstNameLabel.setFont(myFont);
+        donorLastNameLabel.setFont(myFont);
+        donorPhoneLabel.setFont(myFont);
+        donorEmailLabel.setFont(myFont);
+
+        donorFirstNameLabel.setWrappingWidth(150);
+        donorLastNameLabel.setWrappingWidth(150);
+        donorPhoneLabel.setWrappingWidth(150);
+        donorEmailLabel.setWrappingWidth(150);
+
+        donorFirstNameLabel.setTextAlignment(TextAlignment.RIGHT);
+        donorLastNameLabel.setTextAlignment(TextAlignment.RIGHT);
+        donorPhoneLabel.setTextAlignment(TextAlignment.RIGHT);
+        donorEmailLabel.setTextAlignment(TextAlignment.RIGHT);
+
+        grid.add(donorFirstNameLabel, 0, 7);
+        grid.add(donorLastNameLabel, 0, 7);
+        grid.add(donorPhoneLabel, 0, 7);
+        grid.add(donorEmailLabel, 0, 7);
+
+        donorFirstNameText = new TextField();
+        donorLastNameText = new TextField();
+        donorPhoneText = new TextField();
+        donorEmailText = new TextField();
+
+        grid.add(donorFirstNameText, 1, 7);
+        grid.add(donorLastNameText, 1, 7);
+        grid.add(donorPhoneText, 1, 7);
+        grid.add(donorEmailText, 1, 7);
+        // =================================================================
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new Button("Submit");

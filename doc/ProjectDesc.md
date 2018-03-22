@@ -149,9 +149,9 @@ Examples:
 15. Request Fulfilled Date (Text)
 
         
-Examples:      
-
-| Id | Requester Netid |  T   | Requested Gender | Requested Article Type |  T | Request Status  |Fulfil Item Bar code  | Date    |
+Examples:  
+      
+| Id | Requester Netid |  T   | Requested Gender | Requested Article Type | T | Request Status  | Fulfil Item Bar code  | Date    |
 |---:|:---------------:|:---:|:----------------:|:----------------------:|---:|:---------------:|----------------------|---------|
 |  1 | Jalston | … | M | 08 | ... | Pending | - | 2017… | -
 | 2 | jwesley | … | W | 02 | … | Fulfilled | 10… | 2017… | 2017 …

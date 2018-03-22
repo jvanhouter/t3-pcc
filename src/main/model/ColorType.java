@@ -52,7 +52,7 @@ public class ColorType extends EntityBase{
                 persistentState = new Properties();
 
                 Enumeration allKeys = retrievedAccountData.propertyNames();
-                while (allKeys.hasMoreElements() == true)
+                while (allKeys.hasMoreElements())
                 {
                     String nextKey = (String)allKeys.nextElement();
                     String nextValue = retrievedAccountData.getProperty(nextKey);
@@ -81,7 +81,7 @@ public class ColorType extends EntityBase{
 
         persistentState = new Properties();
         Enumeration allKeys = props.propertyNames();
-        while (allKeys.hasMoreElements() == true)
+        while (allKeys.hasMoreElements())
         {
             String nextKey = (String)allKeys.nextElement();
             String nextValue = props.getProperty(nextKey);
@@ -112,7 +112,7 @@ public class ColorType extends EntityBase{
             else
             {
                 Integer ID = insertAutoIncrementalPersistentState(mySchema, persistentState);
-                persistentState.setProperty("ID", "" + ID.intValue());
+                persistentState.setProperty("ID", "" + ID);
                 updateStatusMessage = "Color installed successfully in database!";
             }
         }
@@ -147,7 +147,7 @@ public class ColorType extends EntityBase{
     }
     public Object getState(String key)
     {
-        if (key.equals("UpdateStatusMessage") == true)
+        if (key.equals("UpdateStatusMessage"))
             return updateStatusMessage;
 
         return persistentState.getProperty(key);
