@@ -26,7 +26,9 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     // GUI Components
 
-    private String transactionErrorMessage = "Barcodes: ";
+    private String transactionErrorMessage = "";
+    private String cart = "";
+    private String barcodeError = "";
 
     /**
      * Constructor for this class.
@@ -37,7 +39,6 @@ public class CheckoutClothingItemTransaction extends Transaction
     {
         super();
     }
-    // TODO dependencies may be subject to change
     protected void setDependencies()
     {
         dependencies = new Properties();
@@ -57,31 +58,52 @@ public class CheckoutClothingItemTransaction extends Transaction
     public void processTransaction(Properties props)
     {
         String barcode = props.getProperty("Barcode");
+        barcode = barcode.toUpperCase();
         try
         {
             // Try to create a new ClothingItem
             myClothingItem = new ClothingItem(barcode);
 //          DEBUG System.out.println(myClothingItem.getEntryListView());
             // If the clothing item exists and is not "Received"
-            if(myClothingItem != null && myClothingItem.getState("Status").equals("Donated"))
+            if(myClothingItem != null)
             {
-                // Add the ClothingItem to a list
-                clothingItems.add(myClothingItem);
-                // Swap to a scene that asks if the user wishes to enter another barcode or continue onwards.
-                try
+                if( myClothingItem.getState("Status").equals("Donated"))
                 {
-                    Scene newScene = createBarcodeHelperView();
-                    swapToView(newScene);
+                   if(!cart.contains(barcode))
+                   {
+                       // Add the ClothingItem to a list
+                       clothingItems.add(myClothingItem);
+                       cart = cart + barcode.toUpperCase() + " ";
+                       // Swap to a scene that asks if the user wishes to enter another barcode or continue onwards.
+                       try
+                       {
+                           Scene newScene = createCheckoutHelperView();
+                           System.out.println("Made it here");
+                           swapToView(newScene);
+                       }
+                       catch (Exception ex)
+                       {
+                           new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                                   "Error in creating BarcodeHelperView", Event.ERROR);
+                       }
+                   }
+                   else
+                   {
+                       barcodeError = barcode + " is already in the cart!";
+                       handleBarcodeProblems();
+                   }
                 }
-                catch (Exception ex)
+                else
                 {
-                    new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                            "Error in creating BarcodeHelperView", Event.ERROR);
+                    barcodeError = barcode + "'s status is not donated!";
+                    handleBarcodeProblems();
                 }
+
             }
             // Otherwise let the user know the barcode was not added to the list
             else
             {
+                barcodeError = barcode + " does not exist!";
                 handleBarcodeProblems();
             }
 //            DEBUG
@@ -92,9 +114,9 @@ public class CheckoutClothingItemTransaction extends Transaction
         }
         catch (InvalidPrimaryKeyException e)
         {
-//          DEBUG e.printStackTrace();
-            // Let the user know the barcode was not added to the list
-            handleBarcodeProblems();
+            barcodeError = barcode + " does not exist!";
+          e.printStackTrace();
+          handleBarcodeProblems();
         }
         catch (MultiplePrimaryKeysException e)
         {
@@ -185,6 +207,14 @@ public class CheckoutClothingItemTransaction extends Transaction
         {
             return transactionErrorMessage;
         }
+        else if (key.equals("Cart") == true)
+        {
+            return cart;
+        }
+        else if (key.equals("BarcodeError") == true)
+        {
+            return barcodeError;
+        }
 
         return null;
     }
@@ -217,11 +247,10 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     }
 
-    protected Scene createBarcodeHelperView()
+    protected Scene createCheckoutHelperView()
     {
-        View newView = ViewFactory.createView("BarcodeHelperView", this);
+        View newView = ViewFactory.createView("CheckoutHelperView", this);
         Scene currentScene = new Scene(newView);
-
         return currentScene;
 
     }
@@ -233,6 +262,7 @@ public class CheckoutClothingItemTransaction extends Transaction
         return currentScene;
     }
 
+    //handle barcode problems will display a screen to inform the user the barcode will not be added
     private void handleBarcodeProblems()
     {
         try
