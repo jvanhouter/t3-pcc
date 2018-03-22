@@ -26,6 +26,8 @@ import javafx.util.StringConverter;
 import model.ArticleType;
 import model.ColorType;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
@@ -46,7 +48,7 @@ public class AddClothingItemView extends View {
     private ComboBox<ColorType> primaryColorCombo;
     private ComboBox<ColorType> secondaryColorCombo;
     private TextField brandText;
-    private TextArea notesText;
+    private TextField notesText;
     private TextField donorLastNameText;
     private TextField donorFirstNameText;
     private TextField donorPhoneText;
@@ -174,7 +176,7 @@ public class AddClothingItemView extends View {
         articleTypeLabel.setFont(myFont);
         articleTypeLabel.setWrappingWidth(150);
         articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(articleTypeLabel, 0, 2);
+        grid.add(articleTypeLabel, 0, 3);
 
         articleTypeCombo = new ComboBox<>();
         articleTypeCombo.setConverter(new StringConverter<ArticleType>() {
@@ -190,14 +192,14 @@ public class AddClothingItemView extends View {
             }
         });
 
-        grid.add(articleTypeCombo, 1, 2);
+        grid.add(articleTypeCombo, 1, 3);
         // =================================================================
         // Primary Color UI Items ==========================================
         Text primaryColorLabel = new Text(" Primary Color : ");
         primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(primaryColorLabel, 0, 3);
+        grid.add(primaryColorLabel, 0, 4);
 
         primaryColorCombo = new ComboBox<>();
         primaryColorCombo.setConverter(new StringConverter<ColorType>() {
@@ -212,14 +214,14 @@ public class AddClothingItemView extends View {
                         ct.getState("Description").equals(string)).findFirst().orElse(null);
             }
         });
-        grid.add(primaryColorCombo, 1, 3);
+        grid.add(primaryColorCombo, 1, 4);
         // =================================================================
         // Secondary Color UI Items ========================================
         Text secondaryColorLabel = new Text(" Secondary Color : ");
         secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(secondaryColorLabel, 0, 4);
+        grid.add(secondaryColorLabel, 0, 5);
 
         secondaryColorCombo = new ComboBox<>();
         secondaryColorCombo.setConverter(new StringConverter<ColorType>() {
@@ -234,17 +236,17 @@ public class AddClothingItemView extends View {
                         ct.getState("Description").equals(string)).findFirst().orElse(null);
             }
         });
-        grid.add(secondaryColorCombo, 1, 4);
+        grid.add(secondaryColorCombo, 1, 5);
         // =================================================================
         // Brand UI Items ==================================================
         Text brandLabel = new Text(" Brand : ");
         brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(brandLabel, 0,5);
+        grid.add(brandLabel, 0,6);
 
         brandText = new TextField();
-        grid.add(brandText, 1, 5);
+        grid.add(brandText, 1, 6);
 
         // =================================================================
         // Notes UI Items ==================================================
@@ -252,10 +254,10 @@ public class AddClothingItemView extends View {
         notesLabel.setFont(myFont);
         notesLabel.setWrappingWidth(150);
         notesLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(notesLabel, 0, 6);
+        grid.add(notesLabel, 0, 7);
 
-        notesText = new TextArea();
-        grid.add(notesText, 1, 6);
+        notesText = new TextField();
+        grid.add(notesText, 1, 7);
 
         // =================================================================
         // Donor UI Items ==================================================
@@ -279,20 +281,20 @@ public class AddClothingItemView extends View {
         donorPhoneLabel.setTextAlignment(TextAlignment.RIGHT);
         donorEmailLabel.setTextAlignment(TextAlignment.RIGHT);
 
-        grid.add(donorFirstNameLabel, 0, 7);
-        grid.add(donorLastNameLabel, 0, 7);
-        grid.add(donorPhoneLabel, 0, 7);
-        grid.add(donorEmailLabel, 0, 7);
+        grid.add(donorFirstNameLabel, 0, 9);
+        grid.add(donorLastNameLabel, 0, 10);
+        grid.add(donorPhoneLabel, 0, 11);
+        grid.add(donorEmailLabel, 0, 12);
 
         donorFirstNameText = new TextField();
         donorLastNameText = new TextField();
         donorPhoneText = new TextField();
         donorEmailText = new TextField();
 
-        grid.add(donorFirstNameText, 1, 7);
-        grid.add(donorLastNameText, 1, 7);
-        grid.add(donorPhoneText, 1, 7);
-        grid.add(donorEmailText, 1, 7);
+        grid.add(donorFirstNameText, 1,9);
+        grid.add(donorLastNameText, 1, 10);
+        grid.add(donorPhoneText, 1, 11);
+        grid.add(donorEmailText, 1, 12);
         // =================================================================
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
@@ -344,29 +346,53 @@ public class AddClothingItemView extends View {
     }
 
     private void processAction(ActionEvent e) {
-            clearErrorMessage();
-            Properties props = new Properties();
-            String barcodePrefix = genderCombo.getValue();
-            if (barcodePrefix.length() > 0) {
-                props.setProperty("BarcodePrefix", barcodePrefix);
-                String descrip = (String) primaryColorCombo.getValue().getState("Description");
-                if (descrip.length() > 0) {
-                    props.setProperty("Description", descrip);
-                    String alphaCode = alphaCodeField.getText();
-                    if (alphaCode.length() > 0) {
-                        props.setProperty("AlphaCode", alphaCode);
+        clearErrorMessage();
+        Properties props = new Properties();
+        String gender = genderCombo.getValue();
+        String size = sizeText.getText();
+        ArticleType articleType = articleTypeCombo.getValue(); //.getState("ID");
+        ColorType color1 = primaryColorCombo.getValue(); //.getState("ID");
+        ColorType color2 = secondaryColorCombo.getValue();
+        String brand = brandText.getText();
+        String notes =  notesText.getText();
+        String donorFirstName = donorFirstNameText.getText();
+        String donorLastName = donorLastNameText.getText();
+        String donorPhone = donorPhoneText.getText();
+        String donorEmail = donorEmailText.getText();
+
+
+        if (gender.length() > 0) {
+            props.setProperty("Gender", gender);
+            if (size.length() > 0) {
+                props.setProperty("Size", size);
+                if (articleType != null) {
+                    props.setProperty("ArticleType", (String) articleType.getState("ID"));
+                    if (color1 != null) {
+                        props.setProperty("Color1", (String) color1.getState("ID"));
+                        if (color2 != null) {
+                            props.setProperty("Color2", (String) color2.getState("ID"));
+                        } else {
+                            props.setProperty("Color2", "");
+                        }
+                        props.setProperty("Brand", brand);
+                        props.setProperty("Notes", notes);
+                        props.setProperty("DonorFirstName", donorFirstName);
+                        props.setProperty("DonorLastName", donorLastName);
+                        props.setProperty("DonorPhone", donorPhone);
+                        props.setProperty("DonorEmail", donorEmail);
                         myModel.stateChangeRequest("ClothingItemData", props);
                     } else {
-                        displayErrorMessage("ERROR: Please enter a valid alpha code!");
+                        displayErrorMessage("ERROR: Please select a primary color!");
                     }
                 } else {
-                    displayErrorMessage("ERROR: Please enter a valid primaryColorCombo!");
+                    displayErrorMessage("ERROR: Please select an article type!");
                 }
-
             } else {
-                displayErrorMessage("ERROR: Please enter a barcode prefix!");
-
+                displayErrorMessage("ERROR: Please enter a size!");
             }
+        } else {
+            displayErrorMessage("ERROR: Please select gender!");
+        }
     }
     /**
      * Update method
