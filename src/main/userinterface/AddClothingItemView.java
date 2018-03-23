@@ -374,7 +374,7 @@ public class AddClothingItemView extends View {
                 "-z0-9](?:[a-z0-9-]*[a-z0-9])?\\>|[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%" +
                 "&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-" +
                 "]*[a-z0-9])?)$");
-
+// TODO: Improve UI validation
         if (gender.length() == 0) {
             displayErrorMessage("ERROR: Please select gender!");
             genderCombo.requestFocus();
