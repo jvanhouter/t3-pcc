@@ -70,8 +70,8 @@ public class AddClothingItemTransaction extends Transaction {
 //                        "Clothing Item with barcode: " + barcode + " already exists!",
 //                        Event.ERROR);
 //            } catch (InvalidPrimaryKeyException ex) {
-                // Barcode prefix does not exist, validate data
-                try {
+            // Barcode prefix does not exist, validate data
+            try {
 //					int barcodePrefixVal = Integer.parseInt(barcode);
 //					String descriptionOfAT = props.getProperty("Description");
 //					if (descriptionOfAT.length() > 30)
@@ -84,21 +84,26 @@ public class AddClothingItemTransaction extends Transaction {
 //                    if (alphaCode.length() > 5) {
 //                        transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
 //                    } else {
-                        props.setProperty("Status", "Donated");
-                        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                        props.setProperty("DateDonated", date);
-                        myClothingItem = new ClothingItem(props);
-                        myClothingItem.update();
-                        transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
-//                    }
+                props.setProperty("ReceiverNetid", "");
+                props.setProperty("ReceiverFirstName", "");
+                props.setProperty("ReceiverLastName", "");
+                props.setProperty("", "");
+
+                props.setProperty("Status", "Donated");
+                String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                props.setProperty("DateDonated", date);
+                myClothingItem = new ClothingItem(props);
+                myClothingItem.update();
+                transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+//                  }
 //					}
-                } catch (Exception excep) {
-                    transactionErrorMessage = "ERROR: Invalid barcode: " + barcode
-                            + "!";
-                    new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                            "Invalid barcode: " + barcode + "!",
-                            Event.ERROR);
-                }
+            } catch (Exception excep) {
+                transactionErrorMessage = "ERROR: Invalid barcode: " + barcode
+                        + "!";
+                new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                        "Invalid barcode: " + barcode + "!",
+                        Event.ERROR);
+            }
 //            } catch (MultiplePrimaryKeysException ex2) {
 //                transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
 //                new Event(Event.getLeafLevelClassName(this), "processTransaction",
@@ -122,9 +127,9 @@ public class AddClothingItemTransaction extends Transaction {
             } catch (InvalidPrimaryKeyException ex) {
                 // Barcode does not exist, parse barcode and populate view
                 if (barcode.substring(0, 1).equals("1")) {
-                    gender = "Male";
+                    gender = "Mens";
                 } else {
-                    gender = "Female";
+                    gender = "Womens";
                 }
                 myArticleTypeList = new ArticleTypeCollection();
                 myArticleTypeList.findAll();
@@ -132,9 +137,10 @@ public class AddClothingItemTransaction extends Transaction {
                 myColorList.findAll();
                 createAndShowAddClothingItemView();
             } catch (MultiplePrimaryKeysException ex2) {
-                transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
+                transactionErrorMessage = "ERROR: Multiple clothing items with barcode !";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Found multiple clothing items with barcode: " + barcode + ". Reason: " + ex2.toString(),
+                        "Found multiple clothing items with barcode: "
+                                + barcode + ". Reason: " + ex2.toString(),
                         Event.ERROR);
 
             }

@@ -4,6 +4,7 @@ package userinterface;
 // system imports
 
 import impresario.IModel;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 
 import java.util.Properties;
 
@@ -135,7 +137,7 @@ public class BarcodeScannerView extends View {
 
         barcodePrefix = new TextField();
         barcodePrefix.setOnAction(this::processAction);
-        grid.add(barcodePrefix, 0, 1,4,1);
+        grid.add(barcodePrefix, 0, 1, 4, 1);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
@@ -162,9 +164,17 @@ public class BarcodeScannerView extends View {
         clearErrorMessage();
         Properties props = new Properties();
         String barcode = barcodePrefix.getText();
-        if (barcode.substring(0,1).equals("0") || (barcode.substring(0,1).equals("1"))) {
-            props.setProperty("Barcode", barcode);
-            myModel.stateChangeRequest("ProcessBarcode", props);
+        if ((barcode.length() > 0) && (barcode.length() <= 8)) {
+            if (barcode.substring(0, 1).equals("0") || (barcode.substring(0, 1).equals("1"))) {
+                PauseTransition pause = new PauseTransition(Duration.millis(100));
+                props.setProperty("Barcode", barcode);
+                displayMessage("Loading...");
+                pause.setOnFinished(event -> myModel.stateChangeRequest("ProcessBarcode", props));
+                pause.play();
+
+            } else {
+                displayErrorMessage("ERROR: Barcode does not begin with 0 or 1!");
+            }
         } else {
             displayErrorMessage("ERROR: Please enter a valid barcode!");
         }
@@ -221,5 +231,3 @@ public class BarcodeScannerView extends View {
     }
 
 }
-
-

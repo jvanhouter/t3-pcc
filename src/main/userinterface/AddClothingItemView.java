@@ -12,7 +12,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -26,11 +25,10 @@ import javafx.util.StringConverter;
 import model.ArticleType;
 import model.ColorType;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 // project imports
 
@@ -41,6 +39,8 @@ import java.util.Vector;
 //==============================================================
 public class AddClothingItemView extends View {
 
+    // For showing error message
+    protected MessageView statusLog;
     // GUI components
     private ComboBox<String> genderCombo;
     private TextField sizeText;
@@ -53,12 +53,8 @@ public class AddClothingItemView extends View {
     private TextField donorFirstNameText;
     private TextField donorPhoneText;
     private TextField donorEmailText;
-
     private Button submitButton;
     private Button cancelButton;
-
-    // For showing error message
-    protected MessageView statusLog;
 
     // constructor for this class -- takes a model object
     public AddClothingItemView(IModel clothingItem) {
@@ -168,6 +164,7 @@ public class AddClothingItemView extends View {
         grid.add(sizeLabel, 0, 2);
 
         sizeText = new TextField();
+        sizeText.setOnAction(this::processAction);
         grid.add(sizeText, 1, 2);
 
         // =================================================================
@@ -189,6 +186,12 @@ public class AddClothingItemView extends View {
             public ArticleType fromString(String string) {
                 return articleTypeCombo.getItems().stream().filter(at ->
                         at.getState("Description").equals(string)).findFirst().orElse(null);
+            }
+        });
+        articleTypeCombo.valueProperty().addListener((obs, oldval, newval) -> {
+            if (newval != null) {
+                System.out.println("Selected article type: " + newval.getState("Description")
+                        + " ID: " + newval.getState("ID"));
             }
         });
 
@@ -243,9 +246,10 @@ public class AddClothingItemView extends View {
         brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(brandLabel, 0,6);
+        grid.add(brandLabel, 0, 6);
 
         brandText = new TextField();
+        brandText.setOnAction(this::processAction);
         grid.add(brandText, 1, 6);
 
         // =================================================================
@@ -257,12 +261,13 @@ public class AddClothingItemView extends View {
         grid.add(notesLabel, 0, 7);
 
         notesText = new TextField();
+        notesText.setOnAction(this::processAction);
         grid.add(notesText, 1, 7);
 
         // =================================================================
         // Donor UI Items ==================================================
         Text donorFirstNameLabel = new Text(" Donor First Name : ");
-        Text donorLastNameLabel= new Text(" Donor Last Name : ");
+        Text donorLastNameLabel = new Text(" Donor Last Name : ");
         Text donorPhoneLabel = new Text(" Donor Phone Number : ");
         Text donorEmailLabel = new Text(" Donor E-Mail : ");
 
@@ -287,11 +292,15 @@ public class AddClothingItemView extends View {
         grid.add(donorEmailLabel, 0, 12);
 
         donorFirstNameText = new TextField();
+        donorFirstNameText.setOnAction(this::processAction);
         donorLastNameText = new TextField();
+        donorLastNameText.setOnAction(this::processAction);
         donorPhoneText = new TextField();
+        donorPhoneText.setOnAction(this::processAction);
         donorEmailText = new TextField();
+        donorEmailText.setOnAction(this::processAction);
 
-        grid.add(donorFirstNameText, 1,9);
+        grid.add(donorFirstNameText, 1, 9);
         grid.add(donorLastNameText, 1, 10);
         grid.add(donorPhoneText, 1, 11);
         grid.add(donorEmailText, 1, 12);
@@ -326,12 +335,12 @@ public class AddClothingItemView extends View {
     }
 
     public void populateFields() {
-        genderCombo.setValue((String)myModel.getState("Gender"));
+        genderCombo.setValue((String) myModel.getState("Gender"));
         Vector ArticleList = (Vector) myModel.getState("Articles");
         Iterator articles = ArticleList.iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
         while (articles.hasNext()) {
-            articleTypes.add((ArticleType)articles.next());
+            articleTypes.add((ArticleType) articles.next());
         }
         articleTypeCombo.setItems(articleTypes);
 
@@ -354,46 +363,55 @@ public class AddClothingItemView extends View {
         ColorType color1 = primaryColorCombo.getValue(); //.getState("ID");
         ColorType color2 = secondaryColorCombo.getValue();
         String brand = brandText.getText();
-        String notes =  notesText.getText();
+        String notes = notesText.getText();
         String donorFirstName = donorFirstNameText.getText();
         String donorLastName = donorLastNameText.getText();
         String donorPhone = donorPhoneText.getText();
         String donorEmail = donorEmailText.getText();
 
+        Pattern emailValidation = Pattern.compile("^([\\w \\._]+\\<[a-z0-9!#$%&'*+/=?^_`{|}~-]+" +
+                "(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a" +
+                "-z0-9](?:[a-z0-9-]*[a-z0-9])?\\>|[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%" +
+                "&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-" +
+                "]*[a-z0-9])?)$");
 
-        if (gender.length() > 0) {
-            props.setProperty("Gender", gender);
-            if (size.length() > 0) {
-                props.setProperty("Size", size);
-                if (articleType != null) {
-                    props.setProperty("ArticleType", (String) articleType.getState("ID"));
-                    if (color1 != null) {
-                        props.setProperty("Color1", (String) color1.getState("ID"));
-                        if (color2 != null) {
-                            props.setProperty("Color2", (String) color2.getState("ID"));
-                        } else {
-                            props.setProperty("Color2", "");
-                        }
-                        props.setProperty("Brand", brand);
-                        props.setProperty("Notes", notes);
-                        props.setProperty("DonorFirstName", donorFirstName);
-                        props.setProperty("DonorLastName", donorLastName);
-                        props.setProperty("DonorPhone", donorPhone);
-                        props.setProperty("DonorEmail", donorEmail);
-                        myModel.stateChangeRequest("ClothingItemData", props);
-                    } else {
-                        displayErrorMessage("ERROR: Please select a primary color!");
-                    }
-                } else {
-                    displayErrorMessage("ERROR: Please select an article type!");
-                }
-            } else {
-                displayErrorMessage("ERROR: Please enter a size!");
-            }
-        } else {
+        if (gender.length() == 0) {
             displayErrorMessage("ERROR: Please select gender!");
+            genderCombo.requestFocus();
+        } else if (size.length() == 0) {
+            displayErrorMessage("ERROR: Please enter a size!");
+            sizeText.requestFocus();
+        } else if (articleType == null) {
+            displayErrorMessage("ERROR: Please select an article type!");
+            articleTypeCombo.requestFocus();
+        } else if (color1 == null) {
+            displayErrorMessage("ERROR: Please select a primary color!");
+            primaryColorCombo.requestFocus();
+        } else if ((donorEmail.length() > 0) &&
+                (!emailValidation.matcher(donorEmail.toLowerCase()).matches())) {
+            displayErrorMessage("Email not in name@address.domain format!");
+            donorEmailText.requestFocus();
+        } else {
+            props.setProperty("Gender", gender);
+            props.setProperty("Size", size);
+            props.setProperty("ArticleType", (String) articleType.getState("ID"));
+            props.setProperty("Color1", (String) color1.getState("ID"));
+            if (color2 != null) {
+                props.setProperty("Color2", (String) color2.getState("ID"));
+            } else {
+                props.setProperty("Color2", "0");
+            }
+            props.setProperty("Brand", brand);
+            props.setProperty("Notes", notes);
+            props.setProperty("DonorFirstName", donorFirstName);
+            props.setProperty("DonorLastName", donorLastName);
+            props.setProperty("DonorPhone", donorPhone);
+            props.setProperty("DonorEmail", donorEmail);
+            myModel.stateChangeRequest("ClothingItemData", props);
+
         }
     }
+
     /**
      * Update method
      */
