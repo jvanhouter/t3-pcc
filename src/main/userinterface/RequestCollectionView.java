@@ -191,57 +191,57 @@ public class RequestCollectionView extends View
                 new PropertyValueFactory<RequestTableModel, String>("id"));
 
         TableColumn requesterNetid = new TableColumn("Net ID");
-        requesterNetid.setMaxWidth(50);
+        requesterNetid.setMaxWidth(100);
         requesterNetid.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("requesterNetid"));
 
         TableColumn phone = new TableColumn("Phone");
-        phone.setMaxWidth(50);
+        phone.setMaxWidth(100);
         phone.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("phone"));
 
         TableColumn lastName = new TableColumn("Last Name");
-        lastName.setMaxWidth(50);
+        lastName.setMaxWidth(100);
         lastName.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("lastName"));
 
         TableColumn firstName = new TableColumn("First Name");
-        firstName.setMaxWidth(50);
+        firstName.setMaxWidth(100);
         firstName.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("firstName"));
 
         TableColumn gender = new TableColumn("Gender");
-        gender.setMaxWidth(50);
+        gender.setMaxWidth(100);
         gender.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("gender"));
 
         TableColumn articleType = new TableColumn("Article Type");
-        articleType.setMaxWidth(50);
+        articleType.setMaxWidth(100);
         articleType.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("articleType"));
 
         TableColumn color1 = new TableColumn("Color 1");
-        color1.setMaxWidth(50);
+        color1.setMaxWidth(100);
         color1.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("color1"));
 
         TableColumn color2 = new TableColumn("Color 2");
-        color2.setMaxWidth(50);
+        color2.setMaxWidth(100);
         color2.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("color2"));
 
         TableColumn size = new TableColumn("Size");
-        size.setMaxWidth(50);
+        size.setMaxWidth(100);
         size.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("size"));
 
         TableColumn brand = new TableColumn("Brand");
-        brand.setMaxWidth(50);
+        brand.setMaxWidth(100);
         brand.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("brand"));
 
         TableColumn requestMadeDate = new TableColumn("Made Date");
-        requestMadeDate.setMaxWidth(50);
+        requestMadeDate.setMaxWidth(100);
         requestMadeDate.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("requestMadeDate"));
 

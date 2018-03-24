@@ -49,7 +49,6 @@ public class RequestCollection  extends EntityBase implements IView
             for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
             {
                 Properties nextRQData = allDataRetrieved.elementAt(cnt);
-
                 ClothingRequest rq = new ClothingRequest(nextRQData);
 
                 if (rq != null)
@@ -152,10 +151,10 @@ public class RequestCollection  extends EntityBase implements IView
     //----------------------------------------------------------
     public Object getState(String key)
     {
-        if (key.equals("ClothingRequests"))
+        if (key.equals("Requests"))
             return requests;
         else
-        if (key.equals("ClothingRequestList"))
+        if (key.equals("RequestList"))
             return this;
         return null;
     }
@@ -184,7 +183,9 @@ public class RequestCollection  extends EntityBase implements IView
         return retValue;
     }
 
-    /** Called via the IView relationship */
+    /** Called via the IView relationship *
+     *
+     */
     //----------------------------------------------------------
     public void updateState(String key, Object value)
     {

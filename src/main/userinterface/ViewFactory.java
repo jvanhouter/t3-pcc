@@ -19,6 +19,11 @@ public class ViewFactory {
 		{
 			return new ModifyArticleTypeView(model);
 		}
+		else if(viewName.equals("RequestCollectionView") == true)
+		{
+			return new RequestCollectionView(model);
+		}
+		/*
 		else if(viewName.equals("RemoveArticleTypeView") == true)
 		{
 			return new RemoveArticleTypeView(model);

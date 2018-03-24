@@ -36,6 +36,11 @@ public class TransactionFactory
 		{
 			retValue = new LogRequestTransaction();
 		}
+		else
+		if (transType.equals("FulfillRequest"))
+		{
+			retValue = new FulfilRequestTransaction();
+		}
 			/*
 		if (transType.equals("RemoveArticleType") == true)
 		{

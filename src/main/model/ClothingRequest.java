@@ -142,6 +142,9 @@ public class ClothingRequest extends EntityBase implements IView
         if (key.equals("UpdateStatusMessage") == true)
             return updateStatusMessage;
 
+        if(key.equals("ID"))
+            return persistentState.getProperty("ID");
+
         return persistentState.getProperty(key);
     }
 
@@ -216,6 +219,7 @@ public class ClothingRequest extends EntityBase implements IView
     {
         Vector<String> v = new Vector<String>();
 
+        v.add((persistentState.getProperty("ID")));
         v.addElement((persistentState.getProperty("RequesterNetid")));
         v.addElement((persistentState.getProperty("RequesterPhone")));
         v.addElement((persistentState.getProperty("RequesterLastName")));
