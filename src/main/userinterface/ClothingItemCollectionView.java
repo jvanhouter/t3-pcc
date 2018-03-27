@@ -213,18 +213,38 @@ public class ClothingItemCollectionView extends View
 		brandColumn.setCellValueFactory(
 				new PropertyValueFactory<ClothingItemTableModel, String>("brand"));
 		
-		TableColumn donorInfoColumn = new TableColumn("Donor Info") ;
-		donorInfoColumn.setMinWidth(50);
-		donorInfoColumn.setCellValueFactory(
+		TableColumn donorPhoneColumn = new TableColumn("Donor Phone") ;
+		donorPhoneColumn.setMinWidth(50);
+		donorPhoneColumn.setCellValueFactory(
+				new PropertyValueFactory<ClothingItemTableModel, String>("donorInformation"));
+		
+		TableColumn donorEmailColumn = new TableColumn("Donor Email") ;
+		donorEmailColumn.setMinWidth(50);
+		donorEmailColumn.setCellValueFactory(
+				new PropertyValueFactory<ClothingItemTableModel, String>("donorInformation"));
+		
+		TableColumn donorLastColumn = new TableColumn("Donor LastName") ;
+		donorLastColumn.setMinWidth(50);
+		donorLastColumn.setCellValueFactory(
+				new PropertyValueFactory<ClothingItemTableModel, String>("donorInformation"));
+		
+		TableColumn donorFirstColumn = new TableColumn("Donor FirstName") ;
+		donorFirstColumn.setMinWidth(50);
+		donorFirstColumn.setCellValueFactory(
 				new PropertyValueFactory<ClothingItemTableModel, String>("donorInformation"));
 		
 		TableColumn notesColumn = new TableColumn("Notes") ;
 		notesColumn.setMinWidth(50);
 		notesColumn.setCellValueFactory(
 				new PropertyValueFactory<ClothingItemTableModel, String>("notes"));
+		
+		TableColumn sizeColumn = new TableColumn("Size") ;
+		notesColumn.setMinWidth(50);
+		notesColumn.setCellValueFactory(
+				new PropertyValueFactory<ClothingItemTableModel, String>("size"));
 
 		tableOfClothingItems.getColumns().addAll(barcodeColumn, 
-				genderColumn, colorOneColumn, colorTwoColumn, articleTypeColumn, brandColumn, donorInfoColumn, notesColumn);
+				genderColumn, colorOneColumn, colorTwoColumn, articleTypeColumn, brandColumn, donorPhoneColumn, donorEmailColumn, donorFirstColumn, donorLastColumn, sizeColumn, notesColumn);
 
 		tableOfClothingItems.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
