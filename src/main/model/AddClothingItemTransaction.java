@@ -87,7 +87,7 @@ public class AddClothingItemTransaction extends Transaction {
                 props.setProperty("ReceiverNetid", "");
                 props.setProperty("ReceiverFirstName", "");
                 props.setProperty("ReceiverLastName", "");
-                props.setProperty("", "");
+                props.setProperty("DateTaken", "");
 
                 props.setProperty("Status", "Donated");
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());

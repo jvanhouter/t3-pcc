@@ -76,7 +76,6 @@ public class CheckoutClothingItemTransaction extends Transaction
                        try
                        {
                            Scene newScene = createCheckoutHelperView();
-                           System.out.println("Made it here");
                            swapToView(newScene);
                        }
                        catch (Exception ex)
@@ -114,7 +113,7 @@ public class CheckoutClothingItemTransaction extends Transaction
         catch (InvalidPrimaryKeyException e)
         {
             barcodeError = barcode + " does not exist!";
-          e.printStackTrace();
+          //e.printStackTrace();
           handleBarcodeProblems();
         }
         catch (MultiplePrimaryKeysException e)

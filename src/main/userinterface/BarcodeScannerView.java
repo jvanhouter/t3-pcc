@@ -169,6 +169,7 @@ public class BarcodeScannerView extends View {
                 PauseTransition pause = new PauseTransition(Duration.millis(100));
                 props.setProperty("Barcode", barcode);
                 displayMessage("Loading...");
+                barcodePrefix.setText("");
                 pause.setOnFinished(event -> myModel.stateChangeRequest("ProcessBarcode", props));
                 pause.play();
 

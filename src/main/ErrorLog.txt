@@ -83,3 +83,4 @@ The last packet successfully received from the server was 880,171 milliseconds a
 [3/8/18 5:18 PM]|ColorCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
 [3/8/18 5:18 PM]|ColorCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
 [3/8/18 5:18 PM]|ColorCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[3/27/18 4:14 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[com.mysql.jdbc.Driver]>

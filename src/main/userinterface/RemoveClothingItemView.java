@@ -32,7 +32,7 @@ import impresario.IModel;
  *  Closet application
  */
 //==============================================================
-public class RemoveColorView extends View
+public class RemoveClothingItemView extends View
 {
 
     protected Button submitButton;
@@ -43,9 +43,9 @@ public class RemoveColorView extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public RemoveColorView(IModel at)
+    public RemoveClothingItemView(IModel at)
     {
-        super(at, "RemoveColorView");
+        super(at, "RemoveClothingItemView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -69,7 +69,7 @@ public class RemoveColorView extends View
     //-------------------------------------------------------------
     protected String getActionText()
     {
-        return "** Remove Color Type **";
+        return "** Remove Clothing Item **";
     }
 
     // Create the title container
@@ -123,7 +123,7 @@ public class RemoveColorView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt1 = new Text("Are u sure u wish to remove colour");
+        Text prompt1 = new Text("Are you sure you wish to remove this clothing item.");
         prompt1.setWrappingWidth(400);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
@@ -138,7 +138,7 @@ public class RemoveColorView extends View
 
             @Override
             public void handle(ActionEvent e) {
-                myModel.stateChangeRequest("RemoveColor", null);
+                myModel.stateChangeRequest("RemoveClothingItem", null);
             }
         });
         doneCont.getChildren().add(submitButton);
@@ -150,7 +150,7 @@ public class RemoveColorView extends View
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelRemoveCT", null);
+                myModel.stateChangeRequest("CancelRemoveCI", null);
             }
         });
         doneCont.getChildren().add(cancelButton);

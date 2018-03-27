@@ -11,7 +11,7 @@ import impresario.IView;
 
 	public class ClothingItem extends EntityBase implements IView
 	{
-		private static final String myTableName = "ClothingItem";
+		private static final String myTableName = "Inventory";
 
 		protected Properties dependencies;
 
@@ -156,18 +156,19 @@ import impresario.IView;
 		{
 			try
 			{
-				if (persistentState.getProperty("ID") != null)
+				if (persistentState.getProperty("Barcode") != null)
 				{
 					Properties whereClause = new Properties();
-					whereClause.setProperty("ID", persistentState.getProperty("ID"));
+					whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
 					updatePersistentState(mySchema, persistentState, whereClause);
 					updateStatusMessage = "ClothingItem with prefix : " + persistentState.getProperty("Barcode") + " updated successfully!";
 				}
 				else
 				{
-					Integer ciID =
+					insertPersistentState(mySchema, persistentState);
+					/*Integer ciID =
 						insertAutoIncrementalPersistentState(mySchema, persistentState);
-					persistentState.setProperty("ID", "" + ciID.intValue());
+					persistentState.setProperty("ID", "" + ciID.intValue());*/
 					updateStatusMessage = "clothing item with barcode : " +  persistentState.getProperty("Barcode")
 						+ " installed successfully!";
 				}

@@ -46,15 +46,15 @@ public class AddClothingItemView extends View {
     protected TextField sizeText;
     protected ComboBox<ArticleType> articleTypeCombo;
     protected ComboBox<ColorType> primaryColorCombo;
-    protectedprivate ComboBox<ColorType> secondaryColorCombo;
+    protected ComboBox<ColorType> secondaryColorCombo;
     protected TextField brandText;
     protected TextField notesText;
     protected TextField donorLastNameText;
     protected TextField donorFirstNameText;
     protected TextField donorPhoneText;
     protected TextField donorEmailText;
-    protected Button submitButton;
-    protected Button cancelButton;
+    private Button submitButton;
+    private Button cancelButton;
 
     // constructor for this class -- takes a model object
     public AddClothingItemView(IModel clothingItem) {
