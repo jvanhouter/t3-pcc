@@ -101,7 +101,7 @@ public class Receptionist implements IView, IModel
         } else if ((key.equals("AddArticleType")) || (key.equals("UpdateArticleType")) ||
                 (key.equals("RemoveArticleType")) || (key.equals("AddColor")) ||
                 (key.equals("UpdateColor")) || (key.equals("RemoveColor")) ||
-                (key.equals("AddClothingItem")) || (key.equals("UpdateClothingItem")) ||
+                (key.equals("AddClothingItem")) || (key.equals("ModifyClothingItem")) ||
                 (key.equals("RemoveClothingItem")) || (key.equals("CheckoutClothingItem")) ||
                 (key.equals("LogRequest")) || (key.equals("FulfillRequest")) ||
                 (key.equals("RemoveRequest")) || (key.equals("ListAvailableInventory"))
