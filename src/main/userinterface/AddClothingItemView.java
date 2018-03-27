@@ -189,10 +189,10 @@ public class AddClothingItemView extends View {
             }
         });
         articleTypeCombo.valueProperty().addListener((obs, oldval, newval) -> {
-            if (newval != null) {
+            /*if (newval != null) {
                 System.out.println("Selected article type: " + newval.getState("Description")
                         + " ID: " + newval.getState("ID"));
-            }
+            }*/
         });
 
         grid.add(articleTypeCombo, 1, 3);
