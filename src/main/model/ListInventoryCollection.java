@@ -17,7 +17,9 @@ public class ListInventoryCollection  extends EntityBase implements IView
 {
     private static final String myTableName = "Inventory";
 
-    private Vector<ClothingItem> list;
+
+    //Make sure that we account for an empty inventory - JVH
+    private Vector<ClothingItem> invList;
     // GUI Components
 
     // constructor for this class
@@ -41,7 +43,7 @@ public class ListInventoryCollection  extends EntityBase implements IView
 
         if (allDataRetrieved != null)
         {
-            list = new Vector<ClothingItem>();
+            invList = new Vector<ClothingItem>();
 
 
             for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
@@ -62,14 +64,14 @@ public class ListInventoryCollection  extends EntityBase implements IView
     //----------------------------------------------------------------------------------
 
 
-    // keys we are using?
+    // keys we are using? Doublecheck this - JVH
 
 
     public Object getState(String key)
     {
         if (key.equals("Inventory"))
         {
-            return list;  //change     
+            return invList;  //change
             }
         else if (key.equals("InventoryList"))
         {
@@ -88,12 +90,12 @@ public class ListInventoryCollection  extends EntityBase implements IView
     }
 
     //----------------------------------------------------------
-    public ClothingItem inventoryRetrieve(String barcode)
+   /* public ClothingItem inventoryRetrieve(String barcode)
     {
         ClothingItem retValue = null;
-        for (int cnt = 0; cnt < list.size(); cnt++)
+        for (int cnt = 0; cnt < invList.size(); cnt++)
         {
-            ClothingItem nextItem = list.elementAt(cnt);
+            ClothingItem nextItem = invList.elementAt(cnt);
             String nextBarcode = (String)nextItem.getState("Barcode");
             if (nextBarcode.equals(barcode) == true)
             {
@@ -104,7 +106,7 @@ public class ListInventoryCollection  extends EntityBase implements IView
 
         return retValue;
     }
-
+*/
     /** Called via the IView relationship */
     //----------------------------------------------------------
     public void updateState(String key, Object value)
@@ -116,14 +118,14 @@ public class ListInventoryCollection  extends EntityBase implements IView
     protected void createAndShowView()
     {
 
-        Scene localScene = myViews.get("InventoryCollectionView");
+        Scene localScene = myViews.get("ListInventoryView");
 
         if (localScene == null)
         {
             // create our new view
-            View newView = ViewFactory.createView("InventoryCollectionView", this);
+            View newView = ViewFactory.createView("ListInventoryView", this);
             localScene = new Scene(newView);
-            myViews.put("InventoryCollectionView", localScene);
+            myViews.put("ListInventoryView", localScene);
         }
         // make the view visible by installing it into the frame
         swapToView(localScene);
