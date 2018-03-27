@@ -34,7 +34,7 @@ public class FulfilRequestTransaction extends Transaction
         super();
     }
 
-    //----------------------------------------------------------
+    //-------------------------------------------------------------
     protected void setDependencies()
     {
         dependencies = new Properties();
