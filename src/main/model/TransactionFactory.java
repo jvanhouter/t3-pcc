@@ -22,8 +22,6 @@ public class TransactionFactory {
             return null; //new UpdateClothingItemTransaction();
         } else if (transType.equals("RemoveClothingItem")) {
             return null; //new RemoveClothingItemTransaction();
-//        } else if (transType.equals("BarcodeSearch")) {
-//            return new BarcodeSearchTransaction();
         } else if (transType.equals("RemoveArticleType")) {
             return new RemoveArticleTypeTransaction();
         } else if (transType.equals("AddColor")) {
@@ -32,6 +30,8 @@ public class TransactionFactory {
             return new UpdateColorTransaction();
         } else if (transType.equals("RemoveColor")) {
             return new RemoveColorTransaction();
+        } else if (transType.equals("ListAvailableInventory")) {
+            return new ListInventoryTransaction();
         } else {
             return null;
         }

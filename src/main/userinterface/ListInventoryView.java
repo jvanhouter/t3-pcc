@@ -70,7 +70,10 @@ public class ListInventoryView extends View
         getChildren().add(container);
 
         populateFields();
+
+        myModel.subscribe("TransactionError", this);
     }
+
 
     //--------------------------------------------------------------------------
     protected void populateFields()
@@ -323,7 +326,7 @@ public class ListInventoryView extends View
                  */
                 //----------------------------------------------------------
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelInventoryList", null);
+                myModel.stateChangeRequest("CancelInventory", null);
             }
         });
 
