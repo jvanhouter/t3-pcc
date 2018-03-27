@@ -42,19 +42,19 @@ public class AddClothingItemView extends View {
     // For showing error message
     protected MessageView statusLog;
     // GUI components
-    private ComboBox<String> genderCombo;
-    private TextField sizeText;
-    private ComboBox<ArticleType> articleTypeCombo;
-    private ComboBox<ColorType> primaryColorCombo;
-    private ComboBox<ColorType> secondaryColorCombo;
-    private TextField brandText;
-    private TextField notesText;
-    private TextField donorLastNameText;
-    private TextField donorFirstNameText;
-    private TextField donorPhoneText;
-    private TextField donorEmailText;
-    private Button submitButton;
-    private Button cancelButton;
+    protected ComboBox<String> genderCombo;
+    protected TextField sizeText;
+    protected ComboBox<ArticleType> articleTypeCombo;
+    protected ComboBox<ColorType> primaryColorCombo;
+    protectedprivate ComboBox<ColorType> secondaryColorCombo;
+    protected TextField brandText;
+    protected TextField notesText;
+    protected TextField donorLastNameText;
+    protected TextField donorFirstNameText;
+    protected TextField donorPhoneText;
+    protected TextField donorEmailText;
+    protected Button submitButton;
+    protected Button cancelButton;
 
     // constructor for this class -- takes a model object
     public AddClothingItemView(IModel clothingItem) {
