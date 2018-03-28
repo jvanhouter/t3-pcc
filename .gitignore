@@ -3,6 +3,7 @@
 
 # Log file
 *.log
+ErrorLog.txt
 
 # BlueJ files
 *.ctxt
@@ -22,6 +23,7 @@
 hs_err_pid*
 
 !mysql-connector-java-5.1.7-bin.jar
+!mysql-connector-java-5.1.45-bin.jar
 ### Eclipse template
 
 .metadata
@@ -128,3 +130,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+/.idea/inspectionProfiles/
+.idea/
+src/t3-pcc.iml

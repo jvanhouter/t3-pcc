@@ -1,43 +1,34 @@
 package userinterface;
 
 // system imports
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.util.Vector;
 import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
-import model.ColorType;
+import model.Color;
 import model.ColorCollection;
 
 //==============================================================================
@@ -95,7 +86,7 @@ public class ColorCollectionView extends View
 
                 while (entries.hasMoreElements() == true)
                 {
-                    ColorType nextCT = (ColorType)entries.nextElement();
+                    Color nextCT = (Color)entries.nextElement();
                     Vector<String> view = nextCT.getEntryListView();
 
                     // add this list entry to the list
@@ -127,35 +118,35 @@ public class ColorCollectionView extends View
         clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         clientText.setWrappingWidth(350);
         clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
+        clientText.setFill(javafx.scene.paint.Color.DARKGREEN);
         container.getChildren().add(clientText);
 
         Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
         collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         collegeText.setWrappingWidth(350);
         collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
+        collegeText.setFill(javafx.scene.paint.Color.DARKGREEN);
         container.getChildren().add(collegeText);
 
         Text titleText = new Text(" Professional Clothes Closet Management System ");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setWrappingWidth(350);
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
+        titleText.setFill(javafx.scene.paint.Color.DARKGREEN);
         container.getChildren().add(titleText);
 
         Text blankText = new Text("  ");
         blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         blankText.setWrappingWidth(350);
         blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
+        blankText.setFill(javafx.scene.paint.Color.WHITE);
         container.getChildren().add(blankText);
 
         Text actionText = new Text("      ** Matching Colors **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
+        actionText.setFill(javafx.scene.paint.Color.BLACK);
         container.getChildren().add(actionText);
 
         return container;
@@ -170,7 +161,7 @@ public class ColorCollectionView extends View
         Text prompt = new Text("");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
+        prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 

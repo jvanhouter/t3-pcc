@@ -40,6 +40,8 @@ public class ViewFactory {
             return new CheckoutInvalidItemView(model);
         } else if (viewName.equals("RemoveClothingItemView")) {
             return new RemoveClothingItemView(model);
+        } else if (viewName.equals("ModifyClothingItemView")) {
+            return new ModifyClothingItemView(model);
         } else
             return null;
     }

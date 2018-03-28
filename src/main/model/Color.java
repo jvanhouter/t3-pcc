@@ -5,20 +5,16 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
-import javax.swing.JFrame;
 
 // project imports
 import exception.InvalidPrimaryKeyException;
-import database.*;
-
-import impresario.IView;
 
 /**
  * Jan 30, 2018
  * @author Jackson Taber & Kyle Darling
  */
 
-public class ColorType extends EntityBase{
+public class Color extends EntityBase{
 
     private static final String myTableName = "Color";
 
@@ -27,7 +23,7 @@ public class ColorType extends EntityBase{
 
     private String updateStatusMessage = "";
 
-    public ColorType(String barcodePrefix) throws InvalidPrimaryKeyException
+    public Color(String barcodePrefix) throws InvalidPrimaryKeyException
     {
         super(myTableName);
 
@@ -73,7 +69,7 @@ public class ColorType extends EntityBase{
         }
     }
 
-    public ColorType(Properties props)
+    public Color(Properties props)
     {
         super(myTableName);
 
@@ -133,7 +129,7 @@ public class ColorType extends EntityBase{
 
         return v;
     }
-    public static int compare(ColorType a, ColorType b)
+    public static int compare(Color a, Color b)
     {
         String aNum = (String)a.getState("ID");
         String bNum = (String)b.getState("ID");

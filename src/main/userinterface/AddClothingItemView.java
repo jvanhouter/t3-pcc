@@ -16,14 +16,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.StringConverter;
 import model.ArticleType;
-import model.ColorType;
+import model.Color;
 
 import java.util.Iterator;
 import java.util.Properties;
@@ -45,8 +44,8 @@ public class AddClothingItemView extends View {
     protected ComboBox<String> genderCombo;
     protected TextField sizeText;
     protected ComboBox<ArticleType> articleTypeCombo;
-    protected ComboBox<ColorType> primaryColorCombo;
-    protected ComboBox<ColorType> secondaryColorCombo;
+    protected ComboBox<Color> primaryColorCombo;
+    protected ComboBox<Color> secondaryColorCombo;
     protected TextField brandText;
     protected TextField notesText;
     protected TextField donorLastNameText;
@@ -91,35 +90,35 @@ public class AddClothingItemView extends View {
         clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         clientText.setWrappingWidth(350);
         clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
+        clientText.setFill(javafx.scene.paint.Color.DARKGREEN);
         container.getChildren().add(clientText);
 
         Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
         collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         collegeText.setWrappingWidth(350);
         collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
+        collegeText.setFill(javafx.scene.paint.Color.DARKGREEN);
         container.getChildren().add(collegeText);
 
         Text titleText = new Text(" Professional Clothes Closet Management System ");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setWrappingWidth(350);
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
+        titleText.setFill(javafx.scene.paint.Color.DARKGREEN);
         container.getChildren().add(titleText);
 
         Text blankText = new Text("  ");
         blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         blankText.setWrappingWidth(350);
         blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
+        blankText.setFill(javafx.scene.paint.Color.WHITE);
         container.getChildren().add(blankText);
 
         Text actionText = new Text("     " + getActionText() + "       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
+        actionText.setFill(javafx.scene.paint.Color.BLACK);
         container.getChildren().add(actionText);
 
         return container;
@@ -132,7 +131,7 @@ public class AddClothingItemView extends View {
         Text prompt = new Text("CLOTHING ITEM INFORMATION");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
+        prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
@@ -205,14 +204,14 @@ public class AddClothingItemView extends View {
         grid.add(primaryColorLabel, 0, 4);
 
         primaryColorCombo = new ComboBox<>();
-        primaryColorCombo.setConverter(new StringConverter<ColorType>() {
+        primaryColorCombo.setConverter(new StringConverter<Color>() {
             @Override
-            public String toString(ColorType object) {
+            public String toString(Color object) {
                 return (String) object.getState("Description");
             }
 
             @Override
-            public ColorType fromString(String string) {
+            public Color fromString(String string) {
                 return primaryColorCombo.getItems().stream().filter(ct ->
                         ct.getState("Description").equals(string)).findFirst().orElse(null);
             }
@@ -227,14 +226,14 @@ public class AddClothingItemView extends View {
         grid.add(secondaryColorLabel, 0, 5);
 
         secondaryColorCombo = new ComboBox<>();
-        secondaryColorCombo.setConverter(new StringConverter<ColorType>() {
+        secondaryColorCombo.setConverter(new StringConverter<Color>() {
             @Override
-            public String toString(ColorType object) {
+            public String toString(Color object) {
                 return (String) object.getState("Description");
             }
 
             @Override
-            public ColorType fromString(String string) {
+            public Color fromString(String string) {
                 return secondaryColorCombo.getItems().stream().filter(ct ->
                         ct.getState("Description").equals(string)).findFirst().orElse(null);
             }
@@ -346,9 +345,9 @@ public class AddClothingItemView extends View {
 
         Vector ColorList = (Vector) myModel.getState("Colors");
         Iterator colors = ColorList.iterator();
-        ObservableList<ColorType> colorItems = FXCollections.observableArrayList();
+        ObservableList<Color> colorItems = FXCollections.observableArrayList();
         while (colors.hasNext()) {
-            colorItems.add((ColorType) colors.next());
+            colorItems.add((Color) colors.next());
         }
         primaryColorCombo.setItems(colorItems);
         secondaryColorCombo.setItems(colorItems);
@@ -360,8 +359,8 @@ public class AddClothingItemView extends View {
         String gender = genderCombo.getValue();
         String size = sizeText.getText();
         ArticleType articleType = articleTypeCombo.getValue(); //.getState("ID");
-        ColorType color1 = primaryColorCombo.getValue(); //.getState("ID");
-        ColorType color2 = secondaryColorCombo.getValue();
+        Color color1 = primaryColorCombo.getValue(); //.getState("ID");
+        Color color2 = secondaryColorCombo.getValue();
         String brand = brandText.getText();
         String notes = notesText.getText();
         String donorFirstName = donorFirstNameText.getText();

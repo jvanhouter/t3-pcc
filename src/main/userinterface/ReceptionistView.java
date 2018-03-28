@@ -210,7 +210,7 @@ public class ReceptionistView extends View
 		
 		updateClothingItemButton = new Button("Update");
 		updateClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		updateClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("UpdateClothingItem", null));
+		updateClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("ModifyClothingItem", null));
 		clothingItemCont.getChildren().add(updateClothingItemButton);
 
 		removeClothingItemButton = new Button("Remove");

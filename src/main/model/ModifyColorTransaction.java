@@ -2,7 +2,6 @@ package model;
 
 import event.Event;
 import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
 import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
@@ -14,10 +13,10 @@ import java.util.Properties;
  * @author Jackson Taber & Kyle Darling
  */
 
-public class UpdateColorTransaction extends Transaction {
+public class ModifyColorTransaction extends Transaction {
 
     private ColorCollection myColorList;
-    private ColorType mySelectedColor;
+    private Color mySelectedColor;
 
     // GUI Components
 
@@ -28,7 +27,7 @@ public class UpdateColorTransaction extends Transaction {
      *
      */
     //----------------------------------------------------------
-    public UpdateColorTransaction() throws Exception
+    public ModifyColorTransaction() throws Exception
     {
         super();
     }
@@ -113,7 +112,7 @@ public class UpdateColorTransaction extends Transaction {
             {
                 try
                 {
-                    ColorType oldArticleType = new ColorType(barcodePrefix);
+                    Color oldArticleType = new Color(barcodePrefix);
                     transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
                             + " already exists!";
                     new Event(Event.getLeafLevelClassName(this), "processTransaction",
