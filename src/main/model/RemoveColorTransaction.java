@@ -43,7 +43,7 @@ public class RemoveColorTransaction extends Transaction {
     }
 
     /**
-     * This method encapsulates all the logic of creating the article type,
+     * This method encapsulates all the logic of creating the color,
      * verifying its uniqueness, etc.
      */
     //----------------------------------------------------------

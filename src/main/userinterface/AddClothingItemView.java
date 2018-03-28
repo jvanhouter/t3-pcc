@@ -334,6 +334,7 @@ public class AddClothingItemView extends View {
     }
 
     public void populateFields() {
+        clearErrorMessage();
         genderCombo.setValue((String) myModel.getState("Gender"));
         Vector ArticleList = (Vector) myModel.getState("Articles");
         Iterator articles = ArticleList.iterator();

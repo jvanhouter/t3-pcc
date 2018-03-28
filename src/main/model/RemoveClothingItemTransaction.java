@@ -15,7 +15,7 @@ import exception.MultiplePrimaryKeysException;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-/** The class containing the RemoveColorTransaction for the Professional Clothes Closet application */
+/** The class containing the RemoveClothingItemTransaction for the Professional Clothes Closet application */
 //==============================================================
 public class RemoveClothingItemTransaction extends Transaction {
 
@@ -40,6 +40,7 @@ public class RemoveClothingItemTransaction extends Transaction {
     protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchClothingItem", "CancelTransaction");
+        dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
         dependencies.setProperty("CancelRemoveCI", "CancelTransaction");
         dependencies.setProperty("RemoveClothingItem", "TransactionError");
 
@@ -80,7 +81,7 @@ public class RemoveClothingItemTransaction extends Transaction {
 
     //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("TransactionError") == true) {
+        if (key.equals("TransactionError")) {
             return transactionErrorMessage;
         }
         else

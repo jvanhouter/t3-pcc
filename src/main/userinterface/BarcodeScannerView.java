@@ -190,7 +190,7 @@ public class BarcodeScannerView extends View {
     }
 
     public void populateFields() {
-
+        clearErrorMessage();
     }
 
     /**
