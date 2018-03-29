@@ -6,8 +6,8 @@ package model;
  * Closet application
  */
 //==============================================================
-class TransactionFactory {
-    static Transaction createTransaction(String transType)
+public class TransactionFactory {
+    public static Transaction createTransaction(String transType)
             throws Exception {
 
         if (transType.equals("AddArticleType")) {
@@ -19,9 +19,11 @@ class TransactionFactory {
         } else if (transType.equals("AddClothingItem")) {
             return new AddClothingItemTransaction();
         } else if (transType.equals("ModifyClothingItem")) {
-            return new ModifyClothingItemTransaction();
+            return new ModifyClothingItemTransaction(); //new UpdateClothingItemTransaction();
         } else if (transType.equals("RemoveClothingItem")) {
             return new RemoveClothingItemTransaction();
+//        } else if (transType.equals("BarcodeSearch")) {
+//            return new Barcode eSearchTransaction();
         } else if (transType.equals("RemoveArticleType")) {
             return new RemoveArticleTypeTransaction();
         } else if (transType.equals("AddColor")) {

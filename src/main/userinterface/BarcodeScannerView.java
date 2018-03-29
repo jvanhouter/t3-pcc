@@ -143,11 +143,55 @@ public class BarcodeScannerView extends View {
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        submitButton.setOnMouseEntered(me ->
+        {
+        	submitButton.setScaleX(1.1);
+        	submitButton.setScaleY(1.1);
+        });
+
+        submitButton.setOnMouseExited(me ->
+        {
+        	submitButton.setScaleX(1);
+        	submitButton.setScaleY(1);
+        });
+
+        submitButton.setOnMousePressed(me ->
+    {
+    	submitButton.setScaleX(0.9);
+    	submitButton.setScaleY(0.9);
+    });
+        submitButton.setOnMouseReleased(me ->
+    {
+    	submitButton.setScaleX(1.1);
+    	submitButton.setScaleY(1.1);
+    });
         submitButton.setOnAction(this::processAction);
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new Button("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        cancelButton.setOnMouseEntered(me ->
+   	        {
+   	        	cancelButton.setScaleX(1.1);
+   	        	cancelButton.setScaleY(1.1);
+   	        });
+
+   	        cancelButton.setOnMouseExited(me ->
+   	        {
+   	        	cancelButton.setScaleX(1);
+   	        	cancelButton.setScaleY(1);
+   	        });
+
+   	        cancelButton.setOnMousePressed(me ->
+   	    {
+   	    	cancelButton.setScaleX(0.9);
+   	    	cancelButton.setScaleY(0.9);
+   	    });
+   	        cancelButton.setOnMouseReleased(me ->
+   	    {
+   	    	cancelButton.setScaleX(1.1);
+   	    	cancelButton.setScaleY(1.1);
+   	    });
         cancelButton.setOnAction(e -> {
             clearErrorMessage();
             myModel.stateChangeRequest("CancelBarcodeSearch", null);
