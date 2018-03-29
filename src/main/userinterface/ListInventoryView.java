@@ -52,9 +52,9 @@ public class ListInventoryView extends View
 
 
     //--------------------------------------------------------------------------
-    public ListInventoryView(IModel matt)
+    public ListInventoryView(IModel inv)
     {
-        super(matt, "ListInventoryView");
+        super(inv, "ListInventoryView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
