@@ -16,7 +16,7 @@ import java.util.Properties;
 //==============================================================
 public class ListInventoryTransaction extends Transaction {
 
-    private ListInventoryCollection myInvList;
+    private InventoryItemCollection myInvList;
 
     // GUI Components
 
@@ -28,14 +28,12 @@ public class ListInventoryTransaction extends Transaction {
     //----------------------------------------------------------
     public ListInventoryTransaction() throws Exception {
         super();
-        System.out.println("ListInventoryTransact called...");
     }
 
     //----------------------------------------------------------
     protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelInventory", "CancelTransaction");
-
 
         myRegistry.setDependencies(dependencies);
     }
@@ -46,14 +44,11 @@ public class ListInventoryTransaction extends Transaction {
      */
 //    //----------------------------------------------------------
 //    public void processTransaction(Properties props) {
-//        myColorList = new ColorCollection();
-//		String desc = props.getProperty("Description");
-//		String alfaC = props.getProperty("AlphaCode");
-//		myColorList.findByCriteria(desc, alfaC);
+//
 //
 //        try
 //        {
-//            Scene newScene = createColorCollectionView();
+//            Scene newScene = createInventoryItemCollectionView();
 //            swapToView(newScene);
 //        } catch (Exception ex) {
 //            new Event(Event.getLeafLevelClassName(this), "processTransaction",
@@ -89,13 +84,17 @@ public class ListInventoryTransaction extends Transaction {
      */
     //------------------------------------------------------
     protected Scene createView() {
-        Scene currentScene = myViews.get("ListInventoryView");
+
+        myInvList = new InventoryItemCollection();
+        myInvList.findUsingMonsterQuery();
+
+        Scene currentScene = null;//myViews.get("InventoryItemCollectionView");
 
         if (currentScene == null) {
             // create our initial view
-            View newView = ViewFactory.createView("ListInventoryView", this);
+            View newView = ViewFactory.createView("InventoryItemCollectionView", this);
             currentScene = new Scene(newView);
-            myViews.put("ListInventoryView", currentScene);
+            myViews.put("InventoryItemCollectionView", currentScene);
 
             return currentScene;
         } else {

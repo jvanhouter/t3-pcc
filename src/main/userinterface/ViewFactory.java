@@ -38,8 +38,8 @@ public class ViewFactory {
             return new CheckoutHelperView(model);
         } else if (viewName.equals("CheckoutInvalidItemView")) {
             return new CheckoutInvalidItemView(model);
-        } else if (viewName.equals("ListInventoryView")) {
-            return new ListInventoryView(model);
+        } else if (viewName.equals("InventoryItemCollectionView")) {
+            return new InventoryItemCollectionView(model);
         } else
             return null;
     }
