@@ -66,6 +66,12 @@ public class ListInventoryTransaction extends Transaction
         {
             return transactionErrorMessage;
         }
+
+        else
+        if (key.equals("InventoryList") == true)
+        {
+            return myInvList;
+        }
         return null;
     }
 
@@ -90,9 +96,7 @@ public class ListInventoryTransaction extends Transaction
 
         myInvList = new InventoryItemCollection();
         myInvList.findUsingMonsterQuery();
-
-        Scene currentScene = null;//myViews.get("InventoryItemCollectionView");
-
+        Scene currentScene = myViews.get("InventoryItemCollectionView");
         if (currentScene == null) {
             // create our initial view
             View newView = ViewFactory.createView("InventoryItemCollectionView", this);

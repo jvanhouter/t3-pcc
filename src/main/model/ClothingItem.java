@@ -140,8 +140,8 @@ import impresario.IView;
 		//-----------------------------------------------------------------------------------
 		public static int compare(ClothingItem a, ClothingItem b)
 		{
-			String aVal = (String)a.getState("Description");
-			String bVal = (String)b.getState("Description");
+			String aVal = (String)a.getState("Barcode");
+			String bVal = (String)b.getState("Barcode");
 
 			return aVal.compareTo(bVal);
 		}

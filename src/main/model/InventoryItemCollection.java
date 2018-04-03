@@ -46,14 +46,12 @@ public class InventoryItemCollection  extends EntityBase implements IView
             for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
             {
                 Properties nextInventoryItemData = allDataRetrieved.elementAt(cnt);
-
                 ClothingItem ci = new ClothingItem(nextInventoryItemData);
 
                 if (ci != null)
                 {
                     addInventoryItem(ci);
                     System.out.println(ci.getEntryListView());
-
                 }
             }
         }
@@ -129,15 +127,11 @@ public class InventoryItemCollection  extends EntityBase implements IView
         int low=0;
         int high = inventoryItems.size()-1;
         int middle;
-
         while (low <=high)
         {
             middle = (low+high)/2;
-
             ClothingItem midSession = inventoryItems.elementAt(middle);
-
             int result = ClothingItem.compare(ci,midSession);
-
             if (result ==0)
             {
                 return middle;
