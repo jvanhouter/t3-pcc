@@ -141,6 +141,7 @@ public class ReceptionistView extends View
 
 		VBox container = new VBox(15);
 
+
 		// create the buttons, listen for events, add them to the container
 		HBox checkoutCont = new HBox(10);
 		checkoutCont.setAlignment(Pos.CENTER);

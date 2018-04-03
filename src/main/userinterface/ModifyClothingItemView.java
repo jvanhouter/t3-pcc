@@ -33,7 +33,7 @@ import impresario.IModel;
 import model.ArticleType;
 
 /** The class containing the Modify Article Type View  for the Professional Clothes
-	 *  Closet application 
+	 *  Closet application
 	 */
 	//==============================================================
 	public class ModifyClothingItemView extends AddClothingItemView
@@ -71,43 +71,54 @@ import model.ArticleType;
 			String atString = (String)myModel.getState("ArticleType");
 			if (atString != null)
 			{
-				Vector ArticleList = (Vector) myModel.getState("Articles");
-				Iterator articles = ArticleList.iterator();
-				ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
-				while (articles.hasNext()) {
-					ArticleType at = (ArticleType) articles.next();
-					System.out.println("ModifyClothingItemView: " + atString);
-					if(at.getState("ID") == atString) {
-						articleTypeCombo.setValue(at);
-					}
-				}
+			atString.setPromptText(ArticleString);
 			}
 			String color1String= (String)myModel.getState("Color1");
 			if (color1String != null)
 			{
-			//	color1.setPromptText(color1String);
+				color1.setPromptText(color1String);
 			}
 			String color2String = (String)myModel.getState("Color2");
 			if (color2String != null)
 			{
-			//	color2.setPromptText(color2String);
+				color2.setPromptText(color2String);
 			}
 			String brandString = (String)myModel.getState("Brand");
 			if (brandString != null)
 			{
-			//	brand.setText(brandString);
+				brand.setText(brandString);
 			}
-			String donorInfoString = (String)myModel.getState("DonorInformation");
+			String sizeString = (String)myModel.getState("Size");
+			if (sizeString != null)
+			{
+			size.setText(sizeString);
+			}
+			String donorLast = (String)myModel.getState("DonorLastName");
+			if (donorFirst != null)
+			{
+				donorLastName.setText(donorLast);
+			}
+			String donorFirst = (String)myModel.getState("DonorFirstName");
+			if (donorFirst != null)
+			{
+				donorFirstName.setText(donorFirst);
+			}
+			String donorPhoneString = (String)myModel.getState("DonorPhone");
+			if (donorPhoneString != null)
+			{
+				donorphone.setText(donorPhoneString);
+			}
+			String donorEmailString = (String)myModel.getState("DonorEmail");
 			if (donorInfoString != null)
 			{
-			//	donorInformation.setText(donorInfoString);
+				donorEmail.setText(donorInfoString);
 			}
 			String noteString = (String)myModel.getState("Notes");
 			if (noteString != null)
 			{
-			//	notes.setText(noteString);
+				notes.setText(noteString);
 			}
-			
+
 		}
 
 	}
@@ -115,5 +126,3 @@ import model.ArticleType;
 	//---------------------------------------------------------------
 //		Revision History:
 	//
-
-
