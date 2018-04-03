@@ -93,7 +93,7 @@ public class InventoryItemCollection  extends EntityBase implements IView
     //-----------------------------------------------------------
     public void findAll()
     {
-        String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Donated')";
+        String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Received')";
         populateCollectionHelper(query);
     }
 
