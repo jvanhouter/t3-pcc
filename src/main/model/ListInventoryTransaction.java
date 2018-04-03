@@ -14,8 +14,7 @@ import java.util.Properties;
 
 /** The class containing the List Inventory for the Professional Clothes Closet application */
 //==============================================================
-public class ListInventoryTransaction extends Transaction
-{
+public class ListInventoryTransaction extends Transaction {
 
     private InventoryItemCollection myInvList;
 
@@ -62,18 +61,20 @@ public class ListInventoryTransaction extends Transaction
 
     //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("TransactionError") == true)
-        {
+        if (key.equals("TransactionError") == true) {
             return transactionErrorMessage;
+        }
+        else if(key.equals("InventoryList"))
+        {
+            return myInvList;
         }
         return null;
     }
 
     //-----------------------------------------------------------
-    public void stateChangeRequest(String key, Object value)
-    {
+    public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelInventory") == true))
+        if ((key.equals("DoYourJob") == true))
         {
             doYourJob();
         }
@@ -100,11 +101,17 @@ public class ListInventoryTransaction extends Transaction
             myViews.put("InventoryItemCollectionView", currentScene);
 
             return currentScene;
-        }
-        else
-            {
+        } else {
             return currentScene;
         }
     }
-}
 
+//    protected Scene createColorCollectionView() {
+//        View newView = ViewFactory.createView("ColorCollectionView", this);
+//        Scene currentScene = new Scene(newView);
+//
+//        return currentScene;
+//
+//    }
+
+}
