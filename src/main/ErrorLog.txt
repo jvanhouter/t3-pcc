@@ -1,5 +1,6 @@
 [3/22/18 4:17 PM]|LogRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
 [3/23/18 1:08 PM]|LogRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+<<<<<<< HEAD
 [4/3/18 2:39 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
 [4/3/18 2:39 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
 [4/3/18 2:39 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
@@ -36,3 +37,13 @@
 [4/3/18 2:39 PM]|UpdateArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
 [4/3/18 2:39 PM]|UpdateArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
 [4/3/18 2:40 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Article type with barcode prefix : 89 already exists!>
+=======
+[4/1/18 1:02 PM]|LogRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[4/1/18 1:02 PM]|LogRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[4/1/18 1:02 PM]|LogRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[4/1/18 1:09 PM]|LogRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[4/2/18 10:24 PM]|LogRequestTransaction|processTransaction|Error|NOTAG|null<ERROR: Invalid requester net id : kdarl1! Must be numerical.>
+[4/2/18 10:25 PM]|ClothingRequest|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'FulfilItemBarcode' doesn't have a default value>
+[4/2/18 10:27 PM]|ClothingRequest|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'FulfilItemBarcode' doesn't have a default value>
+[4/2/18 10:31 PM]|ClothingRequest|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'FulfilItemBarcode' doesn't have a default value>
+>>>>>>> 6a820117dba48da3f72605460379569c473e237d

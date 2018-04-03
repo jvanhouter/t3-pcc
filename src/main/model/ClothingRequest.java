@@ -204,6 +204,7 @@ public class ClothingRequest extends EntityBase implements IView
         }
         catch (SQLException ex)
         {
+            ex.printStackTrace();
             updateStatusMessage = "Error in installing clothing request data in database!";
         }
         //DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
