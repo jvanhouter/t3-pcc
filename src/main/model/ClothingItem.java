@@ -204,9 +204,9 @@ import impresario.IView;
 			v.addElement(persistentState.getProperty("DonorFirstName"));
 			v.addElement(persistentState.getProperty("DonorPhone"));
 			v.addElement(persistentState.getProperty("DonorEmail"));
-			v.addElement(persistentState.getProperty("ReveiverNetid"));
-			v.addElement(persistentState.getProperty("ReveiverLastName"));
-			v.addElement(persistentState.getProperty("ReveiverFirstName"));
+			v.addElement(persistentState.getProperty("ReceiverNetid"));
+			v.addElement(persistentState.getProperty("ReceiverLastName"));
+			v.addElement(persistentState.getProperty("ReceiverFirstName"));
 			v.addElement(persistentState.getProperty("DateDonated"));
 			v.addElement(persistentState.getProperty("DateTaken"));
 
