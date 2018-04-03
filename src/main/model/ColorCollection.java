@@ -7,6 +7,9 @@ import java.util.Vector;
 import javafx.scene.Scene;
 
 // project imports
+import exception.InvalidPrimaryKeyException;
+import event.Event;
+import database.*;
 
 import impresario.IView;
 
@@ -22,7 +25,7 @@ public class ColorCollection  extends EntityBase implements IView
 {
     private static final String myTableName = "Color";
 
-    private Vector<Color> colors;
+    private Vector<ColorType> colorTypes;
     // GUI Components
 
     // constructor for this class
@@ -41,13 +44,13 @@ public class ColorCollection  extends EntityBase implements IView
 
         if (allDataRetrieved != null)
         {
-            colors = new Vector<Color>();
+            colorTypes = new Vector<ColorType>();
 
             for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
             {
                 Properties nextColorData = allDataRetrieved.elementAt(cnt);
 
-                Color ct = new Color(nextColorData);
+                ColorType ct = new ColorType(nextColorData);
 
                 if (ct != null)
                 {
@@ -106,26 +109,26 @@ public class ColorCollection  extends EntityBase implements IView
 
 
     //----------------------------------------------------------------------------------
-    private void addColor(Color a)
+    private void addColor(ColorType a)
     {
         int index = findIndexToAdd(a);
-        colors.insertElementAt(a,index); // To build up a collection sorted on some key
+        colorTypes.insertElementAt(a,index); // To build up a collection sorted on some key
     }
 
     //----------------------------------------------------------------------------------
-    private int findIndexToAdd(Color a)
+    private int findIndexToAdd(ColorType a)
     {
         int low=0;
-        int high = colors.size()-1;
+        int high = colorTypes.size()-1;
         int middle;
 
         while (low <=high)
         {
             middle = (low+high)/2;
 
-            Color midSession = colors.elementAt(middle);
+            ColorType midSession = colorTypes.elementAt(middle);
 
-            int result = Color.compare(a,midSession);
+            int result = ColorType.compare(a,midSession);
 
             if (result ==0)
             {
@@ -151,7 +154,7 @@ public class ColorCollection  extends EntityBase implements IView
     public Object getState(String key)
     {
         if (key.equals("ColorTypes"))
-            return colors;
+            return colorTypes;
         else
         if (key.equals("ColorList"))
             return this;
@@ -165,12 +168,12 @@ public class ColorCollection  extends EntityBase implements IView
     }
 
     //----------------------------------------------------------
-    public Color retrieve(String barcodePrefix)
+    public ColorType retrieve(String barcodePrefix)
     {
-        Color retValue = null;
-        for (int cnt = 0; cnt < colors.size(); cnt++)
+        ColorType retValue = null;
+        for (int cnt = 0; cnt < colorTypes.size(); cnt++)
         {
-            Color nextAT = colors.elementAt(cnt);
+            ColorType nextAT = colorTypes.elementAt(cnt);
             String nextBarcodePrefix = (String)nextAT.getState("BarcodePrefix");
             if (nextBarcodePrefix.equals(barcodePrefix) == true)
             {
@@ -180,9 +183,6 @@ public class ColorCollection  extends EntityBase implements IView
         }
 
         return retValue;
-    }
-    public Vector retrieveAll() {
-        return colors;
     }
 
     /** Called via the IView relationship */

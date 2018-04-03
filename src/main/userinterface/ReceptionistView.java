@@ -57,6 +57,10 @@ public class ReceptionistView extends View
 
 	private MessageView statusLog;
 
+	/* Remove later --> Testing */
+
+	private Button testing;
+
 	// constructor for this class -- takes a model object
 	//----------------------------------------------------------
 	public ReceptionistView(IModel teller)
@@ -152,7 +156,22 @@ public class ReceptionistView extends View
 		checkoutCont.getChildren().add(checkoutClothingItemButton);
 		
 		container.getChildren().add(checkoutCont);
-		
+
+		HBox testingCont = new HBox(10);
+		testingCont.setAlignment(Pos.CENTER);
+		testing = new Button("Testing");
+		testing.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		testing.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				myModel.stateChangeRequest("ColorTesting", null);
+			}
+		});
+		testingCont.getChildren().add(testing);
+
+		container.getChildren().add(testingCont);
+
 		HBox articleTypeCont = new HBox(10);
 		articleTypeCont.setAlignment(Pos.CENTER_LEFT);
 		Label atLabel = new Label("  Article Types: ");

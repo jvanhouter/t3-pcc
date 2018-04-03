@@ -37,15 +37,13 @@ import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
-import model.ArticleType;
-import model.ArticleTypeCollection;
-import model.ClothingRequest;
-import model.RequestCollection;
+import model.ColorType;
+import model.ColorCollection;
 
 //==============================================================================
-public class RequestCollectionView extends View
+public class ColorCollectionView extends View
 {
-    protected TableView<RequestTableModel> tableOfRequests;
+    protected TableView<ColorTableModel> tableOfColorTypes;
     protected Button cancelButton;
     protected Button submitButton;
 
@@ -53,9 +51,9 @@ public class RequestCollectionView extends View
 
 
     //--------------------------------------------------------------------------
-    public RequestCollectionView(IModel matt)
+    public ColorCollectionView(IModel matt)
     {
-        super(matt, "RequestCollectionView");
+        super(matt, "ColorCollectionView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -82,13 +80,14 @@ public class RequestCollectionView extends View
     //--------------------------------------------------------------------------
     protected void getEntryTableModelValues()
     {
-        ObservableList<RequestTableModel> tableData = FXCollections.observableArrayList();
+
+        ObservableList<ColorTableModel> tableData = FXCollections.observableArrayList();
         try
         {
-            RequestCollection requestCollection =
-                    (RequestCollection)myModel.getState("RequestList");
+            ColorCollection colorCollection =
+                    (ColorCollection)myModel.getState("ColorList");
 
-            Vector entryList = (Vector)requestCollection.getState("Requests");
+            Vector entryList = (Vector)colorCollection.getState("ColorTypes");
 
             if (entryList.size() > 0)
             {
@@ -96,11 +95,11 @@ public class RequestCollectionView extends View
 
                 while (entries.hasMoreElements() == true)
                 {
-                    ClothingRequest nextRQ = (ClothingRequest) entries.nextElement();
-                    Vector<String> view = nextRQ.getEntryListView();
+                    ColorType nextCT = (ColorType)entries.nextElement();
+                    Vector<String> view = nextCT.getEntryListView();
 
                     // add this list entry to the list
-                    RequestTableModel nextTableRowData = new RequestTableModel(view);
+                    ColorTableModel nextTableRowData = new ColorTableModel(view);
                     tableData.add(nextTableRowData);
 
                 }
@@ -110,11 +109,10 @@ public class RequestCollectionView extends View
                 displayMessage("No matching entries found!");
             }
 
-            tableOfRequests.setItems(tableData);
+            tableOfColorTypes.setItems(tableData);
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
-            e.printStackTrace();
         }
     }
 
@@ -153,7 +151,7 @@ public class RequestCollectionView extends View
         blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
-        Text actionText = new Text("      ** Matching Requests **       ");
+        Text actionText = new Text("      ** Matching Colors **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
@@ -182,91 +180,44 @@ public class RequestCollectionView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        tableOfRequests = new TableView<RequestTableModel>();
-        tableOfRequests.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableOfColorTypes = new TableView<ColorTableModel>();
+        tableOfColorTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        TableColumn id = new TableColumn("ID");
-        id.setMaxWidth(50);
-        id.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("id"));
+        TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
+        barcodePrefixColumn.setMinWidth(50);
+        barcodePrefixColumn.setCellValueFactory(
+                new PropertyValueFactory<ColorTableModel, String>("barcodePrefix"));
 
-        TableColumn requesterNetid = new TableColumn("Net ID");
-        requesterNetid.setMaxWidth(100);
-        requesterNetid.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("requesterNetid"));
+        TableColumn descriptionColumn = new TableColumn("Description") ;
+        descriptionColumn.setMinWidth(150);
+        descriptionColumn.setCellValueFactory(
+                new PropertyValueFactory<ColorTableModel, String>("description"));
 
-        TableColumn phone = new TableColumn("Phone");
-        phone.setMaxWidth(100);
-        phone.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("phone"));
-
-        TableColumn lastName = new TableColumn("Last Name");
-        lastName.setMaxWidth(100);
-        lastName.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("lastName"));
-
-        TableColumn firstName = new TableColumn("First Name");
-        firstName.setMaxWidth(100);
-        firstName.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("firstName"));
-
-        TableColumn gender = new TableColumn("Gender");
-        gender.setMaxWidth(100);
-        gender.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("gender"));
-
-        TableColumn articleType = new TableColumn("Article Type");
-        articleType.setMaxWidth(100);
-        articleType.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("articleType"));
-
-        TableColumn color1 = new TableColumn("Color 1");
-        color1.setMaxWidth(100);
-        color1.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("color1"));
-
-        TableColumn color2 = new TableColumn("Color 2");
-        color2.setMaxWidth(100);
-        color2.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("color2"));
-
-        TableColumn size = new TableColumn("Size");
-        size.setMaxWidth(100);
-        size.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("size"));
-
-        TableColumn brand = new TableColumn("Brand");
-        brand.setMaxWidth(100);
-        brand.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("brand"));
-
-        TableColumn requestMadeDate = new TableColumn("Made Date");
-        requestMadeDate.setMaxWidth(100);
-        requestMadeDate.setCellValueFactory(
-                new PropertyValueFactory<RequestTableModel, String>("requestMadeDate"));
+        TableColumn alphaCodeColumn = new TableColumn("Alpha Code") ;
+        alphaCodeColumn.setMinWidth(50);
+        alphaCodeColumn.setCellValueFactory(
+                new PropertyValueFactory<ColorTableModel, String>("alphaCode"));
 
         TableColumn statusColumn = new TableColumn("Status") ;
         statusColumn.setMinWidth(50);
         statusColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
+                new PropertyValueFactory<ColorTableModel, String>("status"));
 
-        tableOfRequests.getColumns().addAll(id,
-                requesterNetid, phone, lastName, firstName,
-                gender, articleType, color1, color2, size, brand,
-                requestMadeDate, statusColumn);
+                tableOfColorTypes.getColumns().addAll(descriptionColumn,
+                        barcodePrefixColumn, alphaCodeColumn, statusColumn);
 
-        tableOfRequests.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event)
-            {
-                if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processRequestSelected();
+                tableOfColorTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event)
+                    {
+                        if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+                    processColorSelected();
                 }
             }
         });
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfRequests);
+        scrollPane.setContent(tableOfColorTypes);
 
         submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -276,7 +227,7 @@ public class RequestCollectionView extends View
             public void handle(ActionEvent e) {
                 clearErrorMessage();
                 // do the inquiry
-                processRequestSelected();
+                processColorSelected();
 
             }
         });
@@ -296,7 +247,7 @@ public class RequestCollectionView extends View
                  */
                 //----------------------------------------------------------
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelRequest", null);
+                myModel.stateChangeRequest("CancelColorList", null);
             }
         });
 
@@ -318,14 +269,15 @@ public class RequestCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void processRequestSelected()
+    protected void processColorSelected()
     {
-        RequestTableModel selectedItem = tableOfRequests.getSelectionModel().getSelectedItem();
+        ColorTableModel selectedItem = tableOfColorTypes.getSelectionModel().getSelectedItem();
 
         if(selectedItem != null)
         {
-            String id = selectedItem.getId();
-            myModel.stateChangeRequest("RequestSelected", id);
+            String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
+
+            myModel.stateChangeRequest("ColorSelected", selectedBarcodePrefix);
         }
     }
 
