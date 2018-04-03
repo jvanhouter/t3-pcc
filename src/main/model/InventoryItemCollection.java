@@ -38,7 +38,7 @@ public class InventoryItemCollection  extends EntityBase implements IView
     {
 
         Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
-
+//        System.out.println(allDataRetrieved.toString().replace("}", "\n"));
         if (allDataRetrieved != null)
         {
             inventoryItems = new Vector<ClothingItem>();
@@ -46,13 +46,36 @@ public class InventoryItemCollection  extends EntityBase implements IView
             for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
             {
                 Properties nextInventoryItemData = allDataRetrieved.elementAt(cnt);
-
                 ClothingItem ci = new ClothingItem(nextInventoryItemData);
+                try
+                {
+                    ColorType tempColor = null;
+                    if(ci.getState("Color1") != null)
+                    {
+                        tempColor = new ColorType((String) ci.getState("Color1"));
+                    }
+                    if(tempColor != null)
+                    {
+                        ci.stateChangeRequest("Color1", tempColor.getState("Description"));
+                    }
+                    if(ci.getState("Color2") != null)
+                    {
+                        tempColor = new ColorType((String) ci.getState("Color2"));
+                    }
+                    if(tempColor != null)
+                    {
+                        ci.stateChangeRequest("Color2", tempColor.getState("Description"));
+                    }
+//                    xstateChangeRequest("Color2", tempColor.getState("Description"));
+                } catch (InvalidPrimaryKeyException e)
+                {
+                    e.printStackTrace();
+                }
 
                 if (ci != null)
                 {
                     inventoryItems.add(ci);
-                    System.out.println(ci.getEntryListView());
+//                    System.out.println(ci.getEntryListView());
 
                 }
             }
