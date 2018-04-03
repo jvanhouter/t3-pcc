@@ -1,4 +1,4 @@
-// specify the package
+// specify the package //This is a test change, in the notes - JVH
 package model;
 
 // system imports
@@ -122,16 +122,6 @@ public class Receptionist implements IView, IModel
 
 			transType = transType.trim();
 			
-			doTransaction(transType);
-		}
-		else
-			/* Kyle and Jackson's color testing view */
-		if (key.equals("ColorTesting") == true)
-		{
-			String transType = key;
-
-			transType = transType.trim();
-
 			doTransaction(transType);
 		}
 
