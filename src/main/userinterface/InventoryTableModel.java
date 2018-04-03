@@ -1,6 +1,6 @@
 package userinterface;
 
-        import java.util.Vector;
+import java.util.Vector;
 
         import javafx.beans.property.SimpleStringProperty;
 
@@ -39,7 +39,7 @@ public class InventoryTableModel
         dateTaken =  new SimpleStringProperty(atData.elementAt(6));
         donorEmail =  new SimpleStringProperty(atData.elementAt(7));
         donorFirstName =  new SimpleStringProperty(atData.elementAt(8));
-        donorLastName =  new SimpleStringProperty(atData.elementAt(8));
+        donorLastName =  new SimpleStringProperty(atData.elementAt(9));
         donorPhone =  new SimpleStringProperty(atData.elementAt(10));
         gender =  new SimpleStringProperty(atData.elementAt(11));
         notes =  new SimpleStringProperty(atData.elementAt(12));

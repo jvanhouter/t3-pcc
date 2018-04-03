@@ -125,8 +125,6 @@ public class AddArticleTypeTransaction extends Transaction
 		{
 			return transactionErrorMessage;
 		}
-		
-		
 		return null;
 	}
 
@@ -171,6 +169,5 @@ public class AddArticleTypeTransaction extends Transaction
 			return currentScene;
 		}
 	}
-
 }
 
