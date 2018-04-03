@@ -123,7 +123,7 @@ public class RemoveArticleTypeView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt1 = new Text("Are u sure u wish to remove artikle typ¿");
+        Text prompt1 = new Text("Are you sure you wish to remove article type?");
         prompt1.setWrappingWidth(400);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
