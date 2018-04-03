@@ -39,6 +39,8 @@ public class ListInventoryCollection  extends EntityBase implements IView
                 "LEFT JOIN color as c2 on c2.ID=inv.Color2 \n" +
                 "LEFT JOIN articletype as atype on atype.ID=inv.ArticleType";
 
+        //
+
         Vector allDataRetrieved = getSelectQueryResult(query);
 
         if (allDataRetrieved != null)
@@ -96,6 +98,7 @@ public class ListInventoryCollection  extends EntityBase implements IView
         for (int cnt = 0; cnt < invList.size(); cnt++)
         {
             ClothingItem nextItem = invList.elementAt(cnt);
+
             String nextBarcode = (String)nextItem.getState("Barcode");
             if (nextBarcode.equals(barcode) == true)
             {

@@ -90,7 +90,7 @@ public class ListInventoryTransaction extends Transaction {
     protected Scene createView() {
 
         myInvList = new InventoryItemCollection();
-        myInvList.findUsingMonsterQuery();
+        myInvList.findAll();
 
         Scene currentScene = null;//myViews.get("InventoryItemCollectionView");
 
