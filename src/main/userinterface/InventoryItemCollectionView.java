@@ -263,7 +263,7 @@ public class InventoryItemCollectionView extends View
 
         TableColumn receiverLastNameColumn = new TableColumn("Receiver Last Name") ;
         receiverLastNameColumn.setMinWidth(50);
-        articleTypeColumn.setCellValueFactory(
+        receiverLastNameColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("receiverLastName"));
 
         TableColumn dateDonatedColumn = new TableColumn("Date Donated") ;

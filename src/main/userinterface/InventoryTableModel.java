@@ -39,13 +39,13 @@ public class InventoryTableModel
         brand =  new SimpleStringProperty(atData.elementAt(6));
         notes =  new SimpleStringProperty(atData.elementAt(7));
         status =  new SimpleStringProperty(atData.elementAt(8));
-        donorFirstName =  new SimpleStringProperty(atData.elementAt(9));
-        donorLastName =  new SimpleStringProperty(atData.elementAt(10));
+        donorLastName =  new SimpleStringProperty(atData.elementAt(9));
+        donorFirstName =  new SimpleStringProperty(atData.elementAt(10));
         donorPhone =  new SimpleStringProperty(atData.elementAt(11));
         donorEmail =  new SimpleStringProperty(atData.elementAt(12));
         receiverNetId =  new SimpleStringProperty(atData.elementAt(13));
         receiverFirstName =  new SimpleStringProperty(atData.elementAt(15));
-        receiverLastName =  new SimpleStringProperty(atData.elementAt(3));
+        receiverLastName =  new SimpleStringProperty(atData.elementAt(14));
         dateDonated =  new SimpleStringProperty(atData.elementAt(16));
         dateTaken =  new SimpleStringProperty(atData.elementAt(17));
     }
