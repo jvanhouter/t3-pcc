@@ -95,6 +95,7 @@ public class ReceptionistView extends View
 	{
 		VBox container = new VBox(10);
 
+
 		Text clientText = new Text(" Office of Career Services ");
 		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 		clientText.setWrappingWidth(350);
