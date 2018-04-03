@@ -82,7 +82,6 @@ public class RequestCollectionView extends View
     //--------------------------------------------------------------------------
     protected void getEntryTableModelValues()
     {
-
         ObservableList<RequestTableModel> tableData = FXCollections.observableArrayList();
         try
         {
@@ -115,6 +114,7 @@ public class RequestCollectionView extends View
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
+            e.printStackTrace();
         }
     }
 
@@ -296,7 +296,7 @@ public class RequestCollectionView extends View
                  */
                 //----------------------------------------------------------
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelFulfillRequest", null);
+                myModel.stateChangeRequest("CancelRequest", null);
             }
         });
 

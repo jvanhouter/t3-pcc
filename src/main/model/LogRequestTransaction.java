@@ -25,6 +25,9 @@ public class LogRequestTransaction extends Transaction
 
     private ClothingRequest myClothingRequest;
 
+    private ArticleTypeCollection myArticleTypeList;
+    private ColorCollection myColorList;
+    private String gender = "";
 
     // GUI Components
 
@@ -38,6 +41,10 @@ public class LogRequestTransaction extends Transaction
     public LogRequestTransaction() throws Exception
     {
         super();
+        myArticleTypeList = new ArticleTypeCollection();
+        myArticleTypeList.findAll();
+        myColorList = new ColorCollection();
+        myColorList.findAll();
     }
 
     //----------------------------------------------------------
@@ -99,9 +106,14 @@ public class LogRequestTransaction extends Transaction
                      */
 
                     props.setProperty("Status", "Pending");
+
                     Date date = new Date();
                     String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date); // sql may only take yyyy-mm-dd
                     props.setProperty("RequestMadeDate", modifiedDate);
+
+                    /* Will barcode be built on its own? */
+                    props.setProperty("FulfilItemBarcode", "0");
+
                     myClothingRequest = new ClothingRequest(props);
                     myClothingRequest.update();
                     transactionErrorMessage = (String) myClothingRequest.getState("UpdateStatusMessage");
@@ -132,6 +144,12 @@ public class LogRequestTransaction extends Transaction
         if (key.equals("TransactionError") == true)
         {
             return transactionErrorMessage;
+        }else if (key.equals("Gender")) {
+            return gender;
+        } else if (key.equals("Articles")) {
+            return myArticleTypeList.retrieveAll();
+        } else if (key.equals("Colors")) {
+            return myColorList.retrieveAll();
         }
 
 

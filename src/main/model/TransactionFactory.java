@@ -41,6 +41,11 @@ public class TransactionFactory
 		{
 			retValue = new FulfilRequestTransaction();
 		}
+		else
+		if (transType.equals("RemoveRequest"))
+		{
+			retValue = new RemoveRequestTransaction();
+		}
 			/*
 		if (transType.equals("RemoveArticleType") == true)
 		{

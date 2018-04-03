@@ -34,11 +34,11 @@ public class FulfilRequestTransaction extends Transaction
         super();
     }
 
-    //-------------------------------------------------------------
+    //----------------------------------------------------------
     protected void setDependencies()
     {
         dependencies = new Properties();
-        dependencies.setProperty("CancelFulfillRequest", "CancelTransaction");
+        dependencies.setProperty("CancelRequest", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
         dependencies.setProperty("ClothingRequestData", "TransactionError");
 
