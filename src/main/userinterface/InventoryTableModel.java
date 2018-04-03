@@ -30,24 +30,24 @@ public class InventoryTableModel
     //----------------------------------------------------------------------------
     public InventoryTableModel(Vector<String> atData)
     {
-        articleType =  new SimpleStringProperty(atData.elementAt(3));
         barcode =  new SimpleStringProperty(atData.elementAt(0));
-        brand =  new SimpleStringProperty(atData.elementAt(6));
+        gender =  new SimpleStringProperty(atData.elementAt(1));
+        size =  new SimpleStringProperty(atData.elementAt(2));
+        articleType =  new SimpleStringProperty(atData.elementAt(3));
         color1 =  new SimpleStringProperty(atData.elementAt(4));
         color2 =  new SimpleStringProperty(atData.elementAt(5));
-        dateDonated =  new SimpleStringProperty(atData.elementAt(16));
-        dateTaken =  new SimpleStringProperty(atData.elementAt(17));
-        donorEmail =  new SimpleStringProperty(atData.elementAt(12));
+        brand =  new SimpleStringProperty(atData.elementAt(6));
+        notes =  new SimpleStringProperty(atData.elementAt(7));
+        status =  new SimpleStringProperty(atData.elementAt(8));
         donorFirstName =  new SimpleStringProperty(atData.elementAt(9));
         donorLastName =  new SimpleStringProperty(atData.elementAt(10));
         donorPhone =  new SimpleStringProperty(atData.elementAt(11));
-        gender =  new SimpleStringProperty(atData.elementAt(1));
-        notes =  new SimpleStringProperty(atData.elementAt(7));
-        receiverFirstName =  new SimpleStringProperty(atData.elementAt(15));
-        receiverLastName =  new SimpleStringProperty(atData.elementAt(14));
+        donorEmail =  new SimpleStringProperty(atData.elementAt(12));
         receiverNetId =  new SimpleStringProperty(atData.elementAt(13));
-        size =  new SimpleStringProperty(atData.elementAt(2));
-        status =  new SimpleStringProperty(atData.elementAt(8));
+        receiverFirstName =  new SimpleStringProperty(atData.elementAt(15));
+        receiverLastName =  new SimpleStringProperty(atData.elementAt(3));
+        dateDonated =  new SimpleStringProperty(atData.elementAt(16));
+        dateTaken =  new SimpleStringProperty(atData.elementAt(17));
     }
     //----------------------------------------------------------------------------
     public String getArticleType() {

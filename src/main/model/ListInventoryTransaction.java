@@ -115,4 +115,3 @@ public class ListInventoryTransaction extends Transaction {
 //    }
 
 }
-

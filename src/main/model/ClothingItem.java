@@ -140,8 +140,8 @@ import impresario.IView;
 		//-----------------------------------------------------------------------------------
 		public static int compare(ClothingItem a, ClothingItem b)
 		{
-			String aVal = (String)a.getState("Barcode");
-			String bVal = (String)b.getState("Barcode");
+			String aVal = (String)a.getState("Description");
+			String bVal = (String)b.getState("Description");
 
 			return aVal.compareTo(bVal);
 		}
@@ -204,9 +204,9 @@ import impresario.IView;
 			v.addElement(persistentState.getProperty("DonorFirstName"));
 			v.addElement(persistentState.getProperty("DonorPhone"));
 			v.addElement(persistentState.getProperty("DonorEmail"));
-			v.addElement(persistentState.getProperty("ReceiverNetid"));
-			v.addElement(persistentState.getProperty("ReceiverLastName"));
-			v.addElement(persistentState.getProperty("ReceiverFirstName"));
+			v.addElement(persistentState.getProperty("ReveiverNetid"));
+			v.addElement(persistentState.getProperty("ReveiverLastName"));
+			v.addElement(persistentState.getProperty("ReveiverFirstName"));
 			v.addElement(persistentState.getProperty("DateDonated"));
 			v.addElement(persistentState.getProperty("DateTaken"));
 
