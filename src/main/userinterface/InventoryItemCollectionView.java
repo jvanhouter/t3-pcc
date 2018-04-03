@@ -44,7 +44,7 @@ import model.InventoryItemCollection;
 //==============================================================================
 public class InventoryItemCollectionView extends View
 {
-    protected TableView<InventoryTableModel> InventoryTable;
+    protected TableView<InventoryTableModel> tableOfInventoryItems;
     protected Button cancelButton;
 //    protected Button submitButton;
 
@@ -52,13 +52,16 @@ public class InventoryItemCollectionView extends View
 
 
     //--------------------------------------------------------------------------
-    public InventoryItemCollectionView(IModel inv)
+    public InventoryItemCollectionView(IModel matt)
     {
-        super(inv, "InventoryItemCollectionView");
+        super(matt, "InventoryItemCollectionView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
         container.setPadding(new Insets(15, 5, 5, 5));
+
+        //TODO remove the prefered size, its just so i can see the table without scrolling so much.
+        container.setPrefSize(1000, 800);
 
         // create our GUI components, add them to this panel
         container.getChildren().add(createTitle());
@@ -67,7 +70,6 @@ public class InventoryItemCollectionView extends View
 
         // Error message area
         container.getChildren().add(createStatusLog("                                            "));
-
         getChildren().add(container);
 
         populateFields();
@@ -87,10 +89,10 @@ public class InventoryItemCollectionView extends View
         ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
         try
         {
-            InventoryItemCollection inventoryItemCollection =
+            InventoryItemCollection listInventoryCollection =
                     (InventoryItemCollection)myModel.getState("InventoryList");
 
-            Vector entryList = (Vector)inventoryItemCollection.getState("InventoryItems");
+            Vector entryList = (Vector)listInventoryCollection.getState("InventoryItems");
 
             if (entryList.size() > 0)
             {
@@ -112,7 +114,7 @@ public class InventoryItemCollectionView extends View
                 displayMessage("No matching entries found!");
             }
 
-            InventoryTable.setItems(tableData);
+            tableOfInventoryItems.setItems(tableData);
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
@@ -154,7 +156,7 @@ public class InventoryItemCollectionView extends View
         blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
-        Text actionText = new Text("      ** Available Inventory **       ");
+        Text actionText = new Text("      ** Inventory Listing **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
@@ -183,8 +185,8 @@ public class InventoryItemCollectionView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        InventoryTable = new TableView<InventoryTableModel>();
-        InventoryTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableOfInventoryItems = new TableView<InventoryTableModel>();
+        tableOfInventoryItems.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         TableColumn barcodeColumn = new TableColumn("Barcode") ;
         barcodeColumn.setMinWidth(50);
@@ -195,7 +197,7 @@ public class InventoryItemCollectionView extends View
         genderColumn.setMinWidth(150);
         genderColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("gender"));
-
+//
         TableColumn sizeColumn = new TableColumn("Size") ;
         sizeColumn.setMinWidth(50);
         sizeColumn.setCellValueFactory(
@@ -215,7 +217,7 @@ public class InventoryItemCollectionView extends View
         color2Column.setMinWidth(50);
         color2Column.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("color2"));
-
+//
         TableColumn brandColumn = new TableColumn("Brand") ;
         brandColumn.setMinWidth(50);
         brandColumn.setCellValueFactory(
@@ -250,7 +252,7 @@ public class InventoryItemCollectionView extends View
         donorEmailColumn.setMinWidth(50);
         donorEmailColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("donorEmail"));
-
+//
         TableColumn receiverNetIdColumn = new TableColumn("Receiver Net ID") ;
         receiverNetIdColumn.setMinWidth(50);
         receiverNetIdColumn.setCellValueFactory(
@@ -277,7 +279,7 @@ public class InventoryItemCollectionView extends View
                 new PropertyValueFactory<InventoryTableModel, String>("dateTaken"));
 
 
-        InventoryTable.getColumns().addAll(barcodeColumn, genderColumn, sizeColumn,
+        tableOfInventoryItems.getColumns().addAll(barcodeColumn, genderColumn, sizeColumn,
                 articleTypeColumn, color1Column, color2Column, brandColumn, notesColumn, statusColumn,
                 donorLastNameColumn, donorFirstNameColumn, donorPhoneColumn, donorEmailColumn,
                 receiverNetIdColumn, receiverLastNameColumn, receiverFirstNameColumn,
@@ -295,7 +297,7 @@ public class InventoryItemCollectionView extends View
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(InventoryTable);
+        scrollPane.setContent(tableOfInventoryItems);
 
 //        submitButton = new Button("Submit");
 //        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -316,18 +318,12 @@ public class InventoryItemCollectionView extends View
 
             @Override
             public void handle(ActionEvent e) {
-                /**
-                 * Process the Cancel button.
-                 * The ultimate result of this action is that the transaction will tell the Receptionist to
-                 * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
-                 * It simply tells its model (controller) that the transaction was canceled, and leaves it
-                 * to the model to decide to tell the Receptionist to do the switch back.
-                 */
-                //----------------------------------------------------------
                 clearErrorMessage();
+                //TODO "CancelInventory" MAY BE DEPENDANT ON CONTROLLER AND THUS SUBJECT TO CHANGE OR FUTURE USE.
                 myModel.stateChangeRequest("CancelInventory", null);
             }
         });
+
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
@@ -390,3 +386,4 @@ public class InventoryItemCollectionView extends View
 
 
 }
+

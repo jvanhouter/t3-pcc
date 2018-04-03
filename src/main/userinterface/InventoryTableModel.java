@@ -2,7 +2,7 @@ package userinterface;
 
 import java.util.Vector;
 
-        import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 //==============================================================================
 public class InventoryTableModel
@@ -30,24 +30,24 @@ public class InventoryTableModel
     //----------------------------------------------------------------------------
     public InventoryTableModel(Vector<String> atData)
     {
-        articleType =  new SimpleStringProperty(atData.elementAt(0));
-        barcode =  new SimpleStringProperty(atData.elementAt(1));
-        brand =  new SimpleStringProperty(atData.elementAt(2));
-        color1 =  new SimpleStringProperty(atData.elementAt(3));
-        color2 =  new SimpleStringProperty(atData.elementAt(4));
-        dateDonated =  new SimpleStringProperty(atData.elementAt(5));
-        dateTaken =  new SimpleStringProperty(atData.elementAt(6));
-        donorEmail =  new SimpleStringProperty(atData.elementAt(7));
-        donorFirstName =  new SimpleStringProperty(atData.elementAt(8));
-        donorLastName =  new SimpleStringProperty(atData.elementAt(9));
-        donorPhone =  new SimpleStringProperty(atData.elementAt(10));
-        gender =  new SimpleStringProperty(atData.elementAt(11));
-        notes =  new SimpleStringProperty(atData.elementAt(12));
-        receiverFirstName =  new SimpleStringProperty(atData.elementAt(13));
+        articleType =  new SimpleStringProperty(atData.elementAt(3));
+        barcode =  new SimpleStringProperty(atData.elementAt(0));
+        brand =  new SimpleStringProperty(atData.elementAt(6));
+        color1 =  new SimpleStringProperty(atData.elementAt(4));
+        color2 =  new SimpleStringProperty(atData.elementAt(5));
+        dateDonated =  new SimpleStringProperty(atData.elementAt(16));
+        dateTaken =  new SimpleStringProperty(atData.elementAt(17));
+        donorEmail =  new SimpleStringProperty(atData.elementAt(12));
+        donorFirstName =  new SimpleStringProperty(atData.elementAt(9));
+        donorLastName =  new SimpleStringProperty(atData.elementAt(10));
+        donorPhone =  new SimpleStringProperty(atData.elementAt(11));
+        gender =  new SimpleStringProperty(atData.elementAt(1));
+        notes =  new SimpleStringProperty(atData.elementAt(7));
+        receiverFirstName =  new SimpleStringProperty(atData.elementAt(15));
         receiverLastName =  new SimpleStringProperty(atData.elementAt(14));
-        receiverNetId =  new SimpleStringProperty(atData.elementAt(15));
-        size =  new SimpleStringProperty(atData.elementAt(16));
-        status =  new SimpleStringProperty(atData.elementAt(17));
+        receiverNetId =  new SimpleStringProperty(atData.elementAt(13));
+        size =  new SimpleStringProperty(atData.elementAt(2));
+        status =  new SimpleStringProperty(atData.elementAt(8));
     }
     //----------------------------------------------------------------------------
     public String getArticleType() {
@@ -58,7 +58,7 @@ public class InventoryTableModel
     public void setArticleType(String pref) {
         articleType.set(pref);
     }
-    //----------------------------------------------------------------------------
+    //    //----------------------------------------------------------------------------
     public String getBarcode() {
         return barcode.get();
     }
@@ -67,7 +67,7 @@ public class InventoryTableModel
     public void setBarcode(String pref) {
         barcode.set(pref);
     }
-    //----------------------------------------------------------------------------
+    //    //----------------------------------------------------------------------------
     public String getBrand() {
         return brand.get();
     }
@@ -76,7 +76,7 @@ public class InventoryTableModel
     public void setBrand(String pref) {
         brand.set(pref);
     }
-    //----------------------------------------------------------------------------
+    //    //----------------------------------------------------------------------------
     public String getColor1() {
         return color1.get();
     }
@@ -94,7 +94,7 @@ public class InventoryTableModel
     public void setColor2(String pref) {
         color2.set(pref);
     }
-    //----------------------------------------------------------------------------
+    //    //----------------------------------------------------------------------------
     public String getDateDonated() {
         return dateDonated.get();
     }
@@ -166,7 +166,7 @@ public class InventoryTableModel
     public void setNotes(String pref) {
         notes.set(pref);
     }
-    //----------------------------------------------------------------------------
+    //    //----------------------------------------------------------------------------
     public String getReceiverLastName() {
         return receiverLastName.get();
     }
