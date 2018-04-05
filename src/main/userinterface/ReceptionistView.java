@@ -74,7 +74,7 @@ public class ReceptionistView extends View
 
 
 		VBox container = new VBox(10);
-		container.setResizable(true); 
+		/* container.setResizable(true); Swing call */
 		container.setStyle("-fx-background-color: #707070;");
 
 
@@ -83,7 +83,7 @@ public class ReceptionistView extends View
 		// Add a title for this panel
 		container.getChildren().add(createTitle());
 
-		// how do you add white space?
+		// how do you add white space? regex \\s for space
 		container.getChildren().add(new Label(" "));
 
 		// create our GUI components, add them to this Container
