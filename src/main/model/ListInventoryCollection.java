@@ -39,8 +39,6 @@ public class ListInventoryCollection  extends EntityBase implements IView
                 "LEFT JOIN color as c2 on c2.ID=inv.Color2 \n" +
                 "LEFT JOIN articletype as atype on atype.ID=inv.ArticleType";
 
-        //
-
         Vector allDataRetrieved = getSelectQueryResult(query);
 
         if (allDataRetrieved != null)

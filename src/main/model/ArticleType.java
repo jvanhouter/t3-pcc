@@ -40,7 +40,7 @@ public class ArticleType extends EntityBase implements IView
 
 		setDependencies();
 		
-		barcodePrefix = barcodePrefix.trim();
+		//barcodePrefix = barcodePrefix.trim();
 		String query = "SELECT * FROM " + myTableName + " WHERE (BarcodePrefix = '" + barcodePrefix + "')";
 
 		Vector<Properties> allDataRetrieved = getSelectQueryResult(query);

@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -23,7 +24,6 @@ import userinterface.ViewFactory;
 public class InventoryItemCollection  extends EntityBase implements IView
 {
     private static final String myTableName = "Inventory";
-
     private Vector<ClothingItem> inventoryItems;
     // GUI Components
 
@@ -32,79 +32,100 @@ public class InventoryItemCollection  extends EntityBase implements IView
     public InventoryItemCollection( )
     {
         super(myTableName);
-
     }
 
     //-----------------------------------------------------------
     private void populateCollectionHelper(String query)
     {
+        Vector<Properties> allClothingItemsRetrieved = getSelectQueryResult(query);
+        Vector<Properties> allColorItemsRetrieved = getColors();
+//        System.out.println(allColorItemsRetrieved.toString());
+        Vector<Properties> allArticleTypesRetrieved = getArticleTypes();
+//        System.out.println(allArticleTypesRetrieved);
+        Iterator colorIterator = null;
+        Iterator articleTypeIterator = null;
 
-        Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 //        System.out.println(allDataRetrieved.toString().replace("}", "\n"));
-        if (allDataRetrieved != null)
+        if (allClothingItemsRetrieved != null)
         {
             inventoryItems = new Vector<ClothingItem>();
 
-            for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
+            for (int cnt = 0; cnt < allClothingItemsRetrieved.size(); cnt++)
             {
-                Properties nextInventoryItemData = allDataRetrieved.elementAt(cnt);
+                Properties nextInventoryItemData = allClothingItemsRetrieved.elementAt(cnt);
                 ClothingItem ci = new ClothingItem(nextInventoryItemData);
-                try
-                {
-                    ArticleType tempAT = null;
-                    if(ci.getState("ArticleType") != null)
-                    {
-                        //TODO asj jason if there should be single digit integers with leading zeros in the article type table for the prefix.
-                        //TODO also ask jason if we should be instantiating entre objects or making an sql statement to retrieve just the description we need.
-                        String key = "0" + (String) ci.getState("ArticleType");
-                        tempAT = new ArticleType(key);
-                        if(tempAT != null)
-                        {
-                            ci.stateChangeRequest("ArticleType", tempAT.getState("Description"));
-                        }
-                    }
-
-                    ColorType tempColor = null;
-                    if(ci.getState("Color1") != null)
-                    {
-                        tempColor = new ColorType((String) ci.getState("Color1"));
-                        if(tempColor != null)
-                        {
-                            ci.stateChangeRequest("Color1", tempColor.getState("Description"));
-                        }
-                    }
-
-                    if(ci.getState("Color2") != null)
-                    {
-                        tempColor = new ColorType((String) ci.getState("Color2"));
-                        if(tempColor != null)
-                        {
-                            ci.stateChangeRequest("Color2", tempColor.getState("Description"));
-                        }
-                    }
-
-//                    xstateChangeRequest("Color2", tempColor.getState("Description"));
-                } catch (InvalidPrimaryKeyException | MultiplePrimaryKeysException e)
-                {
-                    e.printStackTrace();
-                }
-
+//                System.out.println(ci.getState("Barcode"));
                 if (ci != null)
                 {
-                    inventoryItems.add(ci);
-//                    System.out.println(ci.getEntryListView());
 
+                    String color1 = "";
+                    String color2 = "";
+                    String articleType = "";
+                    Properties temp = null;
+                    colorIterator = allColorItemsRetrieved.iterator();
+                    articleTypeIterator = allArticleTypesRetrieved.iterator();
+
+                    while(colorIterator.hasNext())
+                    {
+                     temp = (Properties) colorIterator.next();
+//                     System.out.println(temp.toString());
+                     if(((String)temp.getProperty("ID")).equals(ci.getState("Color1")))
+                     {
+                         color1 = temp.getProperty("Description");
+//                       System.out.println(color1);
+                     }
+                     if(((String)temp.getProperty("ID")).equals(ci.getState("Color2")))
+                     {
+                         color2 = temp.getProperty("Description");
+//                       System.out.println(color2);
+                     }
+                    }
+                    while(articleTypeIterator.hasNext())
+                    {
+                        temp = (Properties) articleTypeIterator.next();
+                        if(((String)temp.getProperty("ID")).equals(ci.getState("ArticleType")))
+                        {
+                            articleType = temp.getProperty("Description");
+//                          System.out.println(articleType);
+                        }
+
+                    }
+                    formatClothingItem(ci, color1, color2, articleType);
+                    inventoryItems.add(ci);
                 }
             }
         }
     }
 
     //-----------------------------------------------------------
-    public void findByBarcodePrefix(String barcodePrefix)
+   public void formatClothingItem(ClothingItem ci, String color1, String color2, String articleType)
+   {
+       if(ci.getState("ArticleType") != null)
+       {
+           ci.stateChangeRequest("ArticleType", articleType);
+       }
+       if(ci.getState("Color1") != null)
+       {
+           ci.stateChangeRequest("Color1", color1);
+       }
+       if(ci.getState("Color2") != null)
+       {
+           ci.stateChangeRequest("Color2", color2);
+       }
+   }
+
+    //-----------------------------------------------------------
+    public Vector<Properties> getColors()
     {
-        String query = "SELECT * FROM " + myTableName + " WHERE ((BarcodePrefix = '" + barcodePrefix +
-                "') AND (Status = 'Active'))";
-        populateCollectionHelper(query);
+        String query = "Select Id, Description FROM color;";
+        return getSelectQueryResult(query);
+    }
+
+    //-----------------------------------------------------------
+    public Vector<Properties> getArticleTypes()
+    {
+        String query = "SELECT Id, Description FROM articletype;";
+        return getSelectQueryResult(query);
     }
 
     //-----------------------------------------------------------
@@ -115,89 +136,19 @@ public class InventoryItemCollection  extends EntityBase implements IView
     }
 
     //-----------------------------------------------------------
-    public void findByCriteria(String description, String alphaCode)
+    public String getColorDescription(String colorBarcodePrefix)
     {
-        String query = "SELECT * FROM " + myTableName;
-        if (((description != null) && (description.length() > 0))&&
-                ((alphaCode != null) && (alphaCode.length() > 0)))
-        {
-            // both values get into criteria
-            query += " WHERE ((Status = 'Active') AND (Description LIKE '%" + description + "%') AND (AlphaCode LIKE '%" +
-                    alphaCode + "%'))";
-        }
-        else
-        if ((description != null) && (description.length() > 0))
-        {
-            // only description gets into criteria
-            query += " WHERE ((Status = 'Active') AND (Description LIKE '%" + description + "%'))";
-        }
-        else
-        if ((alphaCode != null) && (alphaCode.length() > 0))
-        {
-            // only alphaCode gets into criteria
-            query += " WHERE ((Status = 'Active') AND (AlphaCode LIKE '%" + alphaCode + "%'))";
-        }
-        else
-        {
-            query += " WHERE (Status = 'Active')";
-        }
-
-        populateCollectionHelper(query);
+        String query = "SELECT Description FROM `color` WHERE BarcodePrefix = " + colorBarcodePrefix;
+        return getSelectQueryResult(query).toString();
     }
 
-    public void findUsingMonsterQuery(){
-        String query = "SELECT inv.Barcode, inv.Gender, inv.Size, inv.Brand, c1.Description as color_1, c2.Description as color_2, atype.Description as article_type, inv.Notes, inv.Status\n" +
-                "FROM inventory as inv \n" +
-                "LEFT JOIN color as c1 on c1.ID=inv.Color1 \n" +
-                "LEFT JOIN color as c2 on c2.ID=inv.Color2 \n" +
-                "LEFT JOIN articletype as atype on atype.ID=inv.ArticleType";
-
-        populateCollectionHelper(query);
-    }
-
-
-    //----------------------------------------------------------------------------------
-//    private void addInventoryItem(ClothingItem ci)
-//    {
-//        int index = findIndexToAdd(ci);
-//       inventoryItems.insertElementAt(ci,index); // To build up a collection sorted on some key
-//    }
-
-    //----------------------------------------------------------------------------------
-    private int findIndexToAdd(ClothingItem ci)
+    //-----------------------------------------------------------
+    public String getArticleTypeDescription(String articleTypeBarcodePrefix)
     {
-        int low=0;
-        int high = inventoryItems.size()-1;
-        int middle;
-
-        while (low <=high)
-        {
-            middle = (low+high)/2;
-
-            ClothingItem midSession = inventoryItems.elementAt(middle);
-
-            int result = ClothingItem.compare(ci,midSession);
-
-            if (result ==0)
-            {
-                return middle;
-            }
-            else if (result<0)
-            {
-                high=middle-1;
-            }
-            else
-            {
-                low=middle+1;
-            }
-        }
-        return low;
+        String query = "SELECT Description FROM `articletype` WHERE BarcodePrefix = " + articleTypeBarcodePrefix;
+        return getSelectQueryResult(query).toString();
     }
 
-
-    /**
-     *
-     */
     //----------------------------------------------------------
     public Object getState(String key)
     {
@@ -215,25 +166,6 @@ public class InventoryItemCollection  extends EntityBase implements IView
         myRegistry.updateSubscribers(key, this);
     }
 
-    //----------------------------------------------------------
-    public ClothingItem retrieve(String barcodePrefix)
-    {
-        ClothingItem retValue = null;
-        for (int cnt = 0; cnt < inventoryItems.size(); cnt++)
-        {
-            ClothingItem nextCI = inventoryItems.elementAt(cnt);
-            String nextBarcodePrefix = (String)nextCI.getState("BarcodePrefix");
-            if (nextBarcodePrefix.equals(barcodePrefix) == true)
-            {
-                retValue = nextCI;
-                return retValue; // we should say 'break;' here
-            }
-        }
-
-        return retValue;
-    }
-
-    /** Called via the IView relationship */
     //----------------------------------------------------------
     public void updateState(String key, Object value)
     {
