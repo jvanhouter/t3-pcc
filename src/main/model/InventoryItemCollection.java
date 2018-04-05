@@ -4,6 +4,8 @@ package model;
 // system imports
 import java.util.Properties;
 import java.util.Vector;
+
+import exception.MultiplePrimaryKeysException;
 import javafx.scene.Scene;
 
 // project imports
@@ -49,25 +51,40 @@ public class InventoryItemCollection  extends EntityBase implements IView
                 ClothingItem ci = new ClothingItem(nextInventoryItemData);
                 try
                 {
+                    ArticleType tempAT = null;
+                    if(ci.getState("ArticleType") != null)
+                    {
+                        //TODO asj jason if there should be single digit integers with leading zeros in the article type table for the prefix.
+                        //TODO also ask jason if we should be instantiating entre objects or making an sql statement to retrieve just the description we need.
+                        String key = "0" + (String) ci.getState("ArticleType");
+                        tempAT = new ArticleType(key);
+                        if(tempAT != null)
+                        {
+                            ci.stateChangeRequest("ArticleType", tempAT.getState("Description"));
+                        }
+                    }
+
                     ColorType tempColor = null;
                     if(ci.getState("Color1") != null)
                     {
                         tempColor = new ColorType((String) ci.getState("Color1"));
+                        if(tempColor != null)
+                        {
+                            ci.stateChangeRequest("Color1", tempColor.getState("Description"));
+                        }
                     }
-                    if(tempColor != null)
-                    {
-                        ci.stateChangeRequest("Color1", tempColor.getState("Description"));
-                    }
+
                     if(ci.getState("Color2") != null)
                     {
                         tempColor = new ColorType((String) ci.getState("Color2"));
+                        if(tempColor != null)
+                        {
+                            ci.stateChangeRequest("Color2", tempColor.getState("Description"));
+                        }
                     }
-                    if(tempColor != null)
-                    {
-                        ci.stateChangeRequest("Color2", tempColor.getState("Description"));
-                    }
+
 //                    xstateChangeRequest("Color2", tempColor.getState("Description"));
-                } catch (InvalidPrimaryKeyException e)
+                } catch (InvalidPrimaryKeyException | MultiplePrimaryKeysException e)
                 {
                     e.printStackTrace();
                 }
