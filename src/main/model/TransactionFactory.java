@@ -9,7 +9,7 @@ package model;
 public class TransactionFactory {
     public static Transaction createTransaction(String transType)
             throws Exception {
-      
+
         if (transType.equals("AddArticleType")) {
             return new AddArticleTypeTransaction();
         } else if (transType.equals("UpdateArticleType")) {
@@ -38,6 +38,8 @@ public class TransactionFactory {
             return new FulfilRequestTransaction();
         } else if (transType.equals("ListAvailableInventory")) {
             return new ListInventoryTransaction();
+        } else if (transType.equals("SaveExcel")) {
+            return new SaveExcelTransaction();
         } else {
             return null;
         }

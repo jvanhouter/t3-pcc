@@ -50,6 +50,8 @@ public class ViewFactory {
             return new RequestCollectionView(model);
         } else if(viewName.equals("RemoveRequestView") == true){
             return new RemoveRequestView(model);
+        } else if (viewName.equals("SaveExcelView")) {
+            return new SaveExcelView(model);
         } else if (viewName.equals("InventoryItemCollectionView")) {
             return new InventoryItemCollectionView(model);
         } else

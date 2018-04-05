@@ -13,17 +13,22 @@
 package userinterface;
 
 // system imports
+import java.awt.*;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.EventObject;
 import javafx.scene.Group;
 
 // project imports
-import common.StringList;
 import impresario.IView;
 import impresario.IModel;
 import impresario.IControl;
 import impresario.ControlRegistry;
+import javafx.stage.FileChooser;
+import model.ArticleTypeCollection;
 
 //==============================================================
 public abstract class View extends Group
@@ -32,8 +37,7 @@ public abstract class View extends Group
 	// private data
 	protected IModel myModel;
 	protected ControlRegistry myRegistry;
-	
-	
+
 	// GUI components
 	
 		
@@ -42,8 +46,9 @@ public abstract class View extends Group
 	public View(IModel model, String classname)
 	{
 		myModel = model;
-		
+
 		myRegistry = new ControlRegistry(classname);
+
 	}
 	
 	
@@ -67,7 +72,6 @@ public abstract class View extends Group
 	{
 		myRegistry.unSubscribe(key, subscriber);
 	}
-	
    	
 }
 
