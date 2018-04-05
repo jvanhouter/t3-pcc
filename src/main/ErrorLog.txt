@@ -18,3 +18,12 @@ The last packet successfully received from the server was 945,024 milliseconds a
 [4/3/18 5:23 PM]|ClothingRequest|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' '600696728' , 1 , '12' , 'Kyle' , '607-227-0864' , '2018-04-03' , 'Gucci' )' at line 1>
 [4/3/18 5:25 PM]|ClothingRequest|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' '800696728' , 1 , '' , 'Kyle' , '607-227-0864' , '2018-04-03' , '' )' at line 1>
 [4/3/18 5:28 PM]|LogRequestTransaction|processTransaction|Error|NOTAG|null<ERROR: Requester ID : 800696728 of request for Mens, 7, , , 1, NULL,  already exists!>
+[4/3/18 5:44 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[com.mysql.jdbc.Driver]>
+[4/3/18 5:44 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[4/3/18 5:44 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[4/3/18 5:45 PM]|JDBCBroker|JDBCBroker|Error|NOTAG|null<Could not load driver class[com.mysql.jdbc.Driver]>
+[4/3/18 5:45 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[4/3/18 5:45 PM]|RemoveRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[4/3/18 5:45 PM]|RemoveRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[4/3/18 5:45 PM]|RemoveRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[4/3/18 5:45 PM]|RemoveRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
