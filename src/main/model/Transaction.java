@@ -129,9 +129,8 @@ abstract public class Transaction implements IView, IModel {
 
 
         //Place in center
-        WindowPosition.placeCenter(myStage);
+        //WindowPosition.placeCenter(myStage);
 
     }
 
 }
-

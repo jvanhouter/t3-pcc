@@ -61,15 +61,24 @@ public class ReceptionistView extends View
 
 	private Button testing;
 
+
 	// constructor for this class -- takes a model object
 	//----------------------------------------------------------
 	public ReceptionistView(IModel teller)
 	{
 		super(teller, "ReceptionistView");
 
+
 		// create a container for showing the contents
+
+
+
 		VBox container = new VBox(10);
-		container.setPadding(new Insets(15, 5, 5, 5));
+		container.setResizable(true); 
+		container.setStyle("-fx-background-color: #707070;");
+
+
+		container.setPadding(new Insets(50,	50, 50, 50));
 
 		// Add a title for this panel
 		container.getChildren().add(createTitle());
@@ -94,11 +103,13 @@ public class ReceptionistView extends View
 	private VBox createTitle()
 	{
 		VBox container = new VBox(10);
+		container.setStyle("-fx-background-color: #808080;");
+
 
 
 		Text clientText = new Text(" Office of Career Services ");
 		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		clientText.setWrappingWidth(350);
+		//clientText.setWrappingWidth(350);
 		clientText.setTextAlignment(TextAlignment.CENTER);
 		clientText.setFill(Color.DARKGREEN);
 		container.getChildren().add(clientText);
@@ -127,8 +138,8 @@ public class ReceptionistView extends View
 		Text inquiryText = new Text("       What do you wish to do today?       ");
 		inquiryText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
 		inquiryText.setWrappingWidth(350);
+		inquiryText.setFill(Color.web("#ffc726"));
 		inquiryText.setTextAlignment(TextAlignment.CENTER);
-		inquiryText.setFill(Color.BLACK);
 		container.getChildren().add(inquiryText);
 
 		return container;
@@ -141,13 +152,15 @@ public class ReceptionistView extends View
 	{
 
 		VBox container = new VBox(15);
-
+		container.setStyle("-fx-background-color: #808080;");
 
 		// create the buttons, listen for events, add them to the container
 		HBox checkoutCont = new HBox(10);
+		checkoutCont.setStyle("-fx-background-color: #909090;");
 		checkoutCont.setAlignment(Pos.CENTER);
 		checkoutClothingItemButton = new Button("Checkout Clothing Item");
 		checkoutClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		checkoutClothingItemButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		checkoutClothingItemButton.setOnMouseEntered(me ->
 				 {
 					 checkoutClothingItemButton.setScaleX(1.1);
@@ -177,12 +190,14 @@ public class ReceptionistView extends View
 
 		// Article type choices
 		HBox articleTypeCont = new HBox(10);
-		articleTypeCont.setAlignment(Pos.CENTER_LEFT);
-		Label atLabel = new Label("  Article Types: ");
+		articleTypeCont.setAlignment(Pos.CENTER);
+		Label atLabel = new Label("  Article Types:");
 		atLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		atLabel.setStyle("-fx-text-fill: #ffc726");
 		articleTypeCont.getChildren().add(atLabel);
-		addArticleTypeButton = new Button("Add");
+		addArticleTypeButton = new Button(" Add ");
 		addArticleTypeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		addArticleTypeButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		addArticleTypeButton.setOnMouseEntered(me ->
 				 {
 					 addArticleTypeButton.setScaleX(1.1);
@@ -210,6 +225,7 @@ public class ReceptionistView extends View
 
 		updateArticleTypeButton = new Button("Update");
 		updateArticleTypeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		updateArticleTypeButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		updateArticleTypeButton.setOnMouseEntered(me ->
 				 {
 					 updateArticleTypeButton.setScaleX(1.1);
@@ -237,6 +253,7 @@ public class ReceptionistView extends View
 
 		removeArticleTypeButton = new Button("Remove");
 		removeArticleTypeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		removeArticleTypeButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		removeArticleTypeButton.setOnMouseEntered(me ->
 				 {
 					 removeArticleTypeButton.setScaleX(1.1);
@@ -261,17 +278,18 @@ public class ReceptionistView extends View
 		 });
 		removeArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("RemoveArticleType", null));
 		articleTypeCont.getChildren().add(removeArticleTypeButton);
-
 		container.getChildren().add(articleTypeCont);
 
 		// Color choices
 		HBox colorCont = new HBox(10);
-		colorCont.setAlignment(Pos.CENTER_LEFT);
+		colorCont.setAlignment(Pos.CENTER);
 		Label colorLabel = new Label("             Colors: ");
+		colorLabel.setStyle("-fx-text-fill: #ffc726");
 		colorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		colorCont.getChildren().add(colorLabel);
-		addColorButton = new Button("Add");
+		addColorButton = new Button(" Add ");
 		addColorButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		addColorButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		addColorButton.setOnMouseEntered(me ->
 				 {
 					 addColorButton.setScaleX(1.1);
@@ -299,6 +317,8 @@ public class ReceptionistView extends View
 
 		updateColorButton = new Button("Update");
 		updateColorButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		updateColorButton.setAlignment(Pos.CENTER);
+		updateColorButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		updateColorButton.setOnMouseEntered(me ->
 				 {
 					 updateColorButton.setScaleX(1.1);
@@ -326,6 +346,8 @@ public class ReceptionistView extends View
 
 		removeColorButton = new Button("Remove");
 		removeColorButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		removeColorButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
+
 		removeColorButton.setOnMouseEntered(me ->
 				 {
 					 removeColorButton.setScaleX(1.1);
@@ -355,12 +377,15 @@ public class ReceptionistView extends View
 		container.getChildren().add(colorCont);
 
 		HBox clothingItemCont = new HBox(10);
-		clothingItemCont.setAlignment(Pos.CENTER_LEFT);
+		clothingItemCont.setAlignment(Pos.CENTER);
 		Label ciLabel = new Label("Clothing Items: ");
 		ciLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		ciLabel.setStyle("-fx-text-fill: #ffc726");
 		clothingItemCont.getChildren().add(ciLabel);
-		addClothingItemButton = new Button("Add");
+		addClothingItemButton = new Button(" Add ");
 		addClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		addClothingItemButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
+
 		addClothingItemButton.setOnMouseEntered(me ->
 				 {
 					 addClothingItemButton.setScaleX(1.1);
@@ -388,6 +413,7 @@ public class ReceptionistView extends View
 
 		updateClothingItemButton = new Button("Update");
 		updateClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		updateClothingItemButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		updateClothingItemButton.setOnMouseEntered(me ->
 				 {
 					 updateClothingItemButton.setScaleX(1.1);
@@ -415,6 +441,7 @@ public class ReceptionistView extends View
 
 		removeClothingItemButton = new Button("Remove");
 		removeClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		removeClothingItemButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		removeClothingItemButton.setOnMouseEntered(me ->
 				 {
 					 removeClothingItemButton.setScaleX(1.1);
@@ -444,12 +471,13 @@ public class ReceptionistView extends View
 
 		// Clothing item request
 		HBox requestCont = new HBox(10);
-		requestCont.setAlignment(Pos.CENTER_LEFT);
+		requestCont.setAlignment(Pos.CENTER);
 		Label reqLabel = new Label("         Requests: ");
 		reqLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		requestCont.getChildren().add(reqLabel);
-		logRequestButton = new Button("Log");
+		logRequestButton = new Button(" Log ");
 		logRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		logRequestButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		logRequestButton.setOnMouseEntered(me ->
 				 {
 					 logRequestButton.setScaleX(1.1);
@@ -477,6 +505,7 @@ public class ReceptionistView extends View
 
 		fulfillRequestButton = new Button(" Fulfill ");
 		fulfillRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		fulfillRequestButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		fulfillRequestButton.setOnMouseEntered(me ->
 				 {
 					 fulfillRequestButton.setScaleX(1.1);
@@ -504,6 +533,7 @@ public class ReceptionistView extends View
 
 		removeRequestButton = new Button("Remove");
 		removeRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		removeRequestButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		removeRequestButton.setOnMouseEntered(me ->
 				 {
 					 removeRequestButton.setScaleX(1.1);
@@ -535,6 +565,7 @@ public class ReceptionistView extends View
 		listAvailCont.setAlignment(Pos.CENTER);
 		listAvailableInventoryButton = new Button("List Available Inventory");
 		listAvailableInventoryButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		listAvailableInventoryButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		listAvailableInventoryButton.setOnMouseEntered(me ->
 				 {
 					 listAvailableInventoryButton.setScaleX(1.1);
@@ -566,6 +597,7 @@ public class ReceptionistView extends View
 		doneCont.setAlignment(Pos.CENTER);
 		cancelButton = new Button("Exit System");
 		cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		cancelButton.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
 		cancelButton.setOnAction(e -> myModel.stateChangeRequest("ExitSystem", null));
 		cancelButton.setOnMouseEntered(me ->
 				 {

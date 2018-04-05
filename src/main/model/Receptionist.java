@@ -83,7 +83,7 @@ public class Receptionist implements IView, IModel
 		{
 			return loginErrorMessage;
 		}
-	
+
 		else */
         return "";
     }
@@ -193,12 +193,13 @@ public class Receptionist implements IView, IModel
         }
 
         myStage.setScene(newScene);
-        myStage.sizeToScene();
+        myStage.setResizable(true);
+        myStage.centerOnScreen();
+        //myStage.sizeToScene();
 
 
         //Place in center
-        WindowPosition.placeCenter(myStage);
+        //WindowPosition.placeCenter(myStage);
     }
 
 }
-
