@@ -30,6 +30,8 @@ class TransactionFactory {
             return new ModifyColorTransaction();
         } else if (transType.equals("RemoveColor")) {
             return new RemoveColorTransaction();
+        } else if (transType.equals("SaveExcel")) {
+            return new SaveExcelTransaction();
         } else {
             return null;
         }

@@ -78,43 +78,37 @@ public class ArticleTypeCollectionView extends View
 	}
 
 	//--------------------------------------------------------------------------
-	protected void getEntryTableModelValues()
-	{
-		
-		ObservableList<ArticleTypeTableModel> tableData = FXCollections.observableArrayList();
-		try
-		{
-			ArticleTypeCollection articleTypeCollection = 
-				(ArticleTypeCollection)myModel.getState("ArticleTypeList");
+	protected void getEntryTableModelValues() {
 
-	 		Vector entryList = (Vector)articleTypeCollection.getState("ArticleTypes");
-			
-			if (entryList.size() > 0)
-			{
+		ObservableList<ArticleTypeTableModel> tableData = FXCollections.observableArrayList();
+		try {
+			ArticleTypeCollection articleTypeCollection =
+					(ArticleTypeCollection) myModel.getState("ArticleTypeList");
+
+			Vector entryList = (Vector) articleTypeCollection.getState("ArticleTypes");
+
+			if (entryList.size() > 0) {
 				Enumeration entries = entryList.elements();
 
-				while (entries.hasMoreElements() == true)
-				{
-					ArticleType nextAT = (ArticleType)entries.nextElement();
+				while (entries.hasMoreElements() == true) {
+					ArticleType nextAT = (ArticleType) entries.nextElement();
 					Vector<String> view = nextAT.getEntryListView();
 
 					// add this list entry to the list
 					ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
 					tableData.add(nextTableRowData);
-					
+
 				}
-			}
-			else
-			{
+			} else {
 				displayMessage("No matching entries found!");
 			}
-			
+
 			tableOfArticleTypes.setItems(tableData);
-		}
-		catch (Exception e) {//SQLException e) {
+		} catch (Exception e) {//SQLException e) {
 			// Need to handle this exception
 		}
 	}
+
 
 	// Create the title container
 	//-------------------------------------------------------------

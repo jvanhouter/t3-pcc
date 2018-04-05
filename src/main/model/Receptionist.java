@@ -104,7 +104,8 @@ public class Receptionist implements IView, IModel
                 (key.equals("AddClothingItem")) || (key.equals("ModifyClothingItem")) ||
                 (key.equals("RemoveClothingItem")) || (key.equals("CheckoutClothingItem")) ||
                 (key.equals("LogRequest")) || (key.equals("FulfillRequest")) ||
-                (key.equals("RemoveRequest")) || (key.equals("ListAvailableInventory"))
+                (key.equals("RemoveRequest")) || (key.equals("ListAvailableInventory")) ||
+                (key.equals("SaveExcel"))
                 ) {
             String transType = key;
 

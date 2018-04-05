@@ -53,6 +53,8 @@ public class ReceptionistView extends View
 	private Button checkoutClothingItemButton;
 	private Button listAvailableInventoryButton;
 
+	private Button excelButton;
+
 	private Button cancelButton;
 
 	private MessageView statusLog;
@@ -251,6 +253,18 @@ public class ReceptionistView extends View
 		listAvailCont.getChildren().add(listAvailableInventoryButton);
 		
 		container.getChildren().add(listAvailCont);
+
+		HBox excel = new HBox(10);
+		excel.setAlignment(Pos.CENTER);
+		excelButton = new Button("Save to Excel");
+		excelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		excelButton.setOnAction(e ->
+				myModel.stateChangeRequest("SaveExcel", null)
+		);
+		excel.getChildren().add(excelButton);
+
+		container.getChildren().add(excel);
+
 
 		HBox doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
