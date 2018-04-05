@@ -135,20 +135,6 @@ public class InventoryItemCollection  extends EntityBase implements IView
         populateCollectionHelper(query);
     }
 
-    //-----------------------------------------------------------
-    public String getColorDescription(String colorBarcodePrefix)
-    {
-        String query = "SELECT Description FROM `color` WHERE BarcodePrefix = " + colorBarcodePrefix;
-        return getSelectQueryResult(query).toString();
-    }
-
-    //-----------------------------------------------------------
-    public String getArticleTypeDescription(String articleTypeBarcodePrefix)
-    {
-        String query = "SELECT Description FROM `articletype` WHERE BarcodePrefix = " + articleTypeBarcodePrefix;
-        return getSelectQueryResult(query).toString();
-    }
-
     //----------------------------------------------------------
     public Object getState(String key)
     {
