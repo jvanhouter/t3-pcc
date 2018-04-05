@@ -44,6 +44,9 @@ public class ViewFactory {
             return new ModifyClothingItemView(model);
         } else if (viewName.equals("ClothingItemCollectionView")) {
             return new ClothingItemCollectionView(model);
+        } else if (viewName.equals("InventoryItemCollectionView")) {
+            System.out.println("ViewFactory");
+            return new InventoryItemCollectionView(model);
         } else
             return null;
     }
