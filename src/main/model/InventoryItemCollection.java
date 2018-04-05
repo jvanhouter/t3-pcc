@@ -39,13 +39,10 @@ public class InventoryItemCollection  extends EntityBase implements IView
     {
         Vector<Properties> allClothingItemsRetrieved = getSelectQueryResult(query);
         Vector<Properties> allColorItemsRetrieved = getColors();
-//        System.out.println(allColorItemsRetrieved.toString());
         Vector<Properties> allArticleTypesRetrieved = getArticleTypes();
-//        System.out.println(allArticleTypesRetrieved);
         Iterator colorIterator = null;
         Iterator articleTypeIterator = null;
 
-//        System.out.println(allDataRetrieved.toString().replace("}", "\n"));
         if (allClothingItemsRetrieved != null)
         {
             inventoryItems = new Vector<ClothingItem>();
@@ -54,7 +51,7 @@ public class InventoryItemCollection  extends EntityBase implements IView
             {
                 Properties nextInventoryItemData = allClothingItemsRetrieved.elementAt(cnt);
                 ClothingItem ci = new ClothingItem(nextInventoryItemData);
-//                System.out.println(ci.getState("Barcode"));
+
                 if (ci != null)
                 {
 
@@ -68,16 +65,14 @@ public class InventoryItemCollection  extends EntityBase implements IView
                     while(colorIterator.hasNext())
                     {
                      temp = (Properties) colorIterator.next();
-//                     System.out.println(temp.toString());
+
                      if(((String)temp.getProperty("ID")).equals(ci.getState("Color1")))
                      {
                          color1 = temp.getProperty("Description");
-//                       System.out.println(color1);
                      }
                      if(((String)temp.getProperty("ID")).equals(ci.getState("Color2")))
                      {
                          color2 = temp.getProperty("Description");
-//                       System.out.println(color2);
                      }
                     }
                     while(articleTypeIterator.hasNext())
@@ -86,7 +81,6 @@ public class InventoryItemCollection  extends EntityBase implements IView
                         if(((String)temp.getProperty("ID")).equals(ci.getState("ArticleType")))
                         {
                             articleType = temp.getProperty("Description");
-//                          System.out.println(articleType);
                         }
 
                     }

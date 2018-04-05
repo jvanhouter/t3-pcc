@@ -47,7 +47,6 @@ public class ColorType extends EntityBase{
             }
             else
             {
-
                 Properties retrievedAccountData = allDataRetrieved.elementAt(0);
                 persistentState = new Properties();
 
@@ -56,7 +55,6 @@ public class ColorType extends EntityBase{
                 {
                     String nextKey = (String)allKeys.nextElement();
                     String nextValue = retrievedAccountData.getProperty(nextKey);
-
 
                     if (nextValue != null)
                     {
@@ -120,7 +118,6 @@ public class ColorType extends EntityBase{
         {
             updateStatusMessage = "Error in installing color data in database!";
         }
-
     }
     public Vector<String> getEntryListView()
     {
@@ -186,9 +183,6 @@ public class ColorType extends EntityBase{
         }
         return returnString.substring(0, returnString.length()-2)+"\n";
     }
-
-
-
 }
 
 

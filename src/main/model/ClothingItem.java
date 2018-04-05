@@ -45,7 +45,6 @@ import impresario.IView;
 				// There should be EXACTLY one. More than that is an error
 				if (size != 1)
 				{
-					
 					throw new MultiplePrimaryKeysException("Multiple Clothing items matching barcode prefix : "
 						+ barcode + " found.");
 				}
@@ -60,14 +59,12 @@ import impresario.IView;
 					{
 						String nextKey = (String)allKeys.nextElement();
 						String nextValue = retrievedATData.getProperty(nextKey);
-						// accountNumber = Integer.parseInt(retrievedAccountData.getProperty("accountNumber"));
 
 						if (nextValue != null)
 						{
 							persistentState.setProperty(nextKey, nextValue);
 						}
 					}
-
 				}
 			}
 			// If not found for this barcode, throw an Invalid Primary key exception
@@ -164,7 +161,6 @@ import impresario.IView;
 					updatePersistentState(mySchema, persistentState, whereClause);
 					updateStatusMessage = "ClothingItem with prefix : " + persistentState.getProperty("Barcode") + " updated successfully!";
 				}
-				//TODO this should not use ID, I have no idea what it should be though.
 				else
 				{
 					Integer ciID =
@@ -180,8 +176,6 @@ import impresario.IView;
 			}
 			//DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
 		}
-
-
 		/**
 		 * This method is needed solely to enable the Clothing item information to be displayable in a table
 		 *s
@@ -209,7 +203,6 @@ import impresario.IView;
 			v.addElement(persistentState.getProperty("ReceiverFirstName"));
 			v.addElement(persistentState.getProperty("DateDonated"));
 			v.addElement(persistentState.getProperty("DateTaken"));
-
 
 			return v;
 		}

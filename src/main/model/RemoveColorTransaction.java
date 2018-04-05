@@ -17,7 +17,8 @@ import userinterface.ViewFactory;
 
 /** The class containing the RemoveColorTransaction for the Professional Clothes Closet application */
 //==============================================================
-public class RemoveColorTransaction extends Transaction {
+public class RemoveColorTransaction extends Transaction
+{
 
     private ColorCollection myColorList;
     private ColorType mySelectedColor;
@@ -32,7 +33,8 @@ public class RemoveColorTransaction extends Transaction {
      * Constructor for this class.
      */
     //----------------------------------------------------------
-    public RemoveColorTransaction() throws Exception {
+    public RemoveColorTransaction() throws Exception
+    {
         super();
     }
 
@@ -51,7 +53,8 @@ public class RemoveColorTransaction extends Transaction {
      * verifying its uniqueness, etc.
      */
     //----------------------------------------------------------
-    public void processTransaction(Properties props) {
+    public void processTransaction(Properties props)
+    {
         myColorList = new ColorCollection();
 		String desc = props.getProperty("Description");
 		String alfaC = props.getProperty("AlphaCode");
@@ -79,12 +82,15 @@ public class RemoveColorTransaction extends Transaction {
 
 
     //-----------------------------------------------------------
-    public Object getState(String key) {
-        if (key.equals("TransactionError") == true) {
+    public Object getState(String key)
+    {
+        if (key.equals("TransactionError") == true)
+        {
             return transactionErrorMessage;
         } 
 		else
-		if (key.equals("ColorList") == true) {
+		if (key.equals("ColorList") == true)
+		{
 			return myColorList;
 		}
 		else
@@ -115,7 +121,8 @@ public class RemoveColorTransaction extends Transaction {
     }
 
     //-----------------------------------------------------------
-    public void stateChangeRequest(String key, Object value) {
+    public void stateChangeRequest(String key, Object value)
+    {
 
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
         {
@@ -158,22 +165,26 @@ public class RemoveColorTransaction extends Transaction {
      * swapToView() to display the view in the frame
      */
     //------------------------------------------------------
-    protected Scene createView() {
+    protected Scene createView()
+    {
         Scene currentScene = myViews.get("SearchColorView");
 
-        if (currentScene == null) {
+        if (currentScene == null)
+        {
             // create our initial view
             View newView = ViewFactory.createView("SearchColorView", this);
             currentScene = new Scene(newView);
             myViews.put("SearchColorView", currentScene);
 
             return currentScene;
-        } else {
+        } else
+            {
             return currentScene;
         }
     }
 
-    protected Scene createColorCollectionView() {
+    protected Scene createColorCollectionView()
+    {
         View newView = ViewFactory.createView("ColorCollectionView", this);
         Scene currentScene = new Scene(newView);
 
@@ -183,7 +194,8 @@ public class RemoveColorTransaction extends Transaction {
 
 
     //------------------------------------------------------
-    protected Scene createRemoveColorView() {
+    protected Scene createRemoveColorView()
+    {
         View newView = ViewFactory.createView("RemoveColorView", this);
         Scene currentScene = new Scene(newView);
 

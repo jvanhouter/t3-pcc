@@ -6,9 +6,11 @@ package model;
  * Closet application
  */
 //==============================================================
-public class TransactionFactory {
+public class TransactionFactory
+{
     public static Transaction createTransaction(String transType)
-            throws Exception {
+            throws Exception
+    {
 
         if (transType.equals("AddArticleType")) {
             return new AddArticleTypeTransaction();

@@ -216,7 +216,7 @@ public class EnterReceiverInformationView extends View {
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                //TODO "CancelCheckoutItem" MAY BE DEPENDANT ON CONTROLLER AND THUS SUBJECT TO CHANGE OR FUTURE USE.
+
                 myModel.stateChangeRequest("CancelCheckoutCI", null);
             }
         });

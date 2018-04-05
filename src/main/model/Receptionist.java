@@ -42,14 +42,16 @@ public class Receptionist implements IView, IModel
 
     // constructor for this class
     //----------------------------------------------------------
-    public Receptionist() {
+    public Receptionist()
+    {
         myStage = MainStageContainer.getInstance();
         myViews = new Hashtable<String, Scene>();
 
         // STEP 3.1: Create the Registry object - if you inherit from
         // EntityBase, this is done for you. Otherwise, you do it yourself
         myRegistry = new ModelRegistry("Receptionist");
-        if (myRegistry == null) {
+        if (myRegistry == null)
+        {
             new Event(Event.getLeafLevelClassName(this), "Receptionist",
                     "Could not instantiate Registry", Event.ERROR);
         }
@@ -62,11 +64,9 @@ public class Receptionist implements IView, IModel
     }
 
     //-----------------------------------------------------------------------------------
-    private void setDependencies() {
+    private void setDependencies()
+    {
         dependencies = new Properties();
-        //dependencies.setProperty("Login", "LoginError");
-
-
         myRegistry.setDependencies(dependencies);
     }
 
@@ -78,34 +78,34 @@ public class Receptionist implements IView, IModel
      * @return Value associated with the field
      */
     //----------------------------------------------------------
-    public Object getState(String key) {
-		/*if (key.equals("LoginError"))
-		{
-			return loginErrorMessage;
-		}
-	
-		else */
+    public Object getState(String key)
+    {
         return "";
     }
-
     //----------------------------------------------------------------
-    public void stateChangeRequest(String key, Object value) {
+    public void stateChangeRequest(String key, Object value)
+
+    {
         // STEP 4: Write the sCR method component for the key you
         // just set up dependencies for
         // DEBUG System.out.println("Receptionist.sCR: key = " + key);
 
-        if (key.equals("CancelTransaction")) {
+        if (key.equals("CancelTransaction"))
+        {
             createAndShowReceptionistView();
-        } else if (key.equals("ExitSystem")) {
+        }
+        else if (key.equals("ExitSystem"))
+        {
             System.exit(0);
-        } else if ((key.equals("AddArticleType")) || (key.equals("UpdateArticleType")) ||
+        }
+        else if ((key.equals("AddArticleType")) || (key.equals("UpdateArticleType")) ||
                 (key.equals("RemoveArticleType")) || (key.equals("AddColor")) ||
                 (key.equals("UpdateColor")) || (key.equals("RemoveColor")) ||
                 (key.equals("AddClothingItem")) || (key.equals("UpdateClothingItem")) ||
                 (key.equals("RemoveClothingItem")) || (key.equals("CheckoutClothingItem")) ||
                 (key.equals("LogRequest")) || (key.equals("FulfillRequest")) ||
-                (key.equals("RemoveRequest")) || (key.equals("ListAvailableInventory"))
-                ) {
+                (key.equals("RemoveRequest")) || (key.equals("ListAvailableInventory")))
+        {
             String transType = key;
 
             transType = transType.trim();
@@ -120,7 +120,8 @@ public class Receptionist implements IView, IModel
      * Called via the IView relationship
      */
     //----------------------------------------------------------
-    public void updateState(String key, Object value) {
+    public void updateState(String key, Object value)
+    {
         // DEBUG System.out.println("Receptionist.updateState: key: " + key);
 
         stateChangeRequest(key, value);
@@ -132,14 +133,15 @@ public class Receptionist implements IView, IModel
      * create.
      */
     //----------------------------------------------------------
-    public void doTransaction(String transactionType) {
+    public void doTransaction(String transactionType)
+    {
         try {
-            Transaction trans = TransactionFactory.createTransaction(
-                    transactionType);
+            Transaction trans = TransactionFactory.createTransaction(transactionType);
 
             trans.subscribe("CancelTransaction", this);
             trans.stateChangeRequest("DoYourJob", "");
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             transactionErrorMessage = "FATAL ERROR: TRANSACTION FAILURE: Unrecognized transaction!!";
             new Event(Event.getLeafLevelClassName(this), "createTransaction",
                     "Transaction Creation Failure: Unrecognized transaction " + ex.toString(),
@@ -149,25 +151,26 @@ public class Receptionist implements IView, IModel
 
 
     //------------------------------------------------------------
-    private void createAndShowReceptionistView() {
+    private void createAndShowReceptionistView()
+    {
         Scene currentScene = (Scene) myViews.get("ReceptionistView");
 
-        if (currentScene == null) {
+        if (currentScene == null)
+        {
             // create our initial view
             View newView = ViewFactory.createView("ReceptionistView", this); // USE VIEW FACTORY
             currentScene = new Scene(newView);
             myViews.put("ReceptionistView", currentScene);
         }
-
         swapToView(currentScene);
-
     }
 
     /**
      * Register objects to receive state updates.
      */
     //----------------------------------------------------------
-    public void subscribe(String key, IView subscriber) {
+    public void subscribe(String key, IView subscriber)
+    {
         // DEBUG: System.out.println("Cager[" + myTableName + "].subscribe");
         // forward to our registry
         myRegistry.subscribe(key, subscriber);
@@ -177,15 +180,17 @@ public class Receptionist implements IView, IModel
      * Unregister previously registered objects.
      */
     //----------------------------------------------------------
-    public void unSubscribe(String key, IView subscriber) {
+    public void unSubscribe(String key, IView subscriber)
+    {
         // DEBUG: System.out.println("Cager.unSubscribe");
         // forward to our registry
         myRegistry.unSubscribe(key, subscriber);
     }
-
     //-----------------------------------------------------------------------------
-    public void swapToView(Scene newScene) {
-        if (newScene == null) {
+    public void swapToView(Scene newScene)
+    {
+        if (newScene == null)
+        {
             System.out.println("Receptionist.swapToView(): Missing view for display");
             new Event(Event.getLeafLevelClassName(this), "swapToView",
                     "Missing view for display ", Event.ERROR);
@@ -195,11 +200,9 @@ public class Receptionist implements IView, IModel
         myStage.setScene(newScene);
         myStage.sizeToScene();
 
-
         //Place in center
         WindowPosition.placeCenter(myStage);
     }
-
 }
 
 

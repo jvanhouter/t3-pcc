@@ -37,7 +37,8 @@ abstract public class Transaction implements IView, IModel {
      * Constructor for this class.
      */
     //----------------------------------------------------------
-    protected Transaction() throws Exception {
+    protected Transaction() throws Exception
+    {
 
         myStage = MainStageContainer.getInstance();
         myViews = new Hashtable<String, Scene>();
@@ -62,15 +63,18 @@ abstract public class Transaction implements IView, IModel {
      * Template method
      */
     //---------------------------------------------------------
-    protected void doYourJob() {
+    protected void doYourJob()
+    {
 
-        try {
+        try
+        {
 
             Scene newScene = createView();
 
             swapToView(newScene);
 
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             new Event(Event.getLeafLevelClassName(this), "Transaction",
                     "Error in creating Transaction view", Event.ERROR);
         }
@@ -96,7 +100,8 @@ abstract public class Transaction implements IView, IModel {
      * Register objects to receive state updates.
      */
     //----------------------------------------------------------
-    public void subscribe(String key, IView subscriber) {
+    public void subscribe(String key, IView subscriber)
+    {
         // DEBUG: System.out.println("Cager[" + myTableName + "].subscribe");
         // forward to our registry
         myRegistry.subscribe(key, subscriber);
@@ -106,7 +111,8 @@ abstract public class Transaction implements IView, IModel {
      * Unregister previously registered objects.
      */
     //----------------------------------------------------------
-    public void unSubscribe(String key, IView subscriber) {
+    public void unSubscribe(String key, IView subscriber)
+    {
         // DEBUG: System.out.println("Cager.unSubscribe");
         // forward to our registry
         myRegistry.unSubscribe(key, subscriber);
@@ -116,7 +122,8 @@ abstract public class Transaction implements IView, IModel {
     //-----------------------------------------------------------------------------
     public void swapToView(Scene newScene) {
 
-        if (newScene == null) {
+        if (newScene == null)
+        {
             System.out.println("Transaction.swapToView(): Missing view for display");
             new Event(Event.getLeafLevelClassName(this), "swapToView",
                     "Missing view for display ", Event.ERROR);

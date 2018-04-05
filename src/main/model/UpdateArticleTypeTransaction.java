@@ -22,7 +22,6 @@ public class UpdateArticleTypeTransaction extends Transaction
 
 	private ArticleTypeCollection myArticleTypeList;
 	private ArticleType mySelectedArticleType;
-	
 
 	// GUI Components
 
@@ -74,7 +73,7 @@ public class UpdateArticleTypeTransaction extends Transaction
 		}
 		catch (Exception ex)
 		{
-				new Event(Event.getLeafLevelClassName(this), "processTransaction",
+			new Event(Event.getLeafLevelClassName(this), "processTransaction",
 					"Error in creating ArticleTypeCollectionView", Event.ERROR);
 		}
 	}
@@ -166,9 +165,7 @@ public class UpdateArticleTypeTransaction extends Transaction
 				// No change in barcode prefix, so just process the rest (description, alpha code). Helper does all that
 				articleTypeModificationHelper(props);
 			}
-			
 		}
-		
 	}
 	
 	//-----------------------------------------------------------

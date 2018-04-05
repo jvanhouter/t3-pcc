@@ -16,11 +16,8 @@ import exception.MultiplePrimaryKeysException;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-
-//TODO This class is still a work in progress, presently all errors are due to the absence of a model class.
 public class CheckoutClothingItemTransaction extends Transaction
 {
-    //TODO create ClothingItem model class
     private ClothingItem myClothingItem;
     private LinkedList<ClothingItem> clothingItems = new LinkedList<ClothingItem>();
 
@@ -37,7 +34,6 @@ public class CheckoutClothingItemTransaction extends Transaction
     {
         super();
     }
-    // TODO dependencies may be subject to change
     protected void setDependencies()
     {
         dependencies = new Properties();
@@ -158,13 +154,11 @@ public class CheckoutClothingItemTransaction extends Transaction
         //The EnterClothingItemBarcodeView should call here
         else if (key.equals("ProcessBarcode") == true)
         {
-//            System.out.println("BarcodeView returned: " + value);
             processTransaction((Properties)value);
         }
         //The EnterReceiverInformationView should call here
         else if (key.equals("ReceiverData") == true)
         {
-//            System.out.println("ReceiverView returned: " + value);
             processReceiver((Properties)value);
         }
         else if (key.equals("MoreData") == true)
@@ -175,7 +169,7 @@ public class CheckoutClothingItemTransaction extends Transaction
         {
            switchToEnterReceiverInformationView();
         }
-//      System.out.println(key);
+
         myRegistry.updateSubscribers(key, this);
     }
 

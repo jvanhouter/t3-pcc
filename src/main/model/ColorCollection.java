@@ -33,13 +33,11 @@ public class ColorCollection  extends EntityBase implements IView
     public ColorCollection( )
     {
         super(myTableName);
-
     }
 
     //-----------------------------------------------------------
     private void populateCollectionHelper(String query)
     {
-
         Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
         if (allDataRetrieved != null)
@@ -57,7 +55,6 @@ public class ColorCollection  extends EntityBase implements IView
                     addColor(ct);
                 }
             }
-
         }
     }
 

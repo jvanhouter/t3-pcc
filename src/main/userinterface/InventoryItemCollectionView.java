@@ -283,32 +283,9 @@ public class InventoryItemCollectionView extends View
                 receiverNetIdColumn, receiverLastNameColumn, receiverFirstNameColumn,
                 dateDonatedColumn, dateTakenColumn);
 
-//        tableOfInventory.setOnMousePressed(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event)
-//            {
-//                if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-//                    processArticleTypeSelected();
-//                }
-//            }
-//        });
-
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(InventoryTable);
-
-//        submitButton = new Button("Submit");
-//        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-//        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-//
-//            @Override
-//            public void handle(ActionEvent e) {
-//                clearErrorMessage();
-////                // do the inquiry
-////                processArticleTypeSelected();
-//
-//            }
-//        });
 
         cancelButton = new Button("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -332,8 +309,6 @@ public class InventoryItemCollectionView extends View
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
 
-//        btnContainer.getChildren().add(submitButton);
-
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);
@@ -346,21 +321,8 @@ public class InventoryItemCollectionView extends View
     //--------------------------------------------------------------------------
     public void updateState(String key, Object value)
     {
+
     }
-
-    //--------------------------------------------------------------------------
-//    protected void processArticleTypeSelected()
-//    {
-//        InventoryTableModel selectedItem = tableOfInventory.getSelectionModel().getSelectedItem();
-//
-//        if(selectedItem != null)
-//        {
-//            String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
-//
-//            myModel.stateChangeRequest("ArticleTypeSelected", selectedBarcodePrefix);
-//        }
-//    }
-
     //--------------------------------------------------------------------------
     protected MessageView createStatusLog(String initialMessage)
     {

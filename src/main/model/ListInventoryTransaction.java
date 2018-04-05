@@ -38,27 +38,6 @@ public class ListInventoryTransaction extends Transaction {
         myRegistry.setDependencies(dependencies);
     }
 
-    /**
-     * This method encapsulates all the logic of creating the article type,
-     * verifying its uniqueness, etc.
-     */
-//    //----------------------------------------------------------
-//    public void processTransaction(Properties props) {
-//
-//
-//        try
-//        {
-//            Scene newScene = createInventoryItemCollectionView();
-//            swapToView(newScene);
-//        } catch (Exception ex) {
-//            new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//                    "Error in creating ColorCollectionView", Event.ERROR);
-//        }
-//
-//    }
-
-
-
     //-----------------------------------------------------------
     public Object getState(String key) {
         if (key.equals("TransactionError") == true) {
@@ -78,7 +57,6 @@ public class ListInventoryTransaction extends Transaction {
         {
             doYourJob();
         }
-
         myRegistry.updateSubscribers(key, this);
     }
 
@@ -92,7 +70,7 @@ public class ListInventoryTransaction extends Transaction {
         myInvList = new InventoryItemCollection();
         myInvList.findAll();
 
-        Scene currentScene = null;//myViews.get("InventoryItemCollectionView");
+        Scene currentScene = null;
 
         if (currentScene == null) {
             // create our initial view
@@ -105,13 +83,4 @@ public class ListInventoryTransaction extends Transaction {
             return currentScene;
         }
     }
-
-//    protected Scene createColorCollectionView() {
-//        View newView = ViewFactory.createView("ColorCollectionView", this);
-//        Scene currentScene = new Scene(newView);
-//
-//        return currentScene;
-//
-//    }
-
 }

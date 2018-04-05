@@ -123,34 +123,18 @@ public class AddClothingItemTransaction extends Transaction
 	private void processBarcode(Properties props) {
 		if (props.getProperty("Barcode") != null) {
 			String barcode = props.getProperty("Barcode");
-//			try {
-//				ClothingItem oldClothingItem = new ClothingItem(barcode);
-//				transactionErrorMessage = "ERROR: Barcode Prefix " + barcode
-//						+ " already exists!";
-//				new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//						"Clothing item with barcode : " + barcode + " already exists!",
-//						Event.ERROR);
-//			} catch (InvalidPrimaryKeyException ex){
-//				// Barcode does not exist, parse barcode and populate view
+
+				// Barcode does not exist, parse barcode and populate view
 				String gender = barcode.substring(0, 1);
 				String articleTypePrefix = barcode.substring(1, 3);
 				String colorP1Prefix = barcode.substring(3, 5);
 				String sequence = barcode.substring(5, 8);
-//			}
+
             ArticleType test = null;
-//            try {
+
                 myArticleTypeList = new ArticleTypeCollection();
                 myArticleTypeList.findAll();
-//            } catch (InvalidPrimaryKeyException ex) {
-//                System.out.println("DEBUG");
-//
-//            } catch (MultiplePrimaryKeysException ex2) {
-//                transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
-//                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//                        "Found multiple article types with barcode prefix : " + articleTypePrefix + ". Reason: " + ex2.toString(),
-//                        Event.ERROR);
-//
-//            }
+
             System.out.println(myArticleTypeList);
             createAndShowAddClothingItemView();
 		}
@@ -175,10 +159,8 @@ public class AddClothingItemTransaction extends Transaction
 		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
 		if (key.equals("DoYourJob") || key.equals("CancelAddClothingItem")) {
-//		    createAndShowBarcodeScannerView();
 			doYourJob();
 		} else if (key.equals("ProcessBarcode")) {
-//			doYourJob();
 			processBarcode((Properties) value);
 		} else if (key.equals("ClothingItemData")) {
 			processTransaction((Properties)value);

@@ -139,7 +139,6 @@ public class UpdateColorTransaction extends Transaction {
                                 "Invalid barcode prefix : " + barcodePrefix + "! Must be numerical.",
                                 Event.ERROR);
                     }
-
                 }
                 catch (Exception ex2)
                 {
@@ -147,7 +146,6 @@ public class UpdateColorTransaction extends Transaction {
                     new Event(Event.getLeafLevelClassName(this), "processTransaction",
                             "Found multiple article types with barcode prefix : " + barcodePrefix + ". Reason: " + ex2.toString(),
                             Event.ERROR);
-
                 }
             }
             else
@@ -155,9 +153,7 @@ public class UpdateColorTransaction extends Transaction {
                 // No change in barcode prefix, so just process the rest (description, alpha code). Helper does all that
                 colorModificationHelper(props);
             }
-
         }
-
     }
 
     //-----------------------------------------------------------
@@ -203,7 +199,6 @@ public class UpdateColorTransaction extends Transaction {
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value)
     {
-
 
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
         {

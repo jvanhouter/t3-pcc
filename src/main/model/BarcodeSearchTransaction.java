@@ -59,66 +59,7 @@ public class BarcodeSearchTransaction extends Transaction
 		if (props.getProperty("Barcode") != null)
 		{
 			String barcode = props.getProperty("Barcode");
-//            if (transType.equals("AddClothingItem")) {
-//
-//            }
-//			try
-//			{
-//
-//				ArticleType oldArticleType = new ArticleType(barcodePrefix);
-//				transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
-//					+ " already exists!";
-//				new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//						"Article type with barcode prefix : " + barcodePrefix + " already exists!",
-//						Event.ERROR);
-//			}
-//			catch (InvalidPrimaryKeyException ex)
-//			{
-//				// Barcode prefix does not exist, validate data
-//				try
-//				{
-//					int barcodePrefixVal = Integer.parseInt(barcodePrefix);
-//					String descriptionOfAT = props.getProperty("Description");
-//					if (descriptionOfAT.length() > 30)
-//					{
-//						transactionErrorMessage = "ERROR: Article Type Description too long! ";
-//					}
-//					else
-//					{
-//						String alphaCode = props.getProperty("AlphaCode");
-//						if (alphaCode.length() > 5)
-//						{
-//							transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
-//						}
-//						else
-//						{
-//								props.setProperty("Status", "Active");
-//								myArticleType = new ArticleType(props);
-//								myArticleType.update();
-//								transactionErrorMessage = (String)myArticleType.getState("UpdateStatusMessage");
-//						}
-//					}
-//				}
-//				catch (Exception excep)
-//				{
-//					transactionErrorMessage = "ERROR: Invalid barcode prefix: " + barcodePrefix
-//						+ "! Must be numerical.";
-//					new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//						"Invalid barcode prefix : " + barcodePrefix + "! Must be numerical.",
-//						Event.ERROR);
-//				}
-//
-//			}
-//			catch (MultiplePrimaryKeysException ex2)
-//			{
-//				transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
-//				new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//					"Found multiple article types with barcode prefix : " + barcodePrefix + ". Reason: " + ex2.toString(),
-//					Event.ERROR);
-//
-//			}
 		}
-		
 	}
 
 	//-----------------------------------------------------------
@@ -128,8 +69,6 @@ public class BarcodeSearchTransaction extends Transaction
 		{
 			return transactionErrorMessage;
 		}
-		
-		
 		return null;
 	}
 
@@ -174,6 +113,5 @@ public class BarcodeSearchTransaction extends Transaction
 			return currentScene;
 		}
 	}
-
 }
 
