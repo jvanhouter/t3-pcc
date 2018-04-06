@@ -1,5 +1,6 @@
 package userinterface;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -23,18 +24,19 @@ public class ClothingItemTableModel
 	//----------------------------------------------------------------------------
 	public ClothingItemTableModel(Vector<String> atData)
 	{
+        /* Must be aligned to vector, data was offset drastically */
 		barcode =  new SimpleStringProperty(atData.elementAt(0));
 		gender =  new SimpleStringProperty(atData.elementAt(1));
-		color1 =  new SimpleStringProperty(atData.elementAt(2));
-		color2 =  new SimpleStringProperty(atData.elementAt(3));
-		brand =  new SimpleStringProperty(atData.elementAt(4));
-		articleType =  new SimpleStringProperty(atData.elementAt(5));
-		donorPhone =  new SimpleStringProperty(atData.elementAt(6));
-		donorEmail =  new SimpleStringProperty(atData.elementAt(7));
-		donorFirstName =  new SimpleStringProperty(atData.elementAt(8));
+		color1 =  new SimpleStringProperty(atData.elementAt(4));
+		color2 =  new SimpleStringProperty(atData.elementAt(5));
+		brand =  new SimpleStringProperty(atData.elementAt(6));
+		articleType =  new SimpleStringProperty(atData.elementAt(3));
+		donorPhone =  new SimpleStringProperty(atData.elementAt(11));
+		donorEmail =  new SimpleStringProperty(atData.elementAt(12));
+		donorFirstName =  new SimpleStringProperty(atData.elementAt(10));
 		donorLastName =  new SimpleStringProperty(atData.elementAt(9));
-		notes =  new SimpleStringProperty(atData.elementAt(10));
-		size =  new SimpleStringProperty(atData.elementAt(10));
+		notes =  new SimpleStringProperty(atData.elementAt(7));
+		size =  new SimpleStringProperty(atData.elementAt(2));
 		
 	}
 

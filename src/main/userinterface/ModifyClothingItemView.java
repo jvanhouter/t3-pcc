@@ -69,6 +69,7 @@ import model.ArticleType;
 				//genderCombo.setValue(genderString);
 			}
 			String atString = (String)myModel.getState("ArticleType");
+			System.out.println(atString);
 			if (atString != null)
 			{
 			//articleType.setPromptText(atString);

@@ -22,6 +22,9 @@ public class ModifyClothingItemTransaction extends Transaction {
     private ClothingItemCollection myClothingItemList;
     private ClothingItem mySelectedClothingItem;
 
+    private ArticleTypeCollection myArticleTypeList;
+    private ColorCollection myColorList;
+    private String gender;
 
     // GUI Components
 
@@ -57,11 +60,11 @@ public class ModifyClothingItemTransaction extends Transaction {
         if (props.getProperty("Barcode") != null) {
             String barcode = props.getProperty("Barcode");
             myClothingItemList.findByBarcode(barcode);
-        } else {
+        } /*else { Properties doesn't contain gender or article type
             String genderString = props.getProperty("Gender");
             String articleTypeString = props.getProperty("ArticleType");
             myClothingItemList.findByCriteria(articleTypeString, genderString);
-        }
+        }*/
 
         try {
             Scene newScene = createClothingItemCollectionView();
@@ -254,6 +257,12 @@ public class ModifyClothingItemTransaction extends Transaction {
                 return "";
         } else if (key.equals("TransactionError") == true) {
             return transactionErrorMessage;
+        } else if (key.equals("Gender")) {
+            return gender;
+        } else if (key.equals("Articles")) {
+            return myArticleTypeList.retrieveAll();
+        } else if (key.equals("Colors")) {
+            return myColorList.retrieveAll();
         }
         return null;
     }
@@ -268,6 +277,15 @@ public class ModifyClothingItemTransaction extends Transaction {
             processTransaction((Properties) value);
         } else if (key.equals("ClothingItemSelected") == true) {
             mySelectedClothingItem = myClothingItemList.retrieve((String) value);
+            myArticleTypeList = new ArticleTypeCollection();
+            myArticleTypeList.findAll();
+            myColorList = new ColorCollection();
+            myColorList.findAll();
+            String barcode = (String) mySelectedClothingItem.getState("Barcode");
+            if(barcode.substring(0, 1).equals("1"))
+                gender = "Mens";
+            else
+                gender = "Womens";
             try {
 
                 Scene newScene = createModifyClothingItemView();
@@ -277,6 +295,7 @@ public class ModifyClothingItemTransaction extends Transaction {
             } catch (Exception ex) {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Error in creating ModifyClothingItemView", Event.ERROR);
+                ex.printStackTrace();
             }
         } else if (key.equals("ClothingItemData") == true) {
             processClothingItemModification((Properties) value);

@@ -88,7 +88,6 @@ public class ClothingItemCollectionView extends View
 				(ClothingItemCollection)myModel.getState("ClothingItemList");
 
 	 		Vector entryList = (Vector)clothingItemCollection.getState("ClothingItems");
-
 			if (entryList.size() > 0)
 			{
 				Enumeration entries = entryList.elements();
@@ -113,6 +112,7 @@ public class ClothingItemCollectionView extends View
 		}
 		catch (Exception e) {//SQLException e) {
 			// Need to handle this exception
+			e.printStackTrace();
 		}
 	}
 
@@ -193,6 +193,12 @@ public class ClothingItemCollectionView extends View
 		genderColumn.setCellValueFactory(
 	                new PropertyValueFactory<ClothingItemTableModel, String>("gender"));
 
+		TableColumn sizeColumn = new TableColumn("Size") ;
+		sizeColumn.setMinWidth(50);
+		sizeColumn.setCellValueFactory(
+				new PropertyValueFactory<ClothingItemTableModel, String>("size"));
+
+
 		TableColumn colorOneColumn = new TableColumn("Color1") ;
 		colorOneColumn.setMinWidth(50);
 		colorOneColumn.setCellValueFactory(
@@ -224,13 +230,15 @@ public class ClothingItemCollectionView extends View
 				new PropertyValueFactory<ClothingItemTableModel, String>("notes"));
 
 		tableOfClothingItems.getColumns().addAll(barcodeColumn,
-				genderColumn, colorOneColumn, colorTwoColumn, articleTypeColumn, brandColumn, donorInfoColumn, notesColumn);
+				genderColumn, sizeColumn, colorOneColumn, colorTwoColumn, articleTypeColumn, brandColumn, donorInfoColumn, notesColumn);
 
 		tableOfClothingItems.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event)
 			{
 				if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+					clearErrorMessage();
+					displayMessage("Loading...");
 					processClothingItemSelected();
 				}
 			}
@@ -268,6 +276,7 @@ public class ClothingItemCollectionView extends View
        		     @Override
        		     public void handle(ActionEvent e) {
        		     	clearErrorMessage();
+       		     	displayMessage("Loading...");
 					// do the inquiry
 					processClothingItemSelected();
 
@@ -335,6 +344,7 @@ public class ClothingItemCollectionView extends View
 	//--------------------------------------------------------------------------
 	protected void processClothingItemSelected()
 	{
+
 		ClothingItemTableModel selectedItem = tableOfClothingItems.getSelectionModel().getSelectedItem();
 
 		if(selectedItem != null)
