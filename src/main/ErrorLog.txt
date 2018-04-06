@@ -28,3 +28,6 @@ The last packet successfully received from the server was 945,024 milliseconds a
 [4/3/18 5:45 PM]|RemoveRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
 [4/3/18 5:45 PM]|RemoveRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
 [4/3/18 5:45 PM]|RemoveRequestTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[4/5/18 9:50 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[4/5/18 9:50 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[4/5/18 9:50 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>

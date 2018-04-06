@@ -32,6 +32,12 @@ public class TransactionFactory {
             return new ModifyColorTransaction();
         } else if (transType.equals("RemoveColor")) {
             return new RemoveColorTransaction();
+        } else if (transType.equals("LogRequest")) {
+            return new LogRequestTransaction();
+        } else if (transType.equals("RemoveRequest")) {
+            return new RemoveRequestTransaction();
+        } else if (transType.equals("FulfillRequest")) {
+            return new FulfilRequestTransaction();
         } else if (transType.equals("ListAvailableInventory")) {
             System.out.println("TransactionFactory");
             return new ListInventoryTransaction();

@@ -17,7 +17,7 @@ import java.util.Properties;
 public class UpdateColorTransaction extends Transaction {
 
     private ColorCollection myColorList;
-    private ColorType mySelectedColor;
+    private Color mySelectedColor;
 
     // GUI Components
 

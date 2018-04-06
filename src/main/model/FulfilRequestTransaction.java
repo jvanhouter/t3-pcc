@@ -97,7 +97,7 @@ public class FulfilRequestTransaction extends Transaction
         if (key.equals("RequestData") == true)
         {
           myClothingRequest = myRequestCollection.retrieve((String) value);
-          processFufilRequest((Properties)value);
+          //processFufilRequest((Properties)value);
         }
 
         myRegistry.updateSubscribers(key, this);
@@ -162,6 +162,7 @@ public class FulfilRequestTransaction extends Transaction
           myClothingRequest.stateChangeRequest("Status", "Removed");
           myClothingRequest.update();
           transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
+	  }
     }
 
 
