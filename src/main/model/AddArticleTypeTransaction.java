@@ -97,6 +97,7 @@ public class AddArticleTypeTransaction extends Transaction
 				}
 				catch (Exception excep)
 				{
+					excep.printStackTrace();
 					transactionErrorMessage = "ERROR: Invalid barcode prefix: " + barcodePrefix 
 						+ "! Must be numerical.";
 					new Event(Event.getLeafLevelClassName(this), "processTransaction",
@@ -120,7 +121,7 @@ public class AddArticleTypeTransaction extends Transaction
 	//-----------------------------------------------------------
 	public Object getState(String key)
 	{
-		if (key.equals("TransactionError") == true)
+		if (key.equals("TransactionError"))
 		{
 			return transactionErrorMessage;
 		}
@@ -134,13 +135,9 @@ public class AddArticleTypeTransaction extends Transaction
 	{
 		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
-		if (key.equals("DoYourJob") == true)
-		{
+		if (key.equals("DoYourJob")) {
 			doYourJob();
-		}
-		else
-		if (key.equals("ArticleTypeData") == true)
-		{
+		} else if (key.equals("ArticleTypeData")) {
 			processTransaction((Properties)value);
 		}
 

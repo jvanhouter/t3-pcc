@@ -12,7 +12,9 @@ import java.util.Properties;
 import java.util.Vector;
 
 
-/** The class containing the UpdateArticleTypeTransaction for the Professional Clothes Closet application */
+
+/** The class containing the RemoveArticleTypeTransaction for the Professional Clothes Closet application */
+
 //==============================================================
 public class RemoveArticleTypeTransaction extends Transaction
 {

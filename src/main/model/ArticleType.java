@@ -24,6 +24,7 @@ import userinterface.ViewFactory;
 //==============================================================
 public class ArticleType extends EntityBase implements IView
 {
+
 	private static final String myTableName = "ArticleType";
 
 	protected Properties dependencies;
@@ -69,7 +70,7 @@ public class ArticleType extends EntityBase implements IView
 				persistentState = new Properties();
 
 				Enumeration allKeys = retrievedATData.propertyNames();
-				while (allKeys.hasMoreElements() == true)
+				while (allKeys.hasMoreElements())
 				{
 					String nextKey = (String)allKeys.nextElement();
 					String nextValue = retrievedATData.getProperty(nextKey);
@@ -102,7 +103,7 @@ public class ArticleType extends EntityBase implements IView
 		setDependencies();
 		persistentState = new Properties();
 		Enumeration allKeys = props.propertyNames();
-		while (allKeys.hasMoreElements() == true)
+		while (allKeys.hasMoreElements())
 		{
 			String nextKey = (String)allKeys.nextElement();
 			String nextValue = props.getProperty(nextKey);
@@ -125,7 +126,7 @@ public class ArticleType extends EntityBase implements IView
 	//----------------------------------------------------------
 	public Object getState(String key)
 	{
-		if (key.equals("UpdateStatusMessage") == true)
+		if (key.equals("UpdateStatusMessage"))
 			return updateStatusMessage;
 
 		return persistentState.getProperty(key);

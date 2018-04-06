@@ -15,9 +15,9 @@ import exception.MultiplePrimaryKeysException;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-/** The class containing the UpdateArticleTypeTransaction for the Professional Clothes Closet application */
+/** The class containing the ModifyArticleTypeTransaction for the Professional Clothes Closet application */
 //==============================================================
-public class UpdateArticleTypeTransaction extends Transaction
+public class ModifyArticleTypeTransaction extends Transaction
 {
 
 	private ArticleTypeCollection myArticleTypeList;
@@ -33,7 +33,7 @@ public class UpdateArticleTypeTransaction extends Transaction
 	 *
 	 */
 	//----------------------------------------------------------
-	public UpdateArticleTypeTransaction() throws Exception
+	public ModifyArticleTypeTransaction() throws Exception
 	{
 		super();
 	}
@@ -214,7 +214,7 @@ public class UpdateArticleTypeTransaction extends Transaction
 	//-----------------------------------------------------------
 	public void stateChangeRequest(String key, Object value)
 	{
-		// DEBUG System.out.println("UpdateArticleTypeTransaction.sCR: key: " + key);
+		// DEBUG System.out.println("ModifyArticleTypeTransaction.sCR: key: " + key);
 
 		if ((key.equals("DoYourJob") == true) || (key.equals("CancelArticleTypeList") == true))
 		{

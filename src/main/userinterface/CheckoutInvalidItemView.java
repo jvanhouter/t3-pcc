@@ -1,4 +1,3 @@
-// specify the package
 package userinterface;
 
 // system imports
@@ -28,14 +27,12 @@ import java.util.Properties;
 // project imports
 import impresario.IModel;
 
-/** The class containing the Add Article Type View  for the Professional Clothes
- *  Closet application
- */
-//==============================================================
-public class RemoveArticleTypeView extends View
-{
+public class CheckoutInvalidItemView extends View {
 
-    protected Button submitButton;
+    // GUI components
+
+    protected Button addAnotherBarcodeButton;
+    protected Button enterReceiverInformationButton;
     protected Button cancelButton;
 
     // For showing error message
@@ -43,9 +40,9 @@ public class RemoveArticleTypeView extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public RemoveArticleTypeView(IModel at)
+    public CheckoutInvalidItemView(IModel at)
     {
-        super(at, "RemoveArticleTypeView");
+        super(at, "CheckoutInvalidItemView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -57,7 +54,10 @@ public class RemoveArticleTypeView extends View
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
 
-        container.getChildren().add(createStatusLog("             "));
+        //The initial status message needs to be the current barcodes.
+        String initialMessage = (String) myModel.getState("BarcodeError");
+        container.getChildren().add(createStatusLog(""));
+        displayErrorMessage(initialMessage);
 
         getChildren().add(container);
 
@@ -69,7 +69,7 @@ public class RemoveArticleTypeView extends View
     //-------------------------------------------------------------
     protected String getActionText()
     {
-        return "** Remove Article Type **";
+        return "** ERROR **";
     }
 
     // Create the title container
@@ -111,7 +111,7 @@ public class RemoveArticleTypeView extends View
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
+        actionText.setFill(Color.RED);
         container.getChildren().add(actionText);
 
         return container;
@@ -123,87 +123,79 @@ public class RemoveArticleTypeView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt1 = new Text("Are you sure you wish to remove article type?");
-        prompt1.setWrappingWidth(400);
-        prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFill(Color.BLACK);
-        prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        vbox.getChildren().add(prompt1);
+        Text prompt = new Text("The Clothing Item associated with this barcode can not be checked out.");
+        prompt.setWrappingWidth(400);
+        prompt.setTextAlignment(TextAlignment.CENTER);
+        prompt.setFill(Color.BLACK);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        vbox.getChildren().add(prompt);
 
-        HBox doneCont = new HBox(10);
+//        Text prompt2 = new Text("The Barcode may not exist. The status may not be \"Donated\". " +
+//                "The ");
+//        prompt2.setWrappingWidth(400);
+//        prompt2.setTextAlignment(TextAlignment.CENTER);
+//        prompt2.setFill(Color.BLACK);
+//        prompt2.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 12));
+//        vbox.getChildren().add(prompt2);
+
+
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(0, 25, 10, 0));
+
+        VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        submitButton = new Button("Yes");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+        addAnotherBarcodeButton = new Button("Add Different Barcode");
+        addAnotherBarcodeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        addAnotherBarcodeButton.setPrefSize(250, 20);
+        addAnotherBarcodeButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
-                myModel.stateChangeRequest("RemoveArticleType", null);
+                clearErrorMessage();
+
+                myModel.stateChangeRequest("MoreData", null);
+
+
             }
         });
-        doneCont.getChildren().add(submitButton);
+        doneCont.getChildren().add(addAnotherBarcodeButton);
 
-        cancelButton = new Button("No");
+        enterReceiverInformationButton = new Button("Checkout Items");
+        enterReceiverInformationButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        enterReceiverInformationButton.setPrefSize(250, 20);
+        enterReceiverInformationButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                clearErrorMessage();
+                myModel.stateChangeRequest("NoMoreData", null);
+            }
+        });
+        doneCont.getChildren().add(enterReceiverInformationButton);
+
+
+        doneCont.setAlignment(Pos.CENTER);
+        cancelButton = new Button("Cancel");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
+        cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelRemoveAT", null);
+                myModel.stateChangeRequest("CancelBarcodeSearch", null);
             }
         });
         doneCont.getChildren().add(cancelButton);
 
+        vbox.getChildren().add(grid);
         vbox.getChildren().add(doneCont);
 
         return vbox;
     }
-
 
     // Create the status log field
     //-------------------------------------------------------------
@@ -274,4 +266,3 @@ public class RemoveArticleTypeView extends View
 
 //---------------------------------------------------------------
 //	Revision History:
-//

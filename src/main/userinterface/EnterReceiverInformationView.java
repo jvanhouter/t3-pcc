@@ -1,4 +1,3 @@
-// specify the package
 package userinterface;
 
 // system imports
@@ -28,12 +27,12 @@ import java.util.Properties;
 // project imports
 import impresario.IModel;
 
-/** The class containing the Add Article Type View  for the Professional Clothes
- *  Closet application
- */
-//==============================================================
-public class RemoveArticleTypeView extends View
-{
+public class EnterReceiverInformationView extends View {
+
+    // GUI components
+    protected TextField netId;
+    protected TextField fName;
+    protected TextField lName;
 
     protected Button submitButton;
     protected Button cancelButton;
@@ -43,9 +42,9 @@ public class RemoveArticleTypeView extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public RemoveArticleTypeView(IModel at)
+    public EnterReceiverInformationView(IModel at)
     {
-        super(at, "RemoveArticleTypeView");
+        super(at, "EnterReceiverInformationView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -57,19 +56,31 @@ public class RemoveArticleTypeView extends View
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
 
-        container.getChildren().add(createStatusLog("             "));
+        //The initial status message neds to be the current barcodes.
+        String initialMessage = "";
+        String barcodeList = (String) myModel.getState("Cart");
+        if(barcodeList == null || barcodeList.equals(""))
+        {
+            initialMessage = "Cart is empty";
+        }
+        else
+        {
+            initialMessage = "Cart: " + barcodeList;
+        }
+        container.getChildren().add(createStatusLog(initialMessage));
 
         getChildren().add(container);
 
         populateFields();
 
         myModel.subscribe("TransactionError", this);
+
     }
 
     //-------------------------------------------------------------
     protected String getActionText()
     {
-        return "** Remove Article Type **";
+        return "** Checkout a Clothing Item **";
     }
 
     // Create the title container
@@ -123,16 +134,51 @@ public class RemoveArticleTypeView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt1 = new Text("Are you sure you wish to remove article type?");
-        prompt1.setWrappingWidth(400);
-        prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFill(Color.BLACK);
-        prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        vbox.getChildren().add(prompt1);
+        Text prompt = new Text("ENTER RECIPIENT INFORMATION");
+        prompt.setWrappingWidth(400);
+        prompt.setTextAlignment(TextAlignment.CENTER);
+        prompt.setFill(Color.BLACK);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        vbox.getChildren().add(prompt);
+
+
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(0, 25, 10, 0));
+
+        Text netIdLabel = new Text(" Net ID : ");
+        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
+        netIdLabel.setFont(myFont);
+        netIdLabel.setWrappingWidth(150);
+        netIdLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(netIdLabel, 0, 1);
+
+        netId = new TextField();
+        grid.add(netId, 1, 1);
+
+        Text fNameLabel = new Text(" First Name : ");
+        fNameLabel.setFont(myFont);
+        fNameLabel.setWrappingWidth(150);
+        fNameLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(fNameLabel, 0, 2);
+
+        fName = new TextField();
+        grid.add(fName, 1, 2);
+
+        Text lNameLabel = new Text(" Last Name : ");
+        lNameLabel.setFont(myFont);
+        lNameLabel.setWrappingWidth(150);
+        lNameLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(lNameLabel, 0, 3);
+
+        lName = new TextField();
+        grid.add(lName, 1, 3);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        submitButton = new Button("Yes");
+        submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         submitButton.setOnMouseEntered(me ->
         {
@@ -159,13 +205,46 @@ public class RemoveArticleTypeView extends View
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
-            public void handle(ActionEvent e) {
-                myModel.stateChangeRequest("RemoveArticleType", null);
+            public void handle(ActionEvent e)
+            {
+                clearErrorMessage();
+                Properties props = new Properties();
+                String netIdReceiver = netId.getText();
+                if (netIdReceiver.length() == 9)
+                {
+                    props.setProperty("ReceiverNetid", netIdReceiver);
+                    String fNameReceiver = fName.getText();
+                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < 36)
+                    {
+                        props.setProperty("ReceiverFirstName", fNameReceiver);
+                        String lNameReceiver = lName.getText();
+                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < 36)
+                        {
+                            props.setProperty("ReceiverLastName", lNameReceiver);
+                            myModel.stateChangeRequest("ReceiverData", props);
+                        }
+                        else
+                        {
+                            displayErrorMessage("ERROR: Last name incorrect size!");
+                        }
+                    }
+                    else
+                    {
+                        displayErrorMessage("ERROR: First name incorrect size!");
+                    }
+
+                }
+                else
+                {
+                    displayErrorMessage("ERROR: NetId Incorrect Size!");
+
+                }
+
             }
         });
         doneCont.getChildren().add(submitButton);
 
-        cancelButton = new Button("No");
+        cancelButton = new Button("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setOnMouseEntered(me ->
    	        {
@@ -194,16 +273,17 @@ public class RemoveArticleTypeView extends View
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelRemoveAT", null);
+                //TODO "CancelCheckoutItem" MAY BE DEPENDANT ON CONTROLLER AND THUS SUBJECT TO CHANGE OR FUTURE USE.
+                myModel.stateChangeRequest("CancelCheckoutCI", null);
             }
         });
         doneCont.getChildren().add(cancelButton);
 
+        vbox.getChildren().add(grid);
         vbox.getChildren().add(doneCont);
 
         return vbox;
     }
-
 
     // Create the status log field
     //-------------------------------------------------------------

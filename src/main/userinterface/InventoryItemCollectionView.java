@@ -1,7 +1,6 @@
 package userinterface;
 
 // system imports
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,29 +32,29 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-
 import java.util.Vector;
 import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
-import model.Color;
-import model.ColorCollection;
+//import model.Item;
+import model.ClothingItem;
+import model.InventoryItemCollection;
 
 //==============================================================================
-public class ColorCollectionView extends View
+public class InventoryItemCollectionView extends View
 {
-    protected TableView<ColorTableModel> tableOfColorTypes;
+    protected TableView<InventoryTableModel> InventoryTable;
     protected Button cancelButton;
-    protected Button submitButton;
+//    protected Button submitButton;
 
     protected MessageView statusLog;
 
 
     //--------------------------------------------------------------------------
-    public ColorCollectionView(IModel matt)
+    public InventoryItemCollectionView(IModel inv)
     {
-        super(matt, "ColorCollectionView");
+        super(inv, "InventoryItemCollectionView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -63,6 +62,7 @@ public class ColorCollectionView extends View
 
         // create our GUI components, add them to this panel
         container.getChildren().add(createTitle());
+
         container.getChildren().add(createFormContent());
 
         // Error message area
@@ -72,6 +72,7 @@ public class ColorCollectionView extends View
 
         populateFields();
     }
+
 
     //--------------------------------------------------------------------------
     protected void populateFields()
@@ -83,13 +84,13 @@ public class ColorCollectionView extends View
     protected void getEntryTableModelValues()
     {
 
-        ObservableList<ColorTableModel> tableData = FXCollections.observableArrayList();
+        ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
         try
         {
-            ColorCollection colorCollection =
-                    (ColorCollection)myModel.getState("ColorList");
+            InventoryItemCollection inventoryItemCollection =
+                    (InventoryItemCollection)myModel.getState("InventoryList");
 
-            Vector entryList = (Vector)colorCollection.getState("ColorTypes");
+            Vector entryList = (Vector)inventoryItemCollection.getState("InventoryItems");
 
             if (entryList.size() > 0)
             {
@@ -97,12 +98,11 @@ public class ColorCollectionView extends View
 
                 while (entries.hasMoreElements() == true)
                 {
-
-                    Color nextCT = (Color)entries.nextElement();
-                    Vector<String> view = nextCT.getEntryListView();
+                    ClothingItem nextCI = (ClothingItem)entries.nextElement();
+                    Vector<String> view = nextCI.getEntryListView();
 
                     // add this list entry to the list
-                    ColorTableModel nextTableRowData = new ColorTableModel(view);
+                    InventoryTableModel nextTableRowData = new InventoryTableModel(view);
                     tableData.add(nextTableRowData);
 
                 }
@@ -112,7 +112,7 @@ public class ColorCollectionView extends View
                 displayMessage("No matching entries found!");
             }
 
-            tableOfColorTypes.setItems(tableData);
+            InventoryTable.setItems(tableData);
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
@@ -130,36 +130,35 @@ public class ColorCollectionView extends View
         clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         clientText.setWrappingWidth(350);
         clientText.setTextAlignment(TextAlignment.CENTER);
-
-        clientText.setFill(javafx.scene.paint.Color.DARKGREEN);
+        clientText.setFill(Color.DARKGREEN);
         container.getChildren().add(clientText);
 
         Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
         collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         collegeText.setWrappingWidth(350);
         collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(javafx.scene.paint.Color.DARKGREEN);
+        collegeText.setFill(Color.DARKGREEN);
         container.getChildren().add(collegeText);
 
         Text titleText = new Text(" Professional Clothes Closet Management System ");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setWrappingWidth(350);
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(javafx.scene.paint.Color.DARKGREEN);
+        titleText.setFill(Color.DARKGREEN);
         container.getChildren().add(titleText);
 
         Text blankText = new Text("  ");
         blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         blankText.setWrappingWidth(350);
         blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(javafx.scene.paint.Color.WHITE);
+        blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
-        Text actionText = new Text("      ** Matching Colors **       ");
+        Text actionText = new Text("      ** Available Inventory **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(javafx.scene.paint.Color.BLACK);
+        actionText.setFill(Color.BLACK);
         container.getChildren().add(actionText);
 
         return container;
@@ -174,7 +173,7 @@ public class ColorCollectionView extends View
         Text prompt = new Text("");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(javafx.scene.paint.Color.BLACK);
+        prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
@@ -184,104 +183,112 @@ public class ColorCollectionView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        tableOfColorTypes = new TableView<ColorTableModel>();
-        tableOfColorTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        InventoryTable = new TableView<InventoryTableModel>();
+        InventoryTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
-        barcodePrefixColumn.setMinWidth(50);
-        barcodePrefixColumn.setCellValueFactory(
-                new PropertyValueFactory<ColorTableModel, String>("barcodePrefix"));
+        TableColumn barcodeColumn = new TableColumn("Barcode") ;
+        barcodeColumn.setMinWidth(50);
+        barcodeColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("barcode"));
 
-        TableColumn descriptionColumn = new TableColumn("Description") ;
-        descriptionColumn.setMinWidth(150);
-        descriptionColumn.setCellValueFactory(
-                new PropertyValueFactory<ColorTableModel, String>("description"));
+        TableColumn genderColumn = new TableColumn("Gender") ;
+        genderColumn.setMinWidth(150);
+        genderColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("gender"));
 
-        TableColumn alphaCodeColumn = new TableColumn("Alpha Code") ;
-        alphaCodeColumn.setMinWidth(50);
-        alphaCodeColumn.setCellValueFactory(
-                new PropertyValueFactory<ColorTableModel, String>("alphaCode"));
+        TableColumn sizeColumn = new TableColumn("Size") ;
+        sizeColumn.setMinWidth(50);
+        sizeColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("size"));
+
+        TableColumn articleTypeColumn = new TableColumn("Article Type") ;
+        articleTypeColumn.setMinWidth(50);
+        articleTypeColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("articleType"));
+
+        TableColumn color1Column = new TableColumn("Color1") ;
+        color1Column.setMinWidth(50);
+        color1Column.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("color1"));
+
+        TableColumn color2Column = new TableColumn("Color2") ;
+        color2Column.setMinWidth(50);
+        color2Column.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("color2"));
+
+        TableColumn brandColumn = new TableColumn("Brand") ;
+        brandColumn.setMinWidth(50);
+        brandColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("brand"));
+
+        TableColumn notesColumn = new TableColumn("Notes") ;
+        notesColumn.setMinWidth(50);
+        notesColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("notes"));
 
         TableColumn statusColumn = new TableColumn("Status") ;
         statusColumn.setMinWidth(50);
         statusColumn.setCellValueFactory(
-                new PropertyValueFactory<ColorTableModel, String>("status"));
+                new PropertyValueFactory<InventoryTableModel, String>("status"));
 
-                tableOfColorTypes.getColumns().addAll(descriptionColumn,
-                        barcodePrefixColumn, alphaCodeColumn, statusColumn);
+        TableColumn donorFirstNameColumn = new TableColumn("Donor First Name") ;
+        donorFirstNameColumn.setMinWidth(50);
+        donorFirstNameColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("donorFirstName"));
 
-                tableOfColorTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event)
-                    {
-                        if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processColorSelected();
-                }
-            }
-        });
+        TableColumn donorLastNameColumn = new TableColumn("Donor Last Name") ;
+        donorLastNameColumn.setMinWidth(50);
+        donorLastNameColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("donorLastName"));
+
+        TableColumn donorPhoneColumn = new TableColumn("Donor Phone") ;
+        donorPhoneColumn.setMinWidth(50);
+        donorPhoneColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("donorPhone"));
+
+        TableColumn donorEmailColumn = new TableColumn("Donor Email") ;
+        donorEmailColumn.setMinWidth(50);
+        donorEmailColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("donorEmail"));
+
+        TableColumn receiverNetIdColumn = new TableColumn("Receiver Net ID") ;
+        receiverNetIdColumn.setMinWidth(50);
+        receiverNetIdColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("receiverNetId"));
+
+        TableColumn receiverFirstNameColumn = new TableColumn("Receiver First Name") ;
+        receiverFirstNameColumn.setMinWidth(50);
+        receiverFirstNameColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("receiverFirstName"));
+
+        TableColumn receiverLastNameColumn = new TableColumn("Receiver Last Name") ;
+        receiverLastNameColumn.setMinWidth(50);
+        receiverLastNameColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("receiverLastName"));
+
+        TableColumn dateDonatedColumn = new TableColumn("Date Donated") ;
+        dateDonatedColumn.setMinWidth(50);
+        dateDonatedColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("dateDonated"));
+
+        TableColumn dateTakenColumn = new TableColumn("Date Taken") ;
+        dateTakenColumn.setMinWidth(50);
+        dateTakenColumn.setCellValueFactory(
+                new PropertyValueFactory<InventoryTableModel, String>("dateTaken"));
+
+
+        InventoryTable.getColumns().addAll(barcodeColumn, genderColumn, sizeColumn,
+                articleTypeColumn, color1Column, color2Column, brandColumn, notesColumn, statusColumn,
+                donorLastNameColumn, donorFirstNameColumn, donorPhoneColumn, donorEmailColumn,
+                receiverNetIdColumn, receiverLastNameColumn, receiverFirstNameColumn,
+                dateDonatedColumn, dateTakenColumn);
+
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfColorTypes);
-
-        submitButton = new Button("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                // do the inquiry
-                processColorSelected();
-
-            }
-        });
+        scrollPane.setContent(InventoryTable);
 
         cancelButton = new Button("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -295,13 +302,13 @@ public class ColorCollectionView extends View
                  */
                 //----------------------------------------------------------
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelColorList", null);
+                myModel.stateChangeRequest("CancelInventory", null);
             }
         });
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(submitButton);
+
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);
@@ -314,21 +321,8 @@ public class ColorCollectionView extends View
     //--------------------------------------------------------------------------
     public void updateState(String key, Object value)
     {
+
     }
-
-    //--------------------------------------------------------------------------
-    protected void processColorSelected()
-    {
-        ColorTableModel selectedItem = tableOfColorTypes.getSelectionModel().getSelectedItem();
-
-        if(selectedItem != null)
-        {
-            String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
-
-            myModel.stateChangeRequest("ColorSelected", selectedBarcodePrefix);
-        }
-    }
-
     //--------------------------------------------------------------------------
     protected MessageView createStatusLog(String initialMessage)
     {
@@ -358,3 +352,4 @@ public class ColorCollectionView extends View
 
 
 }
+

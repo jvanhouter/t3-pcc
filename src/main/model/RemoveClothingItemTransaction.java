@@ -2,7 +2,6 @@
 package model;
 
 // system imports
-
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.Properties;
@@ -13,53 +12,52 @@ import event.Event;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
 
-
 import userinterface.View;
 import userinterface.ViewFactory;
 
-/** The class containing the RemoveColorTransaction for the Professional Clothes Closet application */
+/** The class containing the RemoveClothingItemTransaction for the Professional Clothes Closet application */
 //==============================================================
-public class RemoveColorTransaction extends Transaction {
+public class RemoveClothingItemTransaction extends Transaction {
 
-    private ColorCollection myColorList;
-
-    private Color mySelectedColor;
+    //private ColorCollection myColorList;
+    private ClothingItem mySelectedItem;
 
 
     // GUI Components
 
     private String transactionErrorMessage = "";
-    private String colorRemoveStatusMessage = "";
+    private String clothingRemoveStatusMessage = "";
 
     /**
      * Constructor for this class.
      */
     //----------------------------------------------------------
-    public RemoveColorTransaction() throws Exception {
+    public RemoveClothingItemTransaction() throws Exception {
         super();
     }
 
     //----------------------------------------------------------
     protected void setDependencies() {
         dependencies = new Properties();
-        dependencies.setProperty("CancelSearchColor", "CancelTransaction");
-        dependencies.setProperty("CancelRemoveCT", "CancelTransaction");
-        dependencies.setProperty("RemoveColor", "TransactionError");
+        dependencies.setProperty("CancelSearchClothingItem", "CancelTransaction");
+        dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
+        dependencies.setProperty("CancelRemoveCI", "CancelTransaction");
+        dependencies.setProperty("RemoveClothingItem", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
     }
 
     /**
-     * This method encapsulates all the logic of creating the color,
+     * This method encapsulates all the logic of creating the article type,
      * verifying its uniqueness, etc.
      */
     //----------------------------------------------------------
     public void processTransaction(Properties props) {
-        myColorList = new ColorCollection();
-		String desc = props.getProperty("Description");
-		String alfaC = props.getProperty("AlphaCode");
-		myColorList.findByCriteria(desc, alfaC);
-        
+        //myColorList = new ColorCollection();
+        String desc = props.getProperty("Description");
+        String alfaC = props.getProperty("AlphaCode");
+        //myColorList.findByCriteria(desc, alfaC);
+
         try
         {
             Scene newScene = createColorCollectionView();
@@ -73,24 +71,25 @@ public class RemoveColorTransaction extends Transaction {
 
     private void processColorRemoval()
     {
-        if(mySelectedColor != null) {
-            mySelectedColor.stateChangeRequest("Status", "Inactive");
-            mySelectedColor.update();
-            transactionErrorMessage = (String)mySelectedColor.getState("UpdateStatusMessage");
+        if(mySelectedItem != null) {
+            mySelectedItem.stateChangeRequest("Status", "Removed");
+            mySelectedItem.update();
+            transactionErrorMessage = (String)mySelectedItem.getState("UpdateStatusMessage");
         }
     }
 
 
     //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("TransactionError") == true) {
+        if (key.equals("TransactionError")) {
             return transactionErrorMessage;
-        } 
-		else
-		if (key.equals("ColorList") == true) {
-			return myColorList;
-		}
-		else
+        }
+        else
+            /*
+        if (key.equals("ClothingList") == true) {
+            return myColorList;
+        }
+        else
         if (key.equals("BarcodePrefix") == true)
         {
             if (mySelectedColor != null)
@@ -113,30 +112,37 @@ public class RemoveColorTransaction extends Transaction {
                 return mySelectedColor.getState("AlphaCode");
             else
                 return "";
-        }
+        }*/
         return null;
     }
 
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
+        if ((key.equals("DoYourJob") == true) || (key.equals("CancelClothingItemList") == true))
         {
             doYourJob();
         }
         else
-        if (key.equals("SearchColor") == true)
+        if (key.equals("SearchClothingList") == true)
         {
             processTransaction((Properties)value);
         }
         else
-        if (key.equals("ColorSelected") == true)
+        if (key.equals("ProcessBarcode") == true)
         {
-            mySelectedColor = myColorList.retrieve((String)value);
+            try {
+                Properties p = (Properties) value;
+                mySelectedItem = new ClothingItem((String) p.get("Barcode")); //passes entire barcode
+            } catch (InvalidPrimaryKeyException e) {
+                e.printStackTrace();
+            } catch (MultiplePrimaryKeysException e) {
+                e.printStackTrace();
+            }
             try
             {
 
-                Scene newScene = createRemoveColorView();
+                Scene newScene = createRemoveClothingItemView();
 
                 swapToView(newScene);
 
@@ -144,11 +150,11 @@ public class RemoveColorTransaction extends Transaction {
             catch (Exception ex)
             {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Error in creating RemoveColorView", Event.ERROR);
+                        "Error in creating RemoveClothingItemView", Event.ERROR);
             }
         }
         else
-        if (key.equals("RemoveColor") == true)
+        if (key.equals("RemoveClothingItem") == true)
         {
             processColorRemoval();
         }
@@ -162,13 +168,13 @@ public class RemoveColorTransaction extends Transaction {
      */
     //------------------------------------------------------
     protected Scene createView() {
-        Scene currentScene = myViews.get("SearchColorView");
+        Scene currentScene = myViews.get("BarcodeScannerView");
 
         if (currentScene == null) {
             // create our initial view
-            View newView = ViewFactory.createView("SearchColorView", this);
+            View newView = ViewFactory.createView("BarcodeScannerView", this);
             currentScene = new Scene(newView);
-            myViews.put("SearchColorView", currentScene);
+            myViews.put("BarcodeScannerView", currentScene);
 
             return currentScene;
         } else {
@@ -186,8 +192,8 @@ public class RemoveColorTransaction extends Transaction {
 
 
     //------------------------------------------------------
-    protected Scene createRemoveColorView() {
-        View newView = ViewFactory.createView("RemoveColorView", this);
+    protected Scene createRemoveClothingItemView() {
+        View newView = ViewFactory.createView("RemoveClothingItemView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;

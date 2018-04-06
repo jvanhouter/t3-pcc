@@ -69,7 +69,7 @@ public class RemoveColorView extends View
     //-------------------------------------------------------------
     protected String getActionText()
     {
-        return "** Remove Article Type **";
+        return "** Remove Color Type **";
     }
 
     // Create the title container
@@ -123,7 +123,7 @@ public class RemoveColorView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt1 = new Text("Are u sure u wish to remove colour");
+        Text prompt1 = new Text("Are you sure you wish to remove color?");
         prompt1.setWrappingWidth(400);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
@@ -134,6 +134,28 @@ public class RemoveColorView extends View
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new Button("Yes");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        submitButton.setOnMouseEntered(me ->
+        {
+        	submitButton.setScaleX(1.1);
+        	submitButton.setScaleY(1.1);
+        });
+
+        submitButton.setOnMouseExited(me ->
+        {
+        	submitButton.setScaleX(1);
+        	submitButton.setScaleY(1);
+        });
+
+        submitButton.setOnMousePressed(me ->
+    {
+    	submitButton.setScaleX(0.9);
+    	submitButton.setScaleY(0.9);
+    });
+        submitButton.setOnMouseReleased(me ->
+    {
+    	submitButton.setScaleX(1.1);
+    	submitButton.setScaleY(1.1);
+    });
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -145,6 +167,29 @@ public class RemoveColorView extends View
 
         cancelButton = new Button("No");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+        cancelButton.setOnMouseEntered(me ->
+   	        {
+   	        	cancelButton.setScaleX(1.1);
+   	        	cancelButton.setScaleY(1.1);
+   	        });
+
+   	        cancelButton.setOnMouseExited(me ->
+   	        {
+   	        	cancelButton.setScaleX(1);
+   	        	cancelButton.setScaleY(1);
+   	        });
+
+   	        cancelButton.setOnMousePressed(me ->
+   	    {
+   	    	cancelButton.setScaleX(0.9);
+   	    	cancelButton.setScaleY(0.9);
+   	    });
+   	        cancelButton.setOnMouseReleased(me ->
+   	    {
+   	    	cancelButton.setScaleX(1.1);
+   	    	cancelButton.setScaleY(1.1);
+   	    });
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -231,5 +276,3 @@ public class RemoveColorView extends View
 //---------------------------------------------------------------
 //	Revision History:
 //
-
-
