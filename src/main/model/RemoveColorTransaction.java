@@ -2,11 +2,17 @@
 package model;
 
 // system imports
+
+import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.Properties;
+import java.util.Vector;
 
 // project imports
 import event.Event;
+import exception.InvalidPrimaryKeyException;
+import exception.MultiplePrimaryKeysException;
+
 
 import userinterface.View;
 import userinterface.ViewFactory;
@@ -16,6 +22,7 @@ import userinterface.ViewFactory;
 public class RemoveColorTransaction extends Transaction {
 
     private ColorCollection myColorList;
+
     private Color mySelectedColor;
 
 

@@ -32,13 +32,8 @@ import impresario.IModel;
  *  Closet application
  */
 //==============================================================
-public class AddColorView extends View
+public class RemoveRequestView extends View
 {
-
-    // GUI components
-    protected TextField barcodePrefix;
-    protected TextField description;
-    protected TextField alphaCode;
 
     protected Button submitButton;
     protected Button cancelButton;
@@ -48,9 +43,9 @@ public class AddColorView extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public AddColorView(IModel at)
+    public RemoveRequestView(IModel at)
     {
-        super(at, "AddColorView");
+        super(at, "RemoveRequestView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -74,7 +69,7 @@ public class AddColorView extends View
     //-------------------------------------------------------------
     protected String getActionText()
     {
-        return "** Adding a new Color Type **";
+        return "** Remove Request **";
     }
 
     // Create the title container
@@ -128,154 +123,38 @@ public class AddColorView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("COLOR TYPE INFORMATION");
-        prompt.setWrappingWidth(400);
-        prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        vbox.getChildren().add(prompt);
-
-
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
-
-        Text barcodePrefixLabel = new Text(" Barcode Prefix : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
-        barcodePrefixLabel.setFont(myFont);
-        barcodePrefixLabel.setWrappingWidth(150);
-        barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(barcodePrefixLabel, 0, 1);
-
-        barcodePrefix = new TextField();
-        grid.add(barcodePrefix, 1, 1);
-
-        Text descripLabel = new Text(" Description : ");
-        descripLabel.setFont(myFont);
-        descripLabel.setWrappingWidth(150);
-        descripLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(descripLabel, 0, 2);
-
-        description = new TextField();
-        grid.add(description, 1, 2);
-
-        Text alphaCodeLabel = new Text(" Alpha Code : ");
-        alphaCodeLabel.setFont(myFont);
-        alphaCodeLabel.setWrappingWidth(150);
-        alphaCodeLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(alphaCodeLabel, 0, 3);
-
-        alphaCode = new TextField();
-        grid.add(alphaCode, 1, 3);
+        Text prompt1 = new Text("Are you sure you wish to remove this request");
+        prompt1.setWrappingWidth(400);
+        prompt1.setTextAlignment(TextAlignment.CENTER);
+        prompt1.setFill(Color.BLACK);
+        prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        vbox.getChildren().add(prompt1);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        submitButton = new Button("Submit");
+        submitButton = new Button("Yes");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
-
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
-                clearErrorMessage();
-                Properties props = new Properties();
-                String bcPrfx = barcodePrefix.getText();
-                if (bcPrfx.length() > 0)
-                {
-                    props.setProperty("BarcodePrefix", bcPrfx);
-                    String descrip = description.getText();
-                    if (descrip.length() > 0)
-                    {
-                        props.setProperty("Description", descrip);
-                        String alfaC = alphaCode.getText();
-                        if (alfaC.length() > 0)
-                        {
-                            props.setProperty("AlphaCode", alfaC);
-                            myModel.stateChangeRequest("ColorData", props);
-                        }
-                        else
-                        {
-                            displayErrorMessage("ERROR: Please enter a valid alpha code!");
-                        }
-                    }
-                    else
-                    {
-                        displayErrorMessage("ERROR: Please enter a valid description!");
-                    }
-
-                }
-                else
-                {
-                    displayErrorMessage("ERROR: Please enter a barcode prefix!");
-
-                }
-
+                myModel.stateChangeRequest("RemoveRequest", null);
             }
         });
         doneCont.getChildren().add(submitButton);
 
-        cancelButton = new Button("Return");
+        cancelButton = new Button("No");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
-
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelAddCT", null);
+                myModel.stateChangeRequest("CancelRequest", null);
             }
         });
         doneCont.getChildren().add(cancelButton);
 
-        vbox.getChildren().add(grid);
         vbox.getChildren().add(doneCont);
 
         return vbox;
@@ -352,4 +231,5 @@ public class AddColorView extends View
 //---------------------------------------------------------------
 //	Revision History:
 //
+
 

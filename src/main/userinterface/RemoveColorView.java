@@ -167,6 +167,7 @@ public class RemoveColorView extends View
 
         cancelButton = new Button("No");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         cancelButton.setOnMouseEntered(me ->
    	        {
    	        	cancelButton.setScaleX(1.1);

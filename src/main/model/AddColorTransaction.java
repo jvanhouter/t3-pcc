@@ -2,12 +2,19 @@
 package model;
 
 // system imports
+
+import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.Properties;
+import java.util.Vector;
+
 
 // project imports
 import event.Event;
 import exception.InvalidPrimaryKeyException;
+
+import exception.MultiplePrimaryKeysException;
+
 
 import userinterface.View;
 import userinterface.ViewFactory;
@@ -16,6 +23,7 @@ import userinterface.ViewFactory;
 //==============================================================
 public class AddColorTransaction extends Transaction
 {
+
 
     private Color myColor;
 
@@ -57,8 +65,10 @@ public class AddColorTransaction extends Transaction
             String barcodePrefix = props.getProperty("BarcodePrefix");
             try
             {
+
                 Color oldColor = new Color(barcodePrefix);
                 oldColor.update();
+
                 transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
                         + " already exists!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
@@ -86,6 +96,7 @@ public class AddColorTransaction extends Transaction
                         else
                         {
                             props.setProperty("Status", "Active");
+
                             myColor = new Color(props);
                             myColor.update();
                             transactionErrorMessage = (String) myColor.getState("UpdateStatusMessage");

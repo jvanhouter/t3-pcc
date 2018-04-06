@@ -111,6 +111,7 @@ public class SQLInsertStatement extends SQLStatement
 		theSQLStatement += theValuesString;
 
 		theSQLStatement += ";";
+
 	}
 }
 

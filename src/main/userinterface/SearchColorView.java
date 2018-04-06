@@ -208,6 +208,7 @@ public class SearchColorView extends View
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new Button("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         submitButton.setOnMouseEntered(me ->
         {
         	submitButton.setScaleX(1.1);
@@ -358,3 +359,4 @@ public class SearchColorView extends View
 //---------------------------------------------------------------
 //	Revision History:
 //
+
