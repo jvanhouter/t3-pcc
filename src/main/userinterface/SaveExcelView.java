@@ -232,17 +232,23 @@ public class SaveExcelView extends View {
 
             for (int k = 0; k < clothingVector.size(); k++) {
                 String valuesLine = "";
-                Properties nextRow = (Properties) clothingVector.elementAt(k);
 
-                for (int j = 0; j < allColumnNames.size() - 1; j++) {
-                    String nextValue = nextRow.getProperty((String) allColumnNames.elementAt(j));
+                Enumeration entries = clothingVector.elements();
 
-                    valuesLine += nextValue + ", ";
+                while (entries.hasMoreElements() == true) {
+                    ArticleType nextAT = (ArticleType) entries.nextElement();
+                    Vector<String> view = nextAT.getEntryListView();
+
+                    // add this list entry to the list
+                    ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
+
+                    for (int j = 0; j < allColumnNames.size() - 1; j++) {
+                        valuesLine += nextTableRowData.getBarcodePrefix() + ", ";
+                    }
+                    out.println(valuesLine);
+
+
                 }
-                valuesLine += nextRow.getProperty((String) allColumnNames.
-                        elementAt(allColumnNames.size() - 1));
-
-                out.println(valuesLine);
             }
 
             // Also print the shift count and filter type
@@ -352,6 +358,7 @@ public class SaveExcelView extends View {
                 }
             }*/
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             /*JOptionPane.showMessageDialog(null, "Error in saving to file: "
 					+ ex.toString());*/
         }
