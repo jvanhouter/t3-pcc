@@ -19,7 +19,8 @@ import userinterface.ViewFactory;
 public class CheckoutClothingItemTransaction extends Transaction
 {
     private ClothingItem myClothingItem;
-    private LinkedList<ClothingItem> clothingItems = new LinkedList<ClothingItem>();
+    private InventoryItemCollection inventoryItems = new InventoryItemCollection();
+    private Vector<ClothingItem> clothingItems = new Vector<ClothingItem>();
 
     // GUI Components
     private String transactionErrorMessage = "";
@@ -56,6 +57,7 @@ public class CheckoutClothingItemTransaction extends Transaction
     public void processTransaction(Properties props)
     {
         String barcode = props.getProperty("Barcode");
+        //TODO ARE BARCODES ALWAYS UPPERCASE IN THE DATABASE?
         barcode = barcode.toUpperCase();
         try
         {
@@ -70,6 +72,7 @@ public class CheckoutClothingItemTransaction extends Transaction
                    {
                        // add the ClothingItem to a list
                        clothingItems.add(myClothingItem);
+                       inventoryItems.findByBarCode(barcode);
                        // update the barcode list for the user
                        cart = generateCart();
                        // swap to a scene that asks if the user wishes to enter another barcode or continue onwards.
@@ -229,6 +232,14 @@ public class CheckoutClothingItemTransaction extends Transaction
         else if (key.equals("BarcodeError") == true)
         {
             return barcodeError;
+        }
+        else if (key.equals("ClothingItems") == true)
+        {
+            return clothingItems;
+        }
+        else if(key.equals("InventoryList"))
+        {
+            return inventoryItems;
         }
 
         return null;

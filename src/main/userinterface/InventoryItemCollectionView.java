@@ -83,7 +83,6 @@ public class InventoryItemCollectionView extends View
     //--------------------------------------------------------------------------
     protected void getEntryTableModelValues()
     {
-
         ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
         try
         {
