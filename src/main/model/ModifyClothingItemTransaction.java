@@ -146,19 +146,11 @@ public class ModifyClothingItemTransaction extends Transaction {
                                         if (donorPhone.length() > 12)    //needs to be changed to proper length.
                                         {
                                             transactionErrorMessage = "ERROR: Donor Phone Number too long! ";
-                                        } else
-                                        if (donorPhone.length() <= 0)    //needs to be changed to proper length.
-                                        {
-                                            transactionErrorMessage = "Please enter Donor Phone Number ";
                                         } else {
                                             String donorEmail = props.getProperty("DonorEmail");
                                             if (donorEmail.length() > 12)    //needs to be changed to proper length.
                                             {
                                                 transactionErrorMessage = "ERROR: Donor Email too long! ";
-                                            } else
-                                            if (donorEmail.length() <= 0)    //needs to be changed to proper length.
-                                            {
-                                                transactionErrorMessage = "Please enter Donor Email Number ";
                                             } else {
                                                 String notes = props.getProperty("Notes");
                                                 if (notes.length() > 100)    //needs to be changed to proper length.
