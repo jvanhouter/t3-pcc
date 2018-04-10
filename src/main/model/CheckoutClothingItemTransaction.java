@@ -73,7 +73,7 @@ public class CheckoutClothingItemTransaction extends Transaction
                        clothingItems.add(myClothingItem);
                        inventoryItems.findByBarCode(barcode);
                        // update the barcode list for the user
-//                       cart = generateCart();
+                       cart = generateCart();
                        // swap to a scene that asks if the user wishes to enter another barcode or continue onwards.
                        try
                        {
