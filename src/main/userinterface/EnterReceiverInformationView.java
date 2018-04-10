@@ -97,10 +97,6 @@ public class EnterReceiverInformationView extends View {
             InventoryItemCollection inventoryItemCollection =
                     (InventoryItemCollection)myModel.getState("InventoryList");
 
-            System.out.println("HEYOOO");
-
-            System.out.println(inventoryItemCollection.toString());
-
             Vector entryList = (Vector)inventoryItemCollection.getState("InventoryItems");
 
             if (entryList.size() > 0)

@@ -57,6 +57,7 @@ public class CheckoutClothingItemTransaction extends Transaction
     public void processTransaction(Properties props)
     {
         String barcode = props.getProperty("Barcode");
+        //TODO ARE BARCODES ALWAYS UPPERCASE IN THE DATABASE?
         barcode = barcode.toUpperCase();
         try
         {

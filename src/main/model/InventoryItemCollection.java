@@ -40,7 +40,7 @@ public class InventoryItemCollection  extends EntityBase implements IView
     private void populateCollectionHelper(String query)
     {
         Vector<Properties> allClothingItemsRetrieved = getSelectQueryResult(query);
-        System.out.println(allClothingItemsRetrieved);
+//        DEBUG System.out.println(allClothingItemsRetrieved);
         Iterator colorIterator = null;
         Iterator articleTypeIterator = null;
         if (allClothingItemsRetrieved != null)
