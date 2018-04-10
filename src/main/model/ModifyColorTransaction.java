@@ -146,6 +146,7 @@ public class ModifyColorTransaction extends Transaction {
                     new Event(Event.getLeafLevelClassName(this), "processTransaction",
                             "Found multiple article types with barcode prefix : " + barcodePrefix + ". Reason: " + ex2.toString(),
                             Event.ERROR);
+
                 }
             }
             else
@@ -201,8 +202,6 @@ public class ModifyColorTransaction extends Transaction {
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value)
     {
-
-
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
         {
             doYourJob();

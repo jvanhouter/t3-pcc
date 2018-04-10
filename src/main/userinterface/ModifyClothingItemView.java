@@ -17,7 +17,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -31,6 +30,7 @@ import java.util.Vector;
 // project imports
 import impresario.IModel;
 import model.ArticleType;
+import model.Color;
 
 /** The class containing the Modify Article Type View  for the Professional Clothes
 	 *  Closet application
@@ -69,55 +69,78 @@ import model.ArticleType;
 				//genderCombo.setValue(genderString);
 			}
 			String atString = (String)myModel.getState("ArticleType");
-			System.out.println(atString);
-			if (atString != null)
-			{
-			//articleType.setPromptText(atString);
+			if(atString != null) {
+				Vector ArticleList = (Vector) myModel.getState("Articles");
+				Iterator articles = ArticleList.iterator();
+				ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
+				while (articles.hasNext()) {
+					//articleTypes.add((ArticleType) articles.next());
+					ArticleType at = (ArticleType) articles.next();
+					if (at.getState("ID").equals(atString)) {
+						articleTypeCombo.setValue(at);
+					}
+				}
 			}
 			String color1String= (String)myModel.getState("Color1");
 			if (color1String != null)
 			{
-				//color1.setPromptText(color1String);
+				Vector ColorList = (Vector) myModel.getState("Colors");
+				Iterator colors = ColorList.iterator();
+				ObservableList<model.Color> colorItems = FXCollections.observableArrayList();
+				while (colors.hasNext()) {
+					Color ct = (Color) colors.next();
+					if(ct.getState("ID").equals(color1String)) {
+						primaryColorCombo.setValue(ct);
+					}
+				}
 			}
 			String color2String = (String)myModel.getState("Color2");
 			if (color2String != null)
 			{
-				//color2.setPromptText(color2String);
+				Vector ColorList = (Vector) myModel.getState("Colors");
+				Iterator colors = ColorList.iterator();
+				ObservableList<model.Color> colorItems = FXCollections.observableArrayList();
+				while (colors.hasNext()) {
+					Color ct = (Color) colors.next();
+					if(ct.getState("ID").equals(color2String)) {
+						secondaryColorCombo.setValue(ct);
+					}
+				}
 			}
 			String brandString = (String)myModel.getState("Brand");
 			if (brandString != null)
 			{
-				//brand.setText(brandString);
+				brandText.setText(brandString);
 			}
 			String sizeString = (String)myModel.getState("Size");
 			if (sizeString != null)
 			{
-			//size.setText(sizeString);
+				sizeText.setText(sizeString);
 			}
 			String donorLast = (String)myModel.getState("DonorLastName");
 			if (donorLast != null)
 			{
-				//donorLastName.setText(donorLast);
+				donorLastNameText.setText(donorLast);
 			}
 			String donorFirst = (String)myModel.getState("DonorFirstName");
 			if (donorFirst != null)
 			{
-				//donorFirstName.setText(donorFirst);
+				donorFirstNameText.setText(donorFirst);
 			}
 			String donorPhoneString = (String)myModel.getState("DonorPhone");
 			if (donorPhoneString != null)
 			{
-				//donorphone.setText(donorPhoneString);
+				donorPhoneText.setText(donorPhoneString);
 			}
 			String donorEmailString = (String)myModel.getState("DonorEmail");
 			if (donorEmailString != null)
 			{
-				//donorEmail.setText(donorEmailString);
+				donorEmailText.setText(donorEmailString);
 			}
 			String noteString = (String)myModel.getState("Notes");
 			if (noteString != null)
 			{
-				//notes.setText(noteString);
+				notesText.setText(noteString);
 			}
 
 		}
