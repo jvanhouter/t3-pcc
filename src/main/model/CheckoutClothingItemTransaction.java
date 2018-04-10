@@ -203,6 +203,7 @@ public class CheckoutClothingItemTransaction extends Transaction
         else if (key.equals("ReceiverData") == true)
         {
             processReceiver((Properties)value);
+            stateChangeRequest("CancelCheckoutCI", null);
         }
         //The CheckoutHelperView and CheckoutInvalidItemView should call here if the user selects to
             // add another barcode
