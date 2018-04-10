@@ -210,6 +210,7 @@ public class CheckoutClothingItemTransaction extends Transaction
             // add another barcode
         else if (key.equals("MoreData") == true)
         {
+            barcodeError = "";
            doYourJob();
         }
         //The CheckoutHelperView and CheckoutInvalidItemView should call here if the user selects checkout
@@ -295,7 +296,7 @@ public class CheckoutClothingItemTransaction extends Transaction
     {
         try
         {
-            Scene newScene = createCheckoutInvalidItemView();
+            Scene newScene = createCheckoutHelperView();
             swapToView(newScene);
         }
         catch (Exception ex)

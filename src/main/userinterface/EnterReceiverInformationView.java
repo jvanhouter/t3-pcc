@@ -425,8 +425,8 @@ public class EnterReceiverInformationView extends View {
         });
         doneCont.getChildren().add(cancelButton);
 
-        vbox.getChildren().add(grid);
         vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(grid);
         vbox.getChildren().add(doneCont);
 
         return vbox;

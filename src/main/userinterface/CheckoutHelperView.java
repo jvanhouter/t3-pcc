@@ -68,7 +68,9 @@ public class CheckoutHelperView extends View
         container.getChildren().add(createFormContent());
 
         // Error message area
-        container.getChildren().add(createStatusLog("                                            "));
+        String errorMessage = (String) myModel.getState("BarcodeError");
+        container.getChildren().add(createStatusLog(""));
+        displayErrorMessage(errorMessage);
 
         getChildren().add(container);
 
@@ -110,7 +112,7 @@ public class CheckoutHelperView extends View
             }
             else
             {
-                displayMessage("No matching entries found!");
+//                displayMessage("No matching entries found!");
             }
 
             InventoryTable.setItems(tableData);
@@ -155,7 +157,7 @@ public class CheckoutHelperView extends View
         blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
-        Text actionText = new Text("      ** Available Inventory **       ");
+        Text actionText = new Text("      ** Checkout Clothing Items **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
@@ -370,6 +372,11 @@ public class CheckoutHelperView extends View
     public void clearErrorMessage()
     {
         statusLog.clearErrorMessage();
+    }
+
+    public void displayErrorMessage(String message)
+    {
+        statusLog.displayErrorMessage(message);
     }
 
 
