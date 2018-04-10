@@ -44,3 +44,25 @@ The last packet successfully received from the server was 945,024 milliseconds a
 [4/5/18 10:05 PM]|ClothingItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1>
 [4/5/18 10:07 PM]|ClothingItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1>
 [4/5/18 10:08 PM]|ClothingItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: Communications link failure
+
+The last packet successfully received from the server was 331,165 milliseconds ago.  The last packet sent successfully to the server was 21,572 milliseconds ago.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|ClothingItem|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|ClothingItem|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|ClothingItem|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|ClothingItem|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|ClothingItem|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|ClothingItem|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|ClothingItem|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|ClothingItem|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/10/18 4:08 PM]|InventoryItemCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
