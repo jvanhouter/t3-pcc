@@ -99,7 +99,6 @@ public class LogRequestTransaction extends Transaction
                 // Barcode prefix does not exist, validate data
                 try
                 {
-                    int netIdInt = Integer.parseInt(netId);
                     String phoneNumber = props.getProperty("RequesterPhone");
                     String firstName = props.getProperty("RequesterFirstName");
                     String lastName = props.getProperty("RequesterLastName");
