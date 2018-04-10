@@ -24,7 +24,9 @@ import userinterface.ViewFactory;
 public class InventoryItemCollection  extends EntityBase implements IView
 {
     private static final String myTableName = "Inventory";
-    private Vector<ClothingItem> inventoryItems;
+    private Vector<ClothingItem> inventoryItems = new Vector<ClothingItem>();;
+    Vector<Properties> allColorItemsRetrieved = getColors();
+    Vector<Properties> allArticleTypesRetrieved = getArticleTypes();
     // GUI Components
 
     // constructor for this class
@@ -38,15 +40,11 @@ public class InventoryItemCollection  extends EntityBase implements IView
     private void populateCollectionHelper(String query)
     {
         Vector<Properties> allClothingItemsRetrieved = getSelectQueryResult(query);
-        Vector<Properties> allColorItemsRetrieved = getColors();
-        Vector<Properties> allArticleTypesRetrieved = getArticleTypes();
+        System.out.println(allClothingItemsRetrieved);
         Iterator colorIterator = null;
         Iterator articleTypeIterator = null;
-
         if (allClothingItemsRetrieved != null)
         {
-            inventoryItems = new Vector<ClothingItem>();
-
             for (int cnt = 0; cnt < allClothingItemsRetrieved.size(); cnt++)
             {
                 Properties nextInventoryItemData = allClothingItemsRetrieved.elementAt(cnt);
@@ -129,6 +127,11 @@ public class InventoryItemCollection  extends EntityBase implements IView
         populateCollectionHelper(query);
     }
 
+    public void findByBarCode(String barcode)
+    {
+        String query = "SELECT * FROM " + myTableName + " WHERE (Barcode = '" + barcode + "')";
+        populateCollectionHelper(query);
+    }
     //----------------------------------------------------------
     public Object getState(String key)
     {
