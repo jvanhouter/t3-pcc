@@ -173,7 +173,7 @@ public class CheckoutHelperView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("");
+        Text prompt = new Text("Active Cart");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
@@ -314,14 +314,21 @@ public class CheckoutHelperView extends View
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                myModel.stateChangeRequest("NoMoreData", null);
+                if(myModel.getState("Cart").equals(""))
+                {
+                    displayErrorMessage("Cannot Checkout. Cart is empty!");
+                }
+                else
+                {
+                    myModel.stateChangeRequest("NoMoreData", null);
+                }
             }
         });
         doneCont.getChildren().add(enterReceiverInformationButton);
 
 
         doneCont.setAlignment(Pos.CENTER);
-        cancelButton = new Button("Cancel");
+        cancelButton = new Button("Done");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {

@@ -69,10 +69,10 @@ public class EnterReceiverInformationView extends View {
         {
             initialMessage = "Cart is empty";
         }
-        else
-        {
-            initialMessage = "Cart: " + barcodeList;
-        }
+//        else
+//        {
+//            initialMessage = "Cart: " + barcodeList;
+//        }
         container.getChildren().add(createStatusLog(initialMessage));
 
         getChildren().add(container);
@@ -116,7 +116,7 @@ public class EnterReceiverInformationView extends View {
             }
             else
             {
-                displayMessage("No matching entries found!");
+//                displayMessage("No matching entries found!");
             }
 
             InventoryTable.setItems(tableData);
@@ -177,7 +177,7 @@ public class EnterReceiverInformationView extends View {
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("ENTER RECIPIENT INFORMATION");
+        Text prompt = new Text("Enter Recipient Information");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
@@ -372,18 +372,18 @@ public class EnterReceiverInformationView extends View {
                         }
                         else
                         {
-                            displayErrorMessage("ERROR: Last name incorrect size!");
+                            displayErrorMessage("Last name incorrect size!");
                         }
                     }
                     else
                     {
-                        displayErrorMessage("ERROR: First name incorrect size!");
+                        displayErrorMessage("First name incorrect size!");
                     }
 
                 }
                 else
                 {
-                    displayErrorMessage("ERROR: NetId Incorrect Size!");
+                    displayErrorMessage("NetId incorrect size!");
 
                 }
 
@@ -391,7 +391,7 @@ public class EnterReceiverInformationView extends View {
         });
         doneCont.getChildren().add(submitButton);
 
-        cancelButton = new Button("Return");
+        cancelButton = new Button("Done");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setOnMouseEntered(me ->
    	        {
