@@ -357,7 +357,7 @@ public class EnterReceiverInformationView extends View {
                 clearErrorMessage();
                 Properties props = new Properties();
                 String netIdReceiver = netId.getText();
-                if (netIdReceiver.length() == 9)
+                if (netIdReceiver.length() >= 2)
                 {
                     props.setProperty("ReceiverNetid", netIdReceiver);
                     String fNameReceiver = fName.getText();

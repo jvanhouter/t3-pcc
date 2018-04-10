@@ -2,6 +2,7 @@
 package userinterface;
 
 // system imports
+import Utilities.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -310,19 +311,7 @@ public class LogARequestView extends View
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                Properties props = new Properties();
-                props.setProperty("RequesterNetid", netId.getText());
-                props.setProperty("RequestedGender", gender.getValue());
-                props.setProperty("RequestedArticleType", (String) articleType.getValue().getState("ID"));
-                props.setProperty("RequestedColor1", (String) color1.getValue().getState("ID"));
-                if(color2.getValue() != null && (String) color2.getValue().getState("ID") != null)
-                    props.setProperty("RequestedColor2", (String) color2.getValue().getState("ID"));
-                props.setProperty("RequestedBrand", brand.getText());
-                props.setProperty("RequestedSize", size.getText());
-                props.setProperty("RequesterPhone", phoneNumber.getText());
-                props.setProperty("RequesterFirstName", firstName.getText());
-                props.setProperty("RequesterLastName", lastName.getText());
-                myModel.stateChangeRequest("ClothingRequestData", props);
+                processTransaction();
             }
         });
         doneCont.getChildren().add(submitButton);
@@ -345,6 +334,37 @@ public class LogARequestView extends View
         return vbox;
     }
 
+    //-------------------------------------------------------------
+    protected void processTransaction() {
+        Properties props = new Properties();
+        if(netId.getText().length() >= 2) {
+            props.setProperty("RequesterNetid", netId.getText());
+            props.setProperty("RequestedGender", gender.getValue());
+            props.setProperty("RequestedArticleType", (String) articleType.getValue().getState("ID"));
+            props.setProperty("RequestedColor1", (String) color1.getValue().getState("ID"));
+            if(color2.getValue() != null && (String) color2.getValue().getState("ID") != null)
+                props.setProperty("RequestedColor2", (String) color2.getValue().getState("ID"));
+            props.setProperty("RequestedBrand", brand.getText());
+            if(size.getText().equals("")) {
+                props.setProperty("RequestedSize", "" + Utilities.GENERIC_SIZE);
+            } else
+                props.setProperty("RequestedSize", size.getText());
+            if(phoneNumber.getText().length() <= 12) {
+                props.setProperty("RequesterPhone", phoneNumber.getText());
+                if(!firstName.getText().equals("")) {
+                    props.setProperty("RequesterFirstName", firstName.getText());
+                    if(!lastName.getText().equals("")) {
+                        props.setProperty("RequesterLastName", lastName.getText());
+                        myModel.stateChangeRequest("ClothingRequestData", props);
+                    } else
+                        displayErrorMessage("Please fill out Last Name");
+                } else
+                    displayErrorMessage("Please fill out First Name");
+            } else
+                displayErrorMessage("Phone number exceeds 12 digits");
+        } else
+            displayErrorMessage("Invalid net id");
+    }
 
     // Create the status log field
     //-------------------------------------------------------------
