@@ -230,10 +230,6 @@ public class LogARequestView extends View
             }
         });
         articleType.valueProperty().addListener((obs, oldval, newval) -> {
-            /*if (newval != null) {
-                System.out.println("Selected article type: " + newval.getState("Description")
-                        + " ID: " + newval.getState("ID"));
-            }*/
         });
 
         grid.add(articleType, 1, 6);

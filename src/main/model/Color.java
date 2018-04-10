@@ -182,9 +182,6 @@ public class Color extends EntityBase{
         }
         return returnString.substring(0, returnString.length()-2)+"\n";
     }
-
-
-
 }
 
 

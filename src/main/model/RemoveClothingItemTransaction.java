@@ -22,7 +22,6 @@ public class RemoveClothingItemTransaction extends Transaction {
     //private ColorCollection myColorList;
     private ClothingItem mySelectedItem;
 
-
     // GUI Components
 
     private String transactionErrorMessage = "";
@@ -53,10 +52,9 @@ public class RemoveClothingItemTransaction extends Transaction {
      */
     //----------------------------------------------------------
     public void processTransaction(Properties props) {
-        //myColorList = new ColorCollection();
+
         String desc = props.getProperty("Description");
         String alfaC = props.getProperty("AlphaCode");
-        //myColorList.findByCriteria(desc, alfaC);
 
         try
         {
@@ -85,34 +83,6 @@ public class RemoveClothingItemTransaction extends Transaction {
             return transactionErrorMessage;
         }
         else
-            /*
-        if (key.equals("ClothingList") == true) {
-            return myColorList;
-        }
-        else
-        if (key.equals("BarcodePrefix") == true)
-        {
-            if (mySelectedColor != null)
-                return mySelectedColor.getState("BarcodePrefix");
-            else
-                return "";
-        }
-        else
-        if (key.equals("Description") == true)
-        {
-            if (mySelectedColor != null)
-                return mySelectedColor.getState("Description");
-            else
-                return "";
-        }
-        else
-        if (key.equals("AlphaCode") == true)
-        {
-            if (mySelectedColor != null)
-                return mySelectedColor.getState("AlphaCode");
-            else
-                return "";
-        }*/
         return null;
     }
 

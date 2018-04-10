@@ -28,8 +28,6 @@ public class WindowPosition
 	 private static Rectangle2D primaryScreenBounds =
 		Screen.getPrimary().getVisualBounds();
 
-
-
 	/**
 	* Used to place the stage in the center of the screen
 	*

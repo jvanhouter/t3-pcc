@@ -34,13 +34,11 @@ public class ClothingItemCollection  extends EntityBase implements IView
 	public ClothingItemCollection( ) 
 	{
 		super(myTableName);
-
 	}
 	
 	//-----------------------------------------------------------
 	private void populateCollectionHelper(String query)
 	{
-		
 		Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
 		if (allDataRetrieved != null)

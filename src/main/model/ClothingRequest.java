@@ -33,12 +33,6 @@ public class ClothingRequest extends EntityBase implements IView
 
     // constructor for this class
     //----------------------------------------------------------
-    /* Kyle - Reasons for parameters as such, free to change.
-       Any parameter changes will need to be changed inside LogRequestTransaction.java as well
-    1. Requires netid, netid also would tell us First and Last name
-    2. Phone numbers may change, thus not searching
-    3. Requested Gender, Type, Size, Color 1 & 2, and brand will be searched
-     */
     public ClothingRequest(String netId, String gender, String type, String reqSize, String color1, String color2, String brand) throws InvalidPrimaryKeyException, MultiplePrimaryKeysException
     {
         super(myTableName);

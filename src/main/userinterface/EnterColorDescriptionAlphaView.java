@@ -27,6 +27,4 @@ import impresario.IModel;
 
 public class EnterColorDescriptionAlphaView {
 
-
-
 }

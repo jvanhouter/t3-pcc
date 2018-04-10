@@ -64,9 +64,7 @@ public class RemoveArticleTypeTransaction extends Transaction
         {
             String desc = props.getProperty("Description");
             String alfaC = props.getProperty("AlphaCode");
-            myArticleTypeList.findByCriteria(desc, alfaC); // SHOW FIND PARTIAL DESCRIPTION OR PERFECT MATCH:
-                                                           // :ALSO SHOULD DO "OR" TO FIND ONE OR ANOTHER SINCE
-                                                           // SINCE BOTH NOT NEEDED?
+            myArticleTypeList.findByCriteria(desc, alfaC);
         }
         try
         {

@@ -130,15 +130,6 @@ public class CheckoutInvalidItemView extends View {
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         vbox.getChildren().add(prompt);
 
-//        Text prompt2 = new Text("The Barcode may not exist. The status may not be \"Donated\". " +
-//                "The ");
-//        prompt2.setWrappingWidth(400);
-//        prompt2.setTextAlignment(TextAlignment.CENTER);
-//        prompt2.setFill(Color.BLACK);
-//        prompt2.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 12));
-//        vbox.getChildren().add(prompt2);
-
-
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -157,7 +148,6 @@ public class CheckoutInvalidItemView extends View {
                 clearErrorMessage();
 
                 myModel.stateChangeRequest("MoreData", null);
-
 
             }
         });

@@ -160,7 +160,6 @@ public class CheckoutHelperView extends View {
 
                             myModel.stateChangeRequest("MoreData", null);
 
-
             }
         });
         doneCont.getChildren().add(addAnotherBarcodeButton);

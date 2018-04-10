@@ -26,7 +26,6 @@ public class RemoveRequestTransaction extends Transaction
     private RequestCollection myRequestCollection;
     private ClothingRequest myClothingRequest;
 
-
     // GUI Components
 
     private String transactionErrorMessage = "";

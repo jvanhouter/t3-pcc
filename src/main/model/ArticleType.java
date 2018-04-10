@@ -74,14 +74,12 @@ public class ArticleType extends EntityBase implements IView
 				{
 					String nextKey = (String)allKeys.nextElement();
 					String nextValue = retrievedATData.getProperty(nextKey);
-					// accountNumber = Integer.parseInt(retrievedAccountData.getProperty("accountNumber"));
 
 					if (nextValue != null)
 					{
 						persistentState.setProperty(nextKey, nextValue);
 					}
 				}
-
 			}
 		}
 		// If no article type found for this barcode prefix, throw an Invalid Primary key exception

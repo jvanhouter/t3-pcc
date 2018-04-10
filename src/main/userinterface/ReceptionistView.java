@@ -109,7 +109,6 @@ public class ReceptionistView extends View
 
 		Text clientText = new Text(" Office of Career Services ");
 		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		//clientText.setWrappingWidth(350);
 		clientText.setTextAlignment(TextAlignment.CENTER);
 		clientText.setFill(Color.DARKGREEN);
 		container.getChildren().add(clientText);

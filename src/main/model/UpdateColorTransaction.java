@@ -204,7 +204,6 @@ public class UpdateColorTransaction extends Transaction {
     public void stateChangeRequest(String key, Object value)
     {
 
-
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
         {
             doYourJob();
