@@ -21,6 +21,7 @@ public class SaveExcelTransaction extends Transaction
 {
     // GUI Components
 
+    private ArticleTypeCollection myArticleTypeList;
     private String transactionErrorMessage = "";
 
     /**
@@ -31,6 +32,9 @@ public class SaveExcelTransaction extends Transaction
     public SaveExcelTransaction() throws Exception
     {
         super();
+
+        myArticleTypeList = new ArticleTypeCollection();
+        myArticleTypeList.findAll();
     }
 
     //----------------------------------------------------------
@@ -51,7 +55,6 @@ public class SaveExcelTransaction extends Transaction
     //----------------------------------------------------------
     public void processTransaction(Properties props)
     {
-
     }
 
     //-----------------------------------------------------------
@@ -63,6 +66,9 @@ public class SaveExcelTransaction extends Transaction
         }
         if (key.equals("TransactionSaveExcel")) {
             return myStage;
+        }
+        if (key.equals("ArticleTypeList")) {
+            return myArticleTypeList;
         }
         return null;
     }
