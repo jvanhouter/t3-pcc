@@ -222,35 +222,26 @@ public class SaveExcelView extends View {
             if ((clothingVector == null) || (clothingVector.size() == 0))
                 return;
 
-            allColumnNames.addElement("Test");
-            allColumnNames.addElement("Test2");
-
-            String line = "";
+            String line = "Description, Barcode Prefix, Alpha Code, Status";
 
             out.println(line);
 
-            for (int k = 0; k < clothingVector.size(); k++) {
-                String valuesLine = "";
+            String valuesLine = "";
 
-                Enumeration entries = clothingVector.elements();
+            Enumeration entries = clothingVector.elements();
 
-                while (entries.hasMoreElements() == true) {
-                    ArticleType nextAT = (ArticleType) entries.nextElement();
-                    Vector<String> view = nextAT.getEntryListView();
+            while (entries.hasMoreElements() == true) {
+                ArticleType nextAT = (ArticleType) entries.nextElement();
+                Vector<String> view = nextAT.getEntryListView();
 
-                    // add this list entry to the list
-                    ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
+                // add this list entry to the list
+                ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
 
-                    valuesLine += nextTableRowData.getDescription() + ", ";
-
-                }
-                out.println(valuesLine);
-
-
-
-
-
+                valuesLine += nextTableRowData.getDescription() + ", " + nextTableRowData.getBarcodePrefix() + ", " + nextTableRowData.getAlphaCode() + ", " + nextTableRowData.getStatus() + "\n";
             }
+            out.println(valuesLine);
+
+            out.println("");
 
             // Also print the shift count and filter type
             out.println("\nTotal number of : " + clothingVector.size());
@@ -274,10 +265,10 @@ public class SaveExcelView extends View {
             dialog.setContentText("Report data saved successfully to selected file");
             dialog.showAndWait();
         } catch (FileNotFoundException e) {
-            dialog.setContentText("Could not access file to save: "+ fName);
+            dialog.setContentText("Could not access file to save: " + fName);
             dialog.showAndWait();
         } catch (IOException e) {
-            dialog.setContentText("Error in saving to file: "+ e.toString());
+            dialog.setContentText("Error in saving to file: " + e.toString());
             dialog.showAndWait();
         }
 
