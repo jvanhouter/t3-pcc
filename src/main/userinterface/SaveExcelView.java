@@ -35,6 +35,8 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 // project imports
 
@@ -259,7 +261,7 @@ public class SaveExcelView extends View {
             // Acknowledge successful completion to user with JOptionPane
 
             ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
-            Alert alert = new Alert(Alert.AlertType.WARNING,
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                     "Report data saved successfully to selected file",
                     bar);
 
@@ -267,7 +269,7 @@ public class SaveExcelView extends View {
             Optional<ButtonType> result = alert.showAndWait();
         } catch (FileNotFoundException e) {
             ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
-            Alert alert = new Alert(Alert.AlertType.WARNING,
+            Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Could not access file to save: " + fName,
                     bar);
 
@@ -275,7 +277,7 @@ public class SaveExcelView extends View {
             Optional<ButtonType> result = alert.showAndWait();
         } catch (IOException e) {
             ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+            Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Error in saving to file: " + e.toString(),
                     bar);
 
@@ -308,12 +310,17 @@ public class SaveExcelView extends View {
 
         chooser.setSelectedExtensionFilter(filter);
 
+        File file = chooser.showSaveDialog(stage);
+
         try {
             String fileName = "";
 
-            File selectedFile = chooser.showOpenDialog(stage);
 
-            fileName = selectedFile.getCanonicalPath();
+            try {
+                fileName = file.getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             String tempName = fileName.toLowerCase();
 
@@ -323,44 +330,9 @@ public class SaveExcelView extends View {
                 fileName += ".csv";
                 writeToFile(fileName);
             }
-
-            Desktop desktop = null;
-
-            // Before more Desktop API is used, first check
-            // whether the API is supported by this particular
-            // virtual machine (VM) on this particular host.
-            if (Desktop.isDesktopSupported()) {
-                desktop = Desktop.getDesktop();
-
-                if (desktop.isSupported(Desktop.Action.OPEN)) {
-
-                    // Custom button text
-                    Object[] options = {"Open reports folder",
-                            "Open this report",
-                            "Do nothing, continue"};
-
-                    // Ask user what (s)he wants to do
-                    ButtonType foo = new ButtonType("Export to Excel", ButtonBar.ButtonData.OK_DONE);
-                    ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                    Alert alert = new Alert(Alert.AlertType.WARNING,
-                            "What do you want to do next?",
-                            foo,
-                            bar);
-
-                    alert.setTitle("Date format warning");
-                    Optional<ButtonType> result = alert.showAndWait();
-
-                    if (result.isPresent() && result.get() == foo) {
-                        desktop.open(reportsDir);
-                    } else {
-                        File reportPath = new File(fileName);
-                        desktop.open(reportPath);
-                    }
-                }
-            }
         } catch (Exception ex) {
             ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
-            Alert alert = new Alert(Alert.AlertType.WARNING,
+            Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Error in saving to file: " + ex.toString(),
                     bar);
 
