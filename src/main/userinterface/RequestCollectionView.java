@@ -268,7 +268,7 @@ public class RequestCollectionView extends View
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(tableOfRequests);
 
-        submitButton = new Button("Submit");
+        submitButton = new PccButton("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -281,7 +281,7 @@ public class RequestCollectionView extends View
             }
         });
 
-        cancelButton = new Button("Return");
+        cancelButton = new PccButton("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 

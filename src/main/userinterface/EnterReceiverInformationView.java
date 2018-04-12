@@ -327,7 +327,7 @@ public class EnterReceiverInformationView extends View {
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        submitButton = new Button("Submit");
+        submitButton = new PccButton("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         submitButton.setOnMouseEntered(me ->
         {
@@ -393,7 +393,7 @@ public class EnterReceiverInformationView extends View {
         });
         doneCont.getChildren().add(submitButton);
 
-        cancelButton = new Button("Done");
+        cancelButton = new PccButton("Done");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setOnMouseEntered(me ->
    	        {

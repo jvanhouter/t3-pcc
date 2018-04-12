@@ -305,7 +305,7 @@ public class LogARequestView extends View
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        submitButton = new Button("Submit");
+        submitButton = new PccButton("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -317,7 +317,7 @@ public class LogARequestView extends View
         });
         doneCont.getChildren().add(submitButton);
 
-        cancelButton = new Button("Return");
+        cancelButton = new PccButton("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 

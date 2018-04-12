@@ -286,7 +286,7 @@ public class InventoryItemCollectionView extends View
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(InventoryTable);
 
-        cancelButton = new Button("Return");
+        cancelButton = new PccButton("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 

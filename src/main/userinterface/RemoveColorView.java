@@ -132,7 +132,7 @@ public class RemoveColorView extends View
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        submitButton = new Button("Yes");
+        submitButton = new PccButton("Yes");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         submitButton.setOnMouseEntered(me ->
         {
@@ -165,7 +165,7 @@ public class RemoveColorView extends View
         });
         doneCont.getChildren().add(submitButton);
 
-        cancelButton = new Button("No");
+        cancelButton = new PccButton("No");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 
         cancelButton.setOnMouseEntered(me ->

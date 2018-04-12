@@ -138,7 +138,7 @@ public class CheckoutInvalidItemView extends View {
 
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        addAnotherBarcodeButton = new Button("Add Different Barcode");
+        addAnotherBarcodeButton = new PccButton("Add Different Barcode");
         addAnotherBarcodeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         addAnotherBarcodeButton.setPrefSize(250, 20);
         addAnotherBarcodeButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -153,7 +153,7 @@ public class CheckoutInvalidItemView extends View {
         });
         doneCont.getChildren().add(addAnotherBarcodeButton);
 
-        enterReceiverInformationButton = new Button("Checkout Items");
+        enterReceiverInformationButton = new PccButton("Checkout Items");
         enterReceiverInformationButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         enterReceiverInformationButton.setPrefSize(250, 20);
         enterReceiverInformationButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -168,7 +168,7 @@ public class CheckoutInvalidItemView extends View {
 
 
         doneCont.setAlignment(Pos.CENTER);
-        cancelButton = new Button("Cancel");
+        cancelButton = new PccButton("Cancel");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
