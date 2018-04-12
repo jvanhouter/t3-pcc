@@ -17,5 +17,11 @@ public class UiConstants {
     public static final int RECEIVER_LAST_NAME_MAX_LENGTH = 35;
     public static final int RECEIVER_NETID_MAX_LENGTH = 10;
     public static final int REQUESTED_PHONE_MAX_LENGTH = 12;
+    public static final int REQUESTED_FIRST_NAME_MAX_LENGTH = 35;
+    public static final int REQUESTED_LAST_NAME_MAX_LENGTH = 35;
+    public static final int REQUESTED_GENDER_MAX_LENGTH = 10;
+    public static final int REQUESTED_SIZE_MAX_LENGTH = 20;
+    public static final int REQUESTED_BRAND_MAX_LENGTH = 30;
+    public static final int REQUESTED_EMAIL_MAX_LENGTH = 40;
 
 }
