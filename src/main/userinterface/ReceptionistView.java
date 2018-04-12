@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -74,8 +75,9 @@ public class ReceptionistView extends View
 
 
 		VBox container = new VBox(10);
+
 		/* container.setResizable(true); Swing call */
-		container.setStyle("-fx-background-color: #707070;");
+		container.setStyle("-fx-background-color: #708090;");
 
 
 		container.setPadding(new Insets(50,	50, 50, 50));
@@ -103,28 +105,34 @@ public class ReceptionistView extends View
 	private VBox createTitle()
 	{
 		VBox container = new VBox(10);
-		container.setStyle("-fx-background-color: #808080;");
 
+		DropShadow ds = new DropShadow ();
+		ds.setRadius(5.0);
+		ds.setOffsetX(3.0);
+		ds.setOffsetY(3.0);
 
 
 		Text clientText = new Text(" Office of Career Services ");
 		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 		clientText.setTextAlignment(TextAlignment.CENTER);
-		clientText.setFill(Color.DARKGREEN);
+		clientText.setEffect(ds);
+		clientText.setFill(Color.web("#ffc726"));
 		container.getChildren().add(clientText);
 
 		Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
 		collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		collegeText.setWrappingWidth(350);
 		collegeText.setTextAlignment(TextAlignment.CENTER);
-		collegeText.setFill(Color.DARKGREEN);
+		collegeText.setEffect(ds);
+	  collegeText.setFill(Color.web("#ffc726"));
 		container.getChildren().add(collegeText);
 
 		Text titleText = new Text(" Professional Clothes Closet Management System ");
 		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		titleText.setWrappingWidth(350);
 		titleText.setTextAlignment(TextAlignment.CENTER);
-		titleText.setFill(Color.DARKGREEN);
+		titleText.setEffect(ds);
+ 	  titleText.setFill(Color.web("#ffc726"));
 		container.getChildren().add(titleText);
 
 		Text blankText = new Text("  ");
@@ -138,6 +146,7 @@ public class ReceptionistView extends View
 		inquiryText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
 		inquiryText.setWrappingWidth(350);
 		inquiryText.setFill(Color.web("#ffc726"));
+		inquiryText.setEffect(ds);
 		inquiryText.setTextAlignment(TextAlignment.CENTER);
 		container.getChildren().add(inquiryText);
 
@@ -151,11 +160,13 @@ public class ReceptionistView extends View
 	{
 
 		VBox container = new VBox(15);
-		container.setStyle("-fx-background-color: #808080;");
+		DropShadow ds = new DropShadow ();
+		ds.setRadius(5.0);
+		ds.setOffsetX(3.0);
+		ds.setOffsetY(3.0);
 
 		// create the buttons, listen for events, add them to the container
 		HBox checkoutCont = new HBox(10);
-		checkoutCont.setStyle("-fx-background-color: #909090;");
 		checkoutCont.setAlignment(Pos.CENTER);
 		checkoutClothingItemButton = new Button("Checkout Clothing Item");
 		checkoutClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -192,6 +203,7 @@ public class ReceptionistView extends View
 		articleTypeCont.setAlignment(Pos.CENTER);
 		Label atLabel = new Label("  Article Types:");
 		atLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		atLabel.setEffect(ds);
 		atLabel.setStyle("-fx-text-fill: #ffc726");
 		articleTypeCont.getChildren().add(atLabel);
 		addArticleTypeButton = new Button(" Add ");
@@ -284,6 +296,7 @@ public class ReceptionistView extends View
 		colorCont.setAlignment(Pos.CENTER);
 		Label colorLabel = new Label("             Colors: ");
 		colorLabel.setStyle("-fx-text-fill: #ffc726");
+		colorLabel.setEffect(ds);
 		colorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		colorCont.getChildren().add(colorLabel);
 		addColorButton = new Button(" Add ");
@@ -378,6 +391,7 @@ public class ReceptionistView extends View
 		HBox clothingItemCont = new HBox(10);
 		clothingItemCont.setAlignment(Pos.CENTER);
 		Label ciLabel = new Label("Clothing Items: ");
+		ciLabel.setEffect(ds);
 		ciLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		ciLabel.setStyle("-fx-text-fill: #ffc726");
 		clothingItemCont.getChildren().add(ciLabel);
@@ -473,6 +487,8 @@ public class ReceptionistView extends View
 		requestCont.setAlignment(Pos.CENTER);
 		Label reqLabel = new Label("         Requests: ");
 		reqLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		reqLabel.setStyle("-fx-text-fill: #ffc726");
+		reqLabel.setEffect(ds);
 		requestCont.getChildren().add(reqLabel);
 		logRequestButton = new Button(" Log ");
 		logRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
