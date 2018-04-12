@@ -13,6 +13,9 @@ import java.util.Date;
 //==============================================================
 public class Utilities
 {
+
+	public static int GENERIC_SIZE = 999;
+
 	//----------------------------------------------------------
 	public static String convertToDefaultDateFormat(Date theDate)
 	{

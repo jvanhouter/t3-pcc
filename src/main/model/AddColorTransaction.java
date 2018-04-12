@@ -2,25 +2,31 @@
 package model;
 
 // system imports
+
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.Properties;
 import java.util.Vector;
 
+
 // project imports
 import event.Event;
 import exception.InvalidPrimaryKeyException;
+
 import exception.MultiplePrimaryKeysException;
+
 
 import userinterface.View;
 import userinterface.ViewFactory;
+import Utilities.UiConstants;
 
 /** The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application */
 //==============================================================
 public class AddColorTransaction extends Transaction
 {
 
-    private ColorType myColorType;
+
+    private Color myColor;
 
 
     // GUI Components
@@ -60,8 +66,10 @@ public class AddColorTransaction extends Transaction
             String barcodePrefix = props.getProperty("BarcodePrefix");
             try
             {
-                ColorType oldColorType = new ColorType(barcodePrefix);
-                oldColorType.update();
+
+                Color oldColor = new Color(barcodePrefix);
+                oldColor.update();
+
                 transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
                         + " already exists!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
@@ -74,24 +82,25 @@ public class AddColorTransaction extends Transaction
                 try
                 {
                     int barcodePrefixVal = Integer.parseInt(barcodePrefix);
-                    String descriptionOfAT = props.getProperty("Description");
-                    if (descriptionOfAT.length() > 30)
+                    String descriptionOfCL = props.getProperty("Description");
+                    if (descriptionOfCL.length() > UiConstants.COLOR_DESCRIPTION_MAX_LENGTH)
                     {
                         transactionErrorMessage = "ERROR: Color Type Description too long! ";
                     }
                     else
                     {
                         String alphaCode = props.getProperty("AlphaCode");
-                        if (alphaCode.length() > 5)
+                        if (alphaCode.length() > UiConstants.ALPHACODE_MAX_LENGTH)
                         {
                             transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
                         }
                         else
                         {
                             props.setProperty("Status", "Active");
-                            myColorType = new ColorType(props);
-                            myColorType.update();
-                            transactionErrorMessage = (String)myColorType.getState("UpdateStatusMessage");
+
+                            myColor = new Color(props);
+                            myColor.update();
+                            transactionErrorMessage = (String) myColor.getState("UpdateStatusMessage");
                         }
                     }
                 }

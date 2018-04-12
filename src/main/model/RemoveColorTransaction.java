@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.Properties;
@@ -12,6 +13,7 @@ import event.Event;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
 
+
 import userinterface.View;
 import userinterface.ViewFactory;
 
@@ -20,7 +22,8 @@ import userinterface.ViewFactory;
 public class RemoveColorTransaction extends Transaction {
 
     private ColorCollection myColorList;
-    private ColorType mySelectedColor;
+
+    private Color mySelectedColor;
 
 
     // GUI Components
@@ -47,7 +50,7 @@ public class RemoveColorTransaction extends Transaction {
     }
 
     /**
-     * This method encapsulates all the logic of creating the article type,
+     * This method encapsulates all the logic of creating the color,
      * verifying its uniqueness, etc.
      */
     //----------------------------------------------------------

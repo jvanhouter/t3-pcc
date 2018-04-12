@@ -11,7 +11,7 @@ import java.util.Vector;
 import event.Event;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
-
+import Utilities.UiConstants;
 import userinterface.View;
 import userinterface.ViewFactory;
 
@@ -75,14 +75,14 @@ public class AddArticleTypeTransaction extends Transaction
 				{
 					int barcodePrefixVal = Integer.parseInt(barcodePrefix);
 					String descriptionOfAT = props.getProperty("Description");
-					if (descriptionOfAT.length() > 30)
+					if (descriptionOfAT.length() > UiConstants.AT_DESCRIPTION_MAX_LENGTH)
 					{
 						transactionErrorMessage = "ERROR: Article Type Description too long! ";
 					}
 					else
 					{
 						String alphaCode = props.getProperty("AlphaCode");
-						if (alphaCode.length() > 5)
+						if (alphaCode.length() > UiConstants.ALPHACODE_MAX_LENGTH)
 						{
 							transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
 						}
@@ -121,7 +121,7 @@ public class AddArticleTypeTransaction extends Transaction
 	//-----------------------------------------------------------
 	public Object getState(String key)
 	{
-		if (key.equals("TransactionError") == true)
+		if (key.equals("TransactionError"))
 		{
 			return transactionErrorMessage;
 		}
@@ -135,13 +135,9 @@ public class AddArticleTypeTransaction extends Transaction
 	{
 		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
-		if (key.equals("DoYourJob") == true)
-		{
+		if (key.equals("DoYourJob")) {
 			doYourJob();
-		}
-		else
-		if (key.equals("ArticleTypeData") == true)
-		{
+		} else if (key.equals("ArticleTypeData")) {
 			processTransaction((Properties)value);
 		}
 

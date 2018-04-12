@@ -67,7 +67,7 @@ public class ArticleTypeCollectionView extends View
 		container.getChildren().add(createStatusLog("                                            "));
 
 		getChildren().add(container);
-		
+
 		populateFields();
 	}
 
@@ -80,15 +80,15 @@ public class ArticleTypeCollectionView extends View
 	//--------------------------------------------------------------------------
 	protected void getEntryTableModelValues()
 	{
-		
+
 		ObservableList<ArticleTypeTableModel> tableData = FXCollections.observableArrayList();
 		try
 		{
-			ArticleTypeCollection articleTypeCollection = 
+			ArticleTypeCollection articleTypeCollection =
 				(ArticleTypeCollection)myModel.getState("ArticleTypeList");
 
 	 		Vector entryList = (Vector)articleTypeCollection.getState("ArticleTypes");
-			
+
 			if (entryList.size() > 0)
 			{
 				Enumeration entries = entryList.elements();
@@ -101,14 +101,14 @@ public class ArticleTypeCollectionView extends View
 					// add this list entry to the list
 					ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
 					tableData.add(nextTableRowData);
-					
+
 				}
 			}
 			else
 			{
 				displayMessage("No matching entries found!");
 			}
-			
+
 			tableOfArticleTypes.setItems(tableData);
 		}
 		catch (Exception e) {//SQLException e) {
@@ -122,21 +122,21 @@ public class ArticleTypeCollectionView extends View
 	{
 		VBox container = new VBox(10);
 		container.setPadding(new Insets(1, 1, 1, 30));
-		
+
 		Text clientText = new Text(" Office of Career Services ");
 		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 		clientText.setWrappingWidth(350);
 		clientText.setTextAlignment(TextAlignment.CENTER);
 		clientText.setFill(Color.DARKGREEN);
 		container.getChildren().add(clientText);
-		
+
 		Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
 		collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		collegeText.setWrappingWidth(350);
 		collegeText.setTextAlignment(TextAlignment.CENTER);
 		collegeText.setFill(Color.DARKGREEN);
 		container.getChildren().add(collegeText);
-		
+
 		Text titleText = new Text(" Professional Clothes Closet Management System ");
 		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		titleText.setWrappingWidth(350);
@@ -157,7 +157,7 @@ public class ArticleTypeCollectionView extends View
 		actionText.setTextAlignment(TextAlignment.CENTER);
 		actionText.setFill(Color.BLACK);
 		container.getChildren().add(actionText);
-	
+
 		return container;
 	}
 
@@ -173,7 +173,7 @@ public class ArticleTypeCollectionView extends View
         prompt.setFill(Color.BLACK);
 		prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
 		vbox.getChildren().add(prompt);
-		
+
 		GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
        	grid.setHgap(10);
@@ -182,28 +182,28 @@ public class ArticleTypeCollectionView extends View
 
 		tableOfArticleTypes = new TableView<ArticleTypeTableModel>();
 		tableOfArticleTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-	
+
 		TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
 		barcodePrefixColumn.setMinWidth(50);
 		barcodePrefixColumn.setCellValueFactory(
 	                new PropertyValueFactory<ArticleTypeTableModel, String>("barcodePrefix"));
-		
+
 		TableColumn descriptionColumn = new TableColumn("Description") ;
 		descriptionColumn.setMinWidth(150);
 		descriptionColumn.setCellValueFactory(
 	                new PropertyValueFactory<ArticleTypeTableModel, String>("description"));
-		  
+
 		TableColumn alphaCodeColumn = new TableColumn("Alpha Code") ;
 		alphaCodeColumn.setMinWidth(50);
 		alphaCodeColumn.setCellValueFactory(
 	                new PropertyValueFactory<ArticleTypeTableModel, String>("alphaCode"));
-		
+
 		TableColumn statusColumn = new TableColumn("Status") ;
 		statusColumn.setMinWidth(50);
 		statusColumn.setCellValueFactory(
 	                new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
 
-		tableOfArticleTypes.getColumns().addAll(descriptionColumn, 
+		tableOfArticleTypes.getColumns().addAll(descriptionColumn,
 			barcodePrefixColumn, alphaCodeColumn, statusColumn);
 
 		tableOfArticleTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -219,21 +219,65 @@ public class ArticleTypeCollectionView extends View
 		scrollPane.setPrefSize(150, 150);
 		scrollPane.setContent(tableOfArticleTypes);
 
-		submitButton = new Button("Submit");
+		submitButton = new PccButton("Submit");
 		submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		submitButton.setOnMouseEntered(me ->
+        {
+        	submitButton.setScaleX(1.1);
+        	submitButton.setScaleY(1.1);
+        });
+
+        submitButton.setOnMouseExited(me ->
+        {
+        	submitButton.setScaleX(1);
+        	submitButton.setScaleY(1);
+        });
+
+        submitButton.setOnMousePressed(me ->
+    {
+    	submitButton.setScaleX(0.9);
+    	submitButton.setScaleY(0.9);
+    });
+        submitButton.setOnMouseReleased(me ->
+    {
+    	submitButton.setScaleX(1.1);
+    	submitButton.setScaleY(1.1);
+    });
  		submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
        		     @Override
        		     public void handle(ActionEvent e) {
-       		     	clearErrorMessage(); 
+       		     	clearErrorMessage();
 					// do the inquiry
 					processArticleTypeSelected();
-					
+
             	 }
         	});
 
-		cancelButton = new Button("Return");
+		cancelButton = new PccButton("Return");
 		cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		cancelButton.setOnMouseEntered(me ->
+				 {
+					 cancelButton.setScaleX(1.1);
+					 cancelButton.setScaleY(1.1);
+				 });
+
+				 cancelButton.setOnMouseExited(me ->
+				 {
+					 cancelButton.setScaleX(1);
+					 cancelButton.setScaleY(1);
+				 });
+
+				 cancelButton.setOnMousePressed(me ->
+		 {
+			 cancelButton.setScaleX(0.9);
+			 cancelButton.setScaleY(0.9);
+		 });
+				 cancelButton.setOnMouseReleased(me ->
+		 {
+			 cancelButton.setScaleX(1.1);
+			 cancelButton.setScaleY(1.1);
+		 });
  		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
        		     @Override
@@ -247,7 +291,7 @@ public class ArticleTypeCollectionView extends View
 			 		*/
 					//----------------------------------------------------------
        		     	clearErrorMessage();
-       		     	myModel.stateChangeRequest("CancelArticleTypeList", null); 
+       		     	myModel.stateChangeRequest("CancelArticleTypeList", null);
             	  }
         	});
 
@@ -255,11 +299,11 @@ public class ArticleTypeCollectionView extends View
 		btnContainer.setAlignment(Pos.CENTER);
 		btnContainer.getChildren().add(submitButton);
 		btnContainer.getChildren().add(cancelButton);
-		
+
 		vbox.getChildren().add(grid);
 		vbox.getChildren().add(scrollPane);
 		vbox.getChildren().add(btnContainer);
-	
+
 		return vbox;
 	}
 
@@ -272,7 +316,7 @@ public class ArticleTypeCollectionView extends View
 	protected void processArticleTypeSelected()
 	{
 		ArticleTypeTableModel selectedItem = tableOfArticleTypes.getSelectionModel().getSelectedItem();
-		
+
 		if(selectedItem != null)
 		{
 			String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
@@ -307,6 +351,5 @@ public class ArticleTypeCollectionView extends View
 	{
 		statusLog.clearErrorMessage();
 	}
-	
-	
+
 }

@@ -17,7 +17,7 @@ import java.util.Properties;
 public class UpdateColorTransaction extends Transaction {
 
     private ColorCollection myColorList;
-    private ColorType mySelectedColor;
+    private Color mySelectedColor;
 
     // GUI Components
 
@@ -203,7 +203,6 @@ public class UpdateColorTransaction extends Transaction {
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value)
     {
-
 
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
         {

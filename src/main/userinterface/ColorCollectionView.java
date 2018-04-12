@@ -1,6 +1,7 @@
 package userinterface;
 
 // system imports
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,19 +26,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+
 import java.util.Vector;
 import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
-import model.ColorType;
+import model.Color;
 import model.ColorCollection;
 
 //==============================================================================
@@ -95,7 +96,8 @@ public class ColorCollectionView extends View
 
                 while (entries.hasMoreElements() == true)
                 {
-                    ColorType nextCT = (ColorType)entries.nextElement();
+
+                    Color nextCT = (Color)entries.nextElement();
                     Vector<String> view = nextCT.getEntryListView();
 
                     // add this list entry to the list
@@ -127,35 +129,36 @@ public class ColorCollectionView extends View
         clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         clientText.setWrappingWidth(350);
         clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
+
+        clientText.setFill(javafx.scene.paint.Color.DARKGREEN);
         container.getChildren().add(clientText);
 
         Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
         collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         collegeText.setWrappingWidth(350);
         collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
+        collegeText.setFill(javafx.scene.paint.Color.DARKGREEN);
         container.getChildren().add(collegeText);
 
         Text titleText = new Text(" Professional Clothes Closet Management System ");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setWrappingWidth(350);
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
+        titleText.setFill(javafx.scene.paint.Color.DARKGREEN);
         container.getChildren().add(titleText);
 
         Text blankText = new Text("  ");
         blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         blankText.setWrappingWidth(350);
         blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
+        blankText.setFill(javafx.scene.paint.Color.WHITE);
         container.getChildren().add(blankText);
 
         Text actionText = new Text("      ** Matching Colors **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
+        actionText.setFill(javafx.scene.paint.Color.BLACK);
         container.getChildren().add(actionText);
 
         return container;
@@ -170,7 +173,7 @@ public class ColorCollectionView extends View
         Text prompt = new Text("");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
+        prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
@@ -219,8 +222,30 @@ public class ColorCollectionView extends View
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(tableOfColorTypes);
 
-        submitButton = new Button("Submit");
+        submitButton = new PccButton("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        submitButton.setOnMouseEntered(me ->
+        {
+        	submitButton.setScaleX(1.1);
+        	submitButton.setScaleY(1.1);
+        });
+
+        submitButton.setOnMouseExited(me ->
+        {
+        	submitButton.setScaleX(1);
+        	submitButton.setScaleY(1);
+        });
+
+        submitButton.setOnMousePressed(me ->
+    {
+    	submitButton.setScaleX(0.9);
+    	submitButton.setScaleY(0.9);
+    });
+        submitButton.setOnMouseReleased(me ->
+    {
+    	submitButton.setScaleX(1.1);
+    	submitButton.setScaleY(1.1);
+    });
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -232,8 +257,30 @@ public class ColorCollectionView extends View
             }
         });
 
-        cancelButton = new Button("Return");
+        cancelButton = new PccButton("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        cancelButton.setOnMouseEntered(me ->
+   	        {
+   	        	cancelButton.setScaleX(1.1);
+   	        	cancelButton.setScaleY(1.1);
+   	        });
+
+   	        cancelButton.setOnMouseExited(me ->
+   	        {
+   	        	cancelButton.setScaleX(1);
+   	        	cancelButton.setScaleY(1);
+   	        });
+
+   	        cancelButton.setOnMousePressed(me ->
+   	    {
+   	    	cancelButton.setScaleX(0.9);
+   	    	cancelButton.setScaleY(0.9);
+   	    });
+   	        cancelButton.setOnMouseReleased(me ->
+   	    {
+   	    	cancelButton.setScaleX(1.1);
+   	    	cancelButton.setScaleY(1.1);
+   	    });
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override

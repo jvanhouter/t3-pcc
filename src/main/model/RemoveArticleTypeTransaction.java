@@ -12,7 +12,9 @@ import java.util.Properties;
 import java.util.Vector;
 
 
-/** The class containing the UpdateArticleTypeTransaction for the Professional Clothes Closet application */
+
+/** The class containing the RemoveArticleTypeTransaction for the Professional Clothes Closet application */
+
 //==============================================================
 public class RemoveArticleTypeTransaction extends Transaction
 {
@@ -62,9 +64,7 @@ public class RemoveArticleTypeTransaction extends Transaction
         {
             String desc = props.getProperty("Description");
             String alfaC = props.getProperty("AlphaCode");
-            myArticleTypeList.findByCriteria(desc, alfaC); // SHOW FIND PARTIAL DESCRIPTION OR PERFECT MATCH:
-                                                           // :ALSO SHOULD DO "OR" TO FIND ONE OR ANOTHER SINCE
-                                                           // SINCE BOTH NOT NEEDED?
+            myArticleTypeList.findByCriteria(desc, alfaC);
         }
         try
         {

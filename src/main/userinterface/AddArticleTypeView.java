@@ -29,7 +29,7 @@ import java.util.Properties;
 import impresario.IModel;
 
 /** The class containing the Add Article Type View  for the Professional Clothes
- *  Closet application 
+ *  Closet application
  */
 //==============================================================
 public class AddArticleTypeView extends View
@@ -58,7 +58,7 @@ public class AddArticleTypeView extends View
 
 		// Add a title for this panel
 		container.getChildren().add(createTitle());
-		
+
 		// create our GUI components, add them to this Container
 		container.getChildren().add(createFormContent());
 
@@ -83,21 +83,21 @@ public class AddArticleTypeView extends View
 	{
 		VBox container = new VBox(10);
 		container.setPadding(new Insets(1, 1, 1, 30));
-		
+
 		Text clientText = new Text(" Office of Career Services ");
 		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
 		clientText.setWrappingWidth(350);
 		clientText.setTextAlignment(TextAlignment.CENTER);
 		clientText.setFill(Color.DARKGREEN);
 		container.getChildren().add(clientText);
-		
+
 		Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
 		collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		collegeText.setWrappingWidth(350);
 		collegeText.setTextAlignment(TextAlignment.CENTER);
 		collegeText.setFill(Color.DARKGREEN);
 		container.getChildren().add(collegeText);
-		
+
 		Text titleText = new Text(" Professional Clothes Closet Management System ");
 		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		titleText.setWrappingWidth(350);
@@ -118,7 +118,7 @@ public class AddArticleTypeView extends View
 		actionText.setTextAlignment(TextAlignment.CENTER);
 		actionText.setFill(Color.BLACK);
 		container.getChildren().add(actionText);
-	
+
 		return container;
 	}
 
@@ -127,14 +127,14 @@ public class AddArticleTypeView extends View
 	private VBox createFormContent()
 	{
 		VBox vbox = new VBox(10);
-		
+
 		Text prompt = new Text("ARTICLE TYPE INFORMATION");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
 		prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
 		vbox.getChildren().add(prompt);
-		
+
 
 		GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -172,8 +172,30 @@ public class AddArticleTypeView extends View
 
 		HBox doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
-		submitButton = new Button("Submit");
+		submitButton = new PccButton("Submit");
 		submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		submitButton.setOnMouseEntered(me ->
+        {
+        	submitButton.setScaleX(1.1);
+        	submitButton.setScaleY(1.1);
+        });
+
+        submitButton.setOnMouseExited(me ->
+        {
+        	submitButton.setScaleX(1);
+        	submitButton.setScaleY(1);
+        });
+
+        submitButton.setOnMousePressed(me ->
+    {
+    	submitButton.setScaleX(0.9);
+    	submitButton.setScaleY(0.9);
+    });
+        submitButton.setOnMouseReleased(me ->
+    {
+    	submitButton.setScaleX(1.1);
+    	submitButton.setScaleY(1.1);
+    });
 		submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
        		     @Override
@@ -192,7 +214,7 @@ public class AddArticleTypeView extends View
 							if (alfaC.length() > 0)
 							{
 								props.setProperty("AlphaCode", alfaC);
-								myModel.stateChangeRequest("ArticleTypeData", props); 
+								myModel.stateChangeRequest("ArticleTypeData", props);
 							}
 							else
 							{
@@ -203,30 +225,52 @@ public class AddArticleTypeView extends View
 						{
 							displayErrorMessage("ERROR: Please enter a valid description!");
 						}
-						
+
 					}
 					else
 					{
 						displayErrorMessage("ERROR: Please enter a barcode prefix!");
-						
+
 					}
-       		    	  
+
             	  }
         	});
 		doneCont.getChildren().add(submitButton);
-		
-		cancelButton = new Button("Return");
+
+		cancelButton = new PccButton("Return");
 		cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		cancelButton.setOnMouseEntered(me ->
+				 {
+					 cancelButton.setScaleX(1.1);
+					 cancelButton.setScaleY(1.1);
+				 });
+
+				 cancelButton.setOnMouseExited(me ->
+				 {
+					 cancelButton.setScaleX(1);
+					 cancelButton.setScaleY(1);
+				 });
+
+				 cancelButton.setOnMousePressed(me ->
+		 {
+			 cancelButton.setScaleX(0.9);
+			 cancelButton.setScaleY(0.9);
+		 });
+				 cancelButton.setOnMouseReleased(me ->
+		 {
+			 cancelButton.setScaleX(1.1);
+			 cancelButton.setScaleY(1.1);
+		 });
 		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
        		     @Override
        		     public void handle(ActionEvent e) {
        		    	clearErrorMessage();
-       		    	myModel.stateChangeRequest("CancelAddAT", null);   
+       		    	myModel.stateChangeRequest("CancelAddAT", null);
             	  }
         	});
 		doneCont.getChildren().add(cancelButton);
-	
+
 		vbox.getChildren().add(grid);
 		vbox.getChildren().add(doneCont);
 
@@ -246,7 +290,7 @@ public class AddArticleTypeView extends View
 	//-------------------------------------------------------------
 	public void populateFields()
 	{
-		
+
 	}
 
 	/**
@@ -268,7 +312,7 @@ public class AddArticleTypeView extends View
 			{
 				displayMessage(val);
 			}
-			
+
 		}
 	}
 
@@ -304,5 +348,3 @@ public class AddArticleTypeView extends View
 //---------------------------------------------------------------
 //	Revision History:
 //
-
-

@@ -14,10 +14,11 @@ import exception.MultiplePrimaryKeysException;
 
 import userinterface.View;
 import userinterface.ViewFactory;
+import Utilities.UiConstants;
 
-/** The class containing the UpdateArticleTypeTransaction for the Professional Clothes Closet application */
+/** The class containing the ModifyArticleTypeTransaction for the Professional Clothes Closet application */
 //==============================================================
-public class UpdateArticleTypeTransaction extends Transaction
+public class ModifyArticleTypeTransaction extends Transaction
 {
 
 	private ArticleTypeCollection myArticleTypeList;
@@ -33,7 +34,7 @@ public class UpdateArticleTypeTransaction extends Transaction
 	 *
 	 */
 	//----------------------------------------------------------
-	public UpdateArticleTypeTransaction() throws Exception
+	public ModifyArticleTypeTransaction() throws Exception
 	{
 		super();
 	}
@@ -86,14 +87,14 @@ public class UpdateArticleTypeTransaction extends Transaction
 	private void articleTypeModificationHelper(Properties props)
 	{
 		String descriptionOfAT = props.getProperty("Description");
-		if (descriptionOfAT.length() > 30)
+		if (descriptionOfAT.length() > UiConstants.AT_DESCRIPTION_MAX_LENGTH)
 		{
 			transactionErrorMessage = "ERROR: Article Type Description too long! ";
 		}
 		else
 		{
 			String alphaCode = props.getProperty("AlphaCode");
-			if (alphaCode.length() > 5)
+			if (alphaCode.length() > UiConstants.ALPHACODE_MAX_LENGTH)
 			{
 				transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
 			}
@@ -214,7 +215,7 @@ public class UpdateArticleTypeTransaction extends Transaction
 	//-----------------------------------------------------------
 	public void stateChangeRequest(String key, Object value)
 	{
-		// DEBUG System.out.println("UpdateArticleTypeTransaction.sCR: key: " + key);
+		// DEBUG System.out.println("ModifyArticleTypeTransaction.sCR: key: " + key);
 
 		if ((key.equals("DoYourJob") == true) || (key.equals("CancelArticleTypeList") == true))
 		{
