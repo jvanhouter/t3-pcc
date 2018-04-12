@@ -21,7 +21,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
+import Utilities.Utilities;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
@@ -30,7 +30,7 @@ import java.util.Vector;
 import impresario.IModel;
 import model.ClothingItem;
 import model.InventoryItemCollection;
-
+import Utilities.UiConstants;
 
 
 public class EnterReceiverInformationView extends View {
@@ -359,15 +359,15 @@ public class EnterReceiverInformationView extends View {
                 clearErrorMessage();
                 Properties props = new Properties();
                 String netIdReceiver = netId.getText();
-                if (netIdReceiver.length() >= 2)
+                if (netIdReceiver.length() > 0)
                 {
                     props.setProperty("ReceiverNetid", netIdReceiver);
                     String fNameReceiver = fName.getText();
-                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < RECEIVER_FIRST_NAME_MAX_LENGTH)
+                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < UiConstants.RECEIVER_FIRST_NAME_MAX_LENGTH)
                     {
                         props.setProperty("ReceiverFirstName", fNameReceiver);
                         String lNameReceiver = lName.getText();
-                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < RECEIVER_LAST_NAME_MAX_LENGTH)
+                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < UiConstants.RECEIVER_LAST_NAME_MAX_LENGTH)
                         {
                             props.setProperty("ReceiverLastName", lNameReceiver);
                             myModel.stateChangeRequest("ReceiverData", props);

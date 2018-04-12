@@ -22,7 +22,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.util.Properties;
-
+import Utilities.UiConstants;
 // project imports
 
 /**
@@ -208,7 +208,7 @@ public class BarcodeScannerView extends View {
         clearErrorMessage();
         Properties props = new Properties();
         String barcode = barcodePrefix.getText();
-        if ((barcode.length() > 0) && (barcode.length() <= BARCODE_MAX_LENGTH)) {
+        if ((barcode.length() > 0) && (barcode.length() <= UiConstants.BARCODE_MAX_LENGTH)) {
             if (barcode.substring(0, 1).equals("0") || (barcode.substring(0, 1).equals("1"))) {
                 PauseTransition pause = new PauseTransition(Duration.millis(100));
                 props.setProperty("Barcode", barcode);

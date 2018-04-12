@@ -51,7 +51,6 @@ public class ViewFactory {
         } else if(viewName.equals("RemoveRequestView") == true){
             return new RemoveRequestView(model);
         } else if (viewName.equals("InventoryItemCollectionView")) {
-            System.out.println("ViewFactory");
             return new InventoryItemCollectionView(model);
         } else
             return null;

@@ -7,7 +7,7 @@ import userinterface.View;
 import userinterface.ViewFactory;
 
 import java.util.Properties;
-
+import Utilities.UiConstants;
 /**
  * Jan 30, 2018
  * @author Jackson Taber & Kyle Darling
@@ -74,14 +74,14 @@ public class ModifyColorTransaction extends Transaction {
     private void colorModificationHelper(Properties props)
     {
         String descriptionOfCL = props.getProperty("Description");
-        if (descriptionOfCL.length() > COLOR_DESCRIPTION_MAX_LENGTH)
+        if (descriptionOfCL.length() > UiConstants.COLOR_DESCRIPTION_MAX_LENGTH)
         {
             transactionErrorMessage = "ERROR: Color Description too long! ";
         }
         else
         {
             String alphaCode = props.getProperty("AlphaCode");
-            if (alphaCode.length() > ALPHACODE_MAX_LENGTH)
+            if (alphaCode.length() > UiConstants.ALPHACODE_MAX_LENGTH)
             {
                 transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
             }

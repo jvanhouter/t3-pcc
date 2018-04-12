@@ -32,6 +32,7 @@ import impresario.IModel;
 import javafx.util.StringConverter;
 import model.ArticleType;
 import model.Color;
+import Utilities.UiConstants;
 
 /** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application
@@ -337,7 +338,7 @@ public class LogARequestView extends View
     //-------------------------------------------------------------
     protected void processTransaction() {
         Properties props = new Properties();
-        if(netId.getText().length() >= 2) {
+        if(netId.getText().length() > 0) {
             props.setProperty("RequesterNetid", netId.getText());
             props.setProperty("RequestedGender", gender.getValue());
             props.setProperty("RequestedArticleType", (String) articleType.getValue().getState("ID"));
@@ -349,7 +350,7 @@ public class LogARequestView extends View
                 props.setProperty("RequestedSize", "" + Utilities.GENERIC_SIZE);
             } else
                 props.setProperty("RequestedSize", size.getText());
-            if(phoneNumber.getText().length() <= 12) {
+            if(phoneNumber.getText().length() <= UiConstants.REQUESTED_PHONE_MAX_LENGTH) {
                 props.setProperty("RequesterPhone", phoneNumber.getText());
                 if(!firstName.getText().equals("")) {
                     props.setProperty("RequesterFirstName", firstName.getText());

@@ -18,6 +18,7 @@ import exception.MultiplePrimaryKeysException;
 
 import userinterface.View;
 import userinterface.ViewFactory;
+import Utilities.UiConstants;
 
 /** The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application */
 //==============================================================
@@ -82,14 +83,14 @@ public class AddColorTransaction extends Transaction
                 {
                     int barcodePrefixVal = Integer.parseInt(barcodePrefix);
                     String descriptionOfCL = props.getProperty("Description");
-                    if (descriptionOfCL.length() > COLOR_DESCRIPTION_MAX_LENGTH)
+                    if (descriptionOfCL.length() > UiConstants.COLOR_DESCRIPTION_MAX_LENGTH)
                     {
                         transactionErrorMessage = "ERROR: Color Type Description too long! ";
                     }
                     else
                     {
                         String alphaCode = props.getProperty("AlphaCode");
-                        if (alphaCode.length() > ALPHACODE_MAX_LENGTH)
+                        if (alphaCode.length() > UiConstants.ALPHACODE_MAX_LENGTH)
                         {
                             transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
                         }

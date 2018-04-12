@@ -11,7 +11,7 @@ import java.util.Vector;
 import event.Event;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
-
+import Utilities.UiConstants;
 import userinterface.View;
 import userinterface.ViewFactory;
 
@@ -75,14 +75,14 @@ public class AddArticleTypeTransaction extends Transaction
 				{
 					int barcodePrefixVal = Integer.parseInt(barcodePrefix);
 					String descriptionOfAT = props.getProperty("Description");
-					if (descriptionOfAT.length() > AT_DESCRIPTION_MAX_LENGTH)
+					if (descriptionOfAT.length() > UiConstants.AT_DESCRIPTION_MAX_LENGTH)
 					{
 						transactionErrorMessage = "ERROR: Article Type Description too long! ";
 					}
 					else
 					{
 						String alphaCode = props.getProperty("AlphaCode");
-						if (alphaCode.length() > ALPHACODE_MAX_LENGTH)
+						if (alphaCode.length() > UiConstants.ALPHACODE_MAX_LENGTH)
 						{
 							transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
 						}

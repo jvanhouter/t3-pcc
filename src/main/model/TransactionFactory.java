@@ -37,7 +37,6 @@ public class TransactionFactory {
         } else if (transType.equals("FulfillRequest")) {
             return new FulfilRequestTransaction();
         } else if (transType.equals("ListAvailableInventory")) {
-            System.out.println("TransactionFactory");
             return new ListInventoryTransaction();
         } else {
             return null;
