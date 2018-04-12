@@ -23,7 +23,8 @@ import userinterface.ViewFactory;
 //==============================================================
 public class ClothingItemCollection  extends EntityBase implements IView
 {
-	private static final String myTableName = "ClothingItem";
+	// ClothingItem is not a table inside the database
+	private static final String myTableName = "Inventory";
 
 	private Vector<ClothingItem> clothingItems;
 	// GUI Components
@@ -33,13 +34,11 @@ public class ClothingItemCollection  extends EntityBase implements IView
 	public ClothingItemCollection( ) 
 	{
 		super(myTableName);
-
 	}
 	
 	//-----------------------------------------------------------
 	private void populateCollectionHelper(String query)
 	{
-		
 		Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
 		if (allDataRetrieved != null)
@@ -64,7 +63,7 @@ public class ClothingItemCollection  extends EntityBase implements IView
 	//-----------------------------------------------------------
 	public void findByBarcode(String barcode)
 	{
-		String query = "SELECT * FROM " + myTableName + " WHERE ((Barcode = '" + barcode + 
+		String query = "SELECT * FROM " + myTableName + " WHERE (Barcode = '" + barcode +
 			"')";
 		populateCollectionHelper(query);
 	}

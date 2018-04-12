@@ -2,18 +2,19 @@ package model;
 
 import event.Event;
 import exception.InvalidPrimaryKeyException;
+import exception.MultiplePrimaryKeysException;
 import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
 import java.util.Properties;
-import Utilities.UiConstants;
+
 /**
  * Jan 30, 2018
  * @author Jackson Taber & Kyle Darling
  */
 
-public class ModifyColorTransaction extends Transaction {
+public class UpdateColorTransaction extends Transaction {
 
     private ColorCollection myColorList;
     private Color mySelectedColor;
@@ -27,7 +28,7 @@ public class ModifyColorTransaction extends Transaction {
      *
      */
     //----------------------------------------------------------
-    public ModifyColorTransaction() throws Exception
+    public UpdateColorTransaction() throws Exception
     {
         super();
     }
@@ -73,15 +74,15 @@ public class ModifyColorTransaction extends Transaction {
     //--------------------------------------------------------------------------
     private void colorModificationHelper(Properties props)
     {
-        String descriptionOfCL = props.getProperty("Description");
-        if (descriptionOfCL.length() > UiConstants.COLOR_DESCRIPTION_MAX_LENGTH)
+        String descriptionOfAT = props.getProperty("Description");
+        if (descriptionOfAT.length() > 30)
         {
             transactionErrorMessage = "ERROR: Color Description too long! ";
         }
         else
         {
             String alphaCode = props.getProperty("AlphaCode");
-            if (alphaCode.length() > UiConstants.ALPHACODE_MAX_LENGTH)
+            if (alphaCode.length() > 5)
             {
                 transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
             }
@@ -89,7 +90,7 @@ public class ModifyColorTransaction extends Transaction {
             {
                 // Everything OK
 
-                mySelectedColor.stateChangeRequest("Description", descriptionOfCL);
+                mySelectedColor.stateChangeRequest("Description", descriptionOfAT);
                 mySelectedColor.stateChangeRequest("AlphaCode", alphaCode);
                 mySelectedColor.update();
                 transactionErrorMessage = (String)mySelectedColor.getState("UpdateStatusMessage");
@@ -112,7 +113,7 @@ public class ModifyColorTransaction extends Transaction {
             {
                 try
                 {
-                    Color oldArticleType = new Color(barcodePrefix);
+                    ColorType oldArticleType = new ColorType(barcodePrefix);
                     transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
                             + " already exists!";
                     new Event(Event.getLeafLevelClassName(this), "processTransaction",
@@ -202,6 +203,7 @@ public class ModifyColorTransaction extends Transaction {
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value)
     {
+
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
         {
             doYourJob();

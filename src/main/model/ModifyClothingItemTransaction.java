@@ -8,7 +8,7 @@ import exception.MultiplePrimaryKeysException;
 import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
-
+import Utilities.UiConstants;
 import java.util.Properties;
 
 // project imports
@@ -22,6 +22,9 @@ public class ModifyClothingItemTransaction extends Transaction {
     private ClothingItemCollection myClothingItemList;
     private ClothingItem mySelectedClothingItem;
 
+    private ArticleTypeCollection myArticleTypeList;
+    private ColorCollection myColorList;
+    private String gender;
 
     // GUI Components
 
@@ -40,7 +43,7 @@ public class ModifyClothingItemTransaction extends Transaction {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchClothingItem", "CancelTransaction");
         dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
-        dependencies.setProperty("CancelAddCI", "CancelTransaction");
+        dependencies.setProperty("CancelAddClothingItem", "CancelTransaction");
         dependencies.setProperty("ClothingItemData", "TransactionError");
         dependencies.setProperty("ProcessBarcode", "TransactionError");
 
@@ -57,11 +60,11 @@ public class ModifyClothingItemTransaction extends Transaction {
         if (props.getProperty("Barcode") != null) {
             String barcode = props.getProperty("Barcode");
             myClothingItemList.findByBarcode(barcode);
-        } else {
+        } /*else { Properties doesn't contain gender or article type
             String genderString = props.getProperty("Gender");
             String articleTypeString = props.getProperty("ArticleType");
             myClothingItemList.findByCriteria(articleTypeString, genderString);
-        }
+        }*/
 
         try {
             Scene newScene = createClothingItemCollectionView();
@@ -78,77 +81,106 @@ public class ModifyClothingItemTransaction extends Transaction {
     //--------------------------------------------------------------------------
     private void clothingItemModificationHelper(Properties props) {
         String barcode = props.getProperty("Barcode");
-        if (barcode.length() > 12)    //needs to be changed to proper length.
+        if (barcode.length() > UiConstants.BARCODE_MAX_LENGTH)    //needs to be changed to proper length.
         {
             transactionErrorMessage = "ERROR: barcode too long! ";
         } else if (barcode.length() <= 0)    //needs to be changed to proper length.
         {
-            transactionErrorMessage = "ERROR: please enter barcode";
+            transactionErrorMessage = "ERROR: Please enter barcode";
         } else {
             String gender = props.getProperty("Gender");
-            if (gender.length() > 5) {
+            if (gender.length() > UiConstants.GENDER_MAX_LENGTH) {
                 transactionErrorMessage = "ERROR: Gender too long (max length = 5)! ";
             } else if (gender.length() <= 0) {
                 transactionErrorMessage = "Please Enter Gender ";
             } else {
                 String articleType = props.getProperty("ArticleType");
-                if (barcode.length() > 30)    //needs to be changed to proper length.
+                if (articleType.length() > UiConstants.AT_DESCRIPTION_MAX_LENGTH)    //needs to be changed to proper length.
                 {
                     transactionErrorMessage = "ERROR: ArticleType too long! ";
                 }
-                if (barcode.length() <= 0)    //needs to be changed to proper length.
+                if (articleType.length() <= 0)    //needs to be changed to proper length.
                 {
                     transactionErrorMessage = "Please enter Article Type ";
                 } else {
                     String color1 = props.getProperty("Color1");
-                    if (color1.length() > 30)    //needs to be changed to proper length.
+                    if (color1.length() > UiConstants.COLOR_DESCRIPTION_MAX_LENGTH)    //needs to be changed to proper length.
                     {
                         transactionErrorMessage = "ERROR: Color1 too long! ";
                     } else if (color1.length() <= 0)    //needs to be changed to proper length.
                     {
-                        transactionErrorMessage = "please enter a a color ";
+                        transactionErrorMessage = "Please enter a a color ";
                     } else {
                         String color2 = props.getProperty("Color2");
-                        if (color2.length() > 30)    //needs to be changed to proper length.
+                        if (color2.length() > UiConstants.COLOR_DESCRIPTION_MAX_LENGTH)    //needs to be changed to proper length.
                         {
                             transactionErrorMessage = "ERROR: Color2 too long! ";
                         } else {
                             String brand = props.getProperty("Brand");
-                            if (brand.length() > 30)    //needs to be changed to proper length.
+                            if (brand.length() > UiConstants.BRAND_MAX_LENGTH)    //needs to be changed to proper length.
                             {
                                 transactionErrorMessage = "ERROR: Brand too long! ";
                             } else if (brand.length() <= 0)    //needs to be changed to proper length.
                             {
-                                transactionErrorMessage = "please enter a brand ";
+                                transactionErrorMessage = "Please enter a brand ";
                             } else {
-                                String donorInfo = props.getProperty("DonorInformation");
-                                if (donorInfo.length() > 100)    //needs to be changed to proper length.
+                                String donorFirstName = props.getProperty("DonorFirstName");
+                                if (donorFirstName.length() > UiConstants.DONOR_FIRST_NAME_MAX_LENGTH)    //needs to be changed to proper length.
                                 {
-                                    transactionErrorMessage = "ERROR: DonorInformation too long! ";
-                                } else if (donorInfo.length() <= 0)    //needs to be changed to proper length.
+                                    transactionErrorMessage = "ERROR: Donor First Name too long! ";
+                                } else
+                                if (donorFirstName.length() <= 0)    //needs to be changed to proper length.
                                 {
-                                    transactionErrorMessage = "please enter donor info ";
+                                    transactionErrorMessage = "Please enter Donor First Name ";
                                 } else {
-                                    String notes = props.getProperty("Notes");
-                                    if (notes.length() > 100)    //needs to be changed to proper length.
+                                    String donorLastName = props.getProperty("DonorLastName");
+                                    if (donorLastName.length() > UiConstants.DONOR_LAST_NAME_MAX_LENGTH)    //needs to be changed to proper length.
                                     {
-                                        transactionErrorMessage = "ERROR: notes too long! ";
+                                        transactionErrorMessage = "ERROR: Donor Last Name too long! ";
+                                    } else
+                                    if (donorLastName.length() <= 0)    //needs to be changed to proper length.
+                                    {
+                                        transactionErrorMessage = "Please enter Donor Last Name ";
                                     } else {
+                                        String donorPhone = props.getProperty("DonorPhone");
+                                        if (donorPhone.length() > UiConstants.DONOR_PHONE_MAX_LENGTH)    //needs to be changed to proper length.
+                                        {
+                                            transactionErrorMessage = "ERROR: Donor Phone Number too long! ";
+                                        } else {
+                                            String donorEmail = props.getProperty("DonorEmail");
+                                            if (donorEmail.length() > UiConstants.DONOR_EMAIL_MAX_LENGTH)    //needs to be changed to proper length.
+                                            {
+                                                transactionErrorMessage = "ERROR: Donor Email too long! ";
+                                            } else {
+                                                String notes = props.getProperty("Notes");
+                                                if (notes.length() > UiConstants.NOTES_MAX_LENGTH)    //needs to be changed to proper length.
+                                                {
+                                                    transactionErrorMessage = "ERROR: notes too long! ";
+                                                } else {
 
 
-                                        // Everything OK
-
-
-                                        mySelectedClothingItem.stateChangeRequest("Barcode", barcode);
-                                        mySelectedClothingItem.stateChangeRequest("Gender", gender);
-                                        mySelectedClothingItem.stateChangeRequest("ArticleType", articleType);
-                                        mySelectedClothingItem.stateChangeRequest("Color1", color1);
-                                        mySelectedClothingItem.stateChangeRequest("Color2", color2);
-                                        mySelectedClothingItem.stateChangeRequest("Brand", brand);
-                                        mySelectedClothingItem.stateChangeRequest("DonorInformation", donorInfo);
-                                        mySelectedClothingItem.stateChangeRequest("Notes", notes);
-                                        mySelectedClothingItem.update();
-                                        transactionErrorMessage = (String) mySelectedClothingItem.getState("UpdateStatusMessage");
+                                                    // Everything OK
+                                                    try {
+                                                        ClothingItem insertItem = new ClothingItem(barcode);
+                                                        insertItem.stateChangeRequest("Barcode", barcode);
+                                                        insertItem.stateChangeRequest("Gender", gender);
+                                                        insertItem.stateChangeRequest("ArticleType", articleType);
+                                                        insertItem.stateChangeRequest("Color1", color1);
+                                                        insertItem.stateChangeRequest("Color2", color2);
+                                                        insertItem.stateChangeRequest("Brand", brand);
+                                                        insertItem.stateChangeRequest("DonorFirstName", donorFirstName);
+                                                        insertItem.stateChangeRequest("DonorLastName", donorLastName);
+                                                        insertItem.stateChangeRequest("DonorEmail", donorEmail);
+                                                        insertItem.stateChangeRequest("DonorPhone", donorPhone);
+                                                        insertItem.stateChangeRequest("Notes", notes);
+                                                        insertItem.update();
+                                                        transactionErrorMessage = (String) insertItem.getState("UpdateStatusMessage");
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -165,47 +197,9 @@ public class ModifyClothingItemTransaction extends Transaction {
      */
     //----------------------------------------------------------
     private void processClothingItemModification(Properties props) {
-        if (props.getProperty("Barcode") != null) {
-            String barcode = props.getProperty("Barcode");
-            String originalBarcode = (String) mySelectedClothingItem.getState("Barcode");
-            if (barcode.equals(originalBarcode) == false) {
-                try {
-                    ClothingItem oldClothingItem = new ClothingItem(barcode);
-                    transactionErrorMessage = "ERROR: Barcode  " + barcode
-                            + " already exists!";
-                    new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                            "clothing item with barcode : " + barcode + " already exists!",
-                            Event.ERROR);
-                } catch (InvalidPrimaryKeyException ex) {
-                    // Barcode prefix does not exist, validate data
-                    try {
-                        int barcodeVal = Integer.parseInt(barcode);
-                        // Barcode prefix ok, so set it
-                        mySelectedClothingItem.stateChangeRequest("Barcode", barcode);
-                        // Process the rest (description, alpha code). Helper does all that
-                        clothingItemModificationHelper(props);
-                    } catch (Exception excep) {
-                        transactionErrorMessage = "ERROR: Invalid barcode: " + barcode
-                                + "! Must be numerical.";
-                        new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                                "Invalid barcode : " + barcode + "! Must be numerical.",
-                                Event.ERROR);
-                    }
-
-                } catch (MultiplePrimaryKeysException ex2) {
-                    transactionErrorMessage = "ERROR: Multiple clothing items with barcode prefix!";
-                    new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                            "Found multiple clothing items with barcode prefix : " + barcode + ". Reason: " + ex2.toString(),
-                            Event.ERROR);
-
-                }
-            } else {
-                // No change in barcode, so just process the rest (description, alpha code). Helper does all that
-                clothingItemModificationHelper(props);
-            }
-
-        }
-
+        String originalBarcode = (String) mySelectedClothingItem.getState("Barcode");
+        props.setProperty("Barcode", originalBarcode);
+        clothingItemModificationHelper(props);
     }
 
     //-----------------------------------------------------------
@@ -242,9 +236,24 @@ public class ModifyClothingItemTransaction extends Transaction {
                 return mySelectedClothingItem.getState("ArticleType");
             else
                 return "";
-        } else if (key.equals("DonorInformation") == true) {
+        } else if (key.equals("DonorFirstName") == true) {
             if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("DonorInformation");
+                return mySelectedClothingItem.getState("DonorFirstName");
+            else
+                return "";
+        } else if (key.equals("DonorLastName") == true) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("DonorLastName");
+            else
+                return "";
+        } else if (key.equals("DonorEmail") == true) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("DonorEmail");
+            else
+                return "";
+        } else if (key.equals("DonorPhone") == true) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("DonorPhone");
             else
                 return "";
         } else if (key.equals("Notes") == true) {
@@ -252,8 +261,19 @@ public class ModifyClothingItemTransaction extends Transaction {
                 return mySelectedClothingItem.getState("Notes");
             else
                 return "";
+        } else if (key.equals("Size") == true) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("Size");
+            else
+                return "";
         } else if (key.equals("TransactionError") == true) {
             return transactionErrorMessage;
+        } else if (key.equals("Gender")) {
+            return gender;
+        } else if (key.equals("Articles")) {
+            return myArticleTypeList.retrieveAll();
+        } else if (key.equals("Colors")) {
+            return myColorList.retrieveAll();
         }
         return null;
     }
@@ -268,6 +288,15 @@ public class ModifyClothingItemTransaction extends Transaction {
             processTransaction((Properties) value);
         } else if (key.equals("ClothingItemSelected") == true) {
             mySelectedClothingItem = myClothingItemList.retrieve((String) value);
+            myArticleTypeList = new ArticleTypeCollection();
+            myArticleTypeList.findAll();
+            myColorList = new ColorCollection();
+            myColorList.findAll();
+            String barcode = (String) mySelectedClothingItem.getState("Barcode");
+            if(barcode.substring(0, 1).equals("1"))
+                gender = "Mens";
+            else
+                gender = "Womens";
             try {
 
                 Scene newScene = createModifyClothingItemView();
@@ -277,6 +306,7 @@ public class ModifyClothingItemTransaction extends Transaction {
             } catch (Exception ex) {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Error in creating ModifyClothingItemView", Event.ERROR);
+                ex.printStackTrace();
             }
         } else if (key.equals("ClothingItemData") == true) {
             processClothingItemModification((Properties) value);

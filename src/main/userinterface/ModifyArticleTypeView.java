@@ -69,7 +69,6 @@ public class ModifyArticleTypeView extends AddArticleTypeView
 			alphaCode.setText(alfaC);
 		}
 	}
-
 }
 
 //---------------------------------------------------------------

@@ -1,6 +1,7 @@
 package userinterface;
 
 // system imports
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -10,8 +11,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,76 +31,56 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import Utilities.Utilities;
-import java.util.Enumeration;
-import java.util.Properties;
+
 import java.util.Vector;
+import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
+//import model.Item;
 import model.ClothingItem;
 import model.InventoryItemCollection;
-import Utilities.UiConstants;
 
-
-public class EnterReceiverInformationView extends View {
-
-    // GUI components
-    protected TextField netId;
-    protected TextField fName;
-    protected TextField lName;
-
-    protected Button submitButton;
-    protected Button cancelButton;
-
+//==============================================================================
+public class InventoryItemCollectionView extends View
+{
     protected TableView<InventoryTableModel> InventoryTable;
+    protected Button cancelButton;
+//    protected Button submitButton;
 
-    // For showing error message
     protected MessageView statusLog;
 
-    // constructor for this class -- takes a model object
-    //----------------------------------------------------------
-    public EnterReceiverInformationView(IModel at)
+
+    //--------------------------------------------------------------------------
+    public InventoryItemCollectionView(IModel inv)
     {
-        super(at, "EnterReceiverInformationView");
+        super(inv, "InventoryItemCollectionView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
         container.setPadding(new Insets(15, 5, 5, 5));
 
-        // Add a title for this panel
+        // create our GUI components, add them to this panel
         container.getChildren().add(createTitle());
 
-        // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
 
-        //The initial status message neds to be the current barcodes.
-        String initialMessage = "";
-        String barcodeList = (String) myModel.getState("Cart");
-        if(barcodeList == null || barcodeList.equals(""))
-        {
-            initialMessage = "Cart is empty";
-        }
-//        else
-//        {
-//            initialMessage = "Cart: " + barcodeList;
-//        }
-        container.getChildren().add(createStatusLog(initialMessage));
+        // Error message area
+        container.getChildren().add(createStatusLog("                                            "));
 
         getChildren().add(container);
 
         populateFields();
-
-        myModel.subscribe("TransactionError", this);
-
     }
 
-    //-------------------------------------------------------------
-    protected String getActionText()
+
+    //--------------------------------------------------------------------------
+    protected void populateFields()
     {
-        return "** Checkout a Clothing Item **";
+        getEntryTableModelValues();
     }
 
+    //--------------------------------------------------------------------------
     protected void getEntryTableModelValues()
     {
         ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
@@ -118,7 +108,7 @@ public class EnterReceiverInformationView extends View {
             }
             else
             {
-//                displayMessage("No matching entries found!");
+                displayMessage("No matching entries found!");
             }
 
             InventoryTable.setItems(tableData);
@@ -163,7 +153,7 @@ public class EnterReceiverInformationView extends View {
         blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
-        Text actionText = new Text("     " + getActionText() + "       ");
+        Text actionText = new Text("      ** Available Inventory **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
@@ -179,13 +169,12 @@ public class EnterReceiverInformationView extends View {
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("Enter Recipient Information");
+        Text prompt = new Text("");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
-
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -297,145 +286,43 @@ public class EnterReceiverInformationView extends View {
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(InventoryTable);
 
-        Text netIdLabel = new Text(" Net ID : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
-        netIdLabel.setFont(myFont);
-        netIdLabel.setWrappingWidth(150);
-        netIdLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(netIdLabel, 0, 1);
-
-        netId = new TextField();
-        grid.add(netId, 1, 1);
-
-        Text fNameLabel = new Text(" First Name : ");
-        fNameLabel.setFont(myFont);
-        fNameLabel.setWrappingWidth(150);
-        fNameLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(fNameLabel, 0, 2);
-
-        fName = new TextField();
-        grid.add(fName, 1, 2);
-
-        Text lNameLabel = new Text(" Last Name : ");
-        lNameLabel.setFont(myFont);
-        lNameLabel.setWrappingWidth(150);
-        lNameLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(lNameLabel, 0, 3);
-
-        lName = new TextField();
-        grid.add(lName, 1, 3);
-
-        HBox doneCont = new HBox(10);
-        doneCont.setAlignment(Pos.CENTER);
-        submitButton = new PccButton("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e)
-            {
-                clearErrorMessage();
-                Properties props = new Properties();
-                String netIdReceiver = netId.getText();
-                if (netIdReceiver.length() > 0)
-                {
-                    props.setProperty("ReceiverNetid", netIdReceiver);
-                    String fNameReceiver = fName.getText();
-                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < UiConstants.RECEIVER_FIRST_NAME_MAX_LENGTH)
-                    {
-                        props.setProperty("ReceiverFirstName", fNameReceiver);
-                        String lNameReceiver = lName.getText();
-                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < UiConstants.RECEIVER_LAST_NAME_MAX_LENGTH)
-                        {
-                            props.setProperty("ReceiverLastName", lNameReceiver);
-                            myModel.stateChangeRequest("ReceiverData", props);
-                        }
-                        else
-                        {
-                            displayErrorMessage("Last name incorrect size!");
-                        }
-                    }
-                    else
-                    {
-                        displayErrorMessage("First name incorrect size!");
-                    }
-
-                }
-                else
-                {
-                    displayErrorMessage("NetId incorrect size!");
-
-                }
-
-            }
-        });
-        doneCont.getChildren().add(submitButton);
-
-        cancelButton = new PccButton("Done");
+        cancelButton = new PccButton("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
+                /**
+                 * Process the Cancel button.
+                 * The ultimate result of this action is that the transaction will tell the Receptionist to
+                 * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
+                 * It simply tells its model (controller) that the transaction was canceled, and leaves it
+                 * to the model to decide to tell the Receptionist to do the switch back.
+                 */
+                //----------------------------------------------------------
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelCheckoutCI", null);
+                myModel.stateChangeRequest("CancelInventory", null);
             }
         });
-        doneCont.getChildren().add(cancelButton);
 
-        vbox.getChildren().add(scrollPane);
+        HBox btnContainer = new HBox(100);
+        btnContainer.setAlignment(Pos.CENTER);
+
+        btnContainer.getChildren().add(cancelButton);
+
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(doneCont);
+        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(btnContainer);
 
         return vbox;
     }
 
-    // Create the status log field
-    //-------------------------------------------------------------
+    //--------------------------------------------------------------------------
+    public void updateState(String key, Object value)
+    {
+
+    }
+    //--------------------------------------------------------------------------
     protected MessageView createStatusLog(String initialMessage)
     {
         statusLog = new MessageView(initialMessage);
@@ -443,43 +330,6 @@ public class EnterReceiverInformationView extends View {
         return statusLog;
     }
 
-    //-------------------------------------------------------------
-    public void populateFields()
-    {
-            getEntryTableModelValues();
-    }
-
-    /**
-     * Update method
-     */
-    //---------------------------------------------------------
-    public void updateState(String key, Object value)
-    {
-        clearErrorMessage();
-
-        if (key.equals("TransactionError") == true)
-        {
-            String val = (String)value;
-            if (val.startsWith("ERR") == true)
-            {
-                displayErrorMessage(val);
-            }
-            else
-            {
-                displayMessage(val);
-            }
-
-        }
-    }
-
-    /**
-     * Display error message
-     */
-    //----------------------------------------------------------
-    public void displayErrorMessage(String message)
-    {
-        statusLog.displayErrorMessage(message);
-    }
 
     /**
      * Display info message
@@ -499,8 +349,6 @@ public class EnterReceiverInformationView extends View {
         statusLog.clearErrorMessage();
     }
 
+
 }
 
-//---------------------------------------------------------------
-//	Revision History:
-//

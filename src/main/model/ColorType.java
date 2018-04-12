@@ -5,16 +5,20 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
+import javax.swing.JFrame;
 
 // project imports
 import exception.InvalidPrimaryKeyException;
+import database.*;
+
+import impresario.IView;
 
 /**
  * Jan 30, 2018
  * @author Jackson Taber & Kyle Darling
  */
 
-public class Color extends EntityBase{
+public class ColorType extends EntityBase{
 
     private static final String myTableName = "Color";
 
@@ -23,7 +27,7 @@ public class Color extends EntityBase{
 
     private String updateStatusMessage = "";
 
-    public Color(String barcodePrefix) throws InvalidPrimaryKeyException
+    public ColorType(String barcodePrefix) throws InvalidPrimaryKeyException
     {
         super(myTableName);
 
@@ -48,7 +52,7 @@ public class Color extends EntityBase{
                 persistentState = new Properties();
 
                 Enumeration allKeys = retrievedAccountData.propertyNames();
-                while (allKeys.hasMoreElements())
+                while (allKeys.hasMoreElements() == true)
                 {
                     String nextKey = (String)allKeys.nextElement();
                     String nextValue = retrievedAccountData.getProperty(nextKey);
@@ -69,7 +73,7 @@ public class Color extends EntityBase{
         }
     }
 
-    public Color(Properties props)
+    public ColorType(Properties props)
     {
         super(myTableName);
 
@@ -77,7 +81,7 @@ public class Color extends EntityBase{
 
         persistentState = new Properties();
         Enumeration allKeys = props.propertyNames();
-        while (allKeys.hasMoreElements())
+        while (allKeys.hasMoreElements() == true)
         {
             String nextKey = (String)allKeys.nextElement();
             String nextValue = props.getProperty(nextKey);
@@ -108,7 +112,7 @@ public class Color extends EntityBase{
             else
             {
                 Integer ID = insertAutoIncrementalPersistentState(mySchema, persistentState);
-                persistentState.setProperty("ID", "" + ID);
+                persistentState.setProperty("ID", "" + ID.intValue());
                 updateStatusMessage = "Color installed successfully in database!";
             }
         }
@@ -129,7 +133,7 @@ public class Color extends EntityBase{
 
         return v;
     }
-    public static int compare(Color a, Color b)
+    public static int compare(ColorType a, ColorType b)
     {
         String aNum = (String)a.getState("ID");
         String bNum = (String)b.getState("ID");
@@ -143,7 +147,7 @@ public class Color extends EntityBase{
     }
     public Object getState(String key)
     {
-        if (key.equals("UpdateStatusMessage"))
+        if (key.equals("UpdateStatusMessage") == true)
             return updateStatusMessage;
 
         return persistentState.getProperty(key);

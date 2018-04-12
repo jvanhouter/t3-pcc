@@ -1,7 +1,6 @@
 package userinterface;
 
 // system imports
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,25 +25,27 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-
 import java.util.Vector;
 import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
-import model.Color;
-import model.ColorCollection;
+import model.ArticleType;
+import model.ArticleTypeCollection;
+import model.ClothingRequest;
+import model.RequestCollection;
 
 //==============================================================================
-public class ColorCollectionView extends View
+public class RequestCollectionView extends View
 {
-    protected TableView<ColorTableModel> tableOfColorTypes;
+    protected TableView<RequestTableModel> tableOfRequests;
     protected Button cancelButton;
     protected Button submitButton;
 
@@ -52,9 +53,9 @@ public class ColorCollectionView extends View
 
 
     //--------------------------------------------------------------------------
-    public ColorCollectionView(IModel matt)
+    public RequestCollectionView(IModel matt)
     {
-        super(matt, "ColorCollectionView");
+        super(matt, "RequestCollectionView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -81,14 +82,13 @@ public class ColorCollectionView extends View
     //--------------------------------------------------------------------------
     protected void getEntryTableModelValues()
     {
-
-        ObservableList<ColorTableModel> tableData = FXCollections.observableArrayList();
+        ObservableList<RequestTableModel> tableData = FXCollections.observableArrayList();
         try
         {
-            ColorCollection colorCollection =
-                    (ColorCollection)myModel.getState("ColorList");
+            RequestCollection requestCollection =
+                    (RequestCollection)myModel.getState("RequestList");
 
-            Vector entryList = (Vector)colorCollection.getState("ColorTypes");
+            Vector entryList = (Vector)requestCollection.getState("Requests");
 
             if (entryList.size() > 0)
             {
@@ -96,12 +96,11 @@ public class ColorCollectionView extends View
 
                 while (entries.hasMoreElements() == true)
                 {
-
-                    Color nextCT = (Color)entries.nextElement();
-                    Vector<String> view = nextCT.getEntryListView();
+                    ClothingRequest nextRQ = (ClothingRequest) entries.nextElement();
+                    Vector<String> view = nextRQ.getEntryListView();
 
                     // add this list entry to the list
-                    ColorTableModel nextTableRowData = new ColorTableModel(view);
+                    RequestTableModel nextTableRowData = new RequestTableModel(view);
                     tableData.add(nextTableRowData);
 
                 }
@@ -111,10 +110,11 @@ public class ColorCollectionView extends View
                 displayMessage("No matching entries found!");
             }
 
-            tableOfColorTypes.setItems(tableData);
+            tableOfRequests.setItems(tableData);
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
+            e.printStackTrace();
         }
     }
 
@@ -129,36 +129,35 @@ public class ColorCollectionView extends View
         clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         clientText.setWrappingWidth(350);
         clientText.setTextAlignment(TextAlignment.CENTER);
-
-        clientText.setFill(javafx.scene.paint.Color.DARKGREEN);
+        clientText.setFill(Color.DARKGREEN);
         container.getChildren().add(clientText);
 
         Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
         collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         collegeText.setWrappingWidth(350);
         collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(javafx.scene.paint.Color.DARKGREEN);
+        collegeText.setFill(Color.DARKGREEN);
         container.getChildren().add(collegeText);
 
         Text titleText = new Text(" Professional Clothes Closet Management System ");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setWrappingWidth(350);
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(javafx.scene.paint.Color.DARKGREEN);
+        titleText.setFill(Color.DARKGREEN);
         container.getChildren().add(titleText);
 
         Text blankText = new Text("  ");
         blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         blankText.setWrappingWidth(350);
         blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(javafx.scene.paint.Color.WHITE);
+        blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
-        Text actionText = new Text("      ** Matching Colors **       ");
+        Text actionText = new Text("      ** Matching Requests **       ");
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         actionText.setWrappingWidth(350);
         actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(javafx.scene.paint.Color.BLACK);
+        actionText.setFill(Color.BLACK);
         container.getChildren().add(actionText);
 
         return container;
@@ -173,7 +172,7 @@ public class ColorCollectionView extends View
         Text prompt = new Text("");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(javafx.scene.paint.Color.BLACK);
+        prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
@@ -183,104 +182,107 @@ public class ColorCollectionView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        tableOfColorTypes = new TableView<ColorTableModel>();
-        tableOfColorTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableOfRequests = new TableView<RequestTableModel>();
+        tableOfRequests.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
-        barcodePrefixColumn.setMinWidth(50);
-        barcodePrefixColumn.setCellValueFactory(
-                new PropertyValueFactory<ColorTableModel, String>("barcodePrefix"));
+        TableColumn id = new TableColumn("ID");
+        id.setMaxWidth(50);
+        id.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("id"));
 
-        TableColumn descriptionColumn = new TableColumn("Description") ;
-        descriptionColumn.setMinWidth(150);
-        descriptionColumn.setCellValueFactory(
-                new PropertyValueFactory<ColorTableModel, String>("description"));
+        TableColumn requesterNetid = new TableColumn("Net ID");
+        requesterNetid.setMaxWidth(100);
+        requesterNetid.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("requesterNetid"));
 
-        TableColumn alphaCodeColumn = new TableColumn("Alpha Code") ;
-        alphaCodeColumn.setMinWidth(50);
-        alphaCodeColumn.setCellValueFactory(
-                new PropertyValueFactory<ColorTableModel, String>("alphaCode"));
+        TableColumn phone = new TableColumn("Phone");
+        phone.setMaxWidth(100);
+        phone.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("phone"));
+
+        TableColumn lastName = new TableColumn("Last Name");
+        lastName.setMaxWidth(100);
+        lastName.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("lastName"));
+
+        TableColumn firstName = new TableColumn("First Name");
+        firstName.setMaxWidth(100);
+        firstName.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("firstName"));
+
+        TableColumn gender = new TableColumn("Gender");
+        gender.setMaxWidth(100);
+        gender.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("gender"));
+
+        TableColumn articleType = new TableColumn("Article Type");
+        articleType.setMaxWidth(100);
+        articleType.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("articleType"));
+
+        TableColumn color1 = new TableColumn("Color 1");
+        color1.setMaxWidth(100);
+        color1.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("color1"));
+
+        TableColumn color2 = new TableColumn("Color 2");
+        color2.setMaxWidth(100);
+        color2.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("color2"));
+
+        TableColumn size = new TableColumn("Size");
+        size.setMaxWidth(100);
+        size.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("size"));
+
+        TableColumn brand = new TableColumn("Brand");
+        brand.setMaxWidth(100);
+        brand.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("brand"));
+
+        TableColumn requestMadeDate = new TableColumn("Made Date");
+        requestMadeDate.setMaxWidth(100);
+        requestMadeDate.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("requestMadeDate"));
 
         TableColumn statusColumn = new TableColumn("Status") ;
         statusColumn.setMinWidth(50);
         statusColumn.setCellValueFactory(
-                new PropertyValueFactory<ColorTableModel, String>("status"));
+                new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
 
-                tableOfColorTypes.getColumns().addAll(descriptionColumn,
-                        barcodePrefixColumn, alphaCodeColumn, statusColumn);
+        tableOfRequests.getColumns().addAll(id,
+                requesterNetid, phone, lastName, firstName,
+                gender, articleType, color1, color2, size, brand,
+                requestMadeDate, statusColumn);
 
-                tableOfColorTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event)
-                    {
-                        if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processColorSelected();
+        tableOfRequests.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+                    processRequestSelected();
                 }
             }
         });
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfColorTypes);
+        scrollPane.setContent(tableOfRequests);
 
         submitButton = new PccButton("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
                 // do the inquiry
-                processColorSelected();
+                processRequestSelected();
 
             }
         });
 
         cancelButton = new PccButton("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -294,7 +296,7 @@ public class ColorCollectionView extends View
                  */
                 //----------------------------------------------------------
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelColorList", null);
+                myModel.stateChangeRequest("CancelRequest", null);
             }
         });
 
@@ -316,15 +318,14 @@ public class ColorCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void processColorSelected()
+    protected void processRequestSelected()
     {
-        ColorTableModel selectedItem = tableOfColorTypes.getSelectionModel().getSelectedItem();
+        RequestTableModel selectedItem = tableOfRequests.getSelectionModel().getSelectedItem();
 
         if(selectedItem != null)
         {
-            String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
-
-            myModel.stateChangeRequest("ColorSelected", selectedBarcodePrefix);
+            String id = selectedItem.getId();
+            myModel.stateChangeRequest("RequestSelected", id);
         }
     }
 

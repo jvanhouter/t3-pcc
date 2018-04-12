@@ -130,15 +130,6 @@ public class CheckoutInvalidItemView extends View {
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         vbox.getChildren().add(prompt);
 
-//        Text prompt2 = new Text("The Barcode may not exist. The status may not be \"Donated\". " +
-//                "The ");
-//        prompt2.setWrappingWidth(400);
-//        prompt2.setTextAlignment(TextAlignment.CENTER);
-//        prompt2.setFill(Color.BLACK);
-//        prompt2.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 12));
-//        vbox.getChildren().add(prompt2);
-
-
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -147,7 +138,7 @@ public class CheckoutInvalidItemView extends View {
 
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        addAnotherBarcodeButton = new Button("Add Different Barcode");
+        addAnotherBarcodeButton = new PccButton("Add Different Barcode");
         addAnotherBarcodeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         addAnotherBarcodeButton.setPrefSize(250, 20);
         addAnotherBarcodeButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -158,12 +149,11 @@ public class CheckoutInvalidItemView extends View {
 
                 myModel.stateChangeRequest("MoreData", null);
 
-
             }
         });
         doneCont.getChildren().add(addAnotherBarcodeButton);
 
-        enterReceiverInformationButton = new Button("Checkout Items");
+        enterReceiverInformationButton = new PccButton("Checkout Items");
         enterReceiverInformationButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         enterReceiverInformationButton.setPrefSize(250, 20);
         enterReceiverInformationButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -178,7 +168,7 @@ public class CheckoutInvalidItemView extends View {
 
 
         doneCont.setAlignment(Pos.CENTER);
-        cancelButton = new Button("Cancel");
+        cancelButton = new PccButton("Cancel");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {

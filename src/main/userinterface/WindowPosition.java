@@ -13,21 +13,20 @@ import javafx.geometry.Rectangle2D;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
 
+
 // project imports
 
-/** 
+/**
 * Provides a means of placing the main stage of the application
 * in the center of the screen, top left corner, bottom right
 * corner, top right corner, bottom left corner
 *
 */
 //==============================================================
-public class WindowPosition 
+public class WindowPosition
 {
-	 private static Rectangle2D primaryScreenBounds = 
+	 private static Rectangle2D primaryScreenBounds =
 		Screen.getPrimary().getVisualBounds();
-
-	
 
 	/**
 	* Used to place the stage in the center of the screen
@@ -36,14 +35,14 @@ public class WindowPosition
 	*
 	*/
 	//--------------------------------------------------------------------------
-	public static void placeCenter(Stage s) 
+	public static void placeCenter(Stage s)
 	{
-		if (s != null) 
+		if (s != null)
 		{
 			s.centerOnScreen();
 		}
 	}
-  
+
 	/**
 	* Used to place a stage at the top left corner of te screen
 	*
@@ -51,9 +50,9 @@ public class WindowPosition
 	*
 	*/
 	//--------------------------------------------------------------------------
-	public static void placeTopLeft(Stage s) 
+	public static void placeTopLeft(Stage s)
 	{
-		if (s != null) 
+		if (s != null)
 		{
 			s.setX(primaryScreenBounds.getMinX());
 			s.setY(primaryScreenBounds.getMinY());
@@ -67,11 +66,11 @@ public class WindowPosition
 	*
 	*/
 	//--------------------------------------------------------------------------
-	public static void placeTopRight(Stage s) 
+	public static void placeTopRight(Stage s)
 	{
-		if (s != null) 
+		if (s != null)
 		{
-			s.setX(primaryScreenBounds.getMinX() + 
+			s.setX(primaryScreenBounds.getMinX() +
 				primaryScreenBounds.getWidth() - s.getWidth());
 			s.setY(primaryScreenBounds.getMinY());
 		}
@@ -84,15 +83,15 @@ public class WindowPosition
 	*
 	*/
 	//--------------------------------------------------------------------------
-	public static void placeBottomLeft(Stage s) 
+	public static void placeBottomLeft(Stage s)
 	{
-		if (s != null) 
+		if (s != null)
 		{
 			s.setX(primaryScreenBounds.getMinX());
 			s.setY(primaryScreenBounds.getMinY() +
 				primaryScreenBounds.getHeight() - s.getHeight());
 		}
-		
+
 	}
 
 	/**
@@ -102,11 +101,11 @@ public class WindowPosition
 	*
 	*/
 	//--------------------------------------------------------------------------
-	public static void placeBottomRight(Stage s) 
+	public static void placeBottomRight(Stage s)
 	{
-		if (s != null) 
+		if (s != null)
 		{
-			s.setX(primaryScreenBounds.getMinX() + 
+			s.setX(primaryScreenBounds.getMinX() +
 				primaryScreenBounds.getWidth() - s.getWidth());
 			s.setY(primaryScreenBounds.getMinY() +
 				primaryScreenBounds.getHeight() - s.getHeight());
@@ -117,5 +116,3 @@ public class WindowPosition
 
 //---------------------------------------------------------------
 //	Revision History:
-
-

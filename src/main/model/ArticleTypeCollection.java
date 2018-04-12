@@ -184,7 +184,10 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 
 		return retValue;
 	}
-	public Vector retrieveAll() {
+
+	//----------------------------------------------------------
+	public Vector retrieveAll()
+	{
 		return articleTypes;
 	}
 

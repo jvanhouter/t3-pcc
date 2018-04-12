@@ -20,7 +20,8 @@ import java.util.Properties;
  * The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application
  */
 //==============================================================
-public class AddClothingItemTransaction extends Transaction {
+public class AddClothingItemTransaction extends Transaction
+{
 
     private ClothingItem myClothingItem;
     private ArticleTypeCollection myArticleTypeList;
@@ -37,12 +38,14 @@ public class AddClothingItemTransaction extends Transaction {
      * Constructor for this class.
      */
     //----------------------------------------------------------
-    public AddClothingItemTransaction() throws Exception {
+    public AddClothingItemTransaction() throws Exception
+    {
         super();
     }
 
     //----------------------------------------------------------
-    protected void setDependencies() {
+    protected void setDependencies()
+    {
         dependencies = new Properties();
         dependencies.setProperty("CancelAddClothingItem", "CancelTransaction");
         dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
@@ -58,32 +61,15 @@ public class AddClothingItemTransaction extends Transaction {
      * verifying its uniqueness, etc.
      */
     //----------------------------------------------------------
-    public void processTransaction(Properties props) {
-        if (barcode != null) {
+    public void processTransaction(Properties props)
+    {
+        if (barcode != null)
+        {
             props.setProperty("Barcode", barcode);
-//            try {
-//
-//                ClothingItem oldClothingItem = new ClothingItem(barcode);
-//                transactionErrorMessage = "ERROR: Barcode" + barcode
-//                        + " already exists!";
-//                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//                        "Clothing Item with barcode: " + barcode + " already exists!",
-//                        Event.ERROR);
-//            } catch (InvalidPrimaryKeyException ex) {
-            // Barcode prefix does not exist, validate data
-            try {
-//					int barcodePrefixVal = Integer.parseInt(barcode);
-//					String descriptionOfAT = props.getProperty("Description");
-//					if (descriptionOfAT.length() > 30)
-//					{
-//						transactionErrorMessage = "ERROR: Article Type Description too long! ";
-//					}
-//					else
-//					{
-//                    String alphaCode = props.getProperty("AlphaCode");
-//                    if (alphaCode.length() > 5) {
-//                        transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
-//                    } else {
+
+            try
+            {
+
                 props.setProperty("ReceiverNetid", "");
                 props.setProperty("ReceiverFirstName", "");
                 props.setProperty("ReceiverLastName", "");
@@ -95,40 +81,42 @@ public class AddClothingItemTransaction extends Transaction {
                 myClothingItem = new ClothingItem(props);
                 myClothingItem.update();
                 transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
-//                  }
-//					}
-            } catch (Exception excep) {
+
+            }
+            catch (Exception excep)
+            {
                 transactionErrorMessage = "ERROR: Invalid barcode: " + barcode
                         + "!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Invalid barcode: " + barcode + "!",
                         Event.ERROR);
             }
-//            } catch (MultiplePrimaryKeysException ex2) {
-//                transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
-//                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//                        "Found multiple article types with barcode prefix : " + barcode + ". Reason: " + ex2.toString(),
-//                        Event.ERROR);
-//            }
         }
-
     }
 
-    private void processBarcode(Properties props) {
-        if (props.getProperty("Barcode") != null) {
+    private void processBarcode(Properties props)
+    {
+        if (props.getProperty("Barcode") != null)
+        {
             barcode = props.getProperty("Barcode");
-            try {
+            try
+            {
                 ClothingItem oldClothingItem = new ClothingItem(barcode);
                 transactionErrorMessage = "ERROR: Barcode Prefix " + barcode
                         + " already exists!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Clothing item with barcode : " + barcode + " already exists!",
                         Event.ERROR);
-            } catch (InvalidPrimaryKeyException ex) {
-                // Barcode does not exist, parse barcode and populate view
-                if (barcode.substring(0, 1).equals("1")) {
+            } catch (InvalidPrimaryKeyException ex)
+            {
+                //
+                //CHECK FIRST INTEGER BARCODE OPTIONS, NOT ALWAYS M/F, 1/0
+                //
+                if (barcode.substring(0, 1).equals("1"))
+                {
                     gender = "Mens";
-                } else {
+                } else
+                    {
                     gender = "Womens";
                 }
                 myArticleTypeList = new ArticleTypeCollection();
@@ -136,7 +124,8 @@ public class AddClothingItemTransaction extends Transaction {
                 myColorList = new ColorCollection();
                 myColorList.findAll();
                 createAndShowAddClothingItemView();
-            } catch (MultiplePrimaryKeysException ex2) {
+            } catch (MultiplePrimaryKeysException ex2)
+            {
                 transactionErrorMessage = "ERROR: Multiple clothing items with barcode !";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Found multiple clothing items with barcode: "

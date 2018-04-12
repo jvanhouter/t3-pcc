@@ -66,7 +66,6 @@ public class Receptionist implements IView, IModel
         dependencies = new Properties();
         //dependencies.setProperty("Login", "LoginError");
 
-
         myRegistry.setDependencies(dependencies);
     }
 
@@ -79,12 +78,7 @@ public class Receptionist implements IView, IModel
      */
     //----------------------------------------------------------
     public Object getState(String key) {
-		/*if (key.equals("LoginError"))
-		{
-			return loginErrorMessage;
-		}
-	
-		else */
+
         return "";
     }
 
@@ -161,7 +155,6 @@ public class Receptionist implements IView, IModel
         }
 
         swapToView(currentScene);
-
     }
 
     /**
@@ -194,12 +187,8 @@ public class Receptionist implements IView, IModel
         }
 
         myStage.setScene(newScene);
-        myStage.sizeToScene();
-
-
-        //Place in center
-        WindowPosition.placeCenter(myStage);
+        myStage.setResizable(true);
+        myStage.centerOnScreen();
     }
 
 }
-

@@ -17,7 +17,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -31,9 +30,10 @@ import java.util.Vector;
 // project imports
 import impresario.IModel;
 import model.ArticleType;
+import model.Color;
 
 /** The class containing the Modify Article Type View  for the Professional Clothes
-	 *  Closet application 
+	 *  Closet application
 	 */
 	//==============================================================
 	public class ModifyClothingItemView extends AddClothingItemView
@@ -66,18 +66,17 @@ import model.ArticleType;
 			String genderString = (String)myModel.getState("Gender");
 			if (genderString != null)
 			{
-				genderCombo.setValue(genderString);
+				//genderCombo.setValue(genderString);
 			}
 			String atString = (String)myModel.getState("ArticleType");
-			if (atString != null)
-			{
+			if(atString != null) {
 				Vector ArticleList = (Vector) myModel.getState("Articles");
 				Iterator articles = ArticleList.iterator();
 				ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
 				while (articles.hasNext()) {
+					//articleTypes.add((ArticleType) articles.next());
 					ArticleType at = (ArticleType) articles.next();
-					System.out.println("ModifyClothingItemView: " + atString);
-					if(at.getState("ID") == atString) {
+					if (at.getState("ID").equals(atString)) {
 						articleTypeCombo.setValue(at);
 					}
 				}
@@ -85,29 +84,65 @@ import model.ArticleType;
 			String color1String= (String)myModel.getState("Color1");
 			if (color1String != null)
 			{
-			//	color1.setPromptText(color1String);
+				Vector ColorList = (Vector) myModel.getState("Colors");
+				Iterator colors = ColorList.iterator();
+				ObservableList<model.Color> colorItems = FXCollections.observableArrayList();
+				while (colors.hasNext()) {
+					Color ct = (Color) colors.next();
+					if(ct.getState("ID").equals(color1String)) {
+						primaryColorCombo.setValue(ct);
+					}
+				}
 			}
 			String color2String = (String)myModel.getState("Color2");
 			if (color2String != null)
 			{
-			//	color2.setPromptText(color2String);
+				Vector ColorList = (Vector) myModel.getState("Colors");
+				Iterator colors = ColorList.iterator();
+				ObservableList<model.Color> colorItems = FXCollections.observableArrayList();
+				while (colors.hasNext()) {
+					Color ct = (Color) colors.next();
+					if(ct.getState("ID").equals(color2String)) {
+						secondaryColorCombo.setValue(ct);
+					}
+				}
 			}
 			String brandString = (String)myModel.getState("Brand");
 			if (brandString != null)
 			{
-			//	brand.setText(brandString);
+				brandText.setText(brandString);
 			}
-			String donorInfoString = (String)myModel.getState("DonorInformation");
-			if (donorInfoString != null)
+			String sizeString = (String)myModel.getState("Size");
+			if (sizeString != null)
 			{
-			//	donorInformation.setText(donorInfoString);
+				sizeText.setText(sizeString);
+			}
+			String donorLast = (String)myModel.getState("DonorLastName");
+			if (donorLast != null)
+			{
+				donorLastNameText.setText(donorLast);
+			}
+			String donorFirst = (String)myModel.getState("DonorFirstName");
+			if (donorFirst != null)
+			{
+				donorFirstNameText.setText(donorFirst);
+			}
+			String donorPhoneString = (String)myModel.getState("DonorPhone");
+			if (donorPhoneString != null)
+			{
+				donorPhoneText.setText(donorPhoneString);
+			}
+			String donorEmailString = (String)myModel.getState("DonorEmail");
+			if (donorEmailString != null)
+			{
+				donorEmailText.setText(donorEmailString);
 			}
 			String noteString = (String)myModel.getState("Notes");
 			if (noteString != null)
 			{
-			//	notes.setText(noteString);
+				notesText.setText(noteString);
 			}
-			
+
 		}
 
 	}
@@ -115,5 +150,3 @@ import model.ArticleType;
 	//---------------------------------------------------------------
 //		Revision History:
 	//
-
-

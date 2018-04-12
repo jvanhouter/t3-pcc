@@ -112,7 +112,6 @@ abstract public class Transaction implements IView, IModel {
         myRegistry.unSubscribe(key, subscriber);
     }
 
-
     //-----------------------------------------------------------------------------
     public void swapToView(Scene newScene) {
 
@@ -123,15 +122,9 @@ abstract public class Transaction implements IView, IModel {
             return;
         }
 
-
         myStage.setScene(newScene);
         myStage.sizeToScene();
-
-
-        //Place in center
-        WindowPosition.placeCenter(myStage);
 
     }
 
 }
-

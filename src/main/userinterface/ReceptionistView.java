@@ -2,18 +2,10 @@
 package userinterface;
 
 // system imports
-import javafx.event.Event;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,7 +13,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 // project imports
 import impresario.IModel;
@@ -37,25 +28,24 @@ public class ReceptionistView extends View
 
 	// GUI components
 
-	private Button addArticleTypeButton;
-	private Button updateArticleTypeButton;
-	private Button removeArticleTypeButton;
-	private Button addColorButton;
-	private Button updateColorButton;
-	private Button removeColorButton;
-	private Button addClothingItemButton;
-	private Button updateClothingItemButton;
-	private Button removeClothingItemButton;
-	private Button logRequestButton;
-	private Button fulfillRequestButton;
-	private Button removeRequestButton;
-	
-	private Button checkoutClothingItemButton;
-	private Button listAvailableInventoryButton;
+	private PccButton addArticleTypeButton;
+	private PccButton updateArticleTypeButton;
+	private PccButton removeArticleTypeButton;
+	private PccButton addColorButton;
+	private PccButton updateColorButton;
+	private PccButton removeColorButton;
+	private PccButton addClothingItemButton;
+	private PccButton updateClothingItemButton;
+	private PccButton removeClothingItemButton;
+	private PccButton logRequestButton;
+	private PccButton fulfillRequestButton;
+	private PccButton removeRequestButton;
 
-	private Button excelButton;
+	private PccButton checkoutClothingItemButton;
+	private PccButton listAvailableInventoryButton;
 
-	private Button cancelButton;
+	private PccButton excelButton;
+	private PccButton cancelButton;
 
 	private MessageView statusLog;
 
@@ -63,20 +53,29 @@ public class ReceptionistView extends View
 
 	private Button testing;
 
+
 	// constructor for this class -- takes a model object
 	//----------------------------------------------------------
 	public ReceptionistView(IModel teller)
 	{
 		super(teller, "ReceptionistView");
 
+
 		// create a container for showing the contents
+
+
+
 		VBox container = new VBox(10);
-		container.setPadding(new Insets(15, 5, 5, 5));
+		/* container.setResizable(true); Swing call */
+		container.setStyle("-fx-background-color: #707070;");
+
+
+		container.setPadding(new Insets(50,	50, 50, 50));
 
 		// Add a title for this panel
 		container.getChildren().add(createTitle());
-		
-		// how do you add white space?
+
+		// how do you add white space? regex \\s for space
 		container.getChildren().add(new Label(" "));
 
 		// create our GUI components, add them to this Container
@@ -96,21 +95,21 @@ public class ReceptionistView extends View
 	private VBox createTitle()
 	{
 		VBox container = new VBox(10);
-		
+		container.setStyle("-fx-background-color: #808080;");
+
 		Text clientText = new Text(" Office of Career Services ");
 		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		clientText.setWrappingWidth(350);
 		clientText.setTextAlignment(TextAlignment.CENTER);
 		clientText.setFill(Color.DARKGREEN);
 		container.getChildren().add(clientText);
-		
+
 		Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
 		collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		collegeText.setWrappingWidth(350);
 		collegeText.setTextAlignment(TextAlignment.CENTER);
 		collegeText.setFill(Color.DARKGREEN);
 		container.getChildren().add(collegeText);
-		
+
 		Text titleText = new Text(" Professional Clothes Closet Management System ");
 		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		titleText.setWrappingWidth(350);
@@ -128,10 +127,10 @@ public class ReceptionistView extends View
 		Text inquiryText = new Text("       What do you wish to do today?       ");
 		inquiryText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
 		inquiryText.setWrappingWidth(350);
+		inquiryText.setFill(Color.web("#ffc726"));
 		inquiryText.setTextAlignment(TextAlignment.CENTER);
-		inquiryText.setFill(Color.BLACK);
 		container.getChildren().add(inquiryText);
-	
+
 		return container;
 	}
 
@@ -142,121 +141,112 @@ public class ReceptionistView extends View
 	{
 
 		VBox container = new VBox(15);
+		container.setStyle("-fx-background-color: #808080;");
 
 		// create the buttons, listen for events, add them to the container
 		HBox checkoutCont = new HBox(10);
+//		checkoutCont.setStyle("-fx-background-color: #909090;");
 		checkoutCont.setAlignment(Pos.CENTER);
-		checkoutClothingItemButton = new Button("Checkout Clothing Item");
-		checkoutClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		checkoutClothingItemButton = new PccButton("Checkout Clothing Item");
 		checkoutClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("CheckoutClothingItem", null));
 		checkoutCont.getChildren().add(checkoutClothingItemButton);
-		
+
 		container.getChildren().add(checkoutCont);
 
 		// Article type choices
 		HBox articleTypeCont = new HBox(10);
-		articleTypeCont.setAlignment(Pos.CENTER_LEFT);
-		Label atLabel = new Label("  Article Types: ");
+		articleTypeCont.setAlignment(Pos.CENTER);
+		Label atLabel = new Label("  Article Types:");
 		atLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		atLabel.setStyle("-fx-text-fill: #ffc726");
 		articleTypeCont.getChildren().add(atLabel);
-		addArticleTypeButton = new Button("Add");
-		addArticleTypeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		addArticleTypeButton = new PccButton(" Add ");
 		addArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("AddArticleType", null));
 		articleTypeCont.getChildren().add(addArticleTypeButton);
-		
-		updateArticleTypeButton = new Button("Update");
-		updateArticleTypeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+		updateArticleTypeButton = new PccButton("Update");
 		updateArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("UpdateArticleType", null));
 		articleTypeCont.getChildren().add(updateArticleTypeButton);
 
-		removeArticleTypeButton = new Button("Remove");
-		removeArticleTypeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		removeArticleTypeButton = new PccButton("Remove");
 		removeArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("RemoveArticleType", null));
 		articleTypeCont.getChildren().add(removeArticleTypeButton);
-
 		container.getChildren().add(articleTypeCont);
 
 		// Color choices
 		HBox colorCont = new HBox(10);
-		colorCont.setAlignment(Pos.CENTER_LEFT);
+		colorCont.setAlignment(Pos.CENTER);
 		Label colorLabel = new Label("             Colors: ");
+		colorLabel.setStyle("-fx-text-fill: #ffc726");
 		colorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		colorCont.getChildren().add(colorLabel);
-		addColorButton = new Button("Add");
-		addColorButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		addColorButton = new PccButton(" Add ");
 		addColorButton.setOnAction(e -> myModel.stateChangeRequest("AddColor", null));
 		colorCont.getChildren().add(addColorButton);
-		
-		updateColorButton = new Button("Update");
-		updateColorButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+		updateColorButton = new PccButton("Update");
 		updateColorButton.setOnAction(e -> myModel.stateChangeRequest("UpdateColor", null));
 		colorCont.getChildren().add(updateColorButton);
 
-		removeColorButton = new Button("Remove");
-		removeColorButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		removeColorButton = new PccButton("Remove");
 		removeColorButton.setOnAction(e -> myModel.stateChangeRequest("RemoveColor", null));
 		colorCont.getChildren().add(removeColorButton);
 
 		// Clothing item choices
 		container.getChildren().add(colorCont);
-		
+
 		HBox clothingItemCont = new HBox(10);
-		clothingItemCont.setAlignment(Pos.CENTER_LEFT);
+		clothingItemCont.setAlignment(Pos.CENTER);
 		Label ciLabel = new Label("Clothing Items: ");
 		ciLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		ciLabel.setStyle("-fx-text-fill: #ffc726");
 		clothingItemCont.getChildren().add(ciLabel);
-		addClothingItemButton = new Button("Add");
-		addClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		addClothingItemButton = new PccButton(" Add ");
 		addClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("AddClothingItem", null));
 		clothingItemCont.getChildren().add(addClothingItemButton);
-		
-		updateClothingItemButton = new Button("Update");
-		updateClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+		updateClothingItemButton = new PccButton("Update");
 		updateClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("ModifyClothingItem", null));
 		clothingItemCont.getChildren().add(updateClothingItemButton);
 
-		removeClothingItemButton = new Button("Remove");
-		removeClothingItemButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		removeClothingItemButton = new PccButton("Remove");
 		removeClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("RemoveClothingItem", null));
 		clothingItemCont.getChildren().add(removeClothingItemButton);
-		
+
 		container.getChildren().add(clothingItemCont);
 
 		// Clothing item request
 		HBox requestCont = new HBox(10);
-		requestCont.setAlignment(Pos.CENTER_LEFT);
+		requestCont.setAlignment(Pos.CENTER);
 		Label reqLabel = new Label("         Requests: ");
 		reqLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        reqLabel.setStyle("-fx-text-fill: #ffc726");
 		requestCont.getChildren().add(reqLabel);
-		logRequestButton = new Button("Log");
-		logRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		logRequestButton = new PccButton(" Log ");
 		logRequestButton.setOnAction(e -> myModel.stateChangeRequest("LogRequest", null));
 		requestCont.getChildren().add(logRequestButton);
-		
-		fulfillRequestButton = new Button(" Fulfill ");
-		fulfillRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+		fulfillRequestButton = new PccButton(" Fulfill ");
 		fulfillRequestButton.setOnAction(e -> myModel.stateChangeRequest("FulfillRequest", null));
 		requestCont.getChildren().add(fulfillRequestButton);
 
-		removeRequestButton = new Button("Remove");
-		removeRequestButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		removeRequestButton = new PccButton("Remove");
 		removeRequestButton.setOnAction(e -> myModel.stateChangeRequest("RemoveRequest", null));
 		requestCont.getChildren().add(removeRequestButton);
-		
+
 		container.getChildren().add(requestCont);
-		
+
 		HBox listAvailCont = new HBox(10);
 		listAvailCont.setAlignment(Pos.CENTER);
-		listAvailableInventoryButton = new Button("List Available Inventory");
-		listAvailableInventoryButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		listAvailableInventoryButton = new PccButton("List Available Inventory");
 		listAvailableInventoryButton.setOnAction(e -> myModel.stateChangeRequest("ListAvailableInventory", null));
 		listAvailCont.getChildren().add(listAvailableInventoryButton);
-		
+
 		container.getChildren().add(listAvailCont);
 
 		HBox excel = new HBox(10);
 		excel.setAlignment(Pos.CENTER);
-		excelButton = new Button("Save to Excel");
+		excelButton = new PccButton("Save to Excel");
 		excelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		excelButton.setOnAction(e ->
 				myModel.stateChangeRequest("SaveExcel", null)
@@ -265,11 +255,9 @@ public class ReceptionistView extends View
 
 		container.getChildren().add(excel);
 
-
 		HBox doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
-		cancelButton = new Button("Exit System");
-		cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+		cancelButton = new PccButton("Exit System");
 		cancelButton.setOnAction(e -> myModel.stateChangeRequest("ExitSystem", null));
 		doneCont.getChildren().add(cancelButton);
 
@@ -293,7 +281,7 @@ public class ReceptionistView extends View
 	{
 
 	}
-	
+
 
 	//---------------------------------------------------------
 	public void updateState(String key, Object value)
@@ -323,5 +311,3 @@ public class ReceptionistView extends View
 		statusLog.clearErrorMessage();
 	}
 }
-
-
