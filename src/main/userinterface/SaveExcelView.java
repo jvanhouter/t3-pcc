@@ -34,10 +34,7 @@ import java.awt.*;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 
 // project imports
 
@@ -47,6 +44,7 @@ public class SaveExcelView extends View {
     protected Button submitButton;
 
     protected MessageView statusLog;
+    protected Dialog dialog;
 
     protected Stage stage;
 
@@ -72,6 +70,7 @@ public class SaveExcelView extends View {
 
         myModel.subscribe("TransactionError", this);
         stage = (Stage) myModel.getState("TransactionSaveExcel");
+        dialog = new Dialog();
     }
 
     //--------------------------------------------------------------------------
@@ -223,8 +222,8 @@ public class SaveExcelView extends View {
             if ((clothingVector == null) || (clothingVector.size() == 0))
                 return;
 
-            allColumnNames.addElement("");
-            allColumnNames.addElement("");
+            allColumnNames.addElement("Test");
+            allColumnNames.addElement("Test2");
 
             String line = "";
 
@@ -242,13 +241,15 @@ public class SaveExcelView extends View {
                     // add this list entry to the list
                     ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
 
-                    for (int j = 0; j < allColumnNames.size() - 1; j++) {
-                        valuesLine += nextTableRowData.getBarcodePrefix() + ", ";
-                    }
-                    out.println(valuesLine);
-
+                    valuesLine += nextTableRowData.getDescription() + ", ";
 
                 }
+                out.println(valuesLine);
+
+
+
+
+
             }
 
             // Also print the shift count and filter type
@@ -273,10 +274,11 @@ public class SaveExcelView extends View {
             dialog.setContentText("Report data saved successfully to selected file");
             dialog.showAndWait();
         } catch (FileNotFoundException e) {
-            //JOptionPane.showMessageDialog(frame, "Could not access file to save: "+ fName, "Save Error", JOptionPane.ERROR_MESSAGE);
+            dialog.setContentText("Could not access file to save: "+ fName);
+            dialog.showAndWait();
         } catch (IOException e) {
-            //JOptionPane.showMessageDialog(frame, "Error in saving to file: "+ e.toString(), "Save Error", JOptionPane.ERROR_MESSAGE);
-
+            dialog.setContentText("Error in saving to file: "+ e.toString());
+            dialog.showAndWait();
         }
 
     }
@@ -297,10 +299,6 @@ public class SaveExcelView extends View {
 
         FileChooser chooser = new FileChooser();
         chooser.setInitialDirectory(reportsDir);
-
-
-        //JFileChooser chooser = new JFileChooser("." + File.separator +
-        //        "ReportFiles");
 
         FileChooser.ExtensionFilter filter =
                 new FileChooser.ExtensionFilter(
@@ -329,7 +327,7 @@ public class SaveExcelView extends View {
             // Before more Desktop API is used, first check
             // whether the API is supported by this particular
             // virtual machine (VM) on this particular host.
-            /*if (Desktop.isDesktopSupported()) {
+            if (Desktop.isDesktopSupported()) {
                 desktop = Desktop.getDesktop();
 
                 if (desktop.isSupported(Desktop.Action.OPEN)) {
@@ -340,27 +338,27 @@ public class SaveExcelView extends View {
                             "Do nothing, continue"};
 
                     // Ask user what (s)he wants to do
-                    int n = JOptionPane.showOptionDialog(frame,
+                    ButtonType foo = new ButtonType("Export to Excel", ButtonBar.ButtonData.OK_DONE);
+                    ButtonType bar = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    Alert alert = new Alert(Alert.AlertType.WARNING,
                             "What do you want to do next?",
-                            "Export to Excel",
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[2]);
+                            foo,
+                            bar);
 
-                    if (n == JOptionPane.YES_OPTION) {
+                    alert.setTitle("Date format warning");
+                    Optional<ButtonType> result = alert.showAndWait();
+
+                    if (result.isPresent() && result.get() == foo) {
                         desktop.open(reportsDir);
-                    } else if (n == JOptionPane.NO_OPTION) {
+                    } else {
                         File reportPath = new File(fileName);
                         desktop.open(reportPath);
                     }
                 }
-            }*/
+            }
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            /*JOptionPane.showMessageDialog(null, "Error in saving to file: "
-					+ ex.toString());*/
+            dialog.setContentText("Error in saving to file: " + ex.toString());
+            dialog.showAndWait();
         }
     }
 
