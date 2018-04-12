@@ -44,7 +44,6 @@ public class SaveExcelView extends View {
     protected Button submitButton;
 
     protected MessageView statusLog;
-    protected Dialog dialog;
 
     protected Stage stage;
 
@@ -70,7 +69,6 @@ public class SaveExcelView extends View {
 
         myModel.subscribe("TransactionError", this);
         stage = (Stage) myModel.getState("TransactionSaveExcel");
-        dialog = new Dialog();
     }
 
     //--------------------------------------------------------------------------
@@ -260,16 +258,29 @@ public class SaveExcelView extends View {
 
             // Acknowledge successful completion to user with JOptionPane
 
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "Report data saved successfully to selected file",
+                    bar);
 
-            Dialog dialog = new Dialog();
-            dialog.setContentText("Report data saved successfully to selected file");
-            dialog.showAndWait();
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
         } catch (FileNotFoundException e) {
-            dialog.setContentText("Could not access file to save: " + fName);
-            dialog.showAndWait();
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "Could not access file to save: " + fName,
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
         } catch (IOException e) {
-            dialog.setContentText("Error in saving to file: " + e.toString());
-            dialog.showAndWait();
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Error in saving to file: " + e.toString(),
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
         }
 
     }
@@ -348,8 +359,13 @@ public class SaveExcelView extends View {
                 }
             }
         } catch (Exception ex) {
-            dialog.setContentText("Error in saving to file: " + ex.toString());
-            dialog.showAndWait();
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.WARNING,
+                    "Error in saving to file: " + ex.toString(),
+                    bar);
+
+            alert.setTitle("ERROR");
+            Optional<ButtonType> result = alert.showAndWait();
         }
     }
 
