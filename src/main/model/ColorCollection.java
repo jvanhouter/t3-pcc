@@ -69,7 +69,7 @@ public class ColorCollection  extends EntityBase implements IView
     //-----------------------------------------------------------
     public void findAll()
     {
-        String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Active')";
+        String query = "SELECT * FROM " + myTableName + " Status='Active' ORDER BY Description ASC;";
         populateCollectionHelper(query);
     }
 
