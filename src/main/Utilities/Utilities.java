@@ -14,6 +14,23 @@ import java.util.Date;
 public class Utilities
 {
 
+	public final int AT_DESCRIPTION_MAX_LENGTH = 30;
+	public final int ALPHACODE_MAX_LENGTH = 5;
+	public final int BARCODE_MAX_LENGTH = 8;
+	public final int BRAND_MAX_LENGTH = 30;
+	public final int COLOR_DESCRIPTION_MAX_LENGTH = 30;
+	public final int DONOR_FIRST_NAME_MAX_LENGTH = 35;
+	public final int DONOR_LAST_NAME_MAX_LENGTH = 35;
+	public final int DONOR_EMAIL_MAX_LENGTH = 30;
+	public final int DONOR_PHONE_MAX_LENGTH = 12;
+	public final int GENDER_MAX_LENGTH = 7;
+	public final int NOTES_MAX_LENGTH = 100;
+	public final int RECEIVER_FIRST_NAME_MAX_LENGTH = 36;
+	public final int RECEIVER_LAST_NAME_MAX_LENGTH = 36;
+	public final int RECEIVER_NETID_MAX_LENGTH = 30;
+	public final int BRAND_MAX_LENGTH = 30;
+
+
 	public static int GENERIC_SIZE = 999;
 
 	//----------------------------------------------------------

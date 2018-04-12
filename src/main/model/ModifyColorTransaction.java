@@ -73,15 +73,15 @@ public class ModifyColorTransaction extends Transaction {
     //--------------------------------------------------------------------------
     private void colorModificationHelper(Properties props)
     {
-        String descriptionOfAT = props.getProperty("Description");
-        if (descriptionOfAT.length() > 30)
+        String descriptionOfCL = props.getProperty("Description");
+        if (descriptionOfCL.length() > COLOR_DESCRIPTION_MAX_LENGTH)
         {
             transactionErrorMessage = "ERROR: Color Description too long! ";
         }
         else
         {
             String alphaCode = props.getProperty("AlphaCode");
-            if (alphaCode.length() > 5)
+            if (alphaCode.length() > ALPHACODE_MAX_LENGTH)
             {
                 transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
             }
@@ -89,7 +89,7 @@ public class ModifyColorTransaction extends Transaction {
             {
                 // Everything OK
 
-                mySelectedColor.stateChangeRequest("Description", descriptionOfAT);
+                mySelectedColor.stateChangeRequest("Description", descriptionOfCL);
                 mySelectedColor.stateChangeRequest("AlphaCode", alphaCode);
                 mySelectedColor.update();
                 transactionErrorMessage = (String)mySelectedColor.getState("UpdateStatusMessage");

@@ -31,6 +31,8 @@ import impresario.IModel;
 import model.ClothingItem;
 import model.InventoryItemCollection;
 
+
+
 public class EnterReceiverInformationView extends View {
 
     // GUI components
@@ -361,11 +363,11 @@ public class EnterReceiverInformationView extends View {
                 {
                     props.setProperty("ReceiverNetid", netIdReceiver);
                     String fNameReceiver = fName.getText();
-                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < 36)
+                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < RECEIVER_FIRST_NAME_MAX_LENGTH)
                     {
                         props.setProperty("ReceiverFirstName", fNameReceiver);
                         String lNameReceiver = lName.getText();
-                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < 36)
+                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < RECEIVER_LAST_NAME_MAX_LENGTH)
                         {
                             props.setProperty("ReceiverLastName", lNameReceiver);
                             myModel.stateChangeRequest("ReceiverData", props);

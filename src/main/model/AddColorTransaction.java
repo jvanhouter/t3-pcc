@@ -81,15 +81,15 @@ public class AddColorTransaction extends Transaction
                 try
                 {
                     int barcodePrefixVal = Integer.parseInt(barcodePrefix);
-                    String descriptionOfAT = props.getProperty("Description");
-                    if (descriptionOfAT.length() > 30)
+                    String descriptionOfCL = props.getProperty("Description");
+                    if (descriptionOfCL.length() > COLOR_DESCRIPTION_MAX_LENGTH)
                     {
                         transactionErrorMessage = "ERROR: Color Type Description too long! ";
                     }
                     else
                     {
                         String alphaCode = props.getProperty("AlphaCode");
-                        if (alphaCode.length() > 5)
+                        if (alphaCode.length() > ALPHACODE_MAX_LENGTH)
                         {
                             transactionErrorMessage = "ERROR: Alpha code too long (max length = 5)! ";
                         }
