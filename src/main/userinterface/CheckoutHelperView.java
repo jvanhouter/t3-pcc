@@ -329,7 +329,7 @@ public class CheckoutHelperView extends View
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                myModel.stateChangeRequest("CancelBarcodeSearch", null);
+                myModel.stateChangeRequest("CancelCheckoutCI", null);
             }
         });
         doneCont.getChildren().add(cancelButton);
