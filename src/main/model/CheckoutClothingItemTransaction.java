@@ -142,7 +142,7 @@ public class CheckoutClothingItemTransaction extends Transaction
 
             transactionErrorMessage = numUpdated + " clothing items associated with the following barcodes:\n\n" + transactionErrorMessage + "\n\nHave been checked out!";
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, transactionErrorMessage);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, transactionErrorMessage);
             alert.setTitle("Checkout");
             alert.setHeaderText("Clothing Items have been checked out.");
             alert.show();
@@ -174,10 +174,6 @@ public class CheckoutClothingItemTransaction extends Transaction
         {
             barcodeError = "";
             switchToBarcodeScannerView();
-        }
-        else if (key.equals("NoMoreData") == true)
-        {
-            switchToEnterReceiverInformationView();
         }
         else if(key.equals("CancelBarcodeSearch") && clothingItems.size() > 0)
         {
@@ -235,24 +231,10 @@ public class CheckoutClothingItemTransaction extends Transaction
         swapToView(newScene);
     }
 
-    private void switchToEnterReceiverInformationView()
-    {
-        Scene newScene = createEnterReceiverInformationView();
-        swapToView(newScene);
-    }
-
     private void switchToBarcodeScannerView()
     {
         Scene newScene = createBarcodeScannerView();
         swapToView(newScene);
-    }
-
-    protected Scene createEnterReceiverInformationView()
-    {
-        View newView = ViewFactory.createView("EnterReceiverInformationView", this);
-        Scene currentScene = new Scene(newView);
-
-        return currentScene;
     }
 
     protected Scene createBarcodeScannerView()

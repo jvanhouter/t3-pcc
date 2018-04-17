@@ -1,6 +1,8 @@
 package userinterface;
 
 // system imports
+import Utilities.UiConstants;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,17 +11,22 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
+import java.util.Properties;
 import java.util.Vector;
 import java.util.Enumeration;
 
@@ -34,9 +41,13 @@ public class CheckoutHelperView extends View
 {
     protected TableView<InventoryTableModel> InventoryTable;
     protected PccButton addAnotherBarcodeButton;
-    protected PccButton enterReceiverInformationButton;
+    protected PccButton checkoutButton;
     protected PccButton cancelButton;
-//    protected PccButton submitButton;
+
+    protected TextField netId;
+    protected TextField fName;
+    protected TextField lName;
+//    protected Button submitButton;
 
     protected MessageView statusLog;
 
@@ -238,6 +249,31 @@ public class CheckoutHelperView extends View
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(InventoryTable);
 
+        Text netIdLabel = new Text(" Net ID : ");
+        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
+        netIdLabel.setFont(myFont);
+        netIdLabel.setWrappingWidth(150);
+        netIdLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(netIdLabel, 0, 1);
+        netId = new TextField();
+        grid.add(netId, 1, 1);
+
+        Text fNameLabel = new Text(" First Name : ");
+        fNameLabel.setFont(myFont);
+        fNameLabel.setWrappingWidth(150);
+        fNameLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(fNameLabel, 0, 2);
+        fName = new TextField();
+        grid.add(fName, 1, 2);
+
+        Text lNameLabel = new Text(" Last Name : ");
+        lNameLabel.setFont(myFont);
+        lNameLabel.setWrappingWidth(150);
+        lNameLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(lNameLabel, 0, 3);
+        lName = new TextField();
+        grid.add(lName, 1, 3);
+
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
         addAnotherBarcodeButton = new PccButton("Add Another Barcode");
@@ -254,18 +290,48 @@ public class CheckoutHelperView extends View
         });
         doneCont.getChildren().add(addAnotherBarcodeButton);
 
-        enterReceiverInformationButton = new PccButton("Checkout Items");
-        enterReceiverInformationButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        enterReceiverInformationButton.setPrefSize(250, 20);
-        enterReceiverInformationButton.setOnAction(new EventHandler<ActionEvent>() {
+        checkoutButton = new PccButton("Checkout Items");
+        checkoutButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        checkoutButton.setPrefSize(250, 20);
+        checkoutButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
-            public void handle(ActionEvent e) {
+            public void handle(ActionEvent e)
+            {
                 clearErrorMessage();
-                myModel.stateChangeRequest("NoMoreData", null);
+                Properties props = new Properties();
+                String netIdReceiver = netId.getText();
+                //TODO should netid have a maximum?
+                if (netIdReceiver.length() > 0)
+                {
+                    props.setProperty("ReceiverNetid", netIdReceiver);
+                    String fNameReceiver = fName.getText();
+                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < UiConstants.RECEIVER_FIRST_NAME_MAX_LENGTH)
+                    {
+                        props.setProperty("ReceiverFirstName", fNameReceiver);
+                        String lNameReceiver = lName.getText();
+                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < UiConstants.RECEIVER_LAST_NAME_MAX_LENGTH)
+                        {
+                            props.setProperty("ReceiverLastName", lNameReceiver);
+                            myModel.stateChangeRequest("ReceiverData", props);
+                        }
+                        else
+                        {
+                            displayErrorMessage("Last name incorrect size!");
+                        }
+                    }
+                    else
+                    {
+                        displayErrorMessage("First name incorrect size!");
+                    }
+                }
+                else
+                {
+                    displayErrorMessage("NetId incorrect size!");
+                }
             }
         });
-        doneCont.getChildren().add(enterReceiverInformationButton);
+        doneCont.getChildren().add(checkoutButton);
 
 
         doneCont.setAlignment(Pos.CENTER);
@@ -282,8 +348,8 @@ public class CheckoutHelperView extends View
         });
         doneCont.getChildren().add(cancelButton);
 
-        vbox.getChildren().add(grid);
         vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(grid);
         vbox.getChildren().add(doneCont);
 
         return vbox;
