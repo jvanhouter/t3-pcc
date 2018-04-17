@@ -24,6 +24,7 @@ public class FulfilRequestTransaction extends Transaction
 
     private RequestCollection myRequestCollection;
     private ClothingRequest myClothingRequest;
+    private ClothingItem myClothingItem;
 
     private String transactionErrorMessage = "";
 
@@ -150,15 +151,37 @@ public class FulfilRequestTransaction extends Transaction
         return currentScene;
     }
 
+    //---------------------------------------------------------------
+    protected Scene createFulfillRequestTractionView()
+    {
+      
+    }
+
     //----------------------------------------------------------------
     private void processFulfillRequestTransaction(Properties props)
     {
       //--
+      String receiverNetid = props.getProperty("ReceiverNetid");
+      String receiverFirstName = props.getProperty("ReceiverFirstName");
+      String receiverLastName = props.getProperty("ReceiverLastName");
+
+      myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
+      myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
+      myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
+      myClothingItem.stateChangeRequest("Status", "Received");
+
+      Calendar currDate = Calendar.getInstance();
+      SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+      String date = dateFormat.format(currDate.getTime());
+      myClothingItem.stateChangeRequest("DateTaken", date);
+
+
+
 
 
       //---
       if(myClothingRequest != null) {
-          myClothingRequest.stateChangeRequest("Status", "Removed");
+          myClothingRequest.stateChangeRequest("Status", "Received");
           myClothingRequest.update();
           transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
 	  }
