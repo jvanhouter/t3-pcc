@@ -31,9 +31,9 @@ public class CheckoutInvalidItemView extends View {
 
     // GUI components
 
-    protected Button addAnotherBarcodeButton;
-    protected Button enterReceiverInformationButton;
-    protected Button cancelButton;
+    protected PccButton addAnotherBarcodeButton;
+    protected PccButton enterReceiverInformationButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;

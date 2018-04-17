@@ -45,7 +45,7 @@ public class MainStageContainer
 	{
 		myInstance = st;
 		myInstance.setTitle(title);
-		myInstance.setResizable(true);
+		myInstance.setResizable(false);
 	}
 
 }

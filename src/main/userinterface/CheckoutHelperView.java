@@ -45,10 +45,10 @@ import model.InventoryItemCollection;
 public class CheckoutHelperView extends View
 {
     protected TableView<InventoryTableModel> InventoryTable;
-    protected Button addAnotherBarcodeButton;
-    protected Button enterReceiverInformationButton;
-    protected Button cancelButton;
-//    protected Button submitButton;
+    protected PccButton addAnotherBarcodeButton;
+    protected PccButton enterReceiverInformationButton;
+    protected PccButton cancelButton;
+//    protected PccButton submitButton;
 
     protected MessageView statusLog;
 

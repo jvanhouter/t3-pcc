@@ -45,8 +45,8 @@ import model.InventoryItemCollection;
 public class InventoryItemCollectionView extends View
 {
     protected TableView<InventoryTableModel> InventoryTable;
-    protected Button cancelButton;
-//    protected Button submitButton;
+    protected PccButton cancelButton;
+//    protected PccButton submitButton;
 
     protected MessageView statusLog;
 

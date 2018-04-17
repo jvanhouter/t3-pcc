@@ -35,8 +35,8 @@ import impresario.IModel;
 public class RemoveRequestView extends View
 {
 
-    protected Button submitButton;
-    protected Button cancelButton;
+    protected PccButton submitButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;

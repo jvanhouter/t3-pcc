@@ -53,8 +53,8 @@ public class LogARequestView extends View
     protected TextField brand;
     protected TextField size;
 
-    protected Button submitButton;
-    protected Button cancelButton;
+    protected PccButton submitButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;

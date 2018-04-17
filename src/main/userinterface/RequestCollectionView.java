@@ -46,8 +46,8 @@ import model.RequestCollection;
 public class RequestCollectionView extends View
 {
     protected TableView<RequestTableModel> tableOfRequests;
-    protected Button cancelButton;
-    protected Button submitButton;
+    protected PccButton cancelButton;
+    protected PccButton submitButton;
 
     protected MessageView statusLog;
 

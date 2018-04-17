@@ -45,8 +45,8 @@ import model.ColorCollection;
 public class ColorCollectionView extends View
 {
     protected TableView<ColorTableModel> tableOfColorTypes;
-    protected Button cancelButton;
-    protected Button submitButton;
+    protected PccButton cancelButton;
+    protected PccButton submitButton;
 
     protected MessageView statusLog;
 
@@ -223,29 +223,6 @@ public class ColorCollectionView extends View
         scrollPane.setContent(tableOfColorTypes);
 
         submitButton = new PccButton("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -258,29 +235,6 @@ public class ColorCollectionView extends View
         });
 
         cancelButton = new PccButton("Return");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
