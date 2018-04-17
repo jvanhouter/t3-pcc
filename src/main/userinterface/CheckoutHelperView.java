@@ -56,7 +56,7 @@ public class CheckoutHelperView extends View
         container.getChildren().add(createFormContent());
 
         // Error message area
-        String errorMessage = (String) myModel.getState("BarcodeError");
+        String errorMessage = "";
         container.getChildren().add(createStatusLog(""));
         displayErrorMessage(errorMessage);
 
@@ -262,14 +262,7 @@ public class CheckoutHelperView extends View
             @Override
             public void handle(ActionEvent e) {
                 clearErrorMessage();
-                if(myModel.getState("Cart").equals(""))
-                {
-                    displayErrorMessage("Cannot Checkout. Cart is empty!");
-                }
-                else
-                {
-                    myModel.stateChangeRequest("NoMoreData", null);
-                }
+                myModel.stateChangeRequest("NoMoreData", null);
             }
         });
         doneCont.getChildren().add(enterReceiverInformationButton);
