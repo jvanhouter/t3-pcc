@@ -80,6 +80,8 @@ public class FulfilRequestTransaction extends Transaction
         else
         if (key.equals("RequestSelected") == true)
         {
+            myClothingRequest = myRequestCollection.retrieve((String) value);
+            processFulfillRequestTransaction(myClothingRequest.);
             //mySelectedRequest = RequestCollection.retrieve((String)value);
             try
             {
