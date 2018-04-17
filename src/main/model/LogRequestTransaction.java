@@ -179,6 +179,8 @@ public class LogRequestTransaction extends Transaction
     //------------------------------------------------------
     protected Scene createView()
     {
+
+
         Scene currentScene = myViews.get("LogRequestView");
 
         if (currentScene == null)

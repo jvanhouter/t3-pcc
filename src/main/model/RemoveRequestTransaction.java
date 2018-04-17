@@ -55,7 +55,7 @@ public class RemoveRequestTransaction extends Transaction
     public void processRequestRemoval()
     {
         if(myClothingRequest != null) {
-            myClothingRequest.stateChangeRequest("Status", "Received");
+            myClothingRequest.stateChangeRequest("Status", "Removed");
             myClothingRequest.update();
             transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
         }
@@ -144,3 +144,4 @@ public class RemoveRequestTransaction extends Transaction
     }
 
 }
+

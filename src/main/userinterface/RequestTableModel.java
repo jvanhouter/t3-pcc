@@ -10,6 +10,7 @@ public class RequestTableModel
     private final SimpleStringProperty id;
     private final SimpleStringProperty requesterNetId;
     private final SimpleStringProperty phone;
+    private final SimpleStringProperty email;
     private final SimpleStringProperty lastName;
     private final SimpleStringProperty firstName;
     private final SimpleStringProperty gender;
@@ -29,18 +30,19 @@ public class RequestTableModel
         id = new SimpleStringProperty(atData.elementAt(0));
         requesterNetId = new SimpleStringProperty(atData.elementAt(1));
         phone = new SimpleStringProperty(atData.elementAt(2));
-        lastName = new SimpleStringProperty(atData.elementAt(3));
-        firstName = new SimpleStringProperty(atData.elementAt(4));
-        gender = new SimpleStringProperty(atData.elementAt(5));
-        articleType = new SimpleStringProperty(atData.elementAt(6));
-        color1 = new SimpleStringProperty(atData.elementAt(7));
-        color2 = new SimpleStringProperty(atData.elementAt(8));
-        size = new SimpleStringProperty(atData.elementAt(9));
-        brand = new SimpleStringProperty(atData.elementAt(10));
-        status = new SimpleStringProperty(atData.elementAt(11));
-        fulfillItemBarcode = new SimpleStringProperty(atData.elementAt(12));
-        requestMadeDate = new SimpleStringProperty(atData.elementAt(13));
-        requestFulfilledDate = new SimpleStringProperty(atData.elementAt(14));
+        email = new SimpleStringProperty(atData.elementAt(3));
+        lastName = new SimpleStringProperty(atData.elementAt(4));
+        firstName = new SimpleStringProperty(atData.elementAt(5));
+        gender = new SimpleStringProperty(atData.elementAt(6));
+        articleType = new SimpleStringProperty(atData.elementAt(7));
+        color1 = new SimpleStringProperty(atData.elementAt(8));
+        color2 = new SimpleStringProperty(atData.elementAt(9));
+        size = new SimpleStringProperty(atData.elementAt(10));
+        brand = new SimpleStringProperty(atData.elementAt(11));
+        status = new SimpleStringProperty(atData.elementAt(12));
+        fulfillItemBarcode = new SimpleStringProperty(atData.elementAt(13));
+        requestMadeDate = new SimpleStringProperty(atData.elementAt(14));
+        requestFulfilledDate = new SimpleStringProperty(atData.elementAt(15));
     }
 
     //----------------------------------------------------------------------------
@@ -60,6 +62,13 @@ public class RequestTableModel
 
     //----------------------------------------------------------------------------
     public void setPhone(String pref) { phone.set(pref); }
+
+    //----------------------------------------------------------------------------
+    public String getEmail() { return email.get(); }
+
+    //----------------------------------------------------------------------------
+    public void setEmail(String pref) { email.set(pref); }
+
 
     //----------------------------------------------------------------------------
     public String getLastName() { return lastName.get(); }

@@ -34,6 +34,8 @@ import model.ArticleType;
 import model.Color;
 import Utilities.UiConstants;
 
+import javax.swing.*;
+
 /** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application
  */
@@ -44,6 +46,7 @@ public class LogARequestView extends View
     // GUI components
     protected TextField netId;
     protected TextField phoneNumber;
+    protected TextField email;
     protected TextField lastName;
     protected TextField firstName;
     protected ComboBox<String> gender;
@@ -200,14 +203,30 @@ public class LogARequestView extends View
             }
         });
 
+        Text myEmail = new Text(" Email Address : ");
+        myEmail.setFont(myFont);
+        myEmail.setWrappingWidth(150);
+        myEmail.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(myEmail, 0, 5);
+
+        email = new TextField();
+        grid.add(email, 1, 5);
+
+        email.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+
+            }
+        });
+
         Text myGender = new Text(" Gender : ");
         myGender.setFont(myFont);
         myGender.setWrappingWidth(150);
         myGender.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(myGender, 0, 5);
+        grid.add(myGender, 0, 6);
 
         gender = new ComboBox<String>();
-        grid.add(gender, 1, 5);
+        grid.add(gender, 1, 6);
         gender.getItems().addAll("Mens", "Womens");
         gender.setValue("Mens");
 
@@ -216,7 +235,7 @@ public class LogARequestView extends View
         articleTypeLabel.setFont(myFont);
         articleTypeLabel.setWrappingWidth(150);
         articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(articleTypeLabel, 0, 6);
+        grid.add(articleTypeLabel, 0, 7);
 
         articleType = new ComboBox<>();
         articleType.setConverter(new StringConverter<ArticleType>() {
@@ -234,14 +253,14 @@ public class LogARequestView extends View
         articleType.valueProperty().addListener((obs, oldval, newval) -> {
         });
 
-        grid.add(articleType, 1, 6);
+        grid.add(articleType, 1, 7);
         // =================================================================
         // Primary Color UI Items ==========================================
         Text primaryColorLabel = new Text(" Primary Color : ");
         primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(primaryColorLabel, 0, 7);
+        grid.add(primaryColorLabel, 0, 8);
 
         color1 = new ComboBox<>();
         color1.setConverter(new StringConverter<Color>() {
@@ -256,14 +275,14 @@ public class LogARequestView extends View
                         ct.getState("Description").equals(string)).findFirst().orElse(null);
             }
         });
-        grid.add(color1, 1, 7);
+        grid.add(color1, 1, 8);
         // =================================================================
         // Secondary Color UI Items ========================================
         Text secondaryColorLabel = new Text(" Secondary Color : ");
         secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(secondaryColorLabel, 0, 8);
+        grid.add(secondaryColorLabel, 0, 9);
 
         color2 = new ComboBox<>();
         color2.setConverter(new StringConverter<Color>() {
@@ -278,18 +297,18 @@ public class LogARequestView extends View
                         ct.getState("Description").equals(string)).findFirst().orElse(null);
             }
         });
-        grid.add(color2, 1, 8);
+        grid.add(color2, 1, 9);
         // =================================================================
         // Brand UI Items ==================================================
         Text brandLabel = new Text(" Brand : ");
         brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(brandLabel, 0, 9);
+        grid.add(brandLabel, 0, 10);
 
         brand = new TextField();
         //brand.setOnAction(this::processAction);
-        grid.add(brand, 1, 9);
+        grid.add(brand, 1, 10);
 
         // =================================================================
         // Brand UI Items ==================================================
@@ -297,11 +316,11 @@ public class LogARequestView extends View
         mySize.setFont(myFont);
         mySize.setWrappingWidth(150);
         mySize.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(mySize, 0, 10);
+        grid.add(mySize, 0, 11);
 
         size = new TextField();
         //brand.setOnAction(this::processAction);
-        grid.add(size, 1, 10);
+        grid.add(size, 1, 11);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
@@ -338,7 +357,7 @@ public class LogARequestView extends View
     //-------------------------------------------------------------
     protected void processTransaction() {
         Properties props = new Properties();
-        if(netId.getText().length() > 0) {
+        if(netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH) {
             props.setProperty("RequesterNetid", netId.getText());
             props.setProperty("RequestedGender", gender.getValue());
             props.setProperty("RequestedArticleType", (String) articleType.getValue().getState("ID"));
@@ -352,11 +371,18 @@ public class LogARequestView extends View
                 props.setProperty("RequestedSize", size.getText());
             if(phoneNumber.getText().length() <= UiConstants.REQUESTED_PHONE_MAX_LENGTH) {
                 props.setProperty("RequesterPhone", phoneNumber.getText());
-                if(!firstName.getText().equals("")) {
+                if(!firstName.getText().equals("") && firstName.getText().length() <= UiConstants.REQUESTED_FIRST_NAME_MAX_LENGTH) {
                     props.setProperty("RequesterFirstName", firstName.getText());
-                    if(!lastName.getText().equals("")) {
+                    if(!lastName.getText().equals("") && lastName.getText().length() <= UiConstants.REQUESTED_LAST_NAME_MAX_LENGTH) {
                         props.setProperty("RequesterLastName", lastName.getText());
-                        myModel.stateChangeRequest("ClothingRequestData", props);
+                        if(email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH) {
+                            props.setProperty("RequesterEmail", email.getText());
+                            if(!email.getText().equals("") || !phoneNumber.getText().equals("")) {
+                                myModel.stateChangeRequest("ClothingRequestData", props);
+                            } else
+                                displayErrorMessage("Phone number or email must be filled out.");
+                        } else
+                            displayErrorMessage("Email exceeds max length of " + UiConstants.REQUESTED_EMAIL_MAX_LENGTH);
                     } else
                         displayErrorMessage("Please fill out Last Name");
                 } else
