@@ -47,7 +47,7 @@ public class RequestCollectionView extends View
 {
     protected TableView<RequestTableModel> tableOfRequests;
     protected Button cancelButton;
-    protected Button submitButton;
+    //protected Button submitButton;
 
     protected MessageView statusLog;
 
@@ -273,7 +273,7 @@ public class RequestCollectionView extends View
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(tableOfRequests);
 
-        submitButton = new PccButton("Submit");
+        /*submitButton = new PccButton("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -284,7 +284,7 @@ public class RequestCollectionView extends View
                 processRequestSelected();
 
             }
-        });
+        });*/
 
         cancelButton = new PccButton("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -307,7 +307,7 @@ public class RequestCollectionView extends View
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(submitButton);
+        //btnContainer.getChildren().add(submitButton);
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);

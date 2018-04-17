@@ -23,5 +23,6 @@ public class UiConstants {
     public static final int REQUESTED_SIZE_MAX_LENGTH = 20;
     public static final int REQUESTED_BRAND_MAX_LENGTH = 30;
     public static final int REQUESTED_EMAIL_MAX_LENGTH = 40;
+    public static final int GENERIC_SIZE = 999;
 
 }

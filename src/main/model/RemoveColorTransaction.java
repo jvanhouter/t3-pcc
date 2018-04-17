@@ -59,7 +59,7 @@ public class RemoveColorTransaction extends Transaction {
 		String desc = props.getProperty("Description");
 		String alfaC = props.getProperty("AlphaCode");
 		myColorList.findByCriteria(desc, alfaC);
-
+        
         try
         {
             Scene newScene = createColorCollectionView();
@@ -85,7 +85,7 @@ public class RemoveColorTransaction extends Transaction {
     public Object getState(String key) {
         if (key.equals("TransactionError") == true) {
             return transactionErrorMessage;
-        }
+        } 
 		else
 		if (key.equals("ColorList") == true) {
 			return myColorList;
@@ -176,12 +176,12 @@ public class RemoveColorTransaction extends Transaction {
         }
     }
 
-    //----------------------------------------------------------
     protected Scene createColorCollectionView() {
         View newView = ViewFactory.createView("ColorCollectionView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;
+
     }
 
 
@@ -195,3 +195,4 @@ public class RemoveColorTransaction extends Transaction {
     }
 
 }
+
