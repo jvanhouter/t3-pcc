@@ -3,17 +3,13 @@ package model;
 
 // system imports
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-// project imports
-import event.Event;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
 
+// project imports
 import userinterface.View;
 import userinterface.ViewFactory;
 
@@ -25,13 +21,8 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     // GUI Components
     private String transactionErrorMessage = "";
-    //A string to display to the user what error occurred
     private String barcodeError = "";
 
-    /**
-     * Constructor for this class.
-     *
-     */
     //----------------------------------------------------------
     public CheckoutClothingItemTransaction() throws Exception
     {
@@ -48,10 +39,6 @@ public class CheckoutClothingItemTransaction extends Transaction
         myRegistry.setDependencies(dependencies);
     }
 
-    /**
-     * This method encapsulates all the logic of creating the ClothingItem,
-     * verifying its uniqueness, etc.
-     */
     //----------------------------------------------------------
     public void processTransaction(Properties props)
     {
@@ -65,20 +52,11 @@ public class CheckoutClothingItemTransaction extends Transaction
             {
                 if( myClothingItem.getState("Status").equals("Donated"))
                 {
-                    if(!clothingItemsContains(barcode))
+                    if(!barcodeAlreadyAdded(barcode))
                     {
                         clothingItems.add(myClothingItem);
                         inventoryItems.findByBarCode(barcode);
-                        try
-                        {
-                            Scene newScene = createCheckoutHelperView();
-                            swapToView(newScene);
-                        }
-                        catch (Exception ex)
-                        {
-                            new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                                    "Error in creating BarcodeHelperView", Event.ERROR);
-                        }
+                        switchToCheckoutHelperView();
                     }
                     else
                     {
@@ -116,7 +94,7 @@ public class CheckoutClothingItemTransaction extends Transaction
         }
     }
 
-    private boolean clothingItemsContains(String barcode)
+    private boolean barcodeAlreadyAdded(String barcode)
     {
         for(ClothingItem ci : clothingItems)
         {
@@ -130,7 +108,6 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     private void processReceiver(Properties props)
     {
-
         String receiverNetid = props.getProperty("ReceiverNetid");
         String receiverFirstName = props.getProperty("ReceiverFirstName");
         String receiverLastName = props.getProperty("ReceiverLastName");
@@ -177,12 +154,6 @@ public class CheckoutClothingItemTransaction extends Transaction
         }
     }
 
-    private void switchToEnterReceiverInformationView()
-    {
-        Scene newScene = createEnterReceiverInformationView();
-        swapToView(newScene);
-    }
-
     public void stateChangeRequest(String key, Object value)
     {
         //DEBUG System.out.println("CheckoutClothingItemTransaction.sCR: key: " + key);
@@ -190,31 +161,32 @@ public class CheckoutClothingItemTransaction extends Transaction
         {
             doYourJob();
         }
-        //The BarcodeScannerView should call here
         else if (key.equals("ProcessBarcode") == true)
         {
             processTransaction((Properties)value);
         }
-        //The EnterReceiverInformationView should call here
         else if (key.equals("ReceiverData") == true)
         {
             processReceiver((Properties)value);
             stateChangeRequest("CancelCheckoutCI", null);
         }
-        //The CheckoutHelperView and CheckoutInvalidItemView should call here if the user selects to
-        // add another barcode
         else if (key.equals("MoreData") == true)
         {
             barcodeError = "";
-            doYourJob();
+            switchToBarcodeScannerView();
         }
-        //The CheckoutHelperView and CheckoutInvalidItemView should call here if the user selects checkout
         else if (key.equals("NoMoreData") == true)
         {
             switchToEnterReceiverInformationView();
         }
-//      System.out.println(key);
-        myRegistry.updateSubscribers(key, this);
+        else if(key.equals("CancelBarcodeSearch") && clothingItems.size() > 0)
+        {
+            switchToCheckoutHelperView();
+        }
+        else
+        {
+            myRegistry.updateSubscribers(key, this);
+        }
     }
 
     public Object getState(String key)
@@ -245,7 +217,6 @@ public class CheckoutClothingItemTransaction extends Transaction
 
         if (currentScene == null)
         {
-            // create our initial view
             View newView = ViewFactory.createView("BarcodeScannerView", this);
             currentScene = new Scene(newView);
             myViews.put("BarcodeScannerView", currentScene);
@@ -258,9 +229,35 @@ public class CheckoutClothingItemTransaction extends Transaction
         }
     }
 
+    private void switchToCheckoutHelperView()
+    {
+        Scene newScene = createCheckoutHelperView();
+        swapToView(newScene);
+    }
+
+    private void switchToEnterReceiverInformationView()
+    {
+        Scene newScene = createEnterReceiverInformationView();
+        swapToView(newScene);
+    }
+
+    private void switchToBarcodeScannerView()
+    {
+        Scene newScene = createBarcodeScannerView();
+        swapToView(newScene);
+    }
+
     protected Scene createEnterReceiverInformationView()
     {
         View newView = ViewFactory.createView("EnterReceiverInformationView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+    }
+
+    protected Scene createBarcodeScannerView()
+    {
+        View newView = ViewFactory.createView("BarcodeScannerView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;
@@ -274,7 +271,6 @@ public class CheckoutClothingItemTransaction extends Transaction
         return currentScene;
     }
 
-    //handle barcode problems will display a screen to inform the user the barcode will not be added
     private void handleBarcodeProblems()
     {
         barcodeError = "The clothing item associated with barcode "+ barcodeError + " This clothing item will not be added to the checkout cart.";
@@ -282,6 +278,5 @@ public class CheckoutClothingItemTransaction extends Transaction
         alert.setTitle("Barcode Error");
         alert.setHeaderText("There is a problem with the item you wish to checkout.");
         alert.show();
-        doYourJob();
     }
 }
