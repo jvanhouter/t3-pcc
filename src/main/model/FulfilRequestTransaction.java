@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.Calender;
+import java.util.Calendar;
 
 // project imports
 import event.Event;
