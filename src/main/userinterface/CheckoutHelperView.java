@@ -2,41 +2,30 @@ package userinterface;
 
 // system imports
 import Utilities.UiConstants;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-
 import java.util.Properties;
 import java.util.Vector;
 import java.util.Enumeration;
-
 // project imports
 import impresario.IModel;
 //import model.Item;
@@ -54,10 +43,8 @@ public class CheckoutHelperView extends View
     protected TextField netId;
     protected TextField fName;
     protected TextField lName;
-//    protected Button submitButton;
 
     protected MessageView statusLog;
-
 
     //--------------------------------------------------------------------------
     public CheckoutHelperView(IModel inv)
@@ -94,41 +81,29 @@ public class CheckoutHelperView extends View
     protected void getEntryTableModelValues()
     {
         ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
-        try
+        InventoryItemCollection inventoryItemCollection = (InventoryItemCollection)myModel.getState("InventoryList");
+        Vector entryList = (Vector)inventoryItemCollection.getState("InventoryItems");
+
+        if (entryList.size() > 0)
         {
-            InventoryItemCollection inventoryItemCollection =
-                    (InventoryItemCollection)myModel.getState("InventoryList");
+            Enumeration entries = entryList.elements();
 
-            Vector entryList = (Vector)inventoryItemCollection.getState("InventoryItems");
-
-            if (entryList.size() > 0)
+            while (entries.hasMoreElements() == true)
             {
-                Enumeration entries = entryList.elements();
-
-                while (entries.hasMoreElements() == true)
-                {
-                    ClothingItem nextCI = (ClothingItem)entries.nextElement();
-                    Vector<String> view = nextCI.getEntryListView();
-
-                    // add this list entry to the list
-                    InventoryTableModel nextTableRowData = new InventoryTableModel(view);
-                    tableData.add(nextTableRowData);
-
-                }
+                ClothingItem nextCI = (ClothingItem)entries.nextElement();
+                Vector<String> view = nextCI.getEntryListView();
+                // add this list entry to the list
+                InventoryTableModel nextTableRowData = new InventoryTableModel(view);
+                tableData.add(nextTableRowData);
             }
-            else
-            {
-//                displayMessage("No matching entries found!");
-            }
-
+        }
+        else
+        {
+            displayMessage("No matching entries found!");
+        }
             InventoryTable.setItems(tableData);
-        }
-        catch (Exception e) {//SQLException e) {
-            // Need to handle this exception
-        }
     }
 
-    // Create the title container
     //-------------------------------------------------------------
     private Node createTitle()
     {
@@ -173,7 +148,6 @@ public class CheckoutHelperView extends View
         return container;
     }
 
-    // Create the main form content
     //-------------------------------------------------------------
     private VBox createFormContent()
     {
@@ -285,7 +259,6 @@ public class CheckoutHelperView extends View
         dateTakenColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("dateTaken"));
 
-
         InventoryTable.getColumns().addAll(barcodeColumn, genderColumn, sizeColumn,
                 articleTypeColumn, color1Column, color2Column, brandColumn, notesColumn, statusColumn,
                 donorLastNameColumn, donorFirstNameColumn, donorPhoneColumn, donorEmailColumn,
@@ -380,7 +353,6 @@ public class CheckoutHelperView extends View
         });
         doneCont.getChildren().add(checkoutButton);
 
-
         doneCont.setAlignment(Pos.CENTER);
         cancelButton = new Button("Done");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -411,35 +383,26 @@ public class CheckoutHelperView extends View
     protected MessageView createStatusLog(String initialMessage)
     {
         statusLog = new MessageView(initialMessage);
-
         return statusLog;
     }
 
-
-    /**
-     * Display info message
-     */
     //----------------------------------------------------------
     public void displayMessage(String message)
     {
         statusLog.displayMessage(message);
     }
 
-    /**
-     * Clear error message
-     */
     //----------------------------------------------------------
     public void clearErrorMessage()
     {
         statusLog.clearErrorMessage();
     }
 
+    //----------------------------------------------------------
     public void displayErrorMessage(String message)
     {
         statusLog.displayErrorMessage(message);
     }
-
-
 }
 
 
