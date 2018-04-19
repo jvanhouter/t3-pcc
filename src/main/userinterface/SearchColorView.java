@@ -78,7 +78,7 @@ public class SearchColorView extends View
 
     // Create the title container
     //-------------------------------------------------------------
-    private Node createTitle()
+     Node createTitle()
     {
         VBox container = new VBox(10);
         container.setPadding(new Insets(1, 1, 1, 30));
