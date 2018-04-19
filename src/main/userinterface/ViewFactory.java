@@ -52,6 +52,8 @@ public class ViewFactory {
             return new RemoveRequestView(model);
         } else if (viewName.equals("InventoryItemCollectionView")) {
             return new InventoryItemCollectionView(model);
+        } else if (viewName.equals("FulfillRequestView")){
+            return new FulfillRequestView(model);
         } else
             return null;
     }

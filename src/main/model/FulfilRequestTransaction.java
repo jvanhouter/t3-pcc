@@ -94,7 +94,7 @@ public class FulfilRequestTransaction extends Transaction
             try
             {
 
-                Scene newScene = createInventoryCollectionView();
+                Scene newScene = createFulfillRequestView();
 
                 swapToView(newScene);
 
@@ -175,10 +175,14 @@ public class FulfilRequestTransaction extends Transaction
     }
 
     //---------------------------------------------------------------
-    protected Scene createFulfillRequestTractionView()
-    {
-        return null;
-    }
+        protected Scene createFulfillRequestView()
+        {
+          View newView = ViewFactory.createView("FulfillRequestView", this);
+          Scene currentScene = new Scene(newView);
+
+          return currentScene;
+        }
+
 
     //----------------------------------------------------------------
     private void processFulfillRequestTransaction(Properties props)
