@@ -53,8 +53,7 @@ public class AddArticleTypeView extends View
 		super(at, "AddArticleTypeView");
 
 		// create a container for showing the contents
-		VBox container = getParentContainer(); //new VBox(10);
-//		container.setPadding(new Insets(15, 5, 5, 5));
+		VBox container = getParentContainer();
 
 		// Add a title for this panel
 		container.getChildren().add(createTitle());
@@ -84,7 +83,7 @@ public class AddArticleTypeView extends View
 		VBox vbox = new VBox(10);
 
 		Text prompt = new Text("ARTICLE TYPE INFORMATION");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(getWrappingWidth());
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
 		prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

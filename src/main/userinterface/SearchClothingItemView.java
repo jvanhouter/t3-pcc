@@ -52,8 +52,7 @@ public class SearchClothingItemView extends View
 		super(at, "SearchClothingView");
 
 		// create a container for showing the contents
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(15, 5, 5, 5));
+		VBox container = getParentContainer();
 
 		// Add a title for this panel
 		container.getChildren().add(createTitle());
@@ -84,7 +83,7 @@ public class SearchClothingItemView extends View
 		VBox vbox = new VBox(10);
 		
 		Text prompt1 = new Text("Enter Barcode (if known)");
-        prompt1.setWrappingWidth(400);
+        prompt1.setWrappingWidth(getWrappingWidth());
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
 		prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -104,26 +103,22 @@ public class SearchClothingItemView extends View
 		grid0.add(barcodeLabel, 0, 1);
 
 		barcode = new TextField();
-		barcode.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		    	clearErrorMessage();
-					Properties props = new Properties();
-					String barcodeString = barcode.getText();
-					if (barcodeString.length() > 0)
-					{
-						props.setProperty("Barcode", barcodeString);
-						myModel.stateChangeRequest("SearchClothingItem", props); 
-					}
-			}
-		});
+		barcode.setOnAction(e -> {
+		   clearErrorMessage();
+		Properties props = new Properties();
+		String barcodeString = barcode.getText();
+		if (barcodeString.length() > 0)
+		{
+			props.setProperty("Barcode", barcodeString);
+			myModel.stateChangeRequest("SearchClothingItem", props);
+		}
+});
 		grid0.add(barcode, 1, 1);
 		
 		vbox.getChildren().add(grid0);
 		//--------------------------------------------------------------------------//
 		Text prompt2 = new Text(" - Otherwise, enter other criteria below - ");
-        prompt2.setWrappingWidth(400);
+        prompt2.setWrappingWidth(getWrappingWidth());
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.BLACK);
 		prompt2.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -142,21 +137,17 @@ public class SearchClothingItemView extends View
 		grid.add(atLabel, 0, 1);
 
 		articleType = new TextField();
-		articleType.setOnAction(new EventHandler<ActionEvent>() {
+		articleType.setOnAction(e -> {
+		   clearErrorMessage();
+		Properties props = new Properties();
 
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		    	clearErrorMessage();
-					Properties props = new Properties();
-					
-					String atString = articleType.getText();
-					props.setProperty("ArticleType", atString);
-					String genderString = gender.getText();
-					props.setProperty("Gender", genderString);
-					myModel.stateChangeRequest("SearchClothingItem", props); 
-					
-			}
-		});
+		String atString = articleType.getText();
+		props.setProperty("ArticleType", atString);
+		String genderString = gender.getText();
+		props.setProperty("Gender", genderString);
+		myModel.stateChangeRequest("SearchClothingItem", props);
+
+});
 		grid.add(articleType, 1, 1);
 
 		Text colorLabel = new Text("Gender  : ");
@@ -171,40 +162,32 @@ public class SearchClothingItemView extends View
 		HBox doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
 		submitButton = new PccButton("Submit");
-		submitButton.setOnAction(new EventHandler<ActionEvent>() {
+		submitButton.setOnAction(e -> {
+		   clearErrorMessage();
+		Properties props = new Properties();
+		String bcString = barcode.getText();
+		if (bcString.length() > 0)
+		{
+			props.setProperty("Barcode", bcString);
+			myModel.stateChangeRequest("SearchClothingItem", props);
+		}
+		else
+		{
+			String atString = articleType.getText();
+			props.setProperty("ArticleType", atString);
 
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		    	clearErrorMessage();
-					Properties props = new Properties();
-					String bcString = barcode.getText();
-					if (bcString.length() > 0)
-					{
-						props.setProperty("Barcode", bcString);
-						myModel.stateChangeRequest("SearchClothingItem", props); 
-					}
-					else
-					{
-						String atString = articleType.getText();
-						props.setProperty("ArticleType", atString);
-						
-						String genderString = gender.getText();
-						props.setProperty("Gender", genderString);
-						myModel.stateChangeRequest("SearchClothingItem", props); 
-					}
-			}
-		});
+			String genderString = gender.getText();
+			props.setProperty("Gender", genderString);
+			myModel.stateChangeRequest("SearchClothingItem", props);
+		}
+});
 		doneCont.getChildren().add(submitButton);
 		
 		cancelButton = new PccButton("Return");
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		    	clearErrorMessage();
-       		    	myModel.stateChangeRequest("CancelSearchClothingItem", null);   
-            	  }
-        	});
+		cancelButton.setOnAction(e -> {
+		   clearErrorMessage();
+		   myModel.stateChangeRequest("CancelSearchClothingItem", null);
+	  });
 		doneCont.getChildren().add(cancelButton);
 	
 		vbox.getChildren().add(grid);

@@ -51,20 +51,20 @@ public class ClothingItemCollectionView extends View
 
 
 
-	public ClothingItemCollectionView(IModel matt)
+	public ClothingItemCollectionView(IModel clothingItem)
 	{
-		super(matt, "ClothingItemCollectionView");
+		super(clothingItem, "ClothingItemCollectionView");
 
 		// create a container for showing the contents
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(15, 5, 5, 5));
+		VBox container = getParentContainer();
 
-		// create our GUI components, add them to this panel
+		// Add a title for this panel
 		container.getChildren().add(createTitle());
+
+		// create our GUI components, add them to this Container
 		container.getChildren().add(createFormContent());
 
-		// Error message area
-		container.getChildren().add(createStatusLog("                                            "));
+		container.getChildren().add(createStatusLog("             "));
 
 		getChildren().add(container);
 
@@ -128,7 +128,7 @@ public class ClothingItemCollectionView extends View
 		VBox vbox = new VBox(10);
 
 		Text prompt = new Text("");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(getWrappingWidth());
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
 		prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

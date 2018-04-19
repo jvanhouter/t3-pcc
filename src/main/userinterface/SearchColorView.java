@@ -52,8 +52,7 @@ public class SearchColorView extends View
         super(at, "SearchColorView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -83,7 +82,7 @@ public class SearchColorView extends View
         Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
 
         Text prompt1 = new Text("Enter Color Barcode Prefix (if known)");
-        prompt1.setWrappingWidth(400);
+        prompt1.setWrappingWidth(getWrappingWidth());
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
         prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -98,7 +97,7 @@ public class SearchColorView extends View
         vbox.getChildren().add(grid0);
 
         Text prompt2 = new Text(" - Otherwise, enter other criteria below - ");
-        prompt2.setWrappingWidth(400);
+        prompt2.setWrappingWidth(getWrappingWidth());
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.BLACK);
         prompt2.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -117,20 +116,16 @@ public class SearchColorView extends View
         grid.add(descripLabel, 0, 1);
 
         description = new TextField();
-        description.setOnAction(new EventHandler<ActionEvent>() {
+        description.setOnAction(e -> {
+            clearErrorMessage();
+            Properties props = new Properties();
 
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                Properties props = new Properties();
+            String descrip = description.getText();
+            props.setProperty("Description", descrip);
+            String alfaC = alphaCode.getText();
+            props.setProperty("AlphaCode", alfaC);
+            myModel.stateChangeRequest("SearchColor", props);
 
-                String descrip = description.getText();
-                props.setProperty("Description", descrip);
-                String alfaC = alphaCode.getText();
-                props.setProperty("AlphaCode", alfaC);
-                myModel.stateChangeRequest("SearchColor", props);
-
-            }
         });
         grid.add(description, 1, 1);
 
@@ -141,51 +136,39 @@ public class SearchColorView extends View
         grid.add(alphaCodeLabel, 0, 2);
 
         alphaCode = new TextField();
-		alphaCode.setOnAction(new EventHandler<ActionEvent>() {
+		alphaCode.setOnAction(e -> {
+            clearErrorMessage();
+            Properties props = new Properties();
 
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                Properties props = new Properties();
+            String descrip = description.getText();
+            props.setProperty("Description", descrip);
+            String alfaC = alphaCode.getText();
+            props.setProperty("AlphaCode", alfaC);
+            myModel.stateChangeRequest("SearchColor", props);
 
-                String descrip = description.getText();
-                props.setProperty("Description", descrip);
-                String alfaC = alphaCode.getText();
-                props.setProperty("AlphaCode", alfaC);
-                myModel.stateChangeRequest("SearchColor", props);
-
-            }
         });
         grid.add(alphaCode, 1, 2);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+        submitButton.setOnAction(e -> {
+            clearErrorMessage();
+            Properties props = new Properties();
 
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                Properties props = new Properties();
+            String descrip = description.getText();
+            props.setProperty("Description", descrip);
+            String alfaC = alphaCode.getText();
+            props.setProperty("AlphaCode", alfaC);
+            myModel.stateChangeRequest("SearchColor", props);
 
-				String descrip = description.getText();
-				props.setProperty("Description", descrip);
-				String alfaC = alphaCode.getText();
-				props.setProperty("AlphaCode", alfaC);
-				myModel.stateChangeRequest("SearchColor", props);
-
-            }
         });
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelSearchColor", null);
-            }
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelSearchColor", null);
         });
         doneCont.getChildren().add(cancelButton);
 

@@ -53,8 +53,7 @@ public class SearchArticleTypeView extends View
 		super(at, "SearchArticleTypeView");
 
 		// create a container for showing the contents
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(15, 5, 5, 5));
+		VBox container = getParentContainer();
 
 		// Add a title for this panel
 		container.getChildren().add(createTitle());
@@ -83,7 +82,7 @@ public class SearchArticleTypeView extends View
 		VBox vbox = new VBox(10);
 
 		Text prompt1 = new Text("Enter Article Type Barcode Prefix (if known)");
-        prompt1.setWrappingWidth(400);
+        prompt1.setWrappingWidth(getWrappingWidth());
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
 		prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -103,26 +102,22 @@ public class SearchArticleTypeView extends View
 		grid0.add(barcodePrefixLabel, 0, 1);
 
 		barcodePrefix = new TextField();
-		barcodePrefix.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		    	clearErrorMessage();
-					Properties props = new Properties();
-					String bcPrfx = barcodePrefix.getText();
-					if (bcPrfx.length() > 0)
-					{
-						props.setProperty("BarcodePrefix", bcPrfx);
-						myModel.stateChangeRequest("SearchArticleType", props);
-					}
-			}
-		});
+		barcodePrefix.setOnAction(e -> {
+		   clearErrorMessage();
+		Properties props = new Properties();
+		String bcPrfx = barcodePrefix.getText();
+		if (bcPrfx.length() > 0)
+		{
+			props.setProperty("BarcodePrefix", bcPrfx);
+			myModel.stateChangeRequest("SearchArticleType", props);
+		}
+});
 		grid0.add(barcodePrefix, 1, 1);
 
 		vbox.getChildren().add(grid0);
 
 		Text prompt2 = new Text(" - Otherwise, enter other criteria below - ");
-        prompt2.setWrappingWidth(400);
+        prompt2.setWrappingWidth(getWrappingWidth());
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.BLACK);
 		prompt2.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -141,21 +136,17 @@ public class SearchArticleTypeView extends View
 		grid.add(descripLabel, 0, 1);
 
 		description = new TextField();
-		description.setOnAction(new EventHandler<ActionEvent>() {
+		description.setOnAction(e -> {
+		   clearErrorMessage();
+		Properties props = new Properties();
 
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		    	clearErrorMessage();
-					Properties props = new Properties();
+		String descrip = description.getText();
+		props.setProperty("Description", descrip);
+		String alfaC = alphaCode.getText();
+		props.setProperty("AlphaCode", alfaC);
+		myModel.stateChangeRequest("SearchArticleType", props);
 
-					String descrip = description.getText();
-					props.setProperty("Description", descrip);
-					String alfaC = alphaCode.getText();
-					props.setProperty("AlphaCode", alfaC);
-					myModel.stateChangeRequest("SearchArticleType", props);
-
-			}
-		});
+});
 		grid.add(description, 1, 1);
 
 		Text alphaCodeLabel = new Text(" Alpha Code : ");
@@ -170,39 +161,31 @@ public class SearchArticleTypeView extends View
 		HBox doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
 		submitButton = new PccButton("Submit");
-		submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		    	clearErrorMessage();
-					Properties props = new Properties();
-					String bcPrfx = barcodePrefix.getText();
-					if (bcPrfx.length() > 0)
-					{
-						props.setProperty("BarcodePrefix", bcPrfx);
-						myModel.stateChangeRequest("SearchArticleType", props);
-					}
-					else
-					{
-						String descrip = description.getText();
-						props.setProperty("Description", descrip);
-						String alfaC = alphaCode.getText();
-						props.setProperty("AlphaCode", alfaC);
-						myModel.stateChangeRequest("SearchArticleType", props);
-					}
-			}
-		});
+		submitButton.setOnAction(e -> {
+		   clearErrorMessage();
+		Properties props = new Properties();
+		String bcPrfx = barcodePrefix.getText();
+		if (bcPrfx.length() > 0)
+		{
+			props.setProperty("BarcodePrefix", bcPrfx);
+			myModel.stateChangeRequest("SearchArticleType", props);
+		}
+		else
+		{
+			String descrip = description.getText();
+			props.setProperty("Description", descrip);
+			String alfaC = alphaCode.getText();
+			props.setProperty("AlphaCode", alfaC);
+			myModel.stateChangeRequest("SearchArticleType", props);
+		}
+});
 		doneCont.getChildren().add(submitButton);
 
 		cancelButton = new PccButton("Return");
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		    	clearErrorMessage();
-       		    	myModel.stateChangeRequest("CancelSearchArticleType", null);
-            	  }
-        	});
+		cancelButton.setOnAction(e -> {
+		   clearErrorMessage();
+		   myModel.stateChangeRequest("CancelSearchArticleType", null);
+	  });
 		doneCont.getChildren().add(cancelButton);
 
 		vbox.getChildren().add(grid);

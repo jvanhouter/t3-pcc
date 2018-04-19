@@ -49,8 +49,7 @@ public class BarcodeScannerView extends View {
         super(clothingItem, "BarcodeScannerView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer(); //new VBox(10);
-//        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -58,7 +57,7 @@ public class BarcodeScannerView extends View {
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
 
-        container.getChildren().add(createStatusLog());
+        container.getChildren().add(createStatusLog("             "));
 
         getChildren().add(container);
 
@@ -78,7 +77,7 @@ public class BarcodeScannerView extends View {
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("Scan or manually enter clothing item barcode");
-        prompt.setWrappingWidth(350);
+        prompt.setWrappingWidth(getWrappingWidth());
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -136,8 +135,8 @@ public class BarcodeScannerView extends View {
     }
 
     // Create the status log field
-    protected MessageView createStatusLog() {
-        statusLog = new MessageView("             ");
+    protected MessageView createStatusLog(String initialMessage) {
+        statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }

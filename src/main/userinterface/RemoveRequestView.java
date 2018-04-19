@@ -81,7 +81,7 @@ public class RemoveRequestView extends View
         VBox vbox = new VBox(10);
 
         Text prompt1 = new Text("Are you sure you wish to remove this request");
-        prompt1.setWrappingWidth(400);
+        prompt1.setWrappingWidth(getWrappingWidth());
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
         prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));

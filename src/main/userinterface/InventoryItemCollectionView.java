@@ -57,8 +57,7 @@ public class InventoryItemCollectionView extends View
         super(inv, "InventoryItemCollectionView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // create our GUI components, add them to this panel
         container.getChildren().add(createTitle());
@@ -126,7 +125,7 @@ public class InventoryItemCollectionView extends View
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(getWrappingWidth());
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

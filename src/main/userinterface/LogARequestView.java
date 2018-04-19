@@ -69,8 +69,7 @@ public class LogARequestView extends View
         super(lv, "LogARequestView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -101,7 +100,7 @@ public class LogARequestView extends View
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("LOG REQUEST INFORMATION");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(getWrappingWidth());
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

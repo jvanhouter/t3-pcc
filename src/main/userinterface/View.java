@@ -30,6 +30,7 @@ public abstract class View extends Group
     protected IModel myModel;
     protected ControlRegistry myRegistry;
     protected VBox container;
+    protected Integer wrappingWidth = 400;
 
 
     // GUI components
@@ -51,12 +52,16 @@ public abstract class View extends Group
         return container;
     }
 
+    Integer getWrappingWidth() {
+        return wrappingWidth;
+    }
+
     Node createTitle() {
         VBox container = new VBox(10);
 
         Text clientText = new Text("Office of Career Services");
         clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
+        clientText.setWrappingWidth(getWrappingWidth());
         clientText.setTextAlignment(TextAlignment.CENTER);
         clientText.setEffect(createDropShadow());
         clientText.setFill(Color.web("#ffc726"));
@@ -64,7 +69,7 @@ public abstract class View extends Group
 
         Text collegeText = new Text("THE COLLEGE AT BROCKPORT");
         collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
+        collegeText.setWrappingWidth(getWrappingWidth());
         collegeText.setTextAlignment(TextAlignment.CENTER);
         collegeText.setEffect(createDropShadow());
         collegeText.setFill(Color.web("#ffc726"));
@@ -72,7 +77,7 @@ public abstract class View extends Group
 
         Text titleText = new Text("Professional Clothes Closet Management System");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
+        titleText.setWrappingWidth(getWrappingWidth());
         titleText.setTextAlignment(TextAlignment.CENTER);
         titleText.setEffect(createDropShadow());
         titleText.setFill(Color.web("#ffc726"));
@@ -80,14 +85,14 @@ public abstract class View extends Group
 
         Text blankText = new Text(" ");
         blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
+        blankText.setWrappingWidth(getWrappingWidth());
         blankText.setTextAlignment(TextAlignment.CENTER);
         blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
         Text actionText = new Text(getActionText());
         actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(350);
+        actionText.setWrappingWidth(getWrappingWidth());
         actionText.setTextAlignment(TextAlignment.CENTER);
         actionText.setFill(Color.web("#ffc726"));
         actionText.setEffect(createDropShadow());

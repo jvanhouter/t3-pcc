@@ -55,8 +55,7 @@ public class EnterReceiverInformationView extends View {
         super(at, "EnterReceiverInformationView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -136,7 +135,7 @@ public class EnterReceiverInformationView extends View {
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("Enter Recipient Information");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(getWrappingWidth());
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

@@ -42,24 +42,24 @@ public class ArticleTypeCollectionView extends View
 
 
 	//--------------------------------------------------------------------------
-    ArticleTypeCollectionView(IModel matt)
+    ArticleTypeCollectionView(IModel atc)
 	{
-		super(matt, "ArticleTypeCollectionView");
+		super(atc, "ArticleTypeCollectionView");
 
-		// create a container for showing the contents
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(15, 5, 5, 5));
+        // create a container for showing the contents
+        VBox container = getParentContainer();
 
-		// create our GUI components, add them to this panel
-		container.getChildren().add(createTitle());
-		container.getChildren().add(createFormContent());
+        // Add a title for this panel
+        container.getChildren().add(createTitle());
 
-		// Error message area
-		container.getChildren().add(createStatusLog("                                            "));
+        // create our GUI components, add them to this Container
+        container.getChildren().add(createFormContent());
 
-		getChildren().add(container);
+        container.getChildren().add(createStatusLog("             "));
 
-		populateFields();
+        getChildren().add(container);
+
+        populateFields();
 	}
 
 	//--------------------------------------------------------------------------
@@ -119,7 +119,7 @@ public class ArticleTypeCollectionView extends View
 		VBox vbox = new VBox(10);
 
 		Text prompt = new Text("");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(getWrappingWidth());
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
 		prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

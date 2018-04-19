@@ -59,9 +59,9 @@ public class AddClothingItemView extends View {
     // constructor for this class -- takes a model object
     public AddClothingItemView(IModel clothingItem) {
         super(clothingItem, "AddClothingItemView");
+
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -88,7 +88,7 @@ public class AddClothingItemView extends View {
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("CLOTHING ITEM INFORMATION");
-        prompt.setWrappingWidth(350);
+        prompt.setWrappingWidth(getWrappingWidth());
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

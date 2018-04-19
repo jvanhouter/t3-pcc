@@ -35,21 +35,20 @@ import impresario.IModel;
 public class FulfillRequestView extends View
 {
 
-    protected Button submitButton;
-    protected Button cancelButton;
+    protected PccButton submitButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public FulfillRequestView(IModel at)
+    public FulfillRequestView(IModel rq)
     {
-        super(at, "FulfillRequestView");
+        super(rq, "FulfillRequestView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -72,51 +71,6 @@ public class FulfillRequestView extends View
         return "** Fulfill Request **";
     }
 
-    // Create the title container
-    //-------------------------------------------------------------
-    private Node createTitle()
-    {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("     " + getActionText() + "       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
-    }
-
     // Create the main form content
     //-------------------------------------------------------------
     private VBox createFormContent()
@@ -124,7 +78,7 @@ public class FulfillRequestView extends View
         VBox vbox = new VBox(10);
 
         Text prompt1 = new Text("Are you sure you wish to fulfill this request");
-        prompt1.setWrappingWidth(400);
+        prompt1.setWrappingWidth(getWrappingWidth());
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
         prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
