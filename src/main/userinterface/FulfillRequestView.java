@@ -32,7 +32,7 @@ import impresario.IModel;
  *  Closet application
  */
 //==============================================================
-public class RemoveRequestView extends View
+public class FulfillRequestView extends View
 {
 
     protected Button submitButton;
@@ -43,9 +43,9 @@ public class RemoveRequestView extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public RemoveRequestView(IModel at)
+    public FulfillRequestView(IModel at)
     {
-        super(at, "RemoveRequestView");
+        super(at, "FulfillRequestView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -134,24 +134,14 @@ public class RemoveRequestView extends View
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Yes");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                myModel.stateChangeRequest("FulfillRequest", null);
-            }
-        });
+        submitButton.setOnAction(e -> myModel.stateChangeRequest("FulfillRequest", null));
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("No");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelRequest", null);
-            }
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelRequest", null);
         });
         doneCont.getChildren().add(cancelButton);
 
