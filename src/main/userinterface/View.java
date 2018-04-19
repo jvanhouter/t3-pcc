@@ -34,6 +34,7 @@ public abstract class View extends Group
     protected final Integer WRAPPING_WIDTH = 400;
     protected static final String APP_FONT = "Roboto";
     protected static final String APP_TEXT_COLOR="#ffc726";
+    protected static final String APP_BACKGROUND_COLOR="#647585";
     
     // GUI components
 
@@ -70,7 +71,7 @@ public abstract class View extends Group
         collegeText.setFill(Color.web(APP_TEXT_COLOR));
         container.getChildren().add(collegeText);
 
-        Text titleText = new Text("Professional Clothes Closet Management System");
+        Text titleText = new Text("Professional Clothes Closet \nManagement System");
         titleText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 20));
         titleText.setWrappingWidth(WRAPPING_WIDTH);
         titleText.setTextAlignment(TextAlignment.CENTER);
