@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.Calendar;
 
 // project imports
 import event.Event;
@@ -24,6 +25,8 @@ public class FulfilRequestTransaction extends Transaction
 
     private RequestCollection myRequestCollection;
     private ClothingRequest myClothingRequest;
+    private ClothingItem myClothingItem;
+    private ClothingItemCollection myClothingCollection;
 
     private String transactionErrorMessage = "";
 
@@ -39,6 +42,7 @@ public class FulfilRequestTransaction extends Transaction
     {
         dependencies = new Properties();
         dependencies.setProperty("CancelRequest", "CancelTransaction");
+        dependencies.setProperty("CancelClothingItemList", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
         dependencies.setProperty("ClothingRequestData", "TransactionError");
 
@@ -76,13 +80,21 @@ public class FulfilRequestTransaction extends Transaction
             processTransaction((Properties)value);
         }
         else
+        if(key.equals("ClothingItemSelected") == true)
+        {
+
+        }
         if (key.equals("RequestSelected") == true)
         {
-            //mySelectedRequest = RequestCollection.retrieve((String)value);
+            myClothingRequest = myRequestCollection.retrieve((String) value);
+            myClothingCollection = new ClothingItemCollection();
+            myClothingCollection.findDonatedCriteria((String) myClothingRequest.getState("RequestedArticleType"),
+                                                     (String) myClothingRequest.getState("RequestedGender"),
+                                                     (String) myClothingRequest.getState("RequestedSize"));
             try
             {
 
-                Scene newScene = createRequestCollectionView();
+                Scene newScene = createFulfillRequestView();
 
                 swapToView(newScene);
 
@@ -90,13 +102,13 @@ public class FulfilRequestTransaction extends Transaction
             catch (Exception ex)
             {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Error in creating ModifyColorView", Event.ERROR);
+                        "Error in creating Inventory View", Event.ERROR);
             }
         }
         else
         if (key.equals("RequestData") == true)
         {
-          myClothingRequest = myRequestCollection.retrieve((String) value);
+            myClothingRequest = myRequestCollection.retrieve((String) value);
         }
 
         myRegistry.updateSubscribers(key, this);
@@ -105,6 +117,9 @@ public class FulfilRequestTransaction extends Transaction
     //------------------------------------------------------------
     public Object getState(String key)
     {
+        if (key.equals("ClothingItemList") == true) {
+            return myClothingCollection;
+        }
         if (key.equals("RequestList") == true)
         {
             return myRequestCollection;
@@ -150,17 +165,49 @@ public class FulfilRequestTransaction extends Transaction
         return currentScene;
     }
 
+    //-------------------------------------------------------------
+    protected Scene createInventoryCollectionView()
+    {
+        View newView = ViewFactory.createView("ClothingItemCollectionView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+    }
+
+    //---------------------------------------------------------------
+        protected Scene createFulfillRequestView()
+        {
+          View newView = ViewFactory.createView("FulfillRequestView", this);
+          Scene currentScene = new Scene(newView);
+
+          return currentScene;
+        }
+
+
     //----------------------------------------------------------------
     private void processFulfillRequestTransaction(Properties props)
     {
-      //--
+        //--
+        String receiverNetid = props.getProperty("ReceiverNetid");
+        String receiverFirstName = props.getProperty("ReceiverFirstName");
+        String receiverLastName = props.getProperty("ReceiverLastName");
 
+        myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
+        myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
+        myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
+        myClothingItem.stateChangeRequest("Status", "Received");
 
-      //---
-      if(myClothingRequest != null) {
-          myClothingRequest.stateChangeRequest("Status", "Removed");
-          myClothingRequest.update();
-          transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
-	  }
+        Calendar currDate = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        String date = dateFormat.format(currDate.getTime());
+        myClothingItem.stateChangeRequest("DateTaken", date);
+
+        //---
+        if(myClothingRequest != null) {
+            myClothingRequest.stateChangeRequest("Status", "Received");
+            myClothingRequest.update();
+            transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
+        }
     }
+
 }

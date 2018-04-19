@@ -113,7 +113,7 @@ public class UpdateColorTransaction extends Transaction {
             {
                 try
                 {
-                    ColorType oldArticleType = new ColorType(barcodePrefix);
+                    Color oldArticleType = new Color(barcodePrefix);
                     transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
                             + " already exists!";
                     new Event(Event.getLeafLevelClassName(this), "processTransaction",

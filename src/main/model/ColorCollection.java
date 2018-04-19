@@ -36,7 +36,6 @@ public class ColorCollection  extends EntityBase implements IView
     //-----------------------------------------------------------
     private void populateCollectionHelper(String query)
     {
-
         Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
         if (allDataRetrieved != null)
@@ -69,7 +68,7 @@ public class ColorCollection  extends EntityBase implements IView
     //-----------------------------------------------------------
     public void findAll()
     {
-        String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Active')";
+        String query = "SELECT * FROM " + myTableName + " WHERE Status='Active'";
         populateCollectionHelper(query);
     }
 
@@ -182,7 +181,6 @@ public class ColorCollection  extends EntityBase implements IView
         return retValue;
     }
     public Vector retrieveAll() {
-
         return colors;
     }
 

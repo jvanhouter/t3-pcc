@@ -131,8 +131,8 @@ public class Color extends EntityBase{
     }
     public static int compare(Color a, Color b)
     {
-        String aNum = (String)a.getState("ID");
-        String bNum = (String)b.getState("ID");
+        String aNum = (String)a.getState("Description");
+        String bNum = (String)b.getState("Description");
 
         return aNum.compareTo(bNum);
     }

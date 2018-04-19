@@ -4,6 +4,8 @@ package model;
 //system imports
 import java.util.Properties;
 import java.util.Vector;
+
+import Utilities.UiConstants;
 import javafx.scene.Scene;
 
 //project imports
@@ -74,7 +76,35 @@ public class ClothingItemCollection  extends EntityBase implements IView
 		String query = "SELECT * FROM " + myTableName;
 		populateCollectionHelper(query);
 	}
-		
+	//-----------------------------------------------------------
+	public void findDonatedCriteria(String articleType, String gender, String size)
+	{
+		if(size.equals("")) size = "" + UiConstants.GENERIC_SIZE;
+		String query = "SELECT * FROM " + myTableName + " WHERE ";
+		if (((gender != null) && (gender.length() > 0))&&
+				((articleType != null) && (articleType.length() > 0)) && ((size != null) && (size.length() > 0)))
+		{
+			// both values get into criteria
+			query += "(Gender LIKE '%" + gender + "%') AND (ArticleType LIKE '%" +
+					articleType + "%') AND (Size LIKE '%" + size + "%');";
+		}
+		else {
+			if ((gender != null) && (gender.length() > 0)) {
+				// only description gets into criteria
+				query += "(Gender LIKE '%" + gender + "%') AND ";
+			}
+			if ((articleType != null) && (articleType.length() > 0)) {
+				// only alphaCode gets into criteria
+				query += "(ArticleType LIKE '%" + articleType + "%') AND ";
+			}
+			if ((size != null) && (size.length() > 0)) {
+				query += "(Size LIKE '%" + size + "%') AND ";
+			}
+			query = query.substring(0, query.lastIndexOf("AND "));
+			System.out.println(query);
+		}
+		populateCollectionHelper(query);
+	}
 	//-----------------------------------------------------------
 	public void findByCriteria(String gender, String articleType)
 	{

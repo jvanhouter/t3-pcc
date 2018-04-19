@@ -160,6 +160,11 @@ public class RequestCollectionView extends View
         phone.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("phone"));
 
+        TableColumn email = new TableColumn("Email Address");
+        email.setMaxWidth(100);
+        email.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("email"));
+
         TableColumn lastName = new TableColumn("Last Name");
         lastName.setMaxWidth(100);
         lastName.setCellValueFactory(
@@ -211,7 +216,7 @@ public class RequestCollectionView extends View
                 new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
 
         tableOfRequests.getColumns().addAll(id,
-                requesterNetid, phone, lastName, firstName,
+                requesterNetid, phone, email, lastName, firstName,
                 gender, articleType, color1, color2, size, brand,
                 requestMadeDate, statusColumn);
 

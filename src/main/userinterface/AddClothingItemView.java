@@ -3,6 +3,7 @@ package userinterface;
 
 // system imports
 
+import Utilities.UiConstants;
 import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -334,10 +335,10 @@ public class AddClothingItemView extends View {
         if (gender.length() == 0) {
             displayErrorMessage("ERROR: Please select gender!");
             genderCombo.requestFocus();
-        } else if (size.length() == 0) {
+        }/* else if (size.length() == 0) {
             displayErrorMessage("ERROR: Please enter a size!");
             sizeText.requestFocus();
-        } else if (articleType == null) {
+        } */else if (articleType == null) {
             displayErrorMessage("ERROR: Please select an article type!");
             articleTypeCombo.requestFocus();
         } else if (color1 == null) {
@@ -349,7 +350,10 @@ public class AddClothingItemView extends View {
             donorEmailText.requestFocus();
         } else {
             props.setProperty("Gender", gender);
-            props.setProperty("Size", size);
+            if(size.length() == 0)
+                props.setProperty("Size", "" + UiConstants.GENERIC_SIZE);
+            else
+                props.setProperty("Size", size);
             props.setProperty("ArticleType", (String) articleType.getState("ID"));
             props.setProperty("Color1", (String) color1.getState("ID"));
             if (color2 != null) {
