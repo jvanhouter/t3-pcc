@@ -34,20 +34,29 @@ public class MessageView extends Text {
      */
     public void displayMessage(String message) {
         // display the passed text in blue
-        setFill(Color.BLUE);
-        setText(message);
+        if (message.equals("Loading...") || message.length() == 0) {
+            setFill(Color.BLUE);
+            setText(message);
+        } else {
+            Alert information = new Alert(Alert.AlertType.INFORMATION);
+            information.setTitle("Brockport Professional Clothes Closet Info");
+            information.setContentText(message);
+            information.show();
+//        setFill(Color.BLUE);
+//        setText(message);
+        }
     }
 
     /**
      * Display error message
      */
-    public void display2ErrorMessage(String message) {
+    public void displayErrorMessage(String message) {
         // display the passed text in red
         Alert errorMessage = new Alert(Alert.AlertType.ERROR);
 
         errorMessage.setTitle("Brockport Professional Clothes Closet Error");
         errorMessage.setContentText(message);
-        errorMessage.showAndWait();
+        errorMessage.show();
 
 //        setFill(Color.RED);
 //        setText(message);
@@ -60,10 +69,10 @@ public class MessageView extends Text {
         setText("                           ");
     }
 
-    public void displayErrorMessage(String message) {
+    public void display2ErrorMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText("Error ");
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText("An error has occured ");
         alert.setContentText(message);
 
         DialogPane dialogPane = alert.getDialogPane();
@@ -79,7 +88,7 @@ public class MessageView extends Text {
 
 // 2. ContentText with just a Label
         dialogPane.lookup(".content.label").setStyle("-fx-font-size: 16px; "
-                + "-fx-font-weight: bold; -fx-text-fill: #ffc726;");
+                + "-fx-font-weight: bold; -fx-text-fill: #c20012;");
 
 // 3- ButtonBar
         ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");

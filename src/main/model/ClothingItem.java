@@ -117,7 +117,6 @@ public class ClothingItem extends EntityBase implements IView {
 
 	public void stateChangeRequest(String key, Object value) {
 		if (persistentState.getProperty(key) != null) {
-//				System.out.println(value);
 			persistentState.setProperty(key, (String) value);
 		}
 		myRegistry.updateSubscribers(key, this);
@@ -148,9 +147,6 @@ public class ClothingItem extends EntityBase implements IView {
 						+ " updated successfully!";
 			} else if ((persistentState.getProperty("Barcode") != null) && !exists){
 				Integer returnCode = insertPersistentState(mySchema, persistentState);
-//                Integer ciID =
-//                        insertAutoIncrementalPersistentState(mySchema, persistentState);
-//                persistentState.setProperty("Barcode", "" + ciID.intValue());
 				updateStatusMessage = returnCode + " Clothing item with barcode : "
 						+ persistentState.getProperty("Barcode")
 						+ " installed successfully!";
@@ -158,7 +154,6 @@ public class ClothingItem extends EntityBase implements IView {
 		} catch (SQLException ex) {
 			updateStatusMessage = "Error sending clothing item data to database!";
 		}
-		//DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
 	}
 
 

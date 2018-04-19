@@ -380,8 +380,9 @@ public class AddClothingItemView extends View {
             String val = (String) value;
             if (val.startsWith("ERR")) {
                 displayErrorMessage(val);
-            } else {
+            } else if (val.length() > 0) {
                 displayMessage(val);
+                myModel.stateChangeRequest("CancelAddClothingItem", null);
             }
 
         }
