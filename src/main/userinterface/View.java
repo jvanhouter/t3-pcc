@@ -36,7 +36,7 @@ public abstract class View extends Group
 
 
     // Class constructor
-    //----------------------------------------------------------
+
     public View(IModel model, String classname) {
         myModel = model;
 
@@ -50,6 +50,7 @@ public abstract class View extends Group
     VBox getParentContainer() {
         return container;
     }
+
     Node createTitle() {
         VBox container = new VBox(10);
 
@@ -90,13 +91,12 @@ public abstract class View extends Group
         actionText.setTextAlignment(TextAlignment.CENTER);
         actionText.setFill(Color.web("#ffc726"));
         actionText.setEffect(createDropShadow());
-//        actionText.setFill(Color.BLACK);
         container.getChildren().add(actionText);
         return container;
     }
 
     protected String getActionText() {
-        return "What do you wish to do today?";
+        return " ";
     }
 
     DropShadow createDropShadow() {
@@ -106,20 +106,20 @@ public abstract class View extends Group
         ds.setOffsetY(3.0);
         return ds;
     }
-    //----------------------------------------------------------
+
     public void setRegistry(ControlRegistry registry) {
         myRegistry = registry;
     }
 
     // Allow models to register for state updates
-    //----------------------------------------------------------
+
     public void subscribe(String key, IModel subscriber) {
         myRegistry.subscribe(key, subscriber);
     }
 
 
     // Allow models to unregister for state updates
-    //----------------------------------------------------------
+
     public void unSubscribe(String key, IModel subscriber) {
         myRegistry.unSubscribe(key, subscriber);
     }

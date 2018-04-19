@@ -50,7 +50,7 @@ public class ClothingItemCollectionView extends View
 	protected MessageView statusLog;
 
 
-	//--------------------------------------------------------------------------
+
 	public ClothingItemCollectionView(IModel matt)
 	{
 		super(matt, "ClothingItemCollectionView");
@@ -71,13 +71,13 @@ public class ClothingItemCollectionView extends View
 		populateFields();
 	}
 
-	//--------------------------------------------------------------------------
+
 	protected void populateFields()
 	{
 		getEntryTableModelValues();
 	}
 
-	//--------------------------------------------------------------------------
+
 	protected void getEntryTableModelValues()
 	{
 
@@ -92,7 +92,7 @@ public class ClothingItemCollectionView extends View
 			{
 				Enumeration entries = entryList.elements();
 
-				while (entries.hasMoreElements() == true)
+				while (entries.hasMoreElements() )
 				{
 					ClothingItem nextAT = (ClothingItem)entries.nextElement();
 					Vector<String> view = nextAT.getEntryListView();
@@ -116,53 +116,13 @@ public class ClothingItemCollectionView extends View
 		}
 	}
 
-	// Create the title container
-	//-------------------------------------------------------------
-	 Node createTitle()
-	{
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(1, 1, 1, 30));
-
-		Text clientText = new Text(" Office of Career Services ");
-		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		clientText.setWrappingWidth(350);
-		clientText.setTextAlignment(TextAlignment.CENTER);
-		clientText.setFill(Color.DARKGREEN);
-		container.getChildren().add(clientText);
-
-		Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-		collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		collegeText.setWrappingWidth(350);
-		collegeText.setTextAlignment(TextAlignment.CENTER);
-		collegeText.setFill(Color.DARKGREEN);
-		container.getChildren().add(collegeText);
-
-		Text titleText = new Text(" Professional Clothes Closet Management System ");
-		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		titleText.setWrappingWidth(350);
-		titleText.setTextAlignment(TextAlignment.CENTER);
-		titleText.setFill(Color.DARKGREEN);
-		container.getChildren().add(titleText);
-
-		Text blankText = new Text("  ");
-		blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		blankText.setWrappingWidth(350);
-		blankText.setTextAlignment(TextAlignment.CENTER);
-		blankText.setFill(Color.WHITE);
-		container.getChildren().add(blankText);
-
-		Text actionText = new Text("      ** Matching clothing items **       ");
-		actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-		actionText.setWrappingWidth(350);
-		actionText.setTextAlignment(TextAlignment.CENTER);
-		actionText.setFill(Color.BLACK);
-		container.getChildren().add(actionText);
-
-		return container;
+	@Override
+	protected String getActionText() {
+		return "** Matching clothing items **";
 	}
 
 	// Create the main form content
-	//-------------------------------------------------------------
+
 	private VBox createFormContent()
 	{
 		VBox vbox = new VBox(10);
@@ -272,7 +232,7 @@ public class ClothingItemCollectionView extends View
 					 * It simply tells its model (controller) that the transaction was canceled, and leaves it
 					 * to the model to decide to tell the Receptionist to do the switch back.
 			 		*/
-					//----------------------------------------------------------
+
        		     	clearErrorMessage();
        		     	myModel.stateChangeRequest("CancelClothingItemList", null);
             	  }
@@ -290,12 +250,12 @@ public class ClothingItemCollectionView extends View
 		return vbox;
 	}
 
-	//--------------------------------------------------------------------------
+
 	public void updateState(String key, Object value)
 	{
 	}
 
-	//--------------------------------------------------------------------------
+
 	protected void processClothingItemSelected()
 	{
 
@@ -309,7 +269,7 @@ public class ClothingItemCollectionView extends View
 		}
 	}
 
-	//--------------------------------------------------------------------------
+
 	protected MessageView createStatusLog(String initialMessage)
 	{
 		statusLog = new MessageView(initialMessage);
@@ -321,7 +281,7 @@ public class ClothingItemCollectionView extends View
 	/**
 	 * Display info message
 	 */
-	//----------------------------------------------------------
+
 	public void displayMessage(String message)
 	{
 		statusLog.displayMessage(message);
@@ -330,7 +290,7 @@ public class ClothingItemCollectionView extends View
 	/**
 	 * Clear error message
 	 */
-	//----------------------------------------------------------
+
 	public void clearErrorMessage()
 	{
 		statusLog.clearErrorMessage();

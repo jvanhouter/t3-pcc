@@ -76,7 +76,7 @@ public class ClothingRequest extends EntityBase implements IView
                     persistentState = new Properties();
 
                     Enumeration allKeys = retrievedATData.propertyNames();
-                    while (allKeys.hasMoreElements() == true)
+                    while (allKeys.hasMoreElements() )
                     {
                         String nextKey = (String)allKeys.nextElement();
                         String nextValue = retrievedATData.getProperty(nextKey);

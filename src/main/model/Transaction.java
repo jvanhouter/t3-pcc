@@ -125,6 +125,8 @@ abstract public class Transaction implements IView, IModel {
         myStage.setScene(newScene);
         myStage.sizeToScene();
 
+        WindowPosition.placeCenter(myStage);
+
     }
 
 }

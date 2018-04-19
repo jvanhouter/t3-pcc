@@ -47,7 +47,7 @@ public class Closet extends Application
 
 
 	// start method for this class, the main application object
-	//----------------------------------------------------------
+
 	public void start(Stage primaryStage)
 	{
 	   System.out.println("Brockport Professional Clothes Closet Version 1.00");
@@ -59,12 +59,7 @@ public class Closet extends Application
 
 	   // Finish setting up the stage (ENABLE THE GUI TO BE CLOSED USING THE TOP RIGHT
 	   // 'X' IN THE WINDOW), and show it.
-        mainStage.setOnCloseRequest(new EventHandler <javafx.stage.WindowEvent>() {
-            @Override
-            public void handle(javafx.stage.WindowEvent event) {
-                System.exit(0);
-            }
-           });
+        mainStage.setOnCloseRequest(event -> System.exit(0));
 
        try
 	   {
@@ -88,7 +83,7 @@ public class Closet extends Application
 	 * The "main" entry point for the application. Carries out actions to
 	 * set up the application
 	 */
-	//----------------------------------------------------------
+
     public static void main(String[] args)
 	{
 

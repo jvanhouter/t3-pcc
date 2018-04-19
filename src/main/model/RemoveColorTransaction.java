@@ -34,12 +34,12 @@ public class RemoveColorTransaction extends Transaction {
     /**
      * Constructor for this class.
      */
-    //----------------------------------------------------------
+
     public RemoveColorTransaction() throws Exception {
         super();
     }
 
-    //----------------------------------------------------------
+
     protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchColor", "CancelTransaction");
@@ -53,7 +53,7 @@ public class RemoveColorTransaction extends Transaction {
      * This method encapsulates all the logic of creating the color,
      * verifying its uniqueness, etc.
      */
-    //----------------------------------------------------------
+
     public void processTransaction(Properties props) {
         myColorList = new ColorCollection();
 		String desc = props.getProperty("Description");
@@ -81,17 +81,17 @@ public class RemoveColorTransaction extends Transaction {
     }
 
 
-    //-----------------------------------------------------------
+
     public Object getState(String key) {
-        if (key.equals("TransactionError") == true) {
+        if (key.equals("TransactionError") ) {
             return transactionErrorMessage;
         } 
 		else
-		if (key.equals("ColorList") == true) {
+		if (key.equals("ColorList") ) {
 			return myColorList;
 		}
 		else
-        if (key.equals("BarcodePrefix") == true)
+        if (key.equals("BarcodePrefix") )
         {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("BarcodePrefix");
@@ -99,7 +99,7 @@ public class RemoveColorTransaction extends Transaction {
                 return "";
         }
         else
-        if (key.equals("Description") == true)
+        if (key.equals("Description") )
         {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("Description");
@@ -107,7 +107,7 @@ public class RemoveColorTransaction extends Transaction {
                 return "";
         }
         else
-        if (key.equals("AlphaCode") == true)
+        if (key.equals("AlphaCode") )
         {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("AlphaCode");
@@ -117,20 +117,20 @@ public class RemoveColorTransaction extends Transaction {
         return null;
     }
 
-    //-----------------------------------------------------------
+
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
+        if ((key.equals("DoYourJob") ) || (key.equals("CancelColorList") ))
         {
             doYourJob();
         }
         else
-        if (key.equals("SearchColor") == true)
+        if (key.equals("SearchColor") )
         {
             processTransaction((Properties)value);
         }
         else
-        if (key.equals("ColorSelected") == true)
+        if (key.equals("ColorSelected") )
         {
             mySelectedColor = myColorList.retrieve((String)value);
             try
@@ -148,7 +148,7 @@ public class RemoveColorTransaction extends Transaction {
             }
         }
         else
-        if (key.equals("RemoveColor") == true)
+        if (key.equals("RemoveColor") )
         {
             processColorRemoval();
         }
@@ -160,7 +160,7 @@ public class RemoveColorTransaction extends Transaction {
      * Create the view of this class. And then the super-class calls
      * swapToView() to display the view in the frame
      */
-    //------------------------------------------------------
+
     protected Scene createView() {
         Scene currentScene = myViews.get("SearchColorView");
 
@@ -185,7 +185,7 @@ public class RemoveColorTransaction extends Transaction {
     }
 
 
-    //------------------------------------------------------
+
     protected Scene createRemoveColorView() {
         View newView = ViewFactory.createView("RemoveColorView", this);
         Scene currentScene = new Scene(newView);

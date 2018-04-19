@@ -38,19 +38,19 @@ public class ModifyArticleTypeView extends AddArticleTypeView
 	//
 
 	// constructor for this class -- takes a model object
-	//----------------------------------------------------------
+
 	public ModifyArticleTypeView(IModel at)
 	{
 		super(at);
 	}
 
-	//-------------------------------------------------------------
+
 	protected String getActionText()
 	{
 		return "** Modify Article Type Data **";
 	}
 
-	//-------------------------------------------------------------
+
 	public void populateFields()
 	{
 		String bcPrefix = (String)myModel.getState("BarcodePrefix");
@@ -71,7 +71,7 @@ public class ModifyArticleTypeView extends AddArticleTypeView
 	}
 }
 
-//---------------------------------------------------------------
+
 //	Revision History:
 //
 

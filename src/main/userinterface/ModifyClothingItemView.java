@@ -43,9 +43,9 @@ import model.Color;
 
 		// constructor for this class -- takes a model object
 		//----------------------------------------------------------
-		public ModifyClothingItemView(IModel at)
+		public ModifyClothingItemView(IModel clothingItem)
 		{
-			super(at);
+			super(clothingItem);
 		}
 
 		//-------------------------------------------------------------

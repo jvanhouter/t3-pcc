@@ -203,10 +203,10 @@ public class AddArticleTypeView extends View
 	{
 		clearErrorMessage();
 
-		if (key.equals("TransactionError") == true)
+		if (key.equals("TransactionError") )
 		{
 			String val = (String)value;
-			if (val.startsWith("ERR") == true)
+			if (val.startsWith("ERR") )
 			{
 				displayErrorMessage(val);
 			}

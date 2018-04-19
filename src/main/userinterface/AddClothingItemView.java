@@ -77,6 +77,7 @@ public class AddClothingItemView extends View {
         myModel.subscribe("TransactionError", this);
     }
 
+    @Override
     protected String getActionText() {
         return "** Adding a new Clothing Item **";
     }
@@ -86,7 +87,7 @@ public class AddClothingItemView extends View {
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("CLOTHING ITEM INFORMATION");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(350);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

@@ -57,7 +57,7 @@ public class ReceptionistView extends View {
 
 
     // constructor for this class -- takes a model object
-    //----------------------------------------------------------
+
     public ReceptionistView(IModel teller) {
         super(teller, "ReceptionistView");
 
@@ -89,24 +89,13 @@ public class ReceptionistView extends View {
         myModel.subscribe("TransactionError", this);
     }
 
-//    // Create the labels and fields
-//    //-------------------------------------------------------------
-//    private Node actionText(){
-//        VBox container = new VBox(10);
-//        Text inquiryText = new Text("       What do you wish to do today?       ");
-//        inquiryText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-//        inquiryText.setWrappingWidth(350);
-//        inquiryText.setFill(Color.web("#ffc726"));
-//        inquiryText.setEffect(createDropShadow());
-//        inquiryText.setTextAlignment(TextAlignment.CENTER);
-//        container.getChildren().add(inquiryText);
-//
-//        return container;
-//    }
-
+    @Override
+    protected String getActionText() {
+        return "What do you wish to do today?";
+    }
 
     // Create the navigation buttons
-    //-------------------------------------------------------------
+
     private VBox createFormContents() {
 
         VBox container = new VBox(15);
@@ -233,13 +222,13 @@ public class ReceptionistView extends View {
         return statusLog;
     }
 
-    //-------------------------------------------------------------
+
     public void populateFields() {
 
     }
 
 
-    //---------------------------------------------------------
+
     public void updateState(String key, Object value) {
         if (key.equals("TransactionError")) {
             // display the passed text
@@ -250,7 +239,7 @@ public class ReceptionistView extends View {
     /**
      * Display error message
      */
-    //----------------------------------------------------------
+
     public void displayErrorMessage(String message) {
         statusLog.displayErrorMessage(message);
     }
@@ -258,7 +247,7 @@ public class ReceptionistView extends View {
     /**
      * Clear error message
      */
-    //----------------------------------------------------------
+
     public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }

@@ -64,11 +64,11 @@ public class RemoveRequestTransaction extends Transaction
     //-----------------------------------------------------------
     public Object getState(String key)
     {
-        if (key.equals("RequestList") == true)
+        if (key.equals("RequestList") )
         {
             return myRequestCollection;
         }
-        if (key.equals("TransactionError") == true)
+        if (key.equals("TransactionError") )
         {
             return transactionErrorMessage;
         }
@@ -79,7 +79,7 @@ public class RemoveRequestTransaction extends Transaction
     public void stateChangeRequest(String key, Object value)
     {
 
-        if (key.equals("DoYourJob") == true)
+        if (key.equals("DoYourJob") )
         {
             doYourJob();
         }

@@ -48,7 +48,7 @@ public class ViewFactory {
             return new LogARequestView(model);
         } else if(viewName.equals("RequestCollectionView")) {
             return new RequestCollectionView(model);
-        } else if(viewName.equals("RemoveRequestView") == true){
+        } else if(viewName.equals("RemoveRequestView") ){
             return new RemoveRequestView(model);
         } else if (viewName.equals("InventoryItemCollectionView")) {
             return new InventoryItemCollectionView(model);

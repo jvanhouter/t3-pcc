@@ -29,18 +29,18 @@ public class MainStageContainer
 	private static Stage myInstance = null;
 
 	// class constructor
-	//----------------------------------------------------------
+
 	private MainStageContainer ()
 	{
 	}
 
-	//----------------------------------------------------------
+
 	public static Stage getInstance()
 	{
 		return myInstance;
 	}
 
-	//-----------------------------------------------------------
+
 	public static void setStage(Stage st, String title)
 	{
 		myInstance = st;

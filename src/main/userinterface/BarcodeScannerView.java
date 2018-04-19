@@ -44,7 +44,7 @@ public class BarcodeScannerView extends View {
     protected MessageView statusLog;
 
     // constructor for this class -- takes a model object
-    //----------------------------------------------------------
+
     BarcodeScannerView(IModel clothingItem) {
         super(clothingItem, "BarcodeScannerView");
 
@@ -67,13 +67,13 @@ public class BarcodeScannerView extends View {
         myModel.subscribe("TransactionError", this);
     }
 
-    //-------------------------------------------------------------
+    @Override
     protected String getActionText() {
         return "Barcode Search";
     }
 
     // Create the main form content
-    //-------------------------------------------------------------
+
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
 

@@ -38,19 +38,19 @@ public class ModifyColorView extends AddColorView
     //
 
     // constructor for this class -- takes a model object
-    //----------------------------------------------------------
-    public ModifyColorView(IModel at)
+
+    public ModifyColorView(IModel color)
     {
-        super(at);
+        super(color);
     }
 
-    //-------------------------------------------------------------
+
     protected String getActionText()
     {
         return "** Modify Article Type Data **";
     }
 
-    //-------------------------------------------------------------
+
     public void populateFields()
     {
         String bcPrefix = (String)myModel.getState("BarcodePrefix");
@@ -72,6 +72,6 @@ public class ModifyColorView extends AddColorView
 
 }
 
-//---------------------------------------------------------------
+
 //	Revision History:
 //

@@ -94,7 +94,7 @@ public class RequestCollectionView extends View
             {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements() == true)
+                while (entries.hasMoreElements())
                 {
                     ClothingRequest nextRQ = (ClothingRequest) entries.nextElement();
                     Vector<String> view = nextRQ.getEntryListView();
@@ -118,49 +118,9 @@ public class RequestCollectionView extends View
         }
     }
 
-    // Create the title container
-    //-------------------------------------------------------------
-     Node createTitle()
-    {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("      ** Matching Requests **       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
+    @Override
+    protected String getActionText() {
+        return "** Matching Requests **";
     }
 
     // Create the main form content
@@ -182,7 +142,7 @@ public class RequestCollectionView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        tableOfRequests = new TableView<RequestTableModel>();
+        tableOfRequests = new TableView<>();
         tableOfRequests.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         TableColumn id = new TableColumn("ID");
@@ -255,13 +215,9 @@ public class RequestCollectionView extends View
                 gender, articleType, color1, color2, size, brand,
                 requestMadeDate, statusColumn);
 
-        tableOfRequests.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event)
-            {
-                if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processRequestSelected();
-                }
+        tableOfRequests.setOnMousePressed(event -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+                processRequestSelected();
             }
         });
         ScrollPane scrollPane = new ScrollPane();
@@ -270,34 +226,19 @@ public class RequestCollectionView extends View
 
         submitButton = new PccButton("Submit");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+        submitButton.setOnAction(e -> {
+            clearErrorMessage();
+            // do the inquiry
+            processRequestSelected();
 
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                // do the inquiry
-                processRequestSelected();
-
-            }
         });
 
         cancelButton = new PccButton("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                /**
-                 * Process the Cancel button.
-                 * The ultimate result of this action is that the transaction will tell the Receptionist to
-                 * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
-                 * It simply tells its model (controller) that the transaction was canceled, and leaves it
-                 * to the model to decide to tell the Receptionist to do the switch back.
-                 */
-                //----------------------------------------------------------
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelRequest", null);
-            }
+        cancelButton.setOnAction(e -> {
+            //----------------------------------------------------------
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelRequest", null);
         });
 
         HBox btnContainer = new HBox(100);

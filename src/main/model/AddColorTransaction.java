@@ -37,7 +37,7 @@ public class AddColorTransaction extends Transaction
      * Constructor for this class.
      *
      */
-    //----------------------------------------------------------
+
     public AddColorTransaction() throws Exception
     {
         super();
@@ -130,7 +130,7 @@ public class AddColorTransaction extends Transaction
     //-----------------------------------------------------------
     public Object getState(String key)
     {
-        if (key.equals("TransactionError") == true)
+        if (key.equals("TransactionError") )
         {
             return transactionErrorMessage;
         }
@@ -144,12 +144,12 @@ public class AddColorTransaction extends Transaction
     {
         // DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
-        if (key.equals("DoYourJob") == true)
+        if (key.equals("DoYourJob") )
         {
             doYourJob();
         }
         else
-        if (key.equals("ColorData") == true)
+        if (key.equals("ColorData") )
         {
             processTransaction((Properties)value);
         }

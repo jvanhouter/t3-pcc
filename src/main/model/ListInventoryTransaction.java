@@ -40,7 +40,7 @@ public class ListInventoryTransaction extends Transaction {
 
     //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("TransactionError") == true) {
+        if (key.equals("TransactionError") ) {
             return transactionErrorMessage;
         }
         else if(key.equals("InventoryList"))
@@ -53,7 +53,7 @@ public class ListInventoryTransaction extends Transaction {
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") == true))
+        if ((key.equals("DoYourJob") ))
         {
             doYourJob();
         }

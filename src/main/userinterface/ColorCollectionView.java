@@ -94,7 +94,7 @@ public class ColorCollectionView extends View
             {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements() == true)
+                while (entries.hasMoreElements() )
                 {
 
                     Color nextCT = (Color)entries.nextElement();
@@ -118,50 +118,9 @@ public class ColorCollectionView extends View
         }
     }
 
-    // Create the title container
-    //-------------------------------------------------------------
-     Node createTitle()
-    {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-
-        clientText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(javafx.scene.paint.Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("      ** Matching Colors **       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(javafx.scene.paint.Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
+    @Override
+    protected String getActionText() {
+        return "** Matching Colors **";
     }
 
     // Create the main form content

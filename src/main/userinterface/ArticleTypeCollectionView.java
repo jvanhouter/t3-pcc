@@ -107,52 +107,12 @@ public class ArticleTypeCollectionView extends View
 		}
 	}
 
-	// Create the title container
-	//-------------------------------------------------------------
-	 Node createTitle()
-	{
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(1, 1, 1, 30));
+    @Override
+    protected String getActionText() {
+        return "** Matching Article Types **";
+    }
 
-		Text clientText = new Text(" Office of Career Services ");
-		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		clientText.setWrappingWidth(350);
-		clientText.setTextAlignment(TextAlignment.CENTER);
-		clientText.setFill(Color.DARKGREEN);
-		container.getChildren().add(clientText);
-
-		Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-		collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		collegeText.setWrappingWidth(350);
-		collegeText.setTextAlignment(TextAlignment.CENTER);
-		collegeText.setFill(Color.DARKGREEN);
-		container.getChildren().add(collegeText);
-
-		Text titleText = new Text(" Professional Clothes Closet Management System ");
-		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		titleText.setWrappingWidth(350);
-		titleText.setTextAlignment(TextAlignment.CENTER);
-		titleText.setFill(Color.DARKGREEN);
-		container.getChildren().add(titleText);
-
-		Text blankText = new Text("  ");
-		blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		blankText.setWrappingWidth(350);
-		blankText.setTextAlignment(TextAlignment.CENTER);
-		blankText.setFill(Color.WHITE);
-		container.getChildren().add(blankText);
-
-		Text actionText = new Text("      ** Matching Article Types **       ");
-		actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-		actionText.setWrappingWidth(350);
-		actionText.setTextAlignment(TextAlignment.CENTER);
-		actionText.setFill(Color.BLACK);
-		container.getChildren().add(actionText);
-
-		return container;
-	}
-
-	// Create the main form content
+    // Create the main form content
 	//-------------------------------------------------------------
 	private VBox createFormContent()
 	{
