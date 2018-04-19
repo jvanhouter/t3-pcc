@@ -11,7 +11,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
@@ -30,13 +33,25 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.util.Vector;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.Optional;
 
 // project imports
 import impresario.IModel;
+import model.ArticleType;
+import model.ArticleTypeCollection;
 //import model.Item;
 import model.ClothingItem;
 import model.InventoryItemCollection;
@@ -46,9 +61,10 @@ public class InventoryItemCollectionView extends View
 {
     protected TableView<InventoryTableModel> InventoryTable;
     protected Button cancelButton;
-//    protected Button submitButton;
+    protected Button outputButton;
 
     protected MessageView statusLog;
+    protected Stage stage; //Added as part of Excel work
 
 
     //--------------------------------------------------------------------------
@@ -304,10 +320,25 @@ public class InventoryItemCollectionView extends View
                 myModel.stateChangeRequest("CancelInventory", null);
             }
         });
+        
+        outputButton = new PccButton("Save to File");
+        outputButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        outputButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                /**
+                 * This sends the current dataset out to a CSV file
+                 */
+                clearErrorMessage();
+                saveToExcelFile();
+            }
+        });
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
 
+        btnContainer.getChildren().add(outputButton);
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);
@@ -349,6 +380,142 @@ public class InventoryItemCollectionView extends View
         statusLog.clearErrorMessage();
     }
 
+    //Added stuff for Output to Excel
+    //----------------------------------------------------------
+  //--------------------------------------------------------------------------
+    protected void saveToExcelFile() {
+        // Put up JFileChooser
+        // Retrieve full path name of file user selects
+        // Create the file appropriately if it does not exist
+        String reportsPath = System.getProperty("user.dir") + "/reports";
+        File reportsDir = new File(reportsPath);
 
+
+        // if the directory does not exist, create it
+        // Do we need this?
+        if (!reportsDir.exists()) {
+            reportsDir.mkdir();
+        }
+
+        FileChooser chooser = new FileChooser();
+        chooser.setInitialDirectory(reportsDir);
+
+        FileChooser.ExtensionFilter filter =
+                new FileChooser.ExtensionFilter(
+                        "CSV - (.cvs)", "*.cvs");
+
+        chooser.setSelectedExtensionFilter(filter);
+
+        File file = chooser.showSaveDialog(stage);
+
+        try {
+            String fileName = "";
+
+
+            try {
+                fileName = file.getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String tempName = fileName.toLowerCase();
+
+            if (tempName.endsWith(".csv")) {
+                writeToFile(fileName);
+            } else {
+                fileName += ".csv";
+                writeToFile(fileName);
+            }
+        } catch (Exception ex) {
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Error in saving to file: " + ex.toString(),
+                    bar);
+
+            alert.setTitle("ERROR");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+    }
+
+  //-------------------------------------------------------------
+    protected void writeToFile(String fName) {
+
+        Vector allColumnNames = new Vector();
+        ArticleTypeCollection articleTypeCollection =
+                (ArticleTypeCollection) myModel.getState("ArticleTypeList");
+        Vector clothingVector = (Vector) articleTypeCollection.getState("ArticleTypes");
+
+
+        try {
+            FileWriter outFile = new FileWriter(fName);
+            PrintWriter out = new PrintWriter(outFile);
+
+            if ((clothingVector == null) || (clothingVector.size() == 0))
+                return;
+
+            String line = "Description, Barcode Prefix, Alpha Code, Status";
+
+            out.println(line);
+
+            String valuesLine = "";
+
+            Enumeration entries = clothingVector.elements();
+
+            while (entries.hasMoreElements() == true) {
+                ArticleType nextAT = (ArticleType) entries.nextElement();
+                Vector<String> view = nextAT.getEntryListView();
+
+                // add this list entry to the list
+                ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
+
+                valuesLine += nextTableRowData.getDescription() + ", " + nextTableRowData.getBarcodePrefix() + ", " + nextTableRowData.getAlphaCode() + ", " + nextTableRowData.getStatus() + "\n";
+            }
+            out.println(valuesLine);
+
+            out.println("");
+
+            // Also print the shift count and filter type
+            out.println("\nTotal number of : " + clothingVector.size());
+
+            // Finally, print the time-stamp
+            DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+            DateFormat timeFormat = new SimpleDateFormat("hh:mm aaa");
+            Date date = new Date();
+            String timeStamp = dateFormat.format(date) + " " +
+                    timeFormat.format(date);
+
+            out.println("Report created on " + timeStamp);
+
+            out.close();
+
+
+            // Acknowledge successful completion to user with JOptionPane
+
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Report data saved successfully to selected file",
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
+        } catch (FileNotFoundException e) {
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not access file to save: " + fName,
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
+        } catch (IOException e) {
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Error in saving to file: " + e.toString(),
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+
+    }
 }
 
