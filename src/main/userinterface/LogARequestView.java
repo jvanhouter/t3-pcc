@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 // project imports
 import impresario.IModel;
@@ -356,6 +357,11 @@ public class LogARequestView extends View
 
     //-------------------------------------------------------------
     protected void processTransaction() {
+        Pattern emailValidation = Pattern.compile("^([\\w \\._]+\\<[a-z0-9!#$%&'*+/=?^_`{|}~-]+" +
+                "(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a" +
+                "-z0-9](?:[a-z0-9-]*[a-z0-9])?\\>|[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%" +
+                "&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-" +
+                "]*[a-z0-9])?)$");
         Properties props = new Properties();
         if(netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH) {
             props.setProperty("RequesterNetid", netId.getText());
@@ -375,14 +381,14 @@ public class LogARequestView extends View
                     props.setProperty("RequesterFirstName", firstName.getText());
                     if(!lastName.getText().equals("") && lastName.getText().length() <= UiConstants.REQUESTED_LAST_NAME_MAX_LENGTH) {
                         props.setProperty("RequesterLastName", lastName.getText());
-                        if(email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH) {
+                        if(email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH && (!emailValidation.matcher(email.getText().toLowerCase()).matches())) {
                             props.setProperty("RequesterEmail", email.getText());
                             if(!email.getText().equals("") || !phoneNumber.getText().equals("")) {
                                 myModel.stateChangeRequest("ClothingRequestData", props);
                             } else
                                 displayErrorMessage("Phone number or email must be filled out.");
                         } else
-                            displayErrorMessage("Email exceeds max length of " + UiConstants.REQUESTED_EMAIL_MAX_LENGTH);
+                            displayErrorMessage("Invalid email entered.");
                     } else
                         displayErrorMessage("Please fill out Last Name");
                 } else

@@ -95,8 +95,9 @@ public class ClothingItem extends EntityBase implements IView {
 	public static int compare(ClothingItem a, ClothingItem b) {
 		String aVal = (String) a.getState("Description");
 		String bVal = (String) b.getState("Description");
-
-		return aVal.compareTo(bVal);
+		if(aVal != null && bVal != null)
+			return aVal.compareTo(bVal);
+		return 0;
 	}
 
 	//-----------------------------------------------------------------------------------

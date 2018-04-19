@@ -32,11 +32,13 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
+import model.ArticleType;
 import model.ClothingItem;
 import model.ClothingItemCollection;
 
@@ -46,6 +48,11 @@ public class ClothingItemCollectionView extends View
 	protected TableView<ClothingItemTableModel> tableOfClothingItems;
 	protected Button cancelButton;
 	protected Button submitButton;
+
+	// used to grab description to int for later selection
+	protected ArrayList<ArticleType> at;
+	protected ArrayList<model.Color> color1;
+	protected ArrayList<model.Color> color2;
 
 	protected MessageView statusLog;
 
@@ -74,6 +81,7 @@ public class ClothingItemCollectionView extends View
 	//--------------------------------------------------------------------------
 	protected void populateFields()
 	{
+		ClothingItemCollection cic = (ClothingItemCollection) myModel.getState("ClothingItemList");
 		getEntryTableModelValues();
 	}
 

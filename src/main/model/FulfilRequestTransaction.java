@@ -2,6 +2,9 @@
 package model;
 
 // system imports
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
@@ -82,7 +85,41 @@ public class FulfilRequestTransaction extends Transaction
         else
         if(key.equals("ClothingItemSelected") == true)
         {
+            try {
+                myClothingItem = new ClothingItem((String) value);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle((String) myClothingRequest.getState("RequesterNetid") + " Clothing Request");
+                alert.setContentText("Save?");
+                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+                alert.getButtonTypes().setAll(okButton, noButton);
+                alert.showAndWait().ifPresent(type -> {
+                    /* If the button text changes, change this. Quick draft */
+                    if (type.getText().equals("Yes")) {
+                        myClothingItem.stateChangeRequest("Status", "Received");
+                        myClothingRequest.stateChangeRequest("Status", "Fulfilled");
+                        Date date = new Date();
+                        String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                        myClothingItem.stateChangeRequest("DateTaken", modifiedDate);
+                        myClothingRequest.stateChangeRequest("RequestFulfilledDate", modifiedDate);
+                        myClothingItem.update();
+                        myClothingRequest.update();
 
+                        Alert conf = new Alert(Alert.AlertType.INFORMATION);
+                        conf.setTitle((String) myClothingRequest.getState("RequesterNetid") + " Clothing Request");
+                        conf.setContentText("Cool");
+                        conf.show();
+
+                        stateChangeRequest("OK", "");
+                    } else if (type.getText().equals("No")) {
+                        // do nothing
+                    }
+                });
+            } catch (InvalidPrimaryKeyException e) {
+                e.printStackTrace();
+            } catch (MultiplePrimaryKeysException e) {
+                e.printStackTrace();
+            }
         }
         if (key.equals("RequestSelected") == true)
         {
@@ -94,7 +131,7 @@ public class FulfilRequestTransaction extends Transaction
             try
             {
 
-                Scene newScene = createFulfillRequestView();
+                Scene newScene = createInventoryCollectionView();
 
                 swapToView(newScene);
 
@@ -175,14 +212,10 @@ public class FulfilRequestTransaction extends Transaction
     }
 
     //---------------------------------------------------------------
-        protected Scene createFulfillRequestView()
-        {
-          View newView = ViewFactory.createView("FulfillRequestView", this);
-          Scene currentScene = new Scene(newView);
-
-          return currentScene;
-        }
-
+    protected Scene createFulfillRequestTractionView()
+    {
+        return null;
+    }
 
     //----------------------------------------------------------------
     private void processFulfillRequestTransaction(Properties props)

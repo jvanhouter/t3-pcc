@@ -15,6 +15,30 @@ public class Utilities
 {
 
 	//----------------------------------------------------------
+	// developing method to reformat size for query optimization for approximating sizes based on input value
+	public static String rebufferSize(String size) {
+		if(size.matches("[0-9]+")) {
+
+		}
+		return size;
+	}
+
+	//----------------------------------------------------------
+	// great for query manipulation i.e appending AND then stripping the last AND
+	public static String replaceLast(String find, String replace, String string) {
+		int lastIndex = string.lastIndexOf(find);
+
+		if (lastIndex == -1) {
+			return string;
+		}
+
+		String beginString = string.substring(0, lastIndex);
+		String endString = string.substring(lastIndex + find.length());
+
+		return beginString + replace + endString;
+	}
+
+	//----------------------------------------------------------
 	public static String convertToDefaultDateFormat(Date theDate)
 	{
 

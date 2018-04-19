@@ -66,7 +66,7 @@ import model.Color;
 			String genderString = (String)myModel.getState("Gender");
 			if (genderString != null)
 			{
-				//genderCombo.setValue(genderString);
+				genderCombo.setValue(genderString);
 			}
 			String atString = (String)myModel.getState("ArticleType");
 			if(atString != null) {
