@@ -1,6 +1,7 @@
 package userinterface;
 
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -13,22 +14,23 @@ class PccButton extends Button {
 
     private void initialize() {
         this.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
+        this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 2px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
         this.setOnMouseEntered(e -> {
 //            grow();
-            hover();
+            this.setEffect(colorHover());
         });
         this.setOnMouseExited(e -> {
-            reset();
+            this.setEffect(normalColor());
 //            normal();
         });
         this.setOnMouseReleased(e -> {
 //            grow();
-            reset();
+            this.setEffect(normalColor());
         });
         this.setOnMousePressed(e -> {
 //            shrink();
-            clicked();
+           this.setEffect(colorClicked());
+
         });
 
     }
@@ -47,13 +49,28 @@ class PccButton extends Button {
         this.setScaleX(1.0);
         this.setScaleY(1.0);
     }
-    private void clicked(){
-        this.setStyle("-fx-border-color: #cc9402; -fx-border-width: 1px; -fx-background-color: #00200b; -fx-text-fill: #eeb615");
+    private ColorAdjust normalColor() {
+        ColorAdjust ca = new ColorAdjust();
+        ca.setSaturation(0);
+        ca.setBrightness(0);
+        ca.setContrast(0);
+
+        return ca;
     }
-    private void hover() {
-        this.setStyle("-fx-border-color: #eeb615; -fx-border-width: 1px; -fx-background-color: #00422d; -fx-text-fill: #eeb615");
+    private ColorAdjust colorHover() {
+        ColorAdjust ca = new ColorAdjust();
+        ca.setSaturation(-0.5);
+        ca.setContrast(-0.1);
+        ca.setBrightness(-0.2);
+
+        return ca;
     }
-    private void reset() {
-        this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
+    private ColorAdjust colorClicked() {
+        ColorAdjust ca = new ColorAdjust();
+        ca.setSaturation(-0.7);
+        ca.setContrast(-0.2);
+        ca.setBrightness(-0.3);
+
+        return ca;
     }
 }
