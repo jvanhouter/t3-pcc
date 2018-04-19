@@ -72,7 +72,7 @@ public class MessageView extends Text {
     public void display2ErrorMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error Dialog");
-        alert.setHeaderText("An error has occured ");
+        alert.setHeaderText("An error has occurred ");
         alert.setContentText(message);
 
         DialogPane dialogPane = alert.getDialogPane();

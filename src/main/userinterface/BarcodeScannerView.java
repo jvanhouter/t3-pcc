@@ -32,7 +32,7 @@ import Utilities.UiConstants;
 public class BarcodeScannerView extends View {
 
     // GUI components
-    protected TextField barcodePrefix;
+    protected TextField barcodeField;
     protected TextField description;
     protected TextField alphaCode;
 
@@ -86,27 +86,26 @@ public class BarcodeScannerView extends View {
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setPadding(new Insets(0, 25, 0, 25));
 
-        barcodePrefix = new TextField();
-        barcodePrefix.setOnAction(this::processAction);
-        grid.add(barcodePrefix, 0, 1, 4, 1);
-
-        HBox doneCont = new HBox(10);
-        doneCont.setAlignment(Pos.CENTER);
+        barcodeField = new TextField();
+        barcodeField.setOnAction(this::processAction);
+        barcodeField.setMaxWidth(Double.MAX_VALUE);
+        grid.add(barcodeField, 0, 1, 2, 1);
+        GridPane.setFillWidth(barcodeField, true);
         submitButton = new PccButton("Submit");
         submitButton.setOnAction(this::processAction);
-        doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
         cancelButton.setOnAction(e -> {
             clearErrorMessage();
             myModel.stateChangeRequest("CancelBarcodeSearch", null);
         });
-        doneCont.getChildren().add(cancelButton);
+
+        grid.add(submitButton, 0, 2);
+        grid.add(cancelButton, 1, 2);
 
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(doneCont);
 
         return vbox;
     }
@@ -114,13 +113,13 @@ public class BarcodeScannerView extends View {
     private void processAction(ActionEvent actionEvent) {
         clearErrorMessage();
         Properties props = new Properties();
-        String barcode = barcodePrefix.getText();
+        String barcode = barcodeField.getText();
         if ((barcode.length() > 0) && (barcode.length() <= UiConstants.BARCODE_MAX_LENGTH)) {
             if (barcode.substring(0, 1).equals("0") || (barcode.substring(0, 1).equals("1"))) {
                 PauseTransition pause = new PauseTransition(Duration.millis(100));
                 props.setProperty("Barcode", barcode);
                 displayMessage("Loading...");
-                barcodePrefix.setText("");
+                barcodeField.setText("");
                 pause.setOnFinished(event -> myModel.stateChangeRequest("ProcessBarcode", props));
                 pause.play();
 

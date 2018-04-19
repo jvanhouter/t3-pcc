@@ -98,6 +98,11 @@ public class AddArticleTypeView extends View
 		grid.add(barcodePrefixLabel, 0, 1);
 
 		barcodePrefix = new TextField();
+        barcodePrefix.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]{0,5}")) {
+                barcodePrefix.setText(oldValue);
+            }
+        });
 		grid.add(barcodePrefix, 1, 1);
 
 		Text descripLabel = new Text(" Description : ");
@@ -107,6 +112,11 @@ public class AddArticleTypeView extends View
 		grid.add(descripLabel, 0, 2);
 
 		description = new TextField();
+		description.textProperty().addListener((observable, oldValue, newValue) -> {
+		    if (!newValue.matches("[a-zA-Z0-9]{0,30}")) {
+		        description.setText(oldValue);
+            }
+		});
 		grid.add(description, 1, 2);
 
 		Text alphaCodeLabel = new Text(" Alpha Code : ");
@@ -116,6 +126,11 @@ public class AddArticleTypeView extends View
 		grid.add(alphaCodeLabel, 0, 3);
 
 		alphaCode = new TextField();
+		alphaCode.textProperty().addListener((observable, oldValue, newValue) -> {
+		    if (!newValue.matches("[a-zA-Z]{0,5}")) {
+                        alphaCode.setText(oldValue);
+		    }
+		});
 		grid.add(alphaCode, 1, 3);
 
 		HBox doneCont = new HBox(10);
