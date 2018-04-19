@@ -8,7 +8,6 @@ import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -77,7 +76,7 @@ public class BarcodeScannerView extends View {
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("Scan or manually enter clothing item barcode");
-        prompt.setWrappingWidth(getWrappingWidth());
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 14));

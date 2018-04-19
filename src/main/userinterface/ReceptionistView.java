@@ -4,18 +4,15 @@ package userinterface;
 // system imports
 
 import impresario.IModel;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 // project imports
 
@@ -51,29 +48,16 @@ public class ReceptionistView extends View {
 
     private MessageView statusLog;
 
-    /* Remove later --> Testing */
-
-    private PccButton testing;
-
-
     // constructor for this class -- takes a model object
 
     public ReceptionistView(IModel teller) {
         super(teller, "ReceptionistView");
 
-
         // create a container for showing the contents
-
-
         VBox container = getParentContainer();
 
-        /* container.setResizable(true); Swing call */
-//        container.setStyle("-fx-background-color: #708090;");
-//        container.setPadding(new Insets(50, 50, 50, 50));
-//
         // Add a title for this panel
         container.getChildren().add(createTitle());
-//        container.getChildren().add(actionText());
         // how do you add white space? regex \\s for space
         container.getChildren().add(new Label(" "));
 
@@ -99,6 +83,15 @@ public class ReceptionistView extends View {
     private VBox createFormContents() {
 
         VBox container = new VBox(15);
+        GridPane gridContainer = new GridPane();
+        gridContainer.setHgap(10);
+        gridContainer.setVgap(10);
+        gridContainer.setPadding(new Insets(0, 10, 0 ,10));
+
+        ColumnConstraints columnConstraints = new ColumnConstraints();
+        columnConstraints.setHalignment(HPos.RIGHT);
+        gridContainer.getColumnConstraints().add(columnConstraints);
+
 
         // create the buttons, listen for events, add them to the container
         HBox checkoutCont = new HBox(10);
@@ -107,94 +100,84 @@ public class ReceptionistView extends View {
         checkoutClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("CheckoutClothingItem", null));
         checkoutCont.getChildren().add(checkoutClothingItemButton);
 
-        container.getChildren().add(checkoutCont);
-
+        gridContainer.add(checkoutCont, 0, 0, 4, 1);
+        gridContainer.add(new Pane(), 0,1,4,1);
         // Article type choices
-        HBox articleTypeCont = new HBox(10);
-        articleTypeCont.setAlignment(Pos.CENTER);
-        Label atLabel = new Label("  Article Types:");
-        atLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        atLabel.setEffect(createDropShadow());
-        atLabel.setStyle("-fx-text-fill: #ffc726");
-        articleTypeCont.getChildren().add(atLabel);
-        addArticleTypeButton = new PccButton(" Add ");
+        Text atLabel = new Text("Article Types: ");
+        atLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
+//        atLabel.setStyle("-fx-text-fill: #ffc726");
+        atLabel.setFill(Color.web(APP_TEXT_COLOR));
+        addArticleTypeButton = new PccButton("Add");
         addArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("AddArticleType", null));
-        articleTypeCont.getChildren().add(addArticleTypeButton);
 
         updateArticleTypeButton = new PccButton("Update");
         updateArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("UpdateArticleType", null));
-        articleTypeCont.getChildren().add(updateArticleTypeButton);
 
         removeArticleTypeButton = new PccButton("Remove");
         removeArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("RemoveArticleType", null));
-        articleTypeCont.getChildren().add(removeArticleTypeButton);
-        container.getChildren().add(articleTypeCont);
+
+        gridContainer.add(atLabel, 0, 2);
+        gridContainer.add(addArticleTypeButton, 1, 2);
+        gridContainer.add(updateArticleTypeButton, 2, 2);
+        gridContainer.add(removeArticleTypeButton, 3, 2);
+
 
         // Color choices
-        HBox colorCont = new HBox(10);
-        colorCont.setAlignment(Pos.CENTER);
-        Label colorLabel = new Label("             Colors: ");
+        Label colorLabel = new Label("Colors: ");
         colorLabel.setStyle("-fx-text-fill: #ffc726");
-        colorLabel.setEffect(createDropShadow());
-        colorLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        colorCont.getChildren().add(colorLabel);
-        addColorButton = new PccButton(" Add ");
+        colorLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
+        addColorButton = new PccButton("Add");
         addColorButton.setOnAction(e -> myModel.stateChangeRequest("AddColor", null));
-        colorCont.getChildren().add(addColorButton);
 
         updateColorButton = new PccButton("Update");
         updateColorButton.setOnAction(e -> myModel.stateChangeRequest("UpdateColor", null));
-        colorCont.getChildren().add(updateColorButton);
 
         removeColorButton = new PccButton("Remove");
         removeColorButton.setOnAction(e -> myModel.stateChangeRequest("RemoveColor", null));
-        colorCont.getChildren().add(removeColorButton);
+
+        gridContainer.add(colorLabel, 0, 3);
+        gridContainer.add(addColorButton, 1, 3);
+        gridContainer.add(updateColorButton, 2, 3);
+        gridContainer.add(removeColorButton,3,3);
 
         // Clothing item choices
-        container.getChildren().add(colorCont);
-
-        HBox clothingItemCont = new HBox(10);
-        clothingItemCont.setAlignment(Pos.CENTER);
         Label ciLabel = new Label("Clothing Items: ");
-        ciLabel.setEffect(createDropShadow());
-        ciLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        ciLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
         ciLabel.setStyle("-fx-text-fill: #ffc726");
-        clothingItemCont.getChildren().add(ciLabel);
-        addClothingItemButton = new PccButton(" Add ");
+        addClothingItemButton = new PccButton("Add");
         addClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("AddClothingItem", null));
-        clothingItemCont.getChildren().add(addClothingItemButton);
 
         updateClothingItemButton = new PccButton("Update");
         updateClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("ModifyClothingItem", null));
-        clothingItemCont.getChildren().add(updateClothingItemButton);
 
         removeClothingItemButton = new PccButton("Remove");
         removeClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("RemoveClothingItem", null));
-        clothingItemCont.getChildren().add(removeClothingItemButton);
 
-        container.getChildren().add(clothingItemCont);
+        gridContainer.add(ciLabel, 0, 4);
+        gridContainer.add(addClothingItemButton, 1, 4);
+        gridContainer.add(updateClothingItemButton, 2, 4);
+        gridContainer.add(removeClothingItemButton, 3, 4);
+
 
         // Clothing item request
-        HBox requestCont = new HBox(10);
-        requestCont.setAlignment(Pos.CENTER);
-        Label reqLabel = new Label("         Requests: ");
-        reqLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        Label reqLabel = new Label("Requests: ");
+        reqLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
         reqLabel.setStyle("-fx-text-fill: #ffc726");
-        reqLabel.setEffect(createDropShadow());
-        requestCont.getChildren().add(reqLabel);
-        logRequestButton = new PccButton(" Log ");
+        logRequestButton = new PccButton("Log");
         logRequestButton.setOnAction(e -> myModel.stateChangeRequest("LogRequest", null));
-        requestCont.getChildren().add(logRequestButton);
 
-        fulfillRequestButton = new PccButton(" Fulfill ");
+        fulfillRequestButton = new PccButton("Fulfill");
         fulfillRequestButton.setOnAction(e -> myModel.stateChangeRequest("FulfillRequest", null));
-        requestCont.getChildren().add(fulfillRequestButton);
 
         removeRequestButton = new PccButton("Remove");
         removeRequestButton.setOnAction(e -> myModel.stateChangeRequest("RemoveRequest", null));
-        requestCont.getChildren().add(removeRequestButton);
 
-        container.getChildren().add(requestCont);
+        gridContainer.add(reqLabel, 0, 5);
+        gridContainer.add(logRequestButton, 1, 5);
+        gridContainer.add(fulfillRequestButton, 2, 5);
+        gridContainer.add(removeRequestButton, 3, 5);
+
+        gridContainer.add(new Pane(), 0, 6, 4,1);
 
         HBox listAvailCont = new HBox(10);
         listAvailCont.setAlignment(Pos.CENTER);
@@ -202,7 +185,7 @@ public class ReceptionistView extends View {
         listAvailableInventoryButton.setOnAction(e -> myModel.stateChangeRequest("ListAvailableInventory", null));
         listAvailCont.getChildren().add(listAvailableInventoryButton);
 
-        container.getChildren().add(listAvailCont);
+        gridContainer.add(listAvailCont,0, 7, 4, 1);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
@@ -210,6 +193,9 @@ public class ReceptionistView extends View {
         cancelButton.setOnAction(e -> myModel.stateChangeRequest("ExitSystem", null));
         doneCont.getChildren().add(cancelButton);
 
+        gridContainer.add(new Pane(),0,8);
+
+        container.getChildren().add(gridContainer);
         container.getChildren().add(doneCont);
 
         return container;

@@ -2,16 +2,12 @@
 package userinterface;
 
 // system imports
-import Utilities.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -21,7 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.util.Iterator;
 import java.util.Properties;
@@ -33,8 +28,6 @@ import javafx.util.StringConverter;
 import model.ArticleType;
 import model.Color;
 import Utilities.UiConstants;
-
-import javax.swing.*;
 
 /** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application
@@ -100,7 +93,7 @@ public class LogARequestView extends View
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("LOG REQUEST INFORMATION");
-        prompt.setWrappingWidth(getWrappingWidth());
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

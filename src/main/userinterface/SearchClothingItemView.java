@@ -1,16 +1,8 @@
 package userinterface;
 
 // system imports
-import javafx.event.Event;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -20,7 +12,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.util.Properties;
 
@@ -83,7 +74,7 @@ public class SearchClothingItemView extends View
 		VBox vbox = new VBox(10);
 		
 		Text prompt1 = new Text("Enter Barcode (if known)");
-        prompt1.setWrappingWidth(getWrappingWidth());
+        prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
 		prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -118,7 +109,7 @@ public class SearchClothingItemView extends View
 		vbox.getChildren().add(grid0);
 		//--------------------------------------------------------------------------//
 		Text prompt2 = new Text(" - Otherwise, enter other criteria below - ");
-        prompt2.setWrappingWidth(getWrappingWidth());
+        prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.BLACK);
 		prompt2.setFont(Font.font("Arial", FontWeight.BOLD, 18));

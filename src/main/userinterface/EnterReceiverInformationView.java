@@ -3,13 +3,10 @@ package userinterface;
 // system imports
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
@@ -20,8 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-import Utilities.Utilities;
+
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
@@ -134,8 +130,8 @@ public class EnterReceiverInformationView extends View {
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("Enter Recipient Information");
-        prompt.setWrappingWidth(getWrappingWidth());
+        PccText prompt = new PccText("Enter Recipient Information");
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

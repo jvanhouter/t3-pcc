@@ -30,9 +30,11 @@ public abstract class View extends Group
     protected IModel myModel;
     protected ControlRegistry myRegistry;
     protected VBox container;
-    protected Integer wrappingWidth = 400;
 
-
+    protected final Integer WRAPPING_WIDTH = 400;
+    protected static final String APP_FONT = "Roboto";
+    protected static final String APP_TEXT_COLOR="#ffc726";
+    
     // GUI components
 
 
@@ -44,58 +46,47 @@ public abstract class View extends Group
         myRegistry = new ControlRegistry(classname);
 
         container = new VBox(10);
-        container.setStyle("-fx-background-color: #708090");
+        container.setStyle("-fx-background-color: #647585");
         container.setPadding(new Insets(50, 50, 50, 50));
-//        container.getChildren().add(createTitle());
     }
     VBox getParentContainer() {
         return container;
-    }
-
-    Integer getWrappingWidth() {
-        return wrappingWidth;
     }
 
     Node createTitle() {
         VBox container = new VBox(10);
 
         Text clientText = new Text("Office of Career Services");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(getWrappingWidth());
+        clientText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 24));
+        clientText.setWrappingWidth(WRAPPING_WIDTH);
         clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setEffect(createDropShadow());
-        clientText.setFill(Color.web("#ffc726"));
+        clientText.setFill(Color.web(APP_TEXT_COLOR));
         container.getChildren().add(clientText);
 
         Text collegeText = new Text("THE COLLEGE AT BROCKPORT");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(getWrappingWidth());
+        collegeText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 20));
+        collegeText.setWrappingWidth(WRAPPING_WIDTH);
         collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setEffect(createDropShadow());
-        collegeText.setFill(Color.web("#ffc726"));
+        collegeText.setFill(Color.web(APP_TEXT_COLOR));
         container.getChildren().add(collegeText);
 
         Text titleText = new Text("Professional Clothes Closet Management System");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(getWrappingWidth());
+        titleText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 20));
+        titleText.setWrappingWidth(WRAPPING_WIDTH);
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setEffect(createDropShadow());
-        titleText.setFill(Color.web("#ffc726"));
+        titleText.setFill(Color.web(APP_TEXT_COLOR));
         container.getChildren().add(titleText);
 
         Text blankText = new Text(" ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(getWrappingWidth());
-        blankText.setTextAlignment(TextAlignment.CENTER);
+        blankText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 24));
         blankText.setFill(Color.WHITE);
         container.getChildren().add(blankText);
 
         Text actionText = new Text(getActionText());
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(getWrappingWidth());
+        actionText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        actionText.setWrappingWidth(WRAPPING_WIDTH);
         actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.web("#ffc726"));
-        actionText.setEffect(createDropShadow());
+        actionText.setFill(Color.web(APP_TEXT_COLOR));
         container.getChildren().add(actionText);
         return container;
     }
@@ -104,31 +95,18 @@ public abstract class View extends Group
         return " ";
     }
 
-    DropShadow createDropShadow() {
-        DropShadow ds = new DropShadow();
-        ds.setRadius(5.0);
-        ds.setOffsetX(3.0);
-        ds.setOffsetY(3.0);
-        return ds;
-    }
-
     public void setRegistry(ControlRegistry registry) {
         myRegistry = registry;
     }
 
     // Allow models to register for state updates
-
     public void subscribe(String key, IModel subscriber) {
         myRegistry.subscribe(key, subscriber);
     }
 
-
     // Allow models to unregister for state updates
-
     public void unSubscribe(String key, IModel subscriber) {
         myRegistry.unSubscribe(key, subscriber);
     }
-
-
 }
 

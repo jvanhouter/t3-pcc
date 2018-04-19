@@ -10,8 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -88,7 +86,7 @@ public class AddClothingItemView extends View {
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("CLOTHING ITEM INFORMATION");
-        prompt.setWrappingWidth(getWrappingWidth());
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));

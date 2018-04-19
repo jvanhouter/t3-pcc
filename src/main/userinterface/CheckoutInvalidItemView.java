@@ -1,28 +1,17 @@
 package userinterface;
 
 // system imports
-import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-
-import java.util.Properties;
 
 // project imports
 import impresario.IModel;
@@ -79,7 +68,7 @@ public class CheckoutInvalidItemView extends View {
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("The Clothing Item associated with this barcode can not be checked out.");
-        prompt.setWrappingWidth(getWrappingWidth());
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 16));
