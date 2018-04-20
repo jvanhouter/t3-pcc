@@ -229,10 +229,15 @@ public class ClothingItemCollectionView extends View
 		brandColumn.setCellValueFactory(
 				new PropertyValueFactory<ClothingItemTableModel, String>("brand"));
 
-		TableColumn donorInfoColumn = new TableColumn("Donor Info") ;
-		donorInfoColumn.setMinWidth(50);
-		donorInfoColumn.setCellValueFactory(
-				new PropertyValueFactory<ClothingItemTableModel, String>("donorInformation"));
+		TableColumn donorFirstNameColumn = new TableColumn("Donor First Name") ;
+		donorFirstNameColumn.setMinWidth(50);
+		donorFirstNameColumn.setCellValueFactory(
+				new PropertyValueFactory<ClothingItemTableModel, String>("donorFirstName"));
+
+		TableColumn donorLastNameColumn = new TableColumn("Donor Last Name") ;
+		donorLastNameColumn.setMinWidth(50);
+		donorLastNameColumn.setCellValueFactory(
+				new PropertyValueFactory<ClothingItemTableModel, String>("donorLastName"));
 
 		TableColumn notesColumn = new TableColumn("Notes") ;
 		notesColumn.setMinWidth(50);
@@ -240,7 +245,7 @@ public class ClothingItemCollectionView extends View
 				new PropertyValueFactory<ClothingItemTableModel, String>("notes"));
 
 		tableOfClothingItems.getColumns().addAll(barcodeColumn,
-				genderColumn, sizeColumn, colorOneColumn, colorTwoColumn, articleTypeColumn, brandColumn, donorInfoColumn, notesColumn);
+				genderColumn, sizeColumn, colorOneColumn, colorTwoColumn, articleTypeColumn, brandColumn, donorFirstNameColumn, donorLastNameColumn, notesColumn);
 
 		tableOfClothingItems.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
