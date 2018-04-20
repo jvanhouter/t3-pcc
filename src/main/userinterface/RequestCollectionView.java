@@ -1,6 +1,8 @@
 package userinterface;
 
 // system imports
+import Utilities.UiConstants;
+import Utilities.Utilities;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,10 +49,6 @@ public class RequestCollectionView extends View
     protected Button cancelButton;
     //protected Button submitButton;
 
-    protected HashMap<String, String> at;
-    protected HashMap<String, String> color1;
-    protected HashMap<String, String> color2;
-
     protected MessageView statusLog;
 
 
@@ -78,51 +76,15 @@ public class RequestCollectionView extends View
     //--------------------------------------------------------------------------
     protected void populateFields()
     {
-        linkData();
         getEntryTableModelValues();
     }
 
     //--------------------------------------------------------------------------
     private void refactor(RequestTableModel ctm)
     {
-        ctm.setArticleType(at.get(ctm.getArticleType()));
-        ctm.setColor1(color1.get(ctm.getColor1()));
-        ctm.setColor2(color2.get(ctm.getColor2()));
-    }
-
-    //--------------------------------------------------------------------------
-    private void linkData()
-    {
-        at = new HashMap<>();
-        color1 = new HashMap<>();
-        color2 = new HashMap<>();
-        ArticleTypeCollection atc = new ArticleTypeCollection();
-        atc.findAll();
-        ColorCollection colors = new ColorCollection();
-        colors.findAll();
-        Vector entryList = (Vector)atc.getState("ArticleTypes");
-        if (entryList.size() > 0)
-        {
-            Enumeration entries = entryList.elements();
-
-            while (entries.hasMoreElements() == true)
-            {
-                ArticleType nextAT = (ArticleType) entries.nextElement();
-                at.put((String) nextAT.getState("ID"), (String) nextAT.getState("Description"));
-            }
-        }
-        Vector colorEntryList = (Vector)colors.getState("ColorTypes");
-        if (colorEntryList.size() > 0)
-        {
-            Enumeration entries = colorEntryList.elements();
-
-            while (entries.hasMoreElements() == true)
-            {
-                model.Color nextCT = (model.Color) entries.nextElement();
-                color1.put((String) nextCT.getState("ID"), (String) nextCT.getState("Description"));
-                color2.put((String) nextCT.getState("ID"), (String) nextCT.getState("Description"));
-            }
-        }
+        ctm.setArticleType(Utilities.collectArticleTypeHash().get(ctm.getArticleType()));
+        ctm.setColor1(Utilities.collectColorHash().get(ctm.getColor1()));
+        ctm.setColor2(Utilities.collectColorHash().get(ctm.getColor2()));
     }
 
     //--------------------------------------------------------------------------
@@ -147,6 +109,8 @@ public class RequestCollectionView extends View
 
                     // add this list entry to the list
                     RequestTableModel nextTableRowData = new RequestTableModel(view);
+                    if(nextTableRowData.getSize().equals("" + UiConstants.GENERIC_SIZE))
+                        nextTableRowData.setSize("");
                     refactor(nextTableRowData);
                     tableData.add(nextTableRowData);
 

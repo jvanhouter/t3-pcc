@@ -381,22 +381,26 @@ public class LogARequestView extends View
                     props.setProperty("RequesterFirstName", firstName.getText());
                     if(!lastName.getText().equals("") && lastName.getText().length() <= UiConstants.REQUESTED_LAST_NAME_MAX_LENGTH) {
                         props.setProperty("RequesterLastName", lastName.getText());
-                        if(email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH && (emailValidation.matcher(email.getText().toLowerCase()).matches())) {
+                        if(email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH) {
                                 props.setProperty("RequesterEmail", email.getText());
                             if(!email.getText().equals("") || !phoneNumber.getText().equals("")) {
+                                if(!email.getText().equals("") && !(emailValidation.matcher(email.getText().toLowerCase()).matches())) {
+                                    displayErrorMessage("Invalid email entered.");
+                                    return;
+                                }
                                 myModel.stateChangeRequest("ClothingRequestData", props);
                             } else
                                 displayErrorMessage("Phone number or email must be filled out.");
                         } else
-                            displayErrorMessage("Invalid email entered.");
+                            displayErrorMessage("Email exceeds " + UiConstants.REQUESTED_EMAIL_MAX_LENGTH + " characters.");
                     } else
-                        displayErrorMessage("Please fill out Last Name");
+                        displayErrorMessage("Please fill out Last Name.");
                 } else
-                    displayErrorMessage("Please fill out First Name");
+                    displayErrorMessage("Please fill out First Name.");
             } else
-                displayErrorMessage("Phone number exceeds 12 digits");
+                displayErrorMessage("Phone number exceeds 12 digits.");
         } else
-            displayErrorMessage("Invalid net id");
+            displayErrorMessage("Invalid net id.");
     }
 
     // Create the status log field

@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import Utilities.Utilities;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.Properties;
@@ -14,6 +15,8 @@ import exception.MultiplePrimaryKeysException;
 import Utilities.UiConstants;
 import userinterface.View;
 import userinterface.ViewFactory;
+
+import javax.rmi.CORBA.Util;
 
 /** The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application */
 //==============================================================
@@ -88,10 +91,13 @@ public class AddArticleTypeTransaction extends Transaction
 						}
 						else
 						{
-								props.setProperty("Status", "Active");
-								myArticleType = new ArticleType(props);
-								myArticleType.update();
-								transactionErrorMessage = (String)myArticleType.getState("UpdateStatusMessage");
+							props.setProperty("Status", "Active");
+							myArticleType = new ArticleType(props);
+							myArticleType.update();
+							// set after update on error.
+							System.out.println((String) myArticleType.getState("ID"));
+							Utilities.putArticleTypeHash((String) myArticleType.getState("ID"), props.getProperty("Description"));
+							transactionErrorMessage = (String)myArticleType.getState("UpdateStatusMessage");
 						}
 					}
 				}

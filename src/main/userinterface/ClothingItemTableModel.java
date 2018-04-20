@@ -158,6 +158,6 @@ public class ClothingItemTableModel
     //----------------------------------------------------------------------------
     public void setSize(String sizeString)
     {
-    	notes.set(sizeString);
+    	size.set(sizeString);
     }
 }

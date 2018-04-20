@@ -3,6 +3,7 @@ package model;
 
 // system imports
 
+import Utilities.Utilities;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.Properties;
@@ -100,6 +101,8 @@ public class AddColorTransaction extends Transaction
 
                             myColor = new Color(props);
                             myColor.update();
+                            // set after update on error.
+                            Utilities.putColorHash((String) myColor.getState("ID"), props.getProperty("Description"));
                             transactionErrorMessage = (String) myColor.getState("UpdateStatusMessage");
                         }
                     }

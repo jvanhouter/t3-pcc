@@ -2,10 +2,13 @@
 package Utilities;
 
 // system imports
+import model.ArticleType;
+import model.ArticleTypeCollection;
+import model.ColorCollection;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 // project imports
 
@@ -13,6 +16,97 @@ import java.util.Date;
 //==============================================================
 public class Utilities
 {
+	// Hash String, String maps to ID, Description
+	private static HashMap<String, String> articleTypeHash;
+	private static HashMap<String, String> colorHash;
+
+	public static void putColorHash(String id, String description)
+	{
+		if(colorHash == null)
+		{
+			colorHash = new HashMap<>();
+			ColorCollection colors = new ColorCollection();
+			colors.findAll();
+			Vector colorEntryList = (Vector)colors.getState("ColorTypes");
+			if (colorEntryList.size() > 0)
+			{
+				Enumeration entries = colorEntryList.elements();
+
+				while (entries.hasMoreElements() == true)
+				{
+					model.Color nextCT = (model.Color) entries.nextElement();
+					colorHash.put((String) nextCT.getState("ID"), (String) nextCT.getState("Description"));
+				}
+			}
+		}
+		colorHash.put(id, description);
+	}
+
+	public static void putArticleTypeHash(String id, String description)
+	{
+		if(articleTypeHash == null)
+		{
+			articleTypeHash = new HashMap<>();
+			ArticleTypeCollection atc = new ArticleTypeCollection();
+			atc.findAll();
+			Vector entryList = (Vector)atc.getState("ArticleTypes");
+			if (entryList.size() > 0)
+			{
+				Enumeration entries = entryList.elements();
+
+				while (entries.hasMoreElements() == true)
+				{
+					ArticleType nextAT = (ArticleType) entries.nextElement();
+					articleTypeHash.put((String) nextAT.getState("ID"), (String) nextAT.getState("Description"));
+				}
+			}
+		}
+		articleTypeHash.put(id, description);
+	}
+
+	public static HashMap<String, String> collectColorHash()
+	{
+		if(colorHash == null)
+		{
+			colorHash = new HashMap<>();
+			ColorCollection colors = new ColorCollection();
+			colors.findAll();
+			Vector colorEntryList = (Vector)colors.getState("ColorTypes");
+			if (colorEntryList.size() > 0)
+			{
+				Enumeration entries = colorEntryList.elements();
+
+				while (entries.hasMoreElements() == true)
+				{
+					model.Color nextCT = (model.Color) entries.nextElement();
+					colorHash.put((String) nextCT.getState("ID"), (String) nextCT.getState("Description"));
+				}
+			}
+		}
+		return colorHash;
+	}
+
+	public static HashMap<String, String> collectArticleTypeHash()
+	{
+		if(articleTypeHash == null)
+		{
+			articleTypeHash = new HashMap<>();
+			ArticleTypeCollection atc = new ArticleTypeCollection();
+			atc.findAll();
+			Vector entryList = (Vector)atc.getState("ArticleTypes");
+			if (entryList.size() > 0)
+			{
+				Enumeration entries = entryList.elements();
+
+				while (entries.hasMoreElements() == true)
+				{
+					ArticleType nextAT = (ArticleType) entries.nextElement();
+					articleTypeHash.put((String) nextAT.getState("ID"), (String) nextAT.getState("Description"));
+				}
+			}
+		}
+		return articleTypeHash;
+	}
 
 	//----------------------------------------------------------
 	// developing method to reformat size for query optimization for approximating sizes based on input value

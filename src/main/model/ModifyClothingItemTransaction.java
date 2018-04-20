@@ -80,115 +80,31 @@ public class ModifyClothingItemTransaction extends Transaction {
      */
     //--------------------------------------------------------------------------
     private void clothingItemModificationHelper(Properties props) {
-        String barcode = props.getProperty("Barcode");
-        if (barcode.length() > UiConstants.BARCODE_MAX_LENGTH)    //needs to be changed to proper length.
-        {
-            transactionErrorMessage = "ERROR: barcode too long! ";
-        } else if (barcode.length() <= 0)    //needs to be changed to proper length.
-        {
-            transactionErrorMessage = "ERROR: Please enter barcode";
-        } else {
-            String gender = props.getProperty("Gender");
-            if (gender.length() > UiConstants.GENDER_MAX_LENGTH) {
-                transactionErrorMessage = "ERROR: Gender too long (max length = 5)! ";
-            } else if (gender.length() <= 0) {
-                transactionErrorMessage = "Please Enter Gender ";
-            } else {
-                String articleType = props.getProperty("ArticleType");
-                if (articleType.length() > UiConstants.AT_DESCRIPTION_MAX_LENGTH)    //needs to be changed to proper length.
-                {
-                    transactionErrorMessage = "ERROR: ArticleType too long! ";
-                }
-                if (articleType.length() <= 0)    //needs to be changed to proper length.
-                {
-                    transactionErrorMessage = "Please enter Article Type ";
-                } else {
-                    String color1 = props.getProperty("Color1");
-                    if (color1.length() > UiConstants.COLOR_DESCRIPTION_MAX_LENGTH)    //needs to be changed to proper length.
-                    {
-                        transactionErrorMessage = "ERROR: Color1 too long! ";
-                    } else if (color1.length() <= 0)    //needs to be changed to proper length.
-                    {
-                        transactionErrorMessage = "Please enter a a color ";
-                    } else {
-                        String color2 = props.getProperty("Color2");
-                        if (color2.length() > UiConstants.COLOR_DESCRIPTION_MAX_LENGTH)    //needs to be changed to proper length.
-                        {
-                            transactionErrorMessage = "ERROR: Color2 too long! ";
-                        } else {
-                            String brand = props.getProperty("Brand");
-                            if (brand.length() > UiConstants.BRAND_MAX_LENGTH)    //needs to be changed to proper length.
-                            {
-                                transactionErrorMessage = "ERROR: Brand too long! ";
-                            } else if (brand.length() <= 0)    //needs to be changed to proper length.
-                            {
-                                transactionErrorMessage = "Please enter a brand ";
-                            } else {
-                                String donorFirstName = props.getProperty("DonorFirstName");
-                                if (donorFirstName.length() > UiConstants.DONOR_FIRST_NAME_MAX_LENGTH)    //needs to be changed to proper length.
-                                {
-                                    transactionErrorMessage = "ERROR: Donor First Name too long! ";
-                                } else
-                                if (donorFirstName.length() <= 0)    //needs to be changed to proper length.
-                                {
-                                    transactionErrorMessage = "Please enter Donor First Name ";
-                                } else {
-                                    String donorLastName = props.getProperty("DonorLastName");
-                                    if (donorLastName.length() > UiConstants.DONOR_LAST_NAME_MAX_LENGTH)    //needs to be changed to proper length.
-                                    {
-                                        transactionErrorMessage = "ERROR: Donor Last Name too long! ";
-                                    } else
-                                    if (donorLastName.length() <= 0)    //needs to be changed to proper length.
-                                    {
-                                        transactionErrorMessage = "Please enter Donor Last Name ";
-                                    } else {
-                                        String donorPhone = props.getProperty("DonorPhone");
-                                        if (donorPhone.length() > UiConstants.DONOR_PHONE_MAX_LENGTH)    //needs to be changed to proper length.
-                                        {
-                                            transactionErrorMessage = "ERROR: Donor Phone Number too long! ";
-                                        } else {
-                                            String donorEmail = props.getProperty("DonorEmail");
-                                            if (donorEmail.length() > UiConstants.DONOR_EMAIL_MAX_LENGTH)    //needs to be changed to proper length.
-                                            {
-                                                transactionErrorMessage = "ERROR: Donor Email too long! ";
-                                            } else {
-                                                String notes = props.getProperty("Notes");
-                                                if (notes.length() > UiConstants.NOTES_MAX_LENGTH)    //needs to be changed to proper length.
-                                                {
-                                                    transactionErrorMessage = "ERROR: notes too long! ";
-                                                } else {
 
-
-                                                    // Everything OK
-                                                    try {
-                                                        ClothingItem insertItem = new ClothingItem(barcode);
-                                                        insertItem.stateChangeRequest("Barcode", barcode);
-                                                        insertItem.stateChangeRequest("Gender", gender);
-                                                        insertItem.stateChangeRequest("ArticleType", articleType);
-                                                        insertItem.stateChangeRequest("Color1", color1);
-                                                        insertItem.stateChangeRequest("Color2", color2);
-                                                        insertItem.stateChangeRequest("Brand", brand);
-                                                        insertItem.stateChangeRequest("DonorFirstName", donorFirstName);
-                                                        insertItem.stateChangeRequest("DonorLastName", donorLastName);
-                                                        insertItem.stateChangeRequest("DonorEmail", donorEmail);
-                                                        insertItem.stateChangeRequest("DonorPhone", donorPhone);
-                                                        insertItem.stateChangeRequest("Notes", notes);
-                                                        insertItem.update();
-                                                        transactionErrorMessage = (String) insertItem.getState("UpdateStatusMessage");
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        // Everything OK
+        try {
+            ClothingItem insertItem = new ClothingItem(props.getProperty("Barcode"));
+            insertItem.stateChangeRequest("Barcode", props.getProperty("Barcode"));
+            insertItem.stateChangeRequest("Gender", props.getProperty("Gender"));
+            insertItem.stateChangeRequest("ArticleType", props.getProperty("ArticleType"));
+            insertItem.stateChangeRequest("Color1", props.getProperty("Color1"));
+            insertItem.stateChangeRequest("Color2", props.getProperty("Color2"));
+            insertItem.stateChangeRequest("Brand", props.getProperty("Brand"));
+            insertItem.stateChangeRequest("DonorFirstName", props.getProperty("DonorFirstName"));
+            insertItem.stateChangeRequest("DonorLastName", props.getProperty("DonorLastName"));
+            insertItem.stateChangeRequest("DonorEmail", props.getProperty("DonorEmail"));
+            insertItem.stateChangeRequest("DonorPhone", props.getProperty("DonorPhone"));
+            insertItem.stateChangeRequest("Notes", props.getProperty("Notes"));
+            if(props.getProperty("Size").equals(""))
+                insertItem.stateChangeRequest("Size", "" + UiConstants.GENERIC_SIZE);
+            else
+                insertItem.stateChangeRequest("Size", props.getProperty("Size"));
+            insertItem.update();
+            transactionErrorMessage = (String) insertItem.getState("UpdateStatusMessage");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     /**
