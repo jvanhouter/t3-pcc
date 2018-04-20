@@ -201,6 +201,7 @@ public class ArticleType extends EntityBase implements IView
 	{
 		Vector<String> v = new Vector<String>();
 
+		//v.addElement(persistentState.getProperty("ID"));
 		v.addElement(persistentState.getProperty("BarcodePrefix"));
 		v.addElement(persistentState.getProperty("Description"));
 		v.addElement(persistentState.getProperty("AlphaCode"));

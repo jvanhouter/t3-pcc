@@ -381,8 +381,8 @@ public class LogARequestView extends View
                     props.setProperty("RequesterFirstName", firstName.getText());
                     if(!lastName.getText().equals("") && lastName.getText().length() <= UiConstants.REQUESTED_LAST_NAME_MAX_LENGTH) {
                         props.setProperty("RequesterLastName", lastName.getText());
-                        if(email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH && (!emailValidation.matcher(email.getText().toLowerCase()).matches())) {
-                            props.setProperty("RequesterEmail", email.getText());
+                        if(email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH && (emailValidation.matcher(email.getText().toLowerCase()).matches())) {
+                                props.setProperty("RequesterEmail", email.getText());
                             if(!email.getText().equals("") || !phoneNumber.getText().equals("")) {
                                 myModel.stateChangeRequest("ClothingRequestData", props);
                             } else

@@ -32,15 +32,11 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Vector;
-import java.util.Enumeration;
+import java.util.*;
 
 // project imports
 import impresario.IModel;
-import model.ArticleType;
-import model.ClothingItem;
-import model.ClothingItemCollection;
+import model.*;
 
 //==============================================================================
 public class ClothingItemCollectionView extends View
@@ -50,9 +46,9 @@ public class ClothingItemCollectionView extends View
 	protected Button submitButton;
 
 	// used to grab description to int for later selection
-	protected ArrayList<ArticleType> at;
-	protected ArrayList<model.Color> color1;
-	protected ArrayList<model.Color> color2;
+	protected HashMap<String, String> at;
+	protected HashMap<String, String> color1;
+	protected HashMap<String, String> color2;
 
 	protected MessageView statusLog;
 
@@ -82,7 +78,51 @@ public class ClothingItemCollectionView extends View
 	protected void populateFields()
 	{
 		ClothingItemCollection cic = (ClothingItemCollection) myModel.getState("ClothingItemList");
+		linkData();
 		getEntryTableModelValues();
+	}
+
+	//--------------------------------------------------------------------------
+	private void refactor(ClothingItemTableModel ctm)
+	{
+		ctm.setArticleType(at.get(ctm.getArticleType()));
+		ctm.setColor1(color1.get(ctm.getColor1()));
+		ctm.setColor2(color2.get(ctm.getColor2()));
+	}
+
+	//--------------------------------------------------------------------------
+	private void linkData()
+	{
+		at = new HashMap<>();
+		color1 = new HashMap<>();
+		color2 = new HashMap<>();
+		ArticleTypeCollection atc = new ArticleTypeCollection();
+		atc.findAll();
+		ColorCollection colors = new ColorCollection();
+		colors.findAll();
+		Vector entryList = (Vector)atc.getState("ArticleTypes");
+		if (entryList.size() > 0)
+		{
+			Enumeration entries = entryList.elements();
+
+			while (entries.hasMoreElements() == true)
+			{
+				ArticleType nextAT = (ArticleType) entries.nextElement();
+				at.put((String) nextAT.getState("ID"), (String) nextAT.getState("Description"));
+			}
+		}
+		Vector colorEntryList = (Vector)colors.getState("ColorTypes");
+		if (colorEntryList.size() > 0)
+		{
+			Enumeration entries = colorEntryList.elements();
+
+			while (entries.hasMoreElements() == true)
+			{
+				model.Color nextCT = (model.Color) entries.nextElement();
+				color1.put((String) nextCT.getState("ID"), (String) nextCT.getState("Description"));
+				color2.put((String) nextCT.getState("ID"), (String) nextCT.getState("Description"));
+			}
+		}
 	}
 
 	//--------------------------------------------------------------------------
@@ -107,6 +147,7 @@ public class ClothingItemCollectionView extends View
 
 					// add this list entry to the list
 					ClothingItemTableModel nextTableRowData = new ClothingItemTableModel(view);
+					refactor(nextTableRowData);
 					tableData.add(nextTableRowData);
 
 				}

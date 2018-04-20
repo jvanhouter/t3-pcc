@@ -87,9 +87,9 @@ public class FulfilRequestTransaction extends Transaction
         {
             try {
                 myClothingItem = new ClothingItem((String) value);
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.NONE);
                 alert.setTitle((String) myClothingRequest.getState("RequesterNetid") + " Clothing Request");
-                alert.setContentText("Save?");
+                alert.setContentText(constructAlertConflicts(myClothingRequest, myClothingItem));
                 ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
                 ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
                 alert.getButtonTypes().setAll(okButton, noButton);
@@ -218,6 +218,18 @@ public class FulfilRequestTransaction extends Transaction
     }
 
     //----------------------------------------------------------------
+    private String constructAlertConflicts(ClothingRequest cr, ClothingItem ci)
+    {
+        StringBuilder sb = new StringBuilder("");
+        if(!((String) cr.getState("RequestedColor1")).equals((String) ci.getState("Color1"))) {
+            sb.append("------------------------\nRequested Primary Color: " + (String) cr.getState("RequestedColor1") + "\nSelected Primary Color: " + (String) ci.getState("Color1"));
+        }
+        sb.insert(0,"Requester Netid: " + cr.getState("RequesterNetid") + "\n");
+
+        return sb.toString();
+    }
+    /*
+    //----------------------------------------------------------------
     private void processFulfillRequestTransaction(Properties props)
     {
         //--
@@ -241,6 +253,6 @@ public class FulfilRequestTransaction extends Transaction
             myClothingRequest.update();
             transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
         }
-    }
+    }*/
 
 }
