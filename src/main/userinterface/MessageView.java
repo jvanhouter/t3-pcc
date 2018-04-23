@@ -39,7 +39,7 @@ public class MessageView extends Text {
             setText(message);
         } else {
             Alert information = new Alert(Alert.AlertType.INFORMATION);
-            information.setTitle("Brockport Professional Clothes Closet Info");
+            information.setTitle("Brockport Professional Clothes Closet");
             information.setContentText(message);
             information.show();
 //        setFill(Color.BLUE);
@@ -54,7 +54,7 @@ public class MessageView extends Text {
         // display the passed text in red
         Alert errorMessage = new Alert(Alert.AlertType.ERROR);
 
-        errorMessage.setTitle("Brockport Professional Clothes Closet Error");
+        errorMessage.setTitle("Brockport Professional Clothes Closet");
         errorMessage.setContentText(message);
         errorMessage.show();
 

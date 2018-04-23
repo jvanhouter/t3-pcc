@@ -2,6 +2,8 @@
 package userinterface;
 
 // system imports
+
+import impresario.IModel;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -10,17 +12,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-
-// project imports
-import impresario.IModel;
 import model.Alert;
 
-/** The class containing the Add Article Type View  for the Professional Clothes
- *  Closet application
+// project imports
+
+/**
+ * The class containing the Add Article Type View  for the Professional Clothes
+ * Closet application
  */
 //==============================================================
-public class RemoveRequestView extends View
-{
+public class RemoveRequestView extends View {
 
     protected PccButton submitButton;
     protected PccButton cancelButton;
@@ -30,8 +31,7 @@ public class RemoveRequestView extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public RemoveRequestView(IModel at)
-    {
+    public RemoveRequestView(IModel at) {
         super(at, "RemoveRequestView");
 
         // create a container for showing the contents
@@ -56,15 +56,13 @@ public class RemoveRequestView extends View
 
     //-------------------------------------------------------------
     @Override
-    protected String getActionText()
-    {
+    protected String getActionText() {
         return "** Remove Request **";
     }
 
     // Create the main form content
     //-------------------------------------------------------------
-    private VBox createFormContent()
-    {
+    private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
         Text prompt1 = new Text("Are you sure you wish to remove this request");
@@ -78,14 +76,10 @@ public class RemoveRequestView extends View
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Yes");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+        submitButton.setOnAction(e -> {
 
-            @Override
-            public void handle(ActionEvent e) {
-
-                myModel.stateChangeRequest("RemoveRequest", null);
-                myModel.stateChangeRequest("OK", "");
-            }
+            myModel.stateChangeRequest("RemoveRequest", null);
+            myModel.stateChangeRequest("OK", "");
         });
 
         doneCont.getChildren().add(submitButton);
@@ -106,16 +100,14 @@ public class RemoveRequestView extends View
 
     // Create the status log field
     //-------------------------------------------------------------
-    protected MessageView createStatusLog(String initialMessage)
-    {
+    protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
     //-------------------------------------------------------------
-    public void populateFields()
-    {
+    public void populateFields() {
 
     }
 
@@ -123,19 +115,14 @@ public class RemoveRequestView extends View
      * Update method
      */
     //---------------------------------------------------------
-    public void updateState(String key, Object value)
-    {
+    public void updateState(String key, Object value) {
         clearErrorMessage();
 
-        if (key.equals("TransactionError") )
-        {
-            String val = (String)value;
-            if (val.startsWith("ERR") )
-            {
+        if (key.equals("TransactionError")) {
+            String val = (String) value;
+            if (val.startsWith("ERR")) {
                 displayErrorMessage(val);
-            }
-            else
-            {
+            } else {
                 displayMessage(val);
             }
 
@@ -146,8 +133,7 @@ public class RemoveRequestView extends View
      * Display error message
      */
     //----------------------------------------------------------
-    public void displayErrorMessage(String message)
-    {
+    public void displayErrorMessage(String message) {
         Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
         alert.displayErrorMessage(message);
         //statusLog.displayErrorMessage(message);
@@ -157,8 +143,7 @@ public class RemoveRequestView extends View
      * Display info message
      */
     //----------------------------------------------------------
-    public void displayMessage(String message)
-    {
+    public void displayMessage(String message) {
         Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
         alert.displayMessage(message);
         //statusLog.displayMessage(message);
@@ -168,8 +153,7 @@ public class RemoveRequestView extends View
      * Clear error message
      */
     //----------------------------------------------------------
-    public void clearErrorMessage()
-    {
+    public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 

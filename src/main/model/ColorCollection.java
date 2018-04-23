@@ -149,7 +149,7 @@ public class ColorCollection  extends EntityBase implements IView
     //----------------------------------------------------------
     public Object getState(String key)
     {
-        if (key.equals("ColorTypes"))
+        if (key.equals("Colors"))
             return colors;
         else
         if (key.equals("ColorList"))
