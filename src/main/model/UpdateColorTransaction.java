@@ -27,13 +27,13 @@ public class UpdateColorTransaction extends Transaction {
      * Constructor for this class.
      *
      */
-    //----------------------------------------------------------
+
     public UpdateColorTransaction() throws Exception
     {
         super();
     }
 
-    //----------------------------------------------------------
+
     protected void setDependencies()
     {
         dependencies = new Properties();
@@ -47,7 +47,7 @@ public class UpdateColorTransaction extends Transaction {
     /**
      * This method encapsulates all the logic of creating the article type collection and showing the view
      */
-    //----------------------------------------------------------
+
     public void processTransaction(Properties props)
     {
         myColorList = new ColorCollection();
@@ -71,7 +71,7 @@ public class UpdateColorTransaction extends Transaction {
     /**
      * Helper method for color type update
      */
-    //--------------------------------------------------------------------------
+
     private void colorModificationHelper(Properties props)
     {
         String descriptionOfAT = props.getProperty("Description");
@@ -102,7 +102,7 @@ public class UpdateColorTransaction extends Transaction {
      * This method encapsulates all the logic of modifiying the article type,
      * verifying the new barcode, etc.
      */
-    //----------------------------------------------------------
+
     private void processColorModification(Properties props)
     {
         if (props.getProperty("BarcodePrefix") != null)
@@ -160,15 +160,15 @@ public class UpdateColorTransaction extends Transaction {
 
     }
 
-    //-----------------------------------------------------------
+
     public Object getState(String key)
     {
-        if (key.equals("ColorList") == true)
+        if (key.equals("ColorList") )
         {
             return myColorList;
         }
         else
-        if (key.equals("BarcodePrefix") == true)
+        if (key.equals("BarcodePrefix") )
         {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("BarcodePrefix");
@@ -176,7 +176,7 @@ public class UpdateColorTransaction extends Transaction {
                 return "";
         }
         else
-        if (key.equals("Description") == true)
+        if (key.equals("Description") )
         {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("Description");
@@ -184,7 +184,7 @@ public class UpdateColorTransaction extends Transaction {
                 return "";
         }
         else
-        if (key.equals("AlphaCode") == true)
+        if (key.equals("AlphaCode") )
         {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("AlphaCode");
@@ -192,7 +192,7 @@ public class UpdateColorTransaction extends Transaction {
                 return "";
         }
         else
-        if (key.equals("TransactionError") == true)
+        if (key.equals("TransactionError") )
         {
             return transactionErrorMessage;
         }
@@ -200,21 +200,21 @@ public class UpdateColorTransaction extends Transaction {
         return null;
     }
 
-    //-----------------------------------------------------------
+
     public void stateChangeRequest(String key, Object value)
     {
 
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
+        if ((key.equals("DoYourJob") ) || (key.equals("CancelColorList") ))
         {
             doYourJob();
         }
         else
-        if (key.equals("SearchColor") == true)
+        if (key.equals("SearchColor") )
         {
             processTransaction((Properties)value);
         }
         else
-        if (key.equals("ColorSelected") == true)
+        if (key.equals("ColorSelected") )
         {
             mySelectedColor = myColorList.retrieve((String)value);
             try
@@ -232,7 +232,7 @@ public class UpdateColorTransaction extends Transaction {
             }
         }
         else
-        if (key.equals("ColorData") == true)
+        if (key.equals("ColorData") )
         {
             processColorModification((Properties)value);
         }
@@ -244,7 +244,7 @@ public class UpdateColorTransaction extends Transaction {
      * Create the view of this class. And then the super-class calls
      * swapToView() to display the view in the frame
      */
-    //------------------------------------------------------
+
     protected Scene createView()
     {
         Scene currentScene = myViews.get("SearchColorView");
@@ -267,7 +267,7 @@ public class UpdateColorTransaction extends Transaction {
     /**
      * Create the view containing the table of all matching article types on the search criteria sents
      */
-    //------------------------------------------------------
+
     protected Scene createColorCollectionView()
     {
         View newView = ViewFactory.createView("ColorCollectionView", this);
@@ -280,7 +280,7 @@ public class UpdateColorTransaction extends Transaction {
     /**
      * Create the view using which data about selected article type can be modified
      */
-    //------------------------------------------------------
+
     protected Scene createModifyColorView()
     {
         View newView = ViewFactory.createView("ModifyColorView", this);

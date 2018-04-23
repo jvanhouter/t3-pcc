@@ -34,13 +34,13 @@ public class AddArticleTypeTransaction extends Transaction
 	 * Constructor for this class.
 	 *
 	 */
-	//----------------------------------------------------------
+
 	public AddArticleTypeTransaction() throws Exception
 	{
 		super();
 	}
 
-	//----------------------------------------------------------
+
 	protected void setDependencies()
 	{
 		dependencies = new Properties();
@@ -55,7 +55,7 @@ public class AddArticleTypeTransaction extends Transaction
 	 * This method encapsulates all the logic of creating the article type,
 	 * verifying its uniqueness, etc.
 	 */
-	//----------------------------------------------------------
+
 	public void processTransaction(Properties props)
 	{
 		if (props.getProperty("BarcodePrefix") != null)
@@ -123,7 +123,7 @@ public class AddArticleTypeTransaction extends Transaction
 		
 	}
 
-	//-----------------------------------------------------------
+
 	public Object getState(String key)
 	{
 		if (key.equals("TransactionError"))
@@ -135,7 +135,7 @@ public class AddArticleTypeTransaction extends Transaction
 		return null;
 	}
 
-	//-----------------------------------------------------------
+
 	public void stateChangeRequest(String key, Object value)
 	{
 		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
@@ -153,7 +153,7 @@ public class AddArticleTypeTransaction extends Transaction
 	 * Create the view of this class. And then the super-class calls
 	 * swapToView() to display the view in the frame
 	 */
-	//------------------------------------------------------
+
 	protected Scene createView()
 	{
 		Scene currentScene = myViews.get("AddArticleTypeView");

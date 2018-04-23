@@ -186,8 +186,9 @@ public class Receptionist implements IView, IModel
         }
 
         myStage.setScene(newScene);
-        myStage.setResizable(true);
-        myStage.centerOnScreen();
+        myStage.sizeToScene();
+
+        WindowPosition.placeCenter(myStage);
     }
 
 }

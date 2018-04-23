@@ -2,16 +2,12 @@
 package userinterface;
 
 // system imports
-import Utilities.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -21,7 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.util.Iterator;
 import java.util.Properties;
@@ -34,8 +29,6 @@ import javafx.util.StringConverter;
 import model.ArticleType;
 import model.Color;
 import Utilities.UiConstants;
-
-import javax.swing.*;
 
 /** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application
@@ -57,21 +50,20 @@ public class LogARequestView extends View
     protected TextField brand;
     protected TextField size;
 
-    protected Button submitButton;
-    protected Button cancelButton;
+    protected PccButton submitButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;
 
     // constructor for this class -- takes a model object
-    //----------------------------------------------------------
+
     public LogARequestView(IModel lv)
     {
         super(lv, "LogARequestView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -88,65 +80,21 @@ public class LogARequestView extends View
         myModel.subscribe("TransactionError", this);
     }
 
-    //-------------------------------------------------------------
+
+    @Override
     protected String getActionText()
     {
         return "** Log a request view **";
     }
 
-    // Create the title container
-    //-------------------------------------------------------------
-    private Node createTitle()
-    {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(javafx.scene.paint.Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("     " + getActionText() + "       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(javafx.scene.paint.Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
-    }
-
     // Create the main form content
-    //-------------------------------------------------------------
+
     private VBox createFormContent()
     {
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("LOG REQUEST INFORMATION");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -197,11 +145,8 @@ public class LogARequestView extends View
         phoneNumber = new TextField();
         grid.add(phoneNumber, 1, 4);
 
-        phoneNumber.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
+        phoneNumber.addEventFilter(KeyEvent.KEY_TYPED, event -> {
 
-            }
         });
 
         Text myEmail = new Text(" Email Address : ");
@@ -355,7 +300,7 @@ public class LogARequestView extends View
         return vbox;
     }
 
-    //-------------------------------------------------------------
+
     protected void processTransaction() {
         Pattern emailValidation = Pattern.compile("^([\\w \\._]+\\<[a-z0-9!#$%&'*+/=?^_`{|}~-]+" +
                 "(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a" +
@@ -405,7 +350,7 @@ public class LogARequestView extends View
     }
 
     // Create the status log field
-    //-------------------------------------------------------------
+
     protected MessageView createStatusLog(String initialMessage)
     {
         statusLog = new MessageView(initialMessage);
@@ -413,7 +358,7 @@ public class LogARequestView extends View
         return statusLog;
     }
 
-    //-------------------------------------------------------------
+
     public void populateFields()
     {
         clearErrorMessage();
@@ -442,15 +387,15 @@ public class LogARequestView extends View
     /**
      * Update method
      */
-    //---------------------------------------------------------
+
     public void updateState(String key, Object value)
     {
         clearErrorMessage();
 
-        if (key.equals("TransactionError") == true)
+        if (key.equals("TransactionError") )
         {
             String val = (String)value;
-            if (val.startsWith("ERR") == true)
+            if (val.startsWith("ERR") )
             {
                 displayErrorMessage(val);
             }
@@ -465,7 +410,7 @@ public class LogARequestView extends View
     /**
      * Display error message
      */
-    //----------------------------------------------------------
+
     public void displayErrorMessage(String message)
     {
         model.Alert alert = new model.Alert(Alert.AlertType.INFORMATION);
@@ -476,7 +421,7 @@ public class LogARequestView extends View
     /**
      * Display info message
      */
-    //----------------------------------------------------------
+
     public void displayMessage(String message)
     {
         model.Alert alert = new model.Alert(Alert.AlertType.INFORMATION);

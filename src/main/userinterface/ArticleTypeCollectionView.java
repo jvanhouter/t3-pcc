@@ -1,27 +1,15 @@
 package userinterface;
 
 // system imports
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,7 +18,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.util.Vector;
 import java.util.Enumeration;
@@ -43,32 +30,32 @@ import model.ArticleTypeCollection;
 //==============================================================================
 public class ArticleTypeCollectionView extends View
 {
-	protected TableView<ArticleTypeTableModel> tableOfArticleTypes;
-	protected Button cancelButton;
-	protected Button submitButton;
+	private TableView<ArticleTypeTableModel> tableOfArticleTypes;
+	protected PccButton cancelButton;
+	protected PccButton submitButton;
 
 	protected MessageView statusLog;
 
 
 	//--------------------------------------------------------------------------
-	public ArticleTypeCollectionView(IModel matt)
+    ArticleTypeCollectionView(IModel atc)
 	{
-		super(matt, "ArticleTypeCollectionView");
+		super(atc, "ArticleTypeCollectionView");
 
-		// create a container for showing the contents
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(15, 5, 5, 5));
+        // create a container for showing the contents
+        VBox container = getParentContainer();
 
-		// create our GUI components, add them to this panel
-		container.getChildren().add(createTitle());
-		container.getChildren().add(createFormContent());
+        // Add a title for this panel
+        container.getChildren().add(createTitle());
 
-		// Error message area
-		container.getChildren().add(createStatusLog("                                            "));
+        // create our GUI components, add them to this Container
+        container.getChildren().add(createFormContent());
 
-		getChildren().add(container);
+        container.getChildren().add(createStatusLog("             "));
 
-		populateFields();
+        getChildren().add(container);
+
+        populateFields();
 	}
 
 	//--------------------------------------------------------------------------
@@ -78,7 +65,7 @@ public class ArticleTypeCollectionView extends View
 	}
 
 	//--------------------------------------------------------------------------
-	protected void getEntryTableModelValues()
+    private void getEntryTableModelValues()
 	{
 
 		ObservableList<ArticleTypeTableModel> tableData = FXCollections.observableArrayList();
@@ -93,7 +80,7 @@ public class ArticleTypeCollectionView extends View
 			{
 				Enumeration entries = entryList.elements();
 
-				while (entries.hasMoreElements() == true)
+				while (entries.hasMoreElements())
 				{
 					ArticleType nextAT = (ArticleType)entries.nextElement();
 					Vector<String> view = nextAT.getEntryListView();
@@ -116,59 +103,19 @@ public class ArticleTypeCollectionView extends View
 		}
 	}
 
-	// Create the title container
-	//-------------------------------------------------------------
-	private Node createTitle()
-	{
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(1, 1, 1, 30));
+    @Override
+    protected String getActionText() {
+        return "** Matching Article Types **";
+    }
 
-		Text clientText = new Text(" Office of Career Services ");
-		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		clientText.setWrappingWidth(350);
-		clientText.setTextAlignment(TextAlignment.CENTER);
-		clientText.setFill(Color.DARKGREEN);
-		container.getChildren().add(clientText);
-
-		Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-		collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		collegeText.setWrappingWidth(350);
-		collegeText.setTextAlignment(TextAlignment.CENTER);
-		collegeText.setFill(Color.DARKGREEN);
-		container.getChildren().add(collegeText);
-
-		Text titleText = new Text(" Professional Clothes Closet Management System ");
-		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		titleText.setWrappingWidth(350);
-		titleText.setTextAlignment(TextAlignment.CENTER);
-		titleText.setFill(Color.DARKGREEN);
-		container.getChildren().add(titleText);
-
-		Text blankText = new Text("  ");
-		blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		blankText.setWrappingWidth(350);
-		blankText.setTextAlignment(TextAlignment.CENTER);
-		blankText.setFill(Color.WHITE);
-		container.getChildren().add(blankText);
-
-		Text actionText = new Text("      ** Matching Article Types **       ");
-		actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-		actionText.setWrappingWidth(350);
-		actionText.setTextAlignment(TextAlignment.CENTER);
-		actionText.setFill(Color.BLACK);
-		container.getChildren().add(actionText);
-
-		return container;
-	}
-
-	// Create the main form content
+    // Create the main form content
 	//-------------------------------------------------------------
 	private VBox createFormContent()
 	{
 		VBox vbox = new VBox(10);
 
-		Text prompt = new Text("");
-        prompt.setWrappingWidth(400);
+		PccText prompt = new PccText("");
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
 		prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -206,94 +153,28 @@ public class ArticleTypeCollectionView extends View
 		tableOfArticleTypes.getColumns().addAll(descriptionColumn,
 			barcodePrefixColumn, alphaCodeColumn, statusColumn);
 
-		tableOfArticleTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event)
-			{
-				if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-					processArticleTypeSelected();
-				}
-			}
-		});
+		tableOfArticleTypes.setOnMousePressed(event -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+                processArticleTypeSelected();
+            }
+        });
 		ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setPrefSize(150, 150);
 		scrollPane.setContent(tableOfArticleTypes);
 
 		submitButton = new PccButton("Submit");
 		submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
+ 		submitButton.setOnAction(e -> {
+ 			clearErrorMessage();
+            processArticleTypeSelected();
 
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
- 		submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	clearErrorMessage();
-					// do the inquiry
-					processArticleTypeSelected();
-
-            	 }
-        	});
+	  });
 
 		cancelButton = new PccButton("Return");
-		cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		cancelButton.setOnMouseEntered(me ->
-				 {
-					 cancelButton.setScaleX(1.1);
-					 cancelButton.setScaleY(1.1);
-				 });
-
-				 cancelButton.setOnMouseExited(me ->
-				 {
-					 cancelButton.setScaleX(1);
-					 cancelButton.setScaleY(1);
-				 });
-
-				 cancelButton.setOnMousePressed(me ->
-		 {
-			 cancelButton.setScaleX(0.9);
-			 cancelButton.setScaleY(0.9);
-		 });
-				 cancelButton.setOnMouseReleased(me ->
-		 {
-			 cancelButton.setScaleX(1.1);
-			 cancelButton.setScaleY(1.1);
-		 });
- 		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-					/**
-					 * Process the Cancel button.
-					 * The ultimate result of this action is that the transaction will tell the Receptionist to
-					 * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
-					 * It simply tells its model (controller) that the transaction was canceled, and leaves it
-					 * to the model to decide to tell the Receptionist to do the switch back.
-			 		*/
-					//----------------------------------------------------------
-       		     	clearErrorMessage();
-       		     	myModel.stateChangeRequest("CancelArticleTypeList", null);
-            	  }
-        	});
+ 		cancelButton.setOnAction(e -> {
+			 clearErrorMessage();
+			 myModel.stateChangeRequest("CancelArticleTypeList", null);
+	   });
 
 		HBox btnContainer = new HBox(100);
 		btnContainer.setAlignment(Pos.CENTER);
@@ -313,7 +194,7 @@ public class ArticleTypeCollectionView extends View
 	}
 
 	//--------------------------------------------------------------------------
-	protected void processArticleTypeSelected()
+    private void processArticleTypeSelected()
 	{
 		ArticleTypeTableModel selectedItem = tableOfArticleTypes.getSelectionModel().getSelectedItem();
 

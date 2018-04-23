@@ -190,30 +190,30 @@ public class CheckoutClothingItemTransaction extends Transaction
     public void stateChangeRequest(String key, Object value)
     {
         //DEBUG System.out.println("CheckoutClothingItemTransaction.sCR: key: " + key);
-        if (key.equals("DoYourJob") == true)
+        if (key.equals("DoYourJob") )
         {
             doYourJob();
         }
         //The BarcodeScannerView should call here
-        else if (key.equals("ProcessBarcode") == true)
+        else if (key.equals("ProcessBarcode") )
         {
             processTransaction((Properties)value);
         }
         //The EnterReceiverInformationView should call here
-        else if (key.equals("ReceiverData") == true)
+        else if (key.equals("ReceiverData") )
         {
             processReceiver((Properties)value);
             stateChangeRequest("CancelCheckoutCI", null);
         }
         //The CheckoutHelperView and CheckoutInvalidItemView should call here if the user selects to
             // add another barcode
-        else if (key.equals("MoreData") == true)
+        else if (key.equals("MoreData") )
         {
             barcodeError = "";
             doYourJob();
         }
         //The CheckoutHelperView and CheckoutInvalidItemView should call here if the user selects checkout
-        else if (key.equals("NoMoreData") == true)
+        else if (key.equals("NoMoreData") )
         {
            switchToEnterReceiverInformationView();
         }
@@ -223,19 +223,19 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     public Object getState(String key)
     {
-        if (key.equals("TransactionError") == true)
+        if (key.equals("TransactionError") )
         {
             return transactionErrorMessage;
         }
-        else if (key.equals("Cart") == true)
+        else if (key.equals("Cart") )
         {
             return cart;
         }
-        else if (key.equals("BarcodeError") == true)
+        else if (key.equals("BarcodeError") )
         {
             return barcodeError;
         }
-        else if (key.equals("ClothingItems") == true)
+        else if (key.equals("ClothingItems") )
         {
             return clothingItems;
         }

@@ -10,8 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -53,15 +51,15 @@ public class AddClothingItemView extends View {
     protected TextField donorFirstNameText;
     protected TextField donorPhoneText;
     protected TextField donorEmailText;
-    private Button submitButton;
-    private Button cancelButton;
+    private PccButton submitButton;
+    private PccButton cancelButton;
 
     // constructor for this class -- takes a model object
     public AddClothingItemView(IModel clothingItem) {
         super(clothingItem, "AddClothingItemView");
+
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -78,51 +76,9 @@ public class AddClothingItemView extends View {
         myModel.subscribe("TransactionError", this);
     }
 
+    @Override
     protected String getActionText() {
         return "** Adding a new Clothing Item **";
-    }
-
-    // Create the title container
-    private Node createTitle() {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(javafx.scene.paint.Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("     " + getActionText() + "       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(javafx.scene.paint.Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
     }
 
     // Create the main form content
@@ -130,7 +86,7 @@ public class AddClothingItemView extends View {
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("CLOTHING ITEM INFORMATION");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -308,56 +264,10 @@ public class AddClothingItemView extends View {
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
         submitButton.setOnAction(this::processAction);
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
         cancelButton.setOnAction(e -> {
             clearErrorMessage();
             myModel.stateChangeRequest("CancelAddClothingItem", null);
@@ -470,8 +380,9 @@ public class AddClothingItemView extends View {
             String val = (String) value;
             if (val.startsWith("ERR")) {
                 displayErrorMessage(val);
-            } else {
+            } else if (val.length() > 0) {
                 displayMessage(val);
+                myModel.stateChangeRequest("CancelAddClothingItem", null);
             }
 
         }

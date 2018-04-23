@@ -122,69 +122,69 @@ public class ModifyClothingItemTransaction extends Transaction {
 
     //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("ClothingItemList") == true) {
+        if (key.equals("ClothingItemList") ) {
             return myClothingItemList;
-        } else if (key.equals("Barcode") == true) {
+        } else if (key.equals("Barcode") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Barcode");
             else
                 return "";
-        } else if (key.equals("Gender") == true) {
+        } else if (key.equals("Gender") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Gender");
             else
                 return "";
-        } else if (key.equals("Color1") == true) {
+        } else if (key.equals("Color1") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Color1");
             else
                 return "";
-        } else if (key.equals("Color2") == true) {
+        } else if (key.equals("Color2") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Color2");
             else
                 return "";
-        } else if (key.equals("Brand") == true) {
+        } else if (key.equals("Brand") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Brand");
             else
                 return "";
-        } else if (key.equals("ArticleType") == true) {
+        } else if (key.equals("ArticleType") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("ArticleType");
             else
                 return "";
-        } else if (key.equals("DonorFirstName") == true) {
+        } else if (key.equals("DonorFirstName") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("DonorFirstName");
             else
                 return "";
-        } else if (key.equals("DonorLastName") == true) {
+        } else if (key.equals("DonorLastName") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("DonorLastName");
             else
                 return "";
-        } else if (key.equals("DonorEmail") == true) {
+        } else if (key.equals("DonorEmail") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("DonorEmail");
             else
                 return "";
-        } else if (key.equals("DonorPhone") == true) {
+        } else if (key.equals("DonorPhone") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("DonorPhone");
             else
                 return "";
-        } else if (key.equals("Notes") == true) {
+        } else if (key.equals("Notes") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Notes");
             else
                 return "";
-        } else if (key.equals("Size") == true) {
+        } else if (key.equals("Size") ) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Size");
             else
                 return "";
-        } else if (key.equals("TransactionError") == true) {
+        } else if (key.equals("TransactionError") ) {
             return transactionErrorMessage;
         } else if (key.equals("Gender")) {
             return gender;
@@ -200,11 +200,11 @@ public class ModifyClothingItemTransaction extends Transaction {
     public void stateChangeRequest(String key, Object value) {
         // DEBUG System.out.println("ModifyClothingItemTransaction.sCR: key: " + key);
 
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelClothingItemList") == true)) {
+        if ((key.equals("DoYourJob") ) || (key.equals("CancelClothingItemList") )) {
             doYourJob();
         } else if (key.equals("ProcessBarcode")) {
             processTransaction((Properties) value);
-        } else if (key.equals("ClothingItemSelected") == true) {
+        } else if (key.equals("ClothingItemSelected") ) {
             mySelectedClothingItem = myClothingItemList.retrieve((String) value);
             myArticleTypeList = new ArticleTypeCollection();
             myArticleTypeList.findAll();
@@ -226,7 +226,7 @@ public class ModifyClothingItemTransaction extends Transaction {
                         "Error in creating ModifyClothingItemView", Event.ERROR);
                 ex.printStackTrace();
             }
-        } else if (key.equals("ClothingItemData") == true) {
+        } else if (key.equals("ClothingItemData") ) {
             processClothingItemModification((Properties) value);
         }
 

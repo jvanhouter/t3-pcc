@@ -171,7 +171,7 @@ public class ColorCollection  extends EntityBase implements IView
         {
             Color nextAT = colors.elementAt(cnt);
             String nextBarcodePrefix = (String)nextAT.getState("BarcodePrefix");
-            if (nextBarcodePrefix.equals(barcodePrefix) == true)
+            if (nextBarcodePrefix.equals(barcodePrefix) )
             {
                 retValue = nextAT;
                 return retValue; // we should say 'break;' here

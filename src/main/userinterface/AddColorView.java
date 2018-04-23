@@ -2,16 +2,8 @@
 package userinterface;
 
 // system imports
-import javafx.event.Event;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -21,7 +13,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.util.Properties;
 
@@ -40,21 +31,20 @@ public class AddColorView extends View
     protected TextField description;
     protected TextField alphaCode;
 
-    protected Button submitButton;
-    protected Button cancelButton;
+    protected PccButton submitButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public AddColorView(IModel at)
+    public AddColorView(IModel color)
     {
-        super(at, "AddColorView");
+        super(color, "AddColorView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -71,55 +61,10 @@ public class AddColorView extends View
         myModel.subscribe("TransactionError", this);
     }
 
-    //-------------------------------------------------------------
+    @Override
     protected String getActionText()
     {
         return "** Adding a new Color Type **";
-    }
-
-    // Create the title container
-    //-------------------------------------------------------------
-    private Node createTitle()
-    {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("     " + getActionText() + "       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
     }
 
     // Create the main form content
@@ -129,7 +74,7 @@ public class AddColorView extends View
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("COLOR TYPE INFORMATION");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -173,105 +118,47 @@ public class AddColorView extends View
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
-
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                Properties props = new Properties();
-                String bcPrfx = barcodePrefix.getText();
-                if (bcPrfx.length() > 0)
+        submitButton.setOnAction(e -> {
+            clearErrorMessage();
+            Properties props = new Properties();
+            String bcPrfx = barcodePrefix.getText();
+            if (bcPrfx.length() > 0)
+            {
+                props.setProperty("BarcodePrefix", bcPrfx);
+                String descrip = description.getText();
+                if (descrip.length() > 0)
                 {
-                    props.setProperty("BarcodePrefix", bcPrfx);
-                    String descrip = description.getText();
-                    if (descrip.length() > 0)
+                    props.setProperty("Description", descrip);
+                    String alfaC = alphaCode.getText();
+                    if (alfaC.length() > 0)
                     {
-                        props.setProperty("Description", descrip);
-                        String alfaC = alphaCode.getText();
-                        if (alfaC.length() > 0)
-                        {
-                            props.setProperty("AlphaCode", alfaC);
-                            myModel.stateChangeRequest("ColorData", props);
-                        }
-                        else
-                        {
-                            displayErrorMessage("ERROR: Please enter a valid alpha code!");
-                        }
+                        props.setProperty("AlphaCode", alfaC);
+                        myModel.stateChangeRequest("ColorData", props);
                     }
                     else
                     {
-                        displayErrorMessage("ERROR: Please enter a valid description!");
+                        displayErrorMessage("ERROR: Please enter a valid alpha code!");
                     }
-
                 }
                 else
                 {
-                    displayErrorMessage("ERROR: Please enter a barcode prefix!");
-
+                    displayErrorMessage("ERROR: Please enter a valid description!");
                 }
 
             }
+            else
+            {
+                displayErrorMessage("ERROR: Please enter a barcode prefix!");
+
+            }
+
         });
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
-
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelAddCT", null);
-            }
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelAddCT", null);
         });
         doneCont.getChildren().add(cancelButton);
 
@@ -305,10 +192,10 @@ public class AddColorView extends View
     {
         clearErrorMessage();
 
-        if (key.equals("TransactionError") == true)
+        if (key.equals("TransactionError") )
         {
             String val = (String)value;
-            if (val.startsWith("ERR") == true)
+            if (val.startsWith("ERR") )
             {
                 displayErrorMessage(val);
             }

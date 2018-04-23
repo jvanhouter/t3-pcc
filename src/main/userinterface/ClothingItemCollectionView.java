@@ -1,27 +1,21 @@
 package userinterface;
 
 // system imports
+
 import Utilities.UiConstants;
 import Utilities.Utilities;
 import javafx.beans.property.SimpleStringProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -32,7 +26,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.util.*;
 
@@ -46,32 +39,33 @@ import javax.rmi.CORBA.Util;
 public class ClothingItemCollectionView extends View
 {
 	protected TableView<ClothingItemTableModel> tableOfClothingItems;
-	protected Button cancelButton;
-	protected Button submitButton;
+	protected PccButton cancelButton;
+	protected PccButton submitButton;
 
 	protected MessageView statusLog;
 
 
-	//--------------------------------------------------------------------------
-	public ClothingItemCollectionView(IModel matt)
+
+	public ClothingItemCollectionView(IModel clothingItem)
 	{
-		super(matt, "ClothingItemCollectionView");
+		super(clothingItem, "ClothingItemCollectionView");
 
 		// create a container for showing the contents
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(15, 5, 5, 5));
+		VBox container = getParentContainer();
 
-		// create our GUI components, add them to this panel
+		// Add a title for this panel
 		container.getChildren().add(createTitle());
+
+		// create our GUI components, add them to this Container
 		container.getChildren().add(createFormContent());
 
-		// Error message area
-		container.getChildren().add(createStatusLog("                                            "));
+		container.getChildren().add(createStatusLog("             "));
 
 		getChildren().add(container);
 
 		populateFields();
 	}
+
 
 	//--------------------------------------------------------------------------
 	protected void populateFields() { getEntryTableModelValues(); }
@@ -87,7 +81,7 @@ public class ClothingItemCollectionView extends View
 			ctm.setColor2("");
 	}
 
-	//--------------------------------------------------------------------------
+
 	protected void getEntryTableModelValues()
 	{
 
@@ -102,7 +96,7 @@ public class ClothingItemCollectionView extends View
 			{
 				Enumeration entries = entryList.elements();
 
-				while (entries.hasMoreElements() == true)
+				while (entries.hasMoreElements() )
 				{
 					ClothingItem nextAT = (ClothingItem)entries.nextElement();
 					Vector<String> view = nextAT.getEntryListView();
@@ -129,59 +123,19 @@ public class ClothingItemCollectionView extends View
 		}
 	}
 
-	// Create the title container
-	//-------------------------------------------------------------
-	private Node createTitle()
-	{
-		VBox container = new VBox(10);
-		container.setPadding(new Insets(1, 1, 1, 30));
-
-		Text clientText = new Text(" Office of Career Services ");
-		clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		clientText.setWrappingWidth(350);
-		clientText.setTextAlignment(TextAlignment.CENTER);
-		clientText.setFill(Color.DARKGREEN);
-		container.getChildren().add(clientText);
-
-		Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-		collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		collegeText.setWrappingWidth(350);
-		collegeText.setTextAlignment(TextAlignment.CENTER);
-		collegeText.setFill(Color.DARKGREEN);
-		container.getChildren().add(collegeText);
-
-		Text titleText = new Text(" Professional Clothes Closet Management System ");
-		titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		titleText.setWrappingWidth(350);
-		titleText.setTextAlignment(TextAlignment.CENTER);
-		titleText.setFill(Color.DARKGREEN);
-		container.getChildren().add(titleText);
-
-		Text blankText = new Text("  ");
-		blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-		blankText.setWrappingWidth(350);
-		blankText.setTextAlignment(TextAlignment.CENTER);
-		blankText.setFill(Color.WHITE);
-		container.getChildren().add(blankText);
-
-		Text actionText = new Text("      ** Matching clothing items **       ");
-		actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-		actionText.setWrappingWidth(350);
-		actionText.setTextAlignment(TextAlignment.CENTER);
-		actionText.setFill(Color.BLACK);
-		container.getChildren().add(actionText);
-
-		return container;
+	@Override
+	protected String getActionText() {
+		return "** Matching clothing items **";
 	}
 
 	// Create the main form content
-	//-------------------------------------------------------------
+
 	private VBox createFormContent()
 	{
 		VBox vbox = new VBox(10);
 
 		Text prompt = new Text("");
-        prompt.setWrappingWidth(400);
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
 		prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -266,29 +220,6 @@ public class ClothingItemCollectionView extends View
 		scrollPane.setContent(tableOfClothingItems);
 
 		submitButton = new PccButton("Submit");
-		submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
  		submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
        		     @Override
@@ -302,29 +233,6 @@ public class ClothingItemCollectionView extends View
         	});
 
 		cancelButton = new PccButton("Return");
-		cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		cancelButton.setOnMouseEntered(me ->
-				 {
-					 cancelButton.setScaleX(1.1);
-					 cancelButton.setScaleY(1.1);
-				 });
-
-				 cancelButton.setOnMouseExited(me ->
-				 {
-					 cancelButton.setScaleX(1);
-					 cancelButton.setScaleY(1);
-				 });
-
-				 cancelButton.setOnMousePressed(me ->
-		 {
-			 cancelButton.setScaleX(0.9);
-			 cancelButton.setScaleY(0.9);
-		 });
-				 cancelButton.setOnMouseReleased(me ->
-		 {
-			 cancelButton.setScaleX(1.1);
-			 cancelButton.setScaleY(1.1);
-		 });
  		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
        		     @Override
@@ -336,7 +244,7 @@ public class ClothingItemCollectionView extends View
 					 * It simply tells its model (controller) that the transaction was canceled, and leaves it
 					 * to the model to decide to tell the Receptionist to do the switch back.
 			 		*/
-					//----------------------------------------------------------
+
        		     	clearErrorMessage();
        		     	myModel.stateChangeRequest("CancelClothingItemList", null);
             	  }
@@ -354,12 +262,12 @@ public class ClothingItemCollectionView extends View
 		return vbox;
 	}
 
-	//--------------------------------------------------------------------------
+
 	public void updateState(String key, Object value)
 	{
 	}
 
-	//--------------------------------------------------------------------------
+
 	protected void processClothingItemSelected()
 	{
 
@@ -373,7 +281,7 @@ public class ClothingItemCollectionView extends View
 		}
 	}
 
-	//--------------------------------------------------------------------------
+
 	protected MessageView createStatusLog(String initialMessage)
 	{
 		statusLog = new MessageView(initialMessage);
@@ -385,7 +293,7 @@ public class ClothingItemCollectionView extends View
 	/**
 	 * Display info message
 	 */
-	//----------------------------------------------------------
+
 	public void displayMessage(String message)
 	{
 		statusLog.displayMessage(message);
@@ -394,7 +302,7 @@ public class ClothingItemCollectionView extends View
 	/**
 	 * Clear error message
 	 */
-	//----------------------------------------------------------
+
 	public void clearErrorMessage()
 	{
 		statusLog.clearErrorMessage();

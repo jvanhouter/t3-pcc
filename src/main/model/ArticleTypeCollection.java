@@ -29,14 +29,14 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 	// GUI Components
 
 	// constructor for this class
-	//----------------------------------------------------------
+
 	public ArticleTypeCollection( ) 
 	{
 		super(myTableName);
 
 	}
 	
-	//-----------------------------------------------------------
+
 	private void populateCollectionHelper(String query)
 	{
 		
@@ -61,7 +61,7 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 		}
 	}
 	
-	//-----------------------------------------------------------
+
 	public void findByBarcodePrefix(String barcodePrefix)
 	{
 		String query = "SELECT * FROM " + myTableName + " WHERE ((BarcodePrefix = '" + barcodePrefix + 
@@ -69,14 +69,14 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 		populateCollectionHelper(query);
 	}
 	
-	//-----------------------------------------------------------
+
 	public void findAll()
 	{
 		String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Active')";
 		populateCollectionHelper(query);
 	}
 		
-	//-----------------------------------------------------------
+
 	public void findByCriteria(String description, String alphaCode)
 	{
 		String query = "SELECT * FROM " + myTableName;
@@ -108,14 +108,14 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 	}
 		
 	
-	//----------------------------------------------------------------------------------
+
 	private void addArticleType(ArticleType a)
 	{
 		int index = findIndexToAdd(a);
 		articleTypes.insertElementAt(a,index); // To build up a collection sorted on some key
 	}
 
-	//----------------------------------------------------------------------------------
+
 	private int findIndexToAdd(ArticleType a)
 	{
 		int low=0;
@@ -150,7 +150,7 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 	/**
 	 *
 	 */
-	//----------------------------------------------------------
+
 	public Object getState(String key)
 	{
 		if (key.equals("ArticleTypes"))
@@ -161,13 +161,13 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 		return null;
 	}
 
-	//----------------------------------------------------------------
+
 	public void stateChangeRequest(String key, Object value)
 	{
 		myRegistry.updateSubscribers(key, this);
 	}
 
-	//----------------------------------------------------------
+
 	public ArticleType retrieve(String barcodePrefix)
 	{
 		ArticleType retValue = null;
@@ -175,7 +175,7 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 		{
 			ArticleType nextAT = articleTypes.elementAt(cnt);
 			String nextBarcodePrefix = (String)nextAT.getState("BarcodePrefix");
-			if (nextBarcodePrefix.equals(barcodePrefix) == true)
+			if (nextBarcodePrefix.equals(barcodePrefix) )
 			{
 				retValue = nextAT;
 				return retValue; // we should say 'break;' here
@@ -185,20 +185,20 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 		return retValue;
 	}
 
-	//----------------------------------------------------------
+
 	public Vector retrieveAll()
 	{
 		return articleTypes;
 	}
 
 	/** Called via the IView relationship */
-	//----------------------------------------------------------
+
 	public void updateState(String key, Object value)
 	{
 		stateChangeRequest(key, value);
 	}
 
-	//------------------------------------------------------
+
 	protected void createAndShowView()
 	{
 
@@ -216,7 +216,7 @@ public class ArticleTypeCollection  extends EntityBase implements IView
 		
 	}
 
-	//-----------------------------------------------------------------------------------
+
 	protected void initializeSchema(String tableName)
 	{
 		if (mySchema == null)

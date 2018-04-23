@@ -1,4 +1,3 @@
-// tabs=4
 //************************************************************
 //	COPYRIGHT 2010/2015 Sandeep Mitra and Students, The
 //    College at Brockport, State University of New York. -
@@ -8,79 +7,102 @@
 // be reproduced, copied, or used in any shape or form without
 // the express written consent of The College at Brockport.
 //************************************************************
-//
-// specify the package
 package userinterface;
 
-// system imports
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import javafx.scene.text.TextAlignment;
 
-// project imports
+public class MessageView extends Text {
+    // Class constructor
+    public MessageView(String initialMessage) {
+        super(initialMessage);
+        setFont(Font.font("Helvetica", FontWeight.BOLD, 16));
+        setFill(Color.BLUE);
+        setTextAlignment(TextAlignment.LEFT);
+    }
 
-//==============================================================
-public class MessageView extends Text
-{
+    /**
+     * Display ordinary message
+     */
+    public void displayMessage(String message) {
+        // display the passed text in blue
+        if (message.equals("Loading...") || message.length() == 0) {
+            setFill(Color.BLUE);
+            setText(message);
+        } else {
+            Alert information = new Alert(Alert.AlertType.INFORMATION);
+            information.setTitle("Brockport Professional Clothes Closet Info");
+            information.setContentText(message);
+            information.show();
+//        setFill(Color.BLUE);
+//        setText(message);
+        }
+    }
 
-	// Class constructor
-	//----------------------------------------------------------
-	public MessageView(String initialMessage)
-	{
-		super(initialMessage);
-		setFont(Font.font("Helvetica", FontWeight.BOLD, 16));
-		setFill(Color.BLUE);
-		setTextAlignment(TextAlignment.LEFT);
-	}
+    /**
+     * Display error message
+     */
+    public void displayErrorMessage(String message) {
+        // display the passed text in red
+        Alert errorMessage = new Alert(Alert.AlertType.ERROR);
 
-	/**
-	 * Display ordinary message
-	 */
-	//----------------------------------------------------------
-	public void displayMessage(String message)
-	{
-		// display the passed text in red
-		setFill(Color.BLUE);
-		setText(message);
-	}
+        errorMessage.setTitle("Brockport Professional Clothes Closet Error");
+        errorMessage.setContentText(message);
+        errorMessage.show();
 
-	/**
-	 * Display error message
-	 */
-	//----------------------------------------------------------
-	public void displayErrorMessage(String message)
-	{
-		// display the passed text in red
-		setFill(Color.RED);
-		setText(message);
-	}
+//        setFill(Color.RED);
+//        setText(message);
+    }
 
-	/**
-	 * Clear error message
-	 */
-	//----------------------------------------------------------
-	public void clearErrorMessage()
-	{
-		setText("                           ");
-	}
+    /**
+     * Clear error message
+     */
+    public void clearErrorMessage() {
+        setText("                           ");
+    }
 
+    public void display2ErrorMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText("An error has occurred ");
+        alert.setContentText(message);
+
+        DialogPane dialogPane = alert.getDialogPane();
+// root
+        dialogPane.setStyle("-fx-background-color: #647585;");
+
+// 1. Grid
+        // remove style to customize header
+//        dialogPane.getStyleClass().remove("alert");
+
+        GridPane grid = (GridPane)dialogPane.lookup(".header-panel");
+        grid.setStyle("-fx-background-color: #647585;");
+
+// 2. ContentText with just a Label
+        dialogPane.lookup(".content.label").setStyle("-fx-font-size: 16px; "
+                + "-fx-font-weight: bold; -fx-text-fill: #c20012;");
+
+// 3- ButtonBar
+        ButtonBar buttonBar = (ButtonBar)alert.getDialogPane().lookup(".button-bar");
+        buttonBar.setStyle("-fx-background-color: #647585;");
+        buttonBar.getButtons().forEach(b -> {
+            b.setStyle("-fx-font-family: \"Roboto\";");
+            b.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
+            b.setOnMouseEntered(e-> b.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #007a58; -fx-text-fill: #ffc726"));
+            b.setOnMouseExited(e-> b.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726"));
+            b.setOnMousePressed(e-> b.setStyle("-fx-border-color: #8d8d8d; -fx-border-width: 1px; -fx-background-color: #8d8d8d; -fx-text-fill: #ffc726"));
+            b.setOnMouseReleased(e->b.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726"));
+
+        });
+        alert.showAndWait();
+    }
 
 }
-
-
-

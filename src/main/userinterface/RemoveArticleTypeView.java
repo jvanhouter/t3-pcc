@@ -2,18 +2,7 @@
 package userinterface;
 
 // system imports
-import javafx.event.Event;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,9 +10,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-
-import java.util.Properties;
 
 // project imports
 import impresario.IModel;
@@ -35,21 +21,20 @@ import impresario.IModel;
 public class RemoveArticleTypeView extends View
 {
 
-    protected Button submitButton;
-    protected Button cancelButton;
+    protected PccButton submitButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;
 
     // constructor for this class -- takes a model object
-    //----------------------------------------------------------
+
     public RemoveArticleTypeView(IModel at)
     {
         super(at, "RemoveArticleTypeView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        VBox container = getParentContainer();
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -66,65 +51,21 @@ public class RemoveArticleTypeView extends View
         myModel.subscribe("TransactionError", this);
     }
 
-    //-------------------------------------------------------------
+
+    @Override
     protected String getActionText()
     {
         return "** Remove Article Type **";
     }
 
-    // Create the title container
-    //-------------------------------------------------------------
-    private Node createTitle()
-    {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("     " + getActionText() + "       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
-    }
-
     // Create the main form content
-    //-------------------------------------------------------------
+
     private VBox createFormContent()
     {
         VBox vbox = new VBox(10);
 
         Text prompt1 = new Text("Are you sure you wish to remove article type?");
-        prompt1.setWrappingWidth(400);
+        prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.BLACK);
         prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -133,69 +74,13 @@ public class RemoveArticleTypeView extends View
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Yes");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                myModel.stateChangeRequest("RemoveArticleType", null);
-            }
-        });
+        submitButton.setOnAction(e -> myModel.stateChangeRequest("RemoveArticleType", null));
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("No");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelRemoveAT", null);
-            }
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelRemoveAT", null);
         });
         doneCont.getChildren().add(cancelButton);
 
@@ -206,7 +91,7 @@ public class RemoveArticleTypeView extends View
 
 
     // Create the status log field
-    //-------------------------------------------------------------
+
     protected MessageView createStatusLog(String initialMessage)
     {
         statusLog = new MessageView(initialMessage);
@@ -214,7 +99,7 @@ public class RemoveArticleTypeView extends View
         return statusLog;
     }
 
-    //-------------------------------------------------------------
+
     public void populateFields()
     {
 
@@ -223,15 +108,15 @@ public class RemoveArticleTypeView extends View
     /**
      * Update method
      */
-    //---------------------------------------------------------
+
     public void updateState(String key, Object value)
     {
         clearErrorMessage();
 
-        if (key.equals("TransactionError") == true)
+        if (key.equals("TransactionError") )
         {
             String val = (String)value;
-            if (val.startsWith("ERR") == true)
+            if (val.startsWith("ERR") )
             {
                 displayErrorMessage(val);
             }
@@ -246,7 +131,7 @@ public class RemoveArticleTypeView extends View
     /**
      * Display error message
      */
-    //----------------------------------------------------------
+
     public void displayErrorMessage(String message)
     {
         statusLog.displayErrorMessage(message);
@@ -255,7 +140,7 @@ public class RemoveArticleTypeView extends View
     /**
      * Display info message
      */
-    //----------------------------------------------------------
+
     public void displayMessage(String message)
     {
         statusLog.displayMessage(message);
@@ -264,7 +149,7 @@ public class RemoveArticleTypeView extends View
     /**
      * Clear error message
      */
-    //----------------------------------------------------------
+
     public void clearErrorMessage()
     {
         statusLog.clearErrorMessage();
@@ -272,6 +157,6 @@ public class RemoveArticleTypeView extends View
 
 }
 
-//---------------------------------------------------------------
+
 //	Revision History:
 //

@@ -173,7 +173,7 @@ public class RequestCollection  extends EntityBase implements IView
         {
             ClothingRequest nextRQ = requests.elementAt(cnt);
             String nextId = (String)nextRQ.getState("ID");
-            if (nextId.equals(id) == true)
+            if (nextId.equals(id) )
             {
                 retValue = nextRQ;
                 return retValue; // we should say 'break;' here

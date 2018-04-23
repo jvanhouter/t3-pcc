@@ -38,13 +38,13 @@ public class AddClothingItemTransaction extends Transaction
     /**
      * Constructor for this class.
      */
-    //----------------------------------------------------------
+
     public AddClothingItemTransaction() throws Exception
     {
         super();
     }
 
-    //----------------------------------------------------------
+
     protected void setDependencies()
     {
         dependencies = new Properties();
@@ -61,7 +61,7 @@ public class AddClothingItemTransaction extends Transaction
      * This method encapsulates all the logic of creating the article type,
      * verifying its uniqueness, etc.
      */
-    //----------------------------------------------------------
+
     public void processTransaction(Properties props)
     {
         if (barcode != null)
@@ -140,7 +140,7 @@ public class AddClothingItemTransaction extends Transaction
 
     }
 
-    //-----------------------------------------------------------
+
     public Object getState(String key) {
         if (key.equals("TransactionError")) {
             return transactionErrorMessage;
@@ -154,7 +154,7 @@ public class AddClothingItemTransaction extends Transaction
         return null;
     }
 
-    //-----------------------------------------------------------
+
     public void stateChangeRequest(String key, Object value) {
         // DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
@@ -171,7 +171,7 @@ public class AddClothingItemTransaction extends Transaction
         myRegistry.updateSubscribers(key, this);
     }
 
-    //------------------------------------------------------------
+
     private void createAndShowAddClothingItemView() {
         Scene currentScene = (Scene) myViews.get("AddClothingItemView");
 
@@ -190,7 +190,7 @@ public class AddClothingItemTransaction extends Transaction
      * Create the view of this class. And then the super-class calls
      * swapToView() to display the view in the frame
      */
-    //------------------------------------------------------
+
     protected Scene createView() {
         Scene currentScene = myViews.get("BarcodeScannerView");
 
