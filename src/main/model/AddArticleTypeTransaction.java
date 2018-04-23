@@ -95,8 +95,7 @@ public class AddArticleTypeTransaction extends Transaction
 							myArticleType = new ArticleType(props);
 							myArticleType.update();
 							// set after update on error.
-							System.out.println((String) myArticleType.getState("ID"));
-							Utilities.putArticleTypeHash((String) myArticleType.getState("ID"), props.getProperty("Description"));
+							Utilities.putArticleTypeHash((String) myArticleType.getState("ID"), myArticleType);
 							transactionErrorMessage = (String)myArticleType.getState("UpdateStatusMessage");
 						}
 					}

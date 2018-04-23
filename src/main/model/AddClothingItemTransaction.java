@@ -3,6 +3,7 @@ package model;
 
 // system imports
 
+import Utilities.Utilities;
 import event.Event;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
@@ -80,6 +81,7 @@ public class AddClothingItemTransaction extends Transaction
                 props.setProperty("DateDonated", date);
                 myClothingItem = new ClothingItem(props);
                 myClothingItem.update();
+                Utilities.putClothingHash((String) myClothingItem.getState("ID"), myClothingItem);
                 transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
 
             }

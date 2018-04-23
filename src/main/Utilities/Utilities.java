@@ -2,9 +2,8 @@
 package Utilities;
 
 // system imports
-import model.ArticleType;
-import model.ArticleTypeCollection;
-import model.ColorCollection;
+import javafx.scene.control.Alert;
+import model.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,13 +16,78 @@ import java.util.*;
 public class Utilities
 {
 	// Hash String, String maps to ID, Description
-	private static HashMap<String, String> articleTypeHash;
-	private static HashMap<String, String> colorHash;
+	private static HashMap<String, ArticleType> articleTypeHash;
+	private static HashMap<String, Color> colorHash;
+	private static HashMap<String, ClothingItem> clothingHash;
 
-	public static void putColorHash(String id, String description)
+	//----------------------------------------------------------
+	public static HashMap<String, ClothingItem> collectClothingHash()
+	{
+		if(clothingHash == null)
+		{
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Preparing Local HashMap...");
+			alert.setHeaderText("Loading...");
+			alert.setContentText("Please wait while ClothingItem hash is created.");
+			alert.show();
+			clothingHash = new HashMap<>();
+			ClothingItemCollection clothing = new ClothingItemCollection();
+			clothing.findAll();
+			Vector clothingEntryList = (Vector)clothing.getState("ClothingItems");
+			if (clothingEntryList.size() > 0)
+			{
+				Enumeration entries = clothingEntryList.elements();
+
+				while (entries.hasMoreElements() == true)
+				{
+					ClothingItem nextCI = (ClothingItem) entries.nextElement();
+					clothingHash.put((String) nextCI.getState("ID"), nextCI);
+				}
+			}
+			alert.close();
+		}
+		return clothingHash;
+	}
+
+	//----------------------------------------------------------
+	public static void putClothingHash(String id, ClothingItem item)
+	{
+		if(clothingHash == null)
+		{
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Preparing Local HashMap...");
+			alert.setHeaderText("Loading...");
+			alert.setContentText("Please wait while Clothing Item hash is created.");
+			alert.show();
+			clothingHash = new HashMap<>();
+			ClothingItemCollection clothing = new ClothingItemCollection();
+			clothing.findAll();
+			Vector clothingEntryList = (Vector)clothing.getState("ClothingItems");
+			if (clothingEntryList.size() > 0)
+			{
+				Enumeration entries = clothingEntryList.elements();
+
+				while (entries.hasMoreElements() == true)
+				{
+					ClothingItem nextCI = (ClothingItem) entries.nextElement();
+					clothingHash.put((String) nextCI.getState("ID"), nextCI);
+				}
+			}
+			alert.close();
+		}
+		clothingHash.put(id, item);
+	}
+
+	//----------------------------------------------------------
+	public static void putColorHash(String id, Color color)
 	{
 		if(colorHash == null)
 		{
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Preparing Local HashMap...");
+			alert.setHeaderText("Loading...");
+			alert.setContentText("Please wait while Color hash is created.");
+			alert.show();
 			colorHash = new HashMap<>();
 			ColorCollection colors = new ColorCollection();
 			colors.findAll();
@@ -35,17 +99,24 @@ public class Utilities
 				while (entries.hasMoreElements() == true)
 				{
 					model.Color nextCT = (model.Color) entries.nextElement();
-					colorHash.put((String) nextCT.getState("ID"), (String) nextCT.getState("Description"));
+					colorHash.put((String) nextCT.getState("ID"), nextCT);
 				}
 			}
+			alert.close();
 		}
-		colorHash.put(id, description);
+		colorHash.put(id, color);
 	}
 
-	public static void putArticleTypeHash(String id, String description)
+	//----------------------------------------------------------
+	public static void putArticleTypeHash(String id, ArticleType article)
 	{
 		if(articleTypeHash == null)
 		{
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Preparing Local HashMap...");
+			alert.setHeaderText("Loading...");
+			alert.setContentText("Please wait while Article Type hash is created.");
+			alert.show();
 			articleTypeHash = new HashMap<>();
 			ArticleTypeCollection atc = new ArticleTypeCollection();
 			atc.findAll();
@@ -57,17 +128,24 @@ public class Utilities
 				while (entries.hasMoreElements() == true)
 				{
 					ArticleType nextAT = (ArticleType) entries.nextElement();
-					articleTypeHash.put((String) nextAT.getState("ID"), (String) nextAT.getState("Description"));
+					articleTypeHash.put((String) nextAT.getState("ID"), nextAT);
 				}
 			}
+			alert.close();
 		}
-		articleTypeHash.put(id, description);
+		articleTypeHash.put(id, article);
 	}
 
-	public static HashMap<String, String> collectColorHash()
+	//----------------------------------------------------------
+	public static HashMap<String, Color> collectColorHash()
 	{
 		if(colorHash == null)
 		{
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Preparing Local HashMap...");
+			alert.setHeaderText("Loading...");
+			alert.setContentText("Please wait while Color hash is created.");
+			alert.show();
 			colorHash = new HashMap<>();
 			ColorCollection colors = new ColorCollection();
 			colors.findAll();
@@ -79,17 +157,24 @@ public class Utilities
 				while (entries.hasMoreElements() == true)
 				{
 					model.Color nextCT = (model.Color) entries.nextElement();
-					colorHash.put((String) nextCT.getState("ID"), (String) nextCT.getState("Description"));
+					colorHash.put((String) nextCT.getState("ID"), nextCT);
 				}
 			}
+			alert.close();
 		}
 		return colorHash;
 	}
 
-	public static HashMap<String, String> collectArticleTypeHash()
+	//----------------------------------------------------------
+	public static HashMap<String, ArticleType> collectArticleTypeHash()
 	{
 		if(articleTypeHash == null)
 		{
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Preparing Local HashMap...");
+			alert.setHeaderText("Loading...");
+			alert.setContentText("Please wait while Article Type hash is created.");
+			alert.show();
 			articleTypeHash = new HashMap<>();
 			ArticleTypeCollection atc = new ArticleTypeCollection();
 			atc.findAll();
@@ -101,9 +186,10 @@ public class Utilities
 				while (entries.hasMoreElements() == true)
 				{
 					ArticleType nextAT = (ArticleType) entries.nextElement();
-					articleTypeHash.put((String) nextAT.getState("ID"), (String) nextAT.getState("Description"));
+					articleTypeHash.put((String) nextAT.getState("ID"), nextAT);
 				}
 			}
+			alert.close();
 		}
 		return articleTypeHash;
 	}

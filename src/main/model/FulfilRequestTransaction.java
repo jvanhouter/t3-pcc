@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import Utilities.Utilities;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -21,6 +22,8 @@ import exception.MultiplePrimaryKeysException;
 
 import userinterface.View;
 import userinterface.ViewFactory;
+
+import javax.rmi.CORBA.Util;
 
 
 public class FulfilRequestTransaction extends Transaction
@@ -222,7 +225,10 @@ public class FulfilRequestTransaction extends Transaction
     {
         StringBuilder sb = new StringBuilder("");
         if(!((String) cr.getState("RequestedColor1")).equals((String) ci.getState("Color1"))) {
-            sb.append("------------------------\nRequested Primary Color: " + (String) cr.getState("RequestedColor1") + "\nSelected Primary Color: " + (String) ci.getState("Color1"));
+            sb.append("------------------------\nRequested Primary Color: " + (String) Utilities.collectColorHash().get(cr.getState("ID")).getState("Description") + "\nSelected Primary Color: " + (String) Utilities.collectColorHash().get(ci.getState("Color1")).getState("Description") +"\n");
+        }
+        if((cr.getState("RequestedColor2") != null && ci.getState("Color2") != null) && !((String) cr.getState("RequestedColor2")).equals((String) ci.getState("Color2"))) {
+            sb.append("------------------------\nRequested Secondary Color: " + (String) Utilities.collectColorHash().get(cr.getState("ID")).getState("Description") + "\nSelected Secondary Color: " + (String) Utilities.collectColorHash().get(ci.getState("Color1")).getState("Description")+"\n");
         }
         sb.insert(0,"Requester Netid: " + cr.getState("RequesterNetid") + "\n");
 

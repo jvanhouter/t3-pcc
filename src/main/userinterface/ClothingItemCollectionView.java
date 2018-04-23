@@ -79,9 +79,12 @@ public class ClothingItemCollectionView extends View
 	//--------------------------------------------------------------------------
 	private void refactor(ClothingItemTableModel ctm)
 	{
-		ctm.setArticleType(Utilities.collectArticleTypeHash().get(ctm.getArticleType()));
-		ctm.setColor1(Utilities.collectColorHash().get(ctm.getColor1()));
-		ctm.setColor2(Utilities.collectColorHash().get(ctm.getColor2()));
+		ctm.setArticleType((String) Utilities.collectArticleTypeHash().get(ctm.getArticleType()).getState("Description"));
+		ctm.setColor1((String) Utilities.collectColorHash().get(ctm.getColor1()).getState("Description"));
+		if(Utilities.collectColorHash().get(ctm.getColor2()) != null)
+			ctm.setColor2((String) Utilities.collectColorHash().get(ctm.getColor2()).getState("Description"));
+		else
+			ctm.setColor2("");
 	}
 
 	//--------------------------------------------------------------------------

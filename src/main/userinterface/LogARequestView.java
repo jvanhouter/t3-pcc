@@ -389,6 +389,7 @@ public class LogARequestView extends View
                                     return;
                                 }
                                 myModel.stateChangeRequest("ClothingRequestData", props);
+                                myModel.stateChangeRequest("OK", "");
                             } else
                                 displayErrorMessage("Phone number or email must be filled out.");
                         } else
@@ -467,7 +468,9 @@ public class LogARequestView extends View
     //----------------------------------------------------------
     public void displayErrorMessage(String message)
     {
-        statusLog.displayErrorMessage(message);
+        model.Alert alert = new model.Alert(Alert.AlertType.INFORMATION);
+        alert.displayErrorMessage(message);
+        //statusLog.displayErrorMessage(message);
     }
 
     /**
@@ -476,7 +479,9 @@ public class LogARequestView extends View
     //----------------------------------------------------------
     public void displayMessage(String message)
     {
-        statusLog.displayMessage(message);
+        model.Alert alert = new model.Alert(Alert.AlertType.INFORMATION);
+        alert.displayMessage(message);
+        //statusLog.displayMessage(message);
     }
 
     /**
