@@ -2,6 +2,10 @@
 package model;
 
 // system imports
+import Utilities.Utilities;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
@@ -18,6 +22,8 @@ import exception.MultiplePrimaryKeysException;
 
 import userinterface.View;
 import userinterface.ViewFactory;
+
+import javax.rmi.CORBA.Util;
 
 
 public class FulfilRequestTransaction extends Transaction
@@ -82,7 +88,41 @@ public class FulfilRequestTransaction extends Transaction
         else
         if(key.equals("ClothingItemSelected") == true)
         {
+            try {
+                myClothingItem = new ClothingItem((String) value);
+                Alert alert = new Alert(Alert.AlertType.NONE);
+                alert.setTitle((String) myClothingRequest.getState("RequesterNetid") + " Clothing Request");
+                alert.setContentText(constructAlertConflicts(myClothingRequest, myClothingItem));
+                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+                alert.getButtonTypes().setAll(okButton, noButton);
+                alert.showAndWait().ifPresent(type -> {
+                    /* If the button text changes, change this. Quick draft */
+                    if (type.getText().equals("Yes")) {
+                        myClothingItem.stateChangeRequest("Status", "Received");
+                        myClothingRequest.stateChangeRequest("Status", "Fulfilled");
+                        Date date = new Date();
+                        String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                        myClothingItem.stateChangeRequest("DateTaken", modifiedDate);
+                        myClothingRequest.stateChangeRequest("RequestFulfilledDate", modifiedDate);
+                        myClothingItem.update();
+                        myClothingRequest.update();
 
+                        Alert conf = new Alert(Alert.AlertType.INFORMATION);
+                        conf.setTitle((String) myClothingRequest.getState("RequesterNetid") + " Clothing Request");
+                        conf.setContentText("Cool");
+                        conf.show();
+
+                        stateChangeRequest("OK", "");
+                    } else if (type.getText().equals("No")) {
+                        // do nothing
+                    }
+                });
+            } catch (InvalidPrimaryKeyException e) {
+                e.printStackTrace();
+            } catch (MultiplePrimaryKeysException e) {
+                e.printStackTrace();
+            }
         }
         if (key.equals("RequestSelected") == true)
         {
@@ -94,7 +134,7 @@ public class FulfilRequestTransaction extends Transaction
             try
             {
 
-                Scene newScene = createFulfillRequestView();
+                Scene newScene = createInventoryCollectionView();
 
                 swapToView(newScene);
 
@@ -175,15 +215,26 @@ public class FulfilRequestTransaction extends Transaction
     }
 
     //---------------------------------------------------------------
-        protected Scene createFulfillRequestView()
-        {
-          View newView = ViewFactory.createView("FulfillRequestView", this);
-          Scene currentScene = new Scene(newView);
+    protected Scene createFulfillRequestTractionView()
+    {
+        return null;
+    }
 
-          return currentScene;
+    //----------------------------------------------------------------
+    private String constructAlertConflicts(ClothingRequest cr, ClothingItem ci)
+    {
+        StringBuilder sb = new StringBuilder("");
+        if(!((String) cr.getState("RequestedColor1")).equals((String) ci.getState("Color1"))) {
+            sb.append("------------------------\nRequested Primary Color: " + (String) Utilities.collectColorHash().get(cr.getState("ID")).getState("Description") + "\nSelected Primary Color: " + (String) Utilities.collectColorHash().get(ci.getState("Color1")).getState("Description") +"\n");
         }
+        if((cr.getState("RequestedColor2") != null && ci.getState("Color2") != null) && !((String) cr.getState("RequestedColor2")).equals((String) ci.getState("Color2"))) {
+            sb.append("------------------------\nRequested Secondary Color: " + (String) Utilities.collectColorHash().get(cr.getState("ID")).getState("Description") + "\nSelected Secondary Color: " + (String) Utilities.collectColorHash().get(ci.getState("Color1")).getState("Description")+"\n");
+        }
+        sb.insert(0,"Requester Netid: " + cr.getState("RequesterNetid") + "\n");
 
-
+        return sb.toString();
+    }
+    /*
     //----------------------------------------------------------------
     private void processFulfillRequestTransaction(Properties props)
     {
@@ -208,6 +259,6 @@ public class FulfilRequestTransaction extends Transaction
             myClothingRequest.update();
             transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
         }
-    }
+    }*/
 
 }

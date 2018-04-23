@@ -1,6 +1,11 @@
 package userinterface;
 
 // system imports
+
+import Utilities.UiConstants;
+import Utilities.Utilities;
+import javafx.beans.property.SimpleStringProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,13 +27,13 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-import java.util.Vector;
-import java.util.Enumeration;
+import java.util.*;
 
 // project imports
 import impresario.IModel;
-import model.ClothingItem;
-import model.ClothingItemCollection;
+import model.*;
+
+import javax.rmi.CORBA.Util;
 
 //==============================================================================
 public class ClothingItemCollectionView extends View
@@ -62,9 +67,18 @@ public class ClothingItemCollectionView extends View
 	}
 
 
-	protected void populateFields()
+	//--------------------------------------------------------------------------
+	protected void populateFields() { getEntryTableModelValues(); }
+
+	//--------------------------------------------------------------------------
+	private void refactor(ClothingItemTableModel ctm)
 	{
-		getEntryTableModelValues();
+		ctm.setArticleType((String) Utilities.collectArticleTypeHash().get(ctm.getArticleType()).getState("Description"));
+		ctm.setColor1((String) Utilities.collectColorHash().get(ctm.getColor1()).getState("Description"));
+		if(Utilities.collectColorHash().get(ctm.getColor2()) != null)
+			ctm.setColor2((String) Utilities.collectColorHash().get(ctm.getColor2()).getState("Description"));
+		else
+			ctm.setColor2("");
 	}
 
 
@@ -89,6 +103,9 @@ public class ClothingItemCollectionView extends View
 
 					// add this list entry to the list
 					ClothingItemTableModel nextTableRowData = new ClothingItemTableModel(view);
+					refactor(nextTableRowData);
+					if(nextTableRowData.getSize().equals("" + UiConstants.GENERIC_SIZE))
+						nextTableRowData.setSize("");
 					tableData.add(nextTableRowData);
 
 				}
@@ -169,10 +186,15 @@ public class ClothingItemCollectionView extends View
 		brandColumn.setCellValueFactory(
 				new PropertyValueFactory<ClothingItemTableModel, String>("brand"));
 
-		TableColumn donorInfoColumn = new TableColumn("Donor Info") ;
-		donorInfoColumn.setMinWidth(50);
-		donorInfoColumn.setCellValueFactory(
-				new PropertyValueFactory<ClothingItemTableModel, String>("donorInformation"));
+		TableColumn donorFirstNameColumn = new TableColumn("Donor First Name") ;
+		donorFirstNameColumn.setMinWidth(50);
+		donorFirstNameColumn.setCellValueFactory(
+				new PropertyValueFactory<ClothingItemTableModel, String>("donorFirstName"));
+
+		TableColumn donorLastNameColumn = new TableColumn("Donor Last Name") ;
+		donorLastNameColumn.setMinWidth(50);
+		donorLastNameColumn.setCellValueFactory(
+				new PropertyValueFactory<ClothingItemTableModel, String>("donorLastName"));
 
 		TableColumn notesColumn = new TableColumn("Notes") ;
 		notesColumn.setMinWidth(50);
@@ -180,7 +202,7 @@ public class ClothingItemCollectionView extends View
 				new PropertyValueFactory<ClothingItemTableModel, String>("notes"));
 
 		tableOfClothingItems.getColumns().addAll(barcodeColumn,
-				genderColumn, sizeColumn, colorOneColumn, colorTwoColumn, articleTypeColumn, brandColumn, donorInfoColumn, notesColumn);
+				genderColumn, sizeColumn, colorOneColumn, colorTwoColumn, articleTypeColumn, brandColumn, donorFirstNameColumn, donorLastNameColumn, notesColumn);
 
 		tableOfClothingItems.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override

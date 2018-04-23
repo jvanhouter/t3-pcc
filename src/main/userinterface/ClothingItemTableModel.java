@@ -130,13 +130,14 @@ public class ClothingItemTableModel
     {
     	donorFirstName.set(donorFirstNameString);
     }
+
     //----------------------------------------------------------------------------
     public String getDonorLastName() {
         return donorLastName.get();
     }
 
     //----------------------------------------------------------------------------
-    public void setDonorInformation(String donorLastNameString)
+    public void setDonorLastName(String donorLastNameString)
     {
     	donorLastName.set(donorLastNameString);
     }
@@ -158,6 +159,6 @@ public class ClothingItemTableModel
     //----------------------------------------------------------------------------
     public void setSize(String sizeString)
     {
-    	notes.set(sizeString);
+    	size.set(sizeString);
     }
 }

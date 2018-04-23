@@ -1,6 +1,7 @@
 package userinterface;
 
 
+import Utilities.UiConstants;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -66,7 +67,7 @@ import model.Color;
 			String genderString = (String)myModel.getState("Gender");
 			if (genderString != null)
 			{
-				//genderCombo.setValue(genderString);
+				genderCombo.setValue(genderString);
 			}
 			String atString = (String)myModel.getState("ArticleType");
 			if(atString != null) {
@@ -115,7 +116,10 @@ import model.Color;
 			String sizeString = (String)myModel.getState("Size");
 			if (sizeString != null)
 			{
-				sizeText.setText(sizeString);
+				if(sizeString.equals("" + UiConstants.GENERIC_SIZE))
+					sizeText.setText("");
+				else
+					sizeText.setText(sizeString);
 			}
 			String donorLast = (String)myModel.getState("DonorLastName");
 			if (donorLast != null)

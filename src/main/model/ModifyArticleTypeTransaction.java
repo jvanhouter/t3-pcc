@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import Utilities.Utilities;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.Properties;
@@ -15,6 +16,8 @@ import exception.MultiplePrimaryKeysException;
 import userinterface.View;
 import userinterface.ViewFactory;
 import Utilities.UiConstants;
+
+import javax.rmi.CORBA.Util;
 
 /** The class containing the ModifyArticleTypeTransaction for the Professional Clothes Closet application */
 //==============================================================
@@ -105,6 +108,7 @@ public class ModifyArticleTypeTransaction extends Transaction
 				mySelectedArticleType.stateChangeRequest("Description", descriptionOfAT);
 				mySelectedArticleType.stateChangeRequest("AlphaCode", alphaCode);
 				mySelectedArticleType.update();
+				Utilities.putArticleTypeHash((String) mySelectedArticleType.getState("ID"), mySelectedArticleType);
 				transactionErrorMessage = (String)mySelectedArticleType.getState("UpdateStatusMessage");
 			}
 		}

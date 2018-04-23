@@ -13,6 +13,7 @@ import javafx.scene.text.TextAlignment;
 
 // project imports
 import impresario.IModel;
+import model.Alert;
 
 /** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application
@@ -77,7 +78,16 @@ public class RemoveRequestView extends View
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Yes");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnAction(e -> myModel.stateChangeRequest("RemoveRequest", null));
+        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+
+                myModel.stateChangeRequest("RemoveRequest", null);
+                myModel.stateChangeRequest("OK", "");
+            }
+        });
+
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("No");
@@ -138,7 +148,9 @@ public class RemoveRequestView extends View
     //----------------------------------------------------------
     public void displayErrorMessage(String message)
     {
-        statusLog.displayErrorMessage(message);
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        alert.displayErrorMessage(message);
+        //statusLog.displayErrorMessage(message);
     }
 
     /**
@@ -147,7 +159,9 @@ public class RemoveRequestView extends View
     //----------------------------------------------------------
     public void displayMessage(String message)
     {
-        statusLog.displayMessage(message);
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        alert.displayMessage(message);
+        //statusLog.displayMessage(message);
     }
 
     /**

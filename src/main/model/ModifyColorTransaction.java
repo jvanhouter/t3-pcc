@@ -1,5 +1,6 @@
 package model;
 
+import Utilities.Utilities;
 import event.Event;
 import exception.InvalidPrimaryKeyException;
 import javafx.scene.Scene;
@@ -92,6 +93,7 @@ public class ModifyColorTransaction extends Transaction {
                 mySelectedColor.stateChangeRequest("Description", descriptionOfCL);
                 mySelectedColor.stateChangeRequest("AlphaCode", alphaCode);
                 mySelectedColor.update();
+                Utilities.putColorHash((String) mySelectedColor.getState("ID"), mySelectedColor);
                 transactionErrorMessage = (String)mySelectedColor.getState("UpdateStatusMessage");
             }
         }

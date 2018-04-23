@@ -1,6 +1,10 @@
 package userinterface;
 
 // system imports
+
+import Utilities.UiConstants;
+import Utilities.Utilities;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -19,13 +23,18 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.Enumeration;
 
 // project imports
 import impresario.IModel;
-import model.ClothingRequest;
-import model.RequestCollection;
+
+//We need to look at these - can we avoid the outside library, and
+// slim down the model.* to just the classes we need? - JVH
+import model.*;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 
 //==============================================================================
 public class RequestCollectionView extends View
@@ -64,6 +73,17 @@ public class RequestCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
+    private void refactor(RequestTableModel ctm)
+    {
+        ctm.setArticleType((String) Utilities.collectArticleTypeHash().get(ctm.getArticleType()).getState("Description"));
+        ctm.setColor1((String) Utilities.collectColorHash().get(ctm.getColor1()).getState("Description"));
+        if(Utilities.collectColorHash().get(ctm.getColor1()) != null)
+            ctm.setColor2((String) Utilities.collectColorHash().get(ctm.getColor2()).getState("Description"));
+        else
+            ctm.setColor2("");
+    }
+
+    //--------------------------------------------------------------------------
     protected void getEntryTableModelValues()
     {
         ObservableList<RequestTableModel> tableData = FXCollections.observableArrayList();
@@ -85,6 +105,9 @@ public class RequestCollectionView extends View
 
                     // add this list entry to the list
                     RequestTableModel nextTableRowData = new RequestTableModel(view);
+                    if(nextTableRowData.getSize().equals("" + UiConstants.GENERIC_SIZE))
+                        nextTableRowData.setSize("");
+                    refactor(nextTableRowData);
                     tableData.add(nextTableRowData);
 
                 }

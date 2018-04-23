@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.Vector;
 
 import Utilities.UiConstants;
+import Utilities.Utilities;
 import javafx.scene.Scene;
 
 //project imports
@@ -82,13 +83,14 @@ public class ClothingItemCollection  extends EntityBase implements IView
 		if(size.equals("")) size = "" + UiConstants.GENERIC_SIZE;
 		String query = "SELECT * FROM " + myTableName + " WHERE ";
 		if (((gender != null) && (gender.length() > 0))&&
-				((articleType != null) && (articleType.length() > 0)) && ((size != null) && (size.length() > 0)))
+				((articleType != null) && (articleType.length() > 0)) && ((size != null) && (size.length() > 0) && !size.equals("" + UiConstants.GENERIC_SIZE)))
 		{
 			// both values get into criteria
 			query += "(Gender LIKE '%" + gender + "%') AND (ArticleType LIKE '%" +
-					articleType + "%') AND (Size LIKE '%" + size + "%');";
+					articleType + "%') AND (Size LIKE '%" + size + "%') AND Status='Donated';";
 		}
 		else {
+			query += "Status = 'Donated' AND ";
 			if ((gender != null) && (gender.length() > 0)) {
 				// only description gets into criteria
 				query += "(Gender LIKE '%" + gender + "%') AND ";
@@ -98,10 +100,10 @@ public class ClothingItemCollection  extends EntityBase implements IView
 				query += "(ArticleType LIKE '%" + articleType + "%') AND ";
 			}
 			if ((size != null) && (size.length() > 0)) {
+				size = "";
 				query += "(Size LIKE '%" + size + "%') AND ";
 			}
-			query = query.substring(0, query.lastIndexOf("AND "));
-			System.out.println(query);
+			query = Utilities.replaceLast("AND", ";", query);
 		}
 		populateCollectionHelper(query);
 	}
@@ -132,7 +134,7 @@ public class ClothingItemCollection  extends EntityBase implements IView
 		{
 			query += "";
 		}
-		
+
 		populateCollectionHelper(query);
 	}
 		
