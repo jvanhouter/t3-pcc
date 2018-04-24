@@ -291,7 +291,7 @@ public class AddClothingItemView extends View {
     public void populateFields() {
         clearErrorMessage();
         genderCombo.setValue((String) myModel.getState("Gender"));
-        System.out.println(myModel.getState("Articles"));
+        // sometimes returns null, hashmap may solve
         Vector ArticleList = (Vector) myModel.getState("Articles");
         Iterator articles = ArticleList.iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();

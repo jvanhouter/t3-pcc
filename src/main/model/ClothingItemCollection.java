@@ -56,6 +56,7 @@ public class ClothingItemCollection  extends EntityBase implements IView
 
 				if (ci != null)
 				{
+					ci.updateExistsToTrue();
 					addClothingItem(ci);
 				}
 			}

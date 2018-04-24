@@ -117,8 +117,9 @@ public class AddClothingItemTransaction extends Transaction
                 if (barcode.substring(0, 1).equals("1"))
                 {
                     gender = "Mens";
-                } else
-                    {
+                }
+                else
+                {
                     gender = "Womens";
                 }
                 myArticleTypeList = new ArticleTypeCollection();

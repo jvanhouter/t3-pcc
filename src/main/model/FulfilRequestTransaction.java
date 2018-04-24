@@ -34,6 +34,10 @@ public class FulfilRequestTransaction extends Transaction
     private ClothingItem myClothingItem;
     private ClothingItemCollection myClothingCollection;
 
+    private ArticleTypeCollection myArticleTypeList;
+    private ColorCollection myColorList;
+    private String gender;
+
     private String transactionErrorMessage = "";
 
 
@@ -50,6 +54,7 @@ public class FulfilRequestTransaction extends Transaction
         dependencies.setProperty("CancelRequest", "CancelTransaction");
         dependencies.setProperty("CancelClothingItemList", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
+        dependencies.setProperty("ProcessRequest", "TransactionError");
         dependencies.setProperty("ClothingRequestData", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
@@ -86,43 +91,35 @@ public class FulfilRequestTransaction extends Transaction
             processTransaction((Properties)value);
         }
         else
+        if (key.equals("ProcessRequest") == true)
+        {
+            myClothingItem.stateChangeRequest("Status", "Received");
+            myClothingRequest.stateChangeRequest("Status", "Fulfilled");
+            Date date = new Date();
+            String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            myClothingItem.stateChangeRequest("DateTaken", modifiedDate);
+            myClothingRequest.stateChangeRequest("RequestFulfilledDate", modifiedDate);
+            myClothingItem.stateChangeRequest("ReceveiverNetid", (String) myClothingRequest.getState("RequesterNetid"));
+            myClothingItem.stateChangeRequest("ReceveiverFirstName", (String) myClothingRequest.getState("RequesterFirstName"));
+            myClothingItem.stateChangeRequest("ReceveiverLastName", (String) myClothingRequest.getState("RequesterLastName"));
+            myClothingItem.update();
+            myClothingRequest.update();
+            transactionErrorMessage = "Request has been fulfilled";
+        }
         if(key.equals("ClothingItemSelected") == true)
         {
             try {
-                myClothingItem = new ClothingItem((String) value);
-                Alert alert = new Alert(Alert.AlertType.NONE);
-                alert.setTitle((String) myClothingRequest.getState("RequesterNetid") + " Clothing Request");
-                //alert.setContentText(constructAlertConflicts(myClothingRequest, myClothingItem));
-                ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-                alert.getButtonTypes().setAll(okButton, noButton);
-                alert.showAndWait().ifPresent(type -> {
-                    /* If the button text changes, change this. Quick draft */
-                    if (type.getText().equals("Yes")) {
-                        myClothingItem.stateChangeRequest("Status", "Received");
-                        myClothingRequest.stateChangeRequest("Status", "Fulfilled");
-                        Date date = new Date();
-                        String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-                        myClothingItem.stateChangeRequest("DateTaken", modifiedDate);
-                        myClothingRequest.stateChangeRequest("RequestFulfilledDate", modifiedDate);
-                        myClothingItem.update();
-                        myClothingRequest.update();
+                myClothingItem = myClothingCollection.retrieve((String) value);
 
-                        Alert conf = new Alert(Alert.AlertType.INFORMATION);
-                        conf.setTitle((String) myClothingRequest.getState("RequesterNetid") + " Clothing Request");
-                        conf.setContentText("Cool");
-                        conf.show();
+                Scene newScene = createFulfilView();
 
-                        stateChangeRequest("OK", "");
-                    } else if (type.getText().equals("No")) {
-                        // do nothing
-                    }
-                });
-            } catch (InvalidPrimaryKeyException e) {
-                e.printStackTrace();
-            } catch (MultiplePrimaryKeysException e) {
+                swapToView(newScene);
+
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+
         }
         if (key.equals("RequestSelected") == true)
         {
@@ -164,6 +161,14 @@ public class FulfilRequestTransaction extends Transaction
         {
             return myRequestCollection;
         }
+        if (key.equals("ClothingItem") == true)
+        {
+            return myClothingItem;
+        }
+        if (key.equals("ClothingRequest") == true)
+        {
+            return myClothingRequest;
+        }
         if (key.equals("TransactionError") == true)
         {
             return transactionErrorMessage;
@@ -195,6 +200,14 @@ public class FulfilRequestTransaction extends Transaction
         }
     }
 
+    //-------------------------------------------------------------
+    protected Scene createFulfilView()
+    {
+        View newView = ViewFactory.createView("FulfillRequestView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+    }
 
     //-------------------------------------------------------------
     protected Scene createRequestCollectionView()

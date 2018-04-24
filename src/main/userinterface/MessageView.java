@@ -48,6 +48,7 @@ public class MessageView extends Text {
         } else {
             if(!myAlert.getInstance().isShowing()) {
                 myAlert.getInstance().setAlertType(Alert.AlertType.INFORMATION);
+                myAlert.getInstance().setHeaderText("Message");
                 myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Info");
                 myAlert.getInstance().setContentText(message);
                 myAlert.getInstance().show();
@@ -63,6 +64,7 @@ public class MessageView extends Text {
     public void displayErrorMessage(String message) {
         // display the passed text in red
         if(!myAlert.getInstance().isShowing()) {
+            myAlert.getInstance().setHeaderText("Error");
             myAlert.getInstance().setAlertType(Alert.AlertType.ERROR);
             myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Error");
             myAlert.getInstance().setContentText(message);
