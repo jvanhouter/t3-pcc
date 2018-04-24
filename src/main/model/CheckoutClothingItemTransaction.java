@@ -203,7 +203,6 @@ public class CheckoutClothingItemTransaction extends Transaction
         {
             return inventoryItems;
         }
-
         return null;
     }
 
@@ -255,10 +254,8 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     private void handleBarcodeProblems()
     {
-        barcodeError = "The clothing item associated with barcode "+ barcodeError + " This clothing item will not be added to the checkout cart.";
-        Alert alert = new Alert(Alert.AlertType.ERROR, barcodeError);
-        alert.setTitle("Barcode Error");
-        alert.setHeaderText("There is a problem with the item you wish to checkout.");
-        alert.show();
+        System.out.println(barcodeError);
+
+        stateChangeRequest("HandleBarcodeProblems", barcodeError);
     }
 }
