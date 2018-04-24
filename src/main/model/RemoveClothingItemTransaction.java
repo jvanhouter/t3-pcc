@@ -103,7 +103,7 @@ public class RemoveClothingItemTransaction extends Transaction {
         {
             try {
                 Properties p = (Properties) value;
-                mySelectedItem = new ClothingItem((String) p.get("Barcode")); //passes entire barcode
+                mySelectedItem = new ClothingItem((String) p.getProperty("Barcode")); //passes entire barcode
             } catch (InvalidPrimaryKeyException e) {
                 e.printStackTrace();
             } catch (MultiplePrimaryKeysException e) {

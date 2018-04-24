@@ -33,6 +33,9 @@ public class MessageView extends Text {
      * Display ordinary message
      */
     public void displayMessage(String message) {
+        System.out.println("heremsg");
+        Exception e = new Exception();
+        e.printStackTrace();
         // display the passed text in blue
         if (message.equals("Loading...") || message.length() == 0) {
             setFill(Color.BLUE);

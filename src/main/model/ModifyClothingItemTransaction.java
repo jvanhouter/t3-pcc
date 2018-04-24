@@ -46,6 +46,7 @@ public class ModifyClothingItemTransaction extends Transaction {
         dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
         dependencies.setProperty("CancelAddClothingItem", "CancelTransaction");
         dependencies.setProperty("ClothingItemData", "TransactionError");
+        dependencies.setProperty("OK", "CancelTransaction");
         dependencies.setProperty("ProcessBarcode", "TransactionError");
 
         myRegistry.setDependencies(dependencies);

@@ -39,6 +39,7 @@ public class ModifyColorTransaction extends Transaction {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchColor", "CancelTransaction");
         dependencies.setProperty("CancelAddCT", "CancelTransaction");
+        dependencies.setProperty("OK", "CancelTransaction");
         dependencies.setProperty("ColorData", "TransactionError");
 
         myRegistry.setDependencies(dependencies);

@@ -48,6 +48,7 @@ public class ModifyArticleTypeTransaction extends Transaction
 		dependencies = new Properties();
 		dependencies.setProperty("CancelSearchArticleType", "CancelTransaction");
 		dependencies.setProperty("CancelAddAT", "CancelTransaction");
+		dependencies.setProperty("OK", "CancelTransaction");
 		dependencies.setProperty("ArticleTypeData", "TransactionError");
 
 		myRegistry.setDependencies(dependencies);

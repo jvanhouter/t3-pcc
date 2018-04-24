@@ -92,7 +92,7 @@ public class FulfilRequestTransaction extends Transaction
                 myClothingItem = new ClothingItem((String) value);
                 Alert alert = new Alert(Alert.AlertType.NONE);
                 alert.setTitle((String) myClothingRequest.getState("RequesterNetid") + " Clothing Request");
-                alert.setContentText(constructAlertConflicts(myClothingRequest, myClothingItem));
+                //alert.setContentText(constructAlertConflicts(myClothingRequest, myClothingItem));
                 ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
                 ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
                 alert.getButtonTypes().setAll(okButton, noButton);
@@ -220,20 +220,6 @@ public class FulfilRequestTransaction extends Transaction
         return null;
     }
 
-    //----------------------------------------------------------------
-    private String constructAlertConflicts(ClothingRequest cr, ClothingItem ci)
-    {
-        StringBuilder sb = new StringBuilder("");
-        if(!((String) cr.getState("RequestedColor1")).equals((String) ci.getState("Color1"))) {
-            sb.append("------------------------\nRequested Primary Color: " + (String) Utilities.collectColorHash().get(cr.getState("ID")).getState("Description") + "\nSelected Primary Color: " + (String) Utilities.collectColorHash().get(ci.getState("Color1")).getState("Description") +"\n");
-        }
-        if((cr.getState("RequestedColor2") != null && ci.getState("Color2") != null) && !((String) cr.getState("RequestedColor2")).equals((String) ci.getState("Color2"))) {
-            sb.append("------------------------\nRequested Secondary Color: " + (String) Utilities.collectColorHash().get(cr.getState("ID")).getState("Description") + "\nSelected Secondary Color: " + (String) Utilities.collectColorHash().get(ci.getState("Color1")).getState("Description")+"\n");
-        }
-        sb.insert(0,"Requester Netid: " + cr.getState("RequesterNetid") + "\n");
-
-        return sb.toString();
-    }
     /*
     //----------------------------------------------------------------
     private void processFulfillRequestTransaction(Properties props)
