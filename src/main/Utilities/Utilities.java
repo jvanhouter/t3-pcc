@@ -25,7 +25,8 @@ public class Utilities
 	{
 		if(clothingHash == null)
 		{
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			PccAlert alert = PccAlert.getInstance();
+			alert.setAlertType(Alert.AlertType.INFORMATION);
 			alert.setTitle("Preparing Local HashMap...");
 			alert.setHeaderText("Loading...");
 			alert.setContentText("Please wait while ClothingItem hash is created.");
@@ -54,7 +55,8 @@ public class Utilities
 	{
 		if(clothingHash == null)
 		{
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			PccAlert alert = PccAlert.getInstance();
+			alert.setAlertType(Alert.AlertType.INFORMATION);
 			alert.setTitle("Preparing Local HashMap...");
 			alert.setHeaderText("Loading...");
 			alert.setContentText("Please wait while Clothing Item hash is created.");
@@ -83,7 +85,8 @@ public class Utilities
 	{
 		if(colorHash == null)
 		{
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			PccAlert alert = PccAlert.getInstance();
+			alert.setAlertType(Alert.AlertType.INFORMATION);
 			alert.setTitle("Preparing Local HashMap...");
 			alert.setHeaderText("Loading...");
 			alert.setContentText("Please wait while Color hash is created.");
@@ -112,7 +115,8 @@ public class Utilities
 	{
 		if(articleTypeHash == null)
 		{
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			PccAlert alert = PccAlert.getInstance();
+			alert.setAlertType(Alert.AlertType.INFORMATION);
 			alert.setTitle("Preparing Local HashMap...");
 			alert.setHeaderText("Loading...");
 			alert.setContentText("Please wait while Article Type hash is created.");
@@ -141,7 +145,8 @@ public class Utilities
 	{
 		if(colorHash == null)
 		{
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			PccAlert alert = PccAlert.getInstance();
+			alert.setAlertType(Alert.AlertType.INFORMATION);
 			alert.setTitle("Preparing Local HashMap...");
 			alert.setHeaderText("Loading...");
 			alert.setContentText("Please wait while Color hash is created.");
@@ -170,7 +175,8 @@ public class Utilities
 	{
 		if(articleTypeHash == null)
 		{
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			PccAlert alert = PccAlert.getInstance();
+			alert.setAlertType(Alert.AlertType.INFORMATION);
 			alert.setTitle("Preparing Local HashMap...");
 			alert.setHeaderText("Loading...");
 			alert.setContentText("Please wait while Article Type hash is created.");

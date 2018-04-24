@@ -47,6 +47,7 @@ public class MessageView extends Text {
             setText(message);
         } else {
             if(!myAlert.getInstance().isShowing()) {
+                myAlert.getInstance().setAlertType(Alert.AlertType.INFORMATION);
                 myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Info");
                 myAlert.getInstance().setContentText(message);
                 myAlert.getInstance().show();
