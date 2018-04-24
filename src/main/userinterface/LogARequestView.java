@@ -413,9 +413,9 @@ public class LogARequestView extends View
 
     public void displayErrorMessage(String message)
     {
-        model.Alert alert = new model.Alert(Alert.AlertType.INFORMATION);
-        alert.displayErrorMessage(message);
-        //statusLog.displayErrorMessage(message);
+        //model.Alert alert = new model.Alert(Alert.AlertType.INFORMATION);
+        //alert.displayErrorMessage(message);
+        statusLog.displayErrorMessage(message);
     }
 
     /**
@@ -424,9 +424,9 @@ public class LogARequestView extends View
 
     public void displayMessage(String message)
     {
-        model.Alert alert = new model.Alert(Alert.AlertType.INFORMATION);
-        alert.displayMessage(message);
-        //statusLog.displayMessage(message);
+        //Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        //alert.displayMessage(message);
+        statusLog.displayMessage(message);
     }
 
     /**

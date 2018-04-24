@@ -1,26 +1,31 @@
 package model;
 
-public class PccAlert extends javafx.scene.control.Alert{
+import javafx.scene.control.Alert;
 
-    public PccAlert(AlertType alertType)
-    {
+public class PccAlert extends Alert {
+
+    private static PccAlert myAlert;
+
+    private PccAlert(AlertType alertType) {
         super(alertType);
+    }
+
+
+    public static PccAlert getInstance() {
+        if(myAlert == null) {
+            myAlert = new PccAlert(Alert.AlertType.INFORMATION);
+        }
+        return myAlert;
     }
 
     //-------------------------------------------------
     public void displayErrorMessage(String message)
     {
-        setHeaderText("Clothes Closet");
-        setTitle("Error!");
-        setContentText(message);
-        show();
+
     }
 
     //--------------------------------------------------
     public void displayMessage(String message) {
-        setHeaderText("Clothes Closet");
-        setTitle("Message");
-        setContentText(message);
-        show();
+
     }
 }

@@ -15,7 +15,6 @@ import javafx.scene.text.TextAlignment;
 
 // project imports
 import impresario.IModel;
-import model.Alert;
 
 /** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application
@@ -150,9 +149,9 @@ public class RemoveRequestView extends View
     //----------------------------------------------------------
     public void displayErrorMessage(String message)
     {
-        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        alert.displayErrorMessage(message);
-        //statusLog.displayErrorMessage(message);
+        //Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        //alert.displayErrorMessage(message);
+        statusLog.displayErrorMessage(message);
     }
 
     /**
@@ -161,9 +160,9 @@ public class RemoveRequestView extends View
     //----------------------------------------------------------
     public void displayMessage(String message)
     {
-        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        alert.displayMessage(message);
-        //statusLog.displayMessage(message);
+        //Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        //alert.displayMessage(message);
+        statusLog.displayMessage(message);
     }
 
     /**
