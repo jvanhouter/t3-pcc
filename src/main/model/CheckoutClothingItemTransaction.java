@@ -16,6 +16,7 @@ import userinterface.ViewFactory;
 public class CheckoutClothingItemTransaction extends Transaction
 {
     private ClothingItem myClothingItem;
+    private ClothingItemCollection receiverPastSixMonths = new ClothingItemCollection();
     private InventoryItemCollection inventoryItems = new InventoryItemCollection();
     private Vector<ClothingItem> clothingItems = new Vector<ClothingItem>();
 
@@ -36,6 +37,8 @@ public class CheckoutClothingItemTransaction extends Transaction
         dependencies.setProperty("CancelCheckoutCI", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
         dependencies.setProperty("ReceiverData", "TransactionError");
+        dependencies.setProperty("BarcodeError", "HandleBarcodeProblems");
+
 
         myRegistry.setDependencies(dependencies);
     }
@@ -112,6 +115,9 @@ public class CheckoutClothingItemTransaction extends Transaction
         String receiverNetid = props.getProperty("ReceiverNetid");
         String receiverFirstName = props.getProperty("ReceiverFirstName");
         String receiverLastName = props.getProperty("ReceiverLastName");
+        receiverPastSixMonths.findRecent(receiverNetid);
+
+
 
         if(clothingItems.size() > 0)
         {
@@ -190,6 +196,10 @@ public class CheckoutClothingItemTransaction extends Transaction
         else if (key.equals("BarcodeError") == true)
         {
             return barcodeError;
+        }
+        else if (key.equals("ReceiverRecentCheckouts") == true)
+        {
+            return receiverPastSixMonths;
         }
         else if (key.equals("UpdateMessage") == true)
         {
