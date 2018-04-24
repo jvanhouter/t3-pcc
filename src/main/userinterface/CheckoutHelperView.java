@@ -63,6 +63,9 @@ public class CheckoutHelperView extends View
         getChildren().add(container);
 
         populateFields();
+
+        myModel.subscribe("DisplayUpdateMessage", this);
+
     }
 
 
@@ -372,6 +375,14 @@ public class CheckoutHelperView extends View
     //--------------------------------------------------------------------------
     public void updateState(String key, Object value)
     {
+        if(key.equals("DisplayUpdateMessage"))
+        {
+        String updateMessage = (String)myModel.getState("UpdateMessage");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, updateMessage);
+        alert.setTitle("Checkout");
+        alert.setHeaderText("Clothing Items have been checked out.");
+        alert.show();
+        }
 
     }
     //--------------------------------------------------------------------------

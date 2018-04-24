@@ -22,6 +22,7 @@ public class CheckoutClothingItemTransaction extends Transaction
     // GUI Components
     private String transactionErrorMessage = "";
     private String barcodeError = "";
+    private String updateMessage = "";
 
     //----------------------------------------------------------
     public CheckoutClothingItemTransaction() throws Exception
@@ -136,22 +137,17 @@ public class CheckoutClothingItemTransaction extends Transaction
                 if(((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully"))
                 {
                     numUpdated++;
-                    transactionErrorMessage = transactionErrorMessage + currItem.getState("Barcode") + " ";
+                    updateMessage = updateMessage + currItem.getState("Barcode") + " ";
                 }
             }
-
-            transactionErrorMessage = numUpdated + " clothing items associated with the following barcodes:\n\n" + transactionErrorMessage + "\n\nHave been checked out!";
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, transactionErrorMessage);
-            alert.setTitle("Checkout");
-            alert.setHeaderText("Clothing Items have been checked out.");
-            alert.show();
-
+            updateMessage = numUpdated + " clothing items associated with the following barcodes:\n\n" + updateMessage + "\n\nHave been checked out!";
         }
         else
         {
-            transactionErrorMessage = "There are no Clothing Items to update.";
+            updateMessage = "There are no Clothing Items to update.";
         }
+
+        stateChangeRequest("DisplayUpdateMessage", "");
     }
 
     public void stateChangeRequest(String key, Object value)
@@ -194,6 +190,10 @@ public class CheckoutClothingItemTransaction extends Transaction
         else if (key.equals("BarcodeError") == true)
         {
             return barcodeError;
+        }
+        else if (key.equals("UpdateMessage") == true)
+        {
+            return updateMessage;
         }
         else if (key.equals("ClothingItems") == true)
         {
@@ -254,8 +254,6 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     private void handleBarcodeProblems()
     {
-        System.out.println(barcodeError);
-
-        stateChangeRequest("HandleBarcodeProblems", barcodeError);
+        stateChangeRequest("HandleBarcodeProblems", "");
     }
 }
