@@ -320,7 +320,7 @@ public class InventoryItemCollectionView extends View
                 myModel.stateChangeRequest("CancelInventory", null);
             }
         });
-        
+
         outputButton = new PccButton("Save to File");
         outputButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         outputButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -391,11 +391,6 @@ public class InventoryItemCollectionView extends View
         File reportsDir = new File(reportsPath);
 
 
-        // if the directory does not exist, create it
-        // Do we need this?
-        if (!reportsDir.exists()) {
-            reportsDir.mkdir();
-        }
 
         FileChooser chooser = new FileChooser();
         chooser.setInitialDirectory(reportsDir);
@@ -518,4 +513,3 @@ public class InventoryItemCollectionView extends View
 
     }
 }
-
