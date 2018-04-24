@@ -212,9 +212,11 @@ public class ModifyClothingItemTransaction extends Transaction {
             myColorList.findAll();
             String barcode = (String) mySelectedClothingItem.getState("Barcode");
             if(barcode.substring(0, 1).equals("1"))
-                gender = "Mens";
-            else
-                gender = "Womens";
+               gender = "Mens";
+           else if (barcode.substring(0, 1).equals("0"))
+               gender = "Womens";
+           else if (barcode.substring(0,1).equals("2"))
+               gender = "Unisex";
             try {
 
                 Scene newScene = createModifyClothingItemView();
@@ -278,4 +280,3 @@ public class ModifyClothingItemTransaction extends Transaction {
     }
 
 }
-

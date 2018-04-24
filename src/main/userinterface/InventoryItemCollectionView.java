@@ -1,17 +1,30 @@
 package userinterface;
 
 // system imports
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,12 +33,25 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.util.Vector;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.Optional;
 
 // project imports
 import impresario.IModel;
+import model.ArticleType;
+import model.ArticleTypeCollection;
 //import model.Item;
 import model.ClothingItem;
 import model.InventoryItemCollection;
@@ -34,10 +60,11 @@ import model.InventoryItemCollection;
 public class InventoryItemCollectionView extends View
 {
     protected TableView<InventoryTableModel> InventoryTable;
-    protected PccButton cancelButton;
-//    protected PccButton submitButton;
+    protected Button cancelButton;
+    protected Button outputButton;
 
     protected MessageView statusLog;
+    protected Stage stage; //Added as part of Excel work
 
 
     //--------------------------------------------------------------------------
@@ -46,7 +73,8 @@ public class InventoryItemCollectionView extends View
         super(inv, "InventoryItemCollectionView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
+        VBox container = new VBox(10);
+        container.setPadding(new Insets(15, 5, 5, 5));
 
         // create our GUI components, add them to this panel
         container.getChildren().add(createTitle());
@@ -61,11 +89,14 @@ public class InventoryItemCollectionView extends View
         populateFields();
     }
 
+
+    //--------------------------------------------------------------------------
     protected void populateFields()
     {
         getEntryTableModelValues();
     }
 
+    //--------------------------------------------------------------------------
     protected void getEntryTableModelValues()
     {
         ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
@@ -80,7 +111,7 @@ public class InventoryItemCollectionView extends View
             {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements())
+                while (entries.hasMoreElements() == true)
                 {
                     ClothingItem nextCI = (ClothingItem)entries.nextElement();
                     Vector<String> view = nextCI.getEntryListView();
@@ -103,10 +134,51 @@ public class InventoryItemCollectionView extends View
         }
     }
 
-    @Override
-    protected String getActionText() {
-        return "** Available Inventory **";
+    // Create the title container
+    //-------------------------------------------------------------
+    private Node createTitle()
+    {
+        VBox container = new VBox(10);
+        container.setPadding(new Insets(1, 1, 1, 30));
+
+        Text clientText = new Text(" Office of Career Services ");
+        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        clientText.setWrappingWidth(350);
+        clientText.setTextAlignment(TextAlignment.CENTER);
+        clientText.setFill(Color.DARKGREEN);
+        container.getChildren().add(clientText);
+
+        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
+        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        collegeText.setWrappingWidth(350);
+        collegeText.setTextAlignment(TextAlignment.CENTER);
+        collegeText.setFill(Color.DARKGREEN);
+        container.getChildren().add(collegeText);
+
+        Text titleText = new Text(" Professional Clothes Closet Management System ");
+        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        titleText.setWrappingWidth(350);
+        titleText.setTextAlignment(TextAlignment.CENTER);
+        titleText.setFill(Color.DARKGREEN);
+        container.getChildren().add(titleText);
+
+        Text blankText = new Text("  ");
+        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        blankText.setWrappingWidth(350);
+        blankText.setTextAlignment(TextAlignment.CENTER);
+        blankText.setFill(Color.WHITE);
+        container.getChildren().add(blankText);
+
+        Text actionText = new Text("      ** Available Inventory **       ");
+        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        actionText.setWrappingWidth(350);
+        actionText.setTextAlignment(TextAlignment.CENTER);
+        actionText.setFill(Color.BLACK);
+        container.getChildren().add(actionText);
+
+        return container;
     }
+
     // Create the main form content
     //-------------------------------------------------------------
     private VBox createFormContent()
@@ -114,7 +186,7 @@ public class InventoryItemCollectionView extends View
         VBox vbox = new VBox(10);
 
         Text prompt = new Text("");
-        prompt.setWrappingWidth(WRAPPING_WIDTH);
+        prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -249,9 +321,24 @@ public class InventoryItemCollectionView extends View
             }
         });
 
+        outputButton = new PccButton("Save to File");
+        outputButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        outputButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                /**
+                 * This sends the current dataset out to a CSV file
+                 */
+                clearErrorMessage();
+                saveToExcelFile();
+            }
+        });
+
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
 
+        btnContainer.getChildren().add(outputButton);
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);
@@ -293,6 +380,137 @@ public class InventoryItemCollectionView extends View
         statusLog.clearErrorMessage();
     }
 
+    //Added stuff for Output to Excel
+    //----------------------------------------------------------
+  //--------------------------------------------------------------------------
+    protected void saveToExcelFile() {
+        // Put up JFileChooser
+        // Retrieve full path name of file user selects
+        // Create the file appropriately if it does not exist
+        String reportsPath = System.getProperty("user.dir") + "/reports";
+        File reportsDir = new File(reportsPath);
 
+
+
+        FileChooser chooser = new FileChooser();
+        chooser.setInitialDirectory(reportsDir);
+
+        FileChooser.ExtensionFilter filter =
+                new FileChooser.ExtensionFilter(
+                        "CSV - (.cvs)", "*.cvs");
+
+        chooser.setSelectedExtensionFilter(filter);
+
+        File file = chooser.showSaveDialog(stage);
+
+        try {
+            String fileName = "";
+
+
+            try {
+                fileName = file.getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String tempName = fileName.toLowerCase();
+
+            if (tempName.endsWith(".csv")) {
+                writeToFile(fileName);
+            } else {
+                fileName += ".csv";
+                writeToFile(fileName);
+            }
+        } catch (Exception ex) {
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Error in saving to file: " + ex.toString(),
+                    bar);
+
+            alert.setTitle("ERROR");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+    }
+
+  //-------------------------------------------------------------
+    protected void writeToFile(String fName) {
+
+        Vector allColumnNames = new Vector();
+      //  ArticleTypeCollection articleTypeCollection =
+              //  (ArticleTypeCollection) myModel.getState("ArticleTypeList");
+        //Vector clothingVector = (Vector) articleTypeCollection.getState("ArticleTypes");
+        //getEntryTableModelValues()
+
+
+        try {
+            FileWriter outFile = new FileWriter(fName);
+            PrintWriter out = new PrintWriter(outFile);
+
+            if ((clothingVector == null) || (clothingVector.size() == 0))
+                return;
+
+            String line = "Description, Barcode Prefix, Alpha Code, Status";
+
+            out.println(line);
+
+            String valuesLine = "";
+
+            //Enumeration entries = clothingVector.elements();
+
+            while (entries.hasMoreElements() == true) {
+                ArticleType nextAT = (ArticleType) entries.nextElement();
+                Vector<String> view = nextAT.getEntryListView();
+
+                // add this list entry to the list
+                ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
+
+                valuesLine += nextTableRowData.getDescription() + ", " + nextTableRowData.getBarcodePrefix() + ", " + nextTableRowData.getAlphaCode() + ", " + nextTableRowData.getStatus() + "\n";
+            }
+            out.println(valuesLine);
+
+            out.println("");
+
+            // Also print the shift count and filter type
+            out.println("\nTotal number of : " + clothingVector.size());
+
+            // Finally, print the time-stamp
+            DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+            DateFormat timeFormat = new SimpleDateFormat("hh:mm aaa");
+            Date date = new Date();
+            String timeStamp = dateFormat.format(date) + " " +
+                    timeFormat.format(date);
+
+            out.println("Report created on " + timeStamp);
+
+            out.close();
+
+
+            // Acknowledge successful completion to user with JOptionPane
+
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Report data saved successfully to selected file",
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
+        } catch (FileNotFoundException e) {
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not access file to save: " + fName,
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
+        } catch (IOException e) {
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Error in saving to file: " + e.toString(),
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+
+    }
 }
-

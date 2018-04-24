@@ -115,16 +115,15 @@ public class BarcodeScannerView extends View {
         Properties props = new Properties();
         String barcode = barcodeField.getText();
         if ((barcode.length() > 0) && (barcode.length() <= UiConstants.BARCODE_MAX_LENGTH)) {
-            if (barcode.substring(0, 1).equals("0") || (barcode.substring(0, 1).equals("1"))) {
+            if (barcode.substring(0, 1).equals("0") || barcode.substring(0, 1).equals("1") || barcode.substring(0, 1).equals("2")) {
                 PauseTransition pause = new PauseTransition(Duration.millis(100));
                 props.setProperty("Barcode", barcode);
                 displayMessage("Loading...");
                 barcodeField.setText("");
                 pause.setOnFinished(event -> myModel.stateChangeRequest("ProcessBarcode", props));
                 pause.play();
-
             } else {
-                displayErrorMessage("ERROR: Barcode does not begin with 0 or 1!");
+                displayErrorMessage("ERROR: Barcode does not begin with 0, 1, or 2!");
             }
         } else {
             displayErrorMessage("ERROR: Please enter a valid barcode!");
