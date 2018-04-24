@@ -42,6 +42,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.StringBuilder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -435,42 +436,66 @@ public class InventoryItemCollectionView extends View
   //-------------------------------------------------------------
     protected void writeToFile(String fName) {
 
-        Vector allColumnNames = new Vector();
-        ArticleTypeCollection articleTypeCollection =
-                (ArticleTypeCollection) myModel.getState("ArticleTypeList");
-        Vector clothingVector = (Vector) articleTypeCollection.getState("ArticleTypes");
-
+//        Vector allColumnNames = new Vector();
+//        ArticleTypeCollection articleTypeCollection =
+//                (ArticleTypeCollection) myModel.getState("ArticleTypeList");
+//        Vector clothingVector = (Vector) articleTypeCollection.getState("ArticleTypes");
 
         try {
             FileWriter outFile = new FileWriter(fName);
             PrintWriter out = new PrintWriter(outFile);
 
-            if ((clothingVector == null) || (clothingVector.size() == 0))
-                return;
+//            if ((clothingVector == null) || (clothingVector.size() == 0))
+//                return;
+            
+            //This is hardcoded to the Inventory Table model - we need to find a way to
+            // dynamically change this string
+            out.println("Barcode, Gender, Size, Article Type, Color 1, Color 2,"+
+            	"Date Donated, Donor First Name, Donor Last Name, Donor Email," +
+            	"Donor Phone,");            
+            
+            //Added from above - gets the collection from InventoryItemCollection
+            InventoryItemCollection inventoryItemCollection =
+                    (InventoryItemCollection)myModel.getState("InventoryList");
 
-            String line = "Description, Barcode Prefix, Alpha Code, Status";
+            Vector entryList = (Vector)inventoryItemCollection.getState("InventoryItems");
 
-            out.println(line);
+            StringBuilder valuesLine = new StringBuilder();
+            
+            if (entryList.size() > 0)
+            {
+                Enumeration entries = entryList.elements();
 
-            String valuesLine = "";
+                while (entries.hasMoreElements() == true)
+                {
+                    ClothingItem nextCI = (ClothingItem)entries.nextElement();
+                    Vector<String> view = nextCI.getEntryListView();
 
-            Enumeration entries = clothingVector.elements();
-
-            while (entries.hasMoreElements() == true) {
-                ArticleType nextAT = (ArticleType) entries.nextElement();
-                Vector<String> view = nextAT.getEntryListView();
-
-                // add this list entry to the list
-                ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
-
-                valuesLine += nextTableRowData.getDescription() + ", " + nextTableRowData.getBarcodePrefix() + ", " + nextTableRowData.getAlphaCode() + ", " + nextTableRowData.getStatus() + "\n";
+                    // add this list entry to the list
+                    InventoryTableModel nextTableRowData = new InventoryTableModel(view);
+                    valuesLine.append(nextTableRowData.getBarcode() + ", " + 
+                    	nextTableRowData.getGender() + ", " + 
+                    	nextTableRowData.getSize() + ", " + 
+                    	nextTableRowData.getArticleType() + ", " +
+                    	nextTableRowData.getColor1() + ", " +
+                    	nextTableRowData.getColor2() + ", " +
+                    	nextTableRowData.getDateDonated() + ", " +
+                    	nextTableRowData.getDonorFirstName() + ", " +
+                    	nextTableRowData.getDonorLastName() + ", " +
+                       	nextTableRowData.getDonorEmail() + ", " +
+                    	nextTableRowData.getDonorPhone() + "\n");
+                }
             }
-            out.println(valuesLine);
-
-            out.println("");
-
-            // Also print the shift count and filter type
-            out.println("\nTotal number of : " + clothingVector.size());
+            else
+            {
+                displayMessage("No matching entries found!");
+            }
+            
+            //Output the string
+            out.println(valuesLine.toString());
+            
+            // Also print the item count and filter type (eventually)
+            out.println("\nTotal number of : " + entryList.size());
 
             // Finally, print the time-stamp
             DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
@@ -480,19 +505,19 @@ public class InventoryItemCollectionView extends View
                     timeFormat.format(date);
 
             out.println("Report created on " + timeStamp);
-
             out.close();
 
 
-            // Acknowledge successful completion to user with JOptionPane
+            // Acknowledge successful completion to user with Alert
 
             ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                     "Report data saved successfully to selected file",
                     bar);
 
-            alert.setTitle("Save Error");
+            alert.setTitle("Save Successful!");
             Optional<ButtonType> result = alert.showAndWait();
+            
         } catch (FileNotFoundException e) {
             ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
             Alert alert = new Alert(Alert.AlertType.ERROR,
@@ -501,6 +526,7 @@ public class InventoryItemCollectionView extends View
 
             alert.setTitle("Save Error");
             Optional<ButtonType> result = alert.showAndWait();
+            
         } catch (IOException e) {
             ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
             Alert alert = new Alert(Alert.AlertType.ERROR,
