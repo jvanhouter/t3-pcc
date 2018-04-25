@@ -35,6 +35,7 @@ public abstract class View extends Group
     protected final Integer WRAPPING_WIDTH = 400;
     protected static final String APP_FONT = "Roboto";
     protected static final String APP_TEXT_COLOR="#ffc726";
+    protected static final Color CAPP_TEXT_COLOR = Color.web("#FFC726");
     protected static final String APP_BACKGROUND_COLOR="#647585";
     
     // GUI components

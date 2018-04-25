@@ -29,7 +29,7 @@ public class MessageView extends Text {
     public MessageView(String initialMessage) {
         super(initialMessage);
         myAlert = myAlert.getInstance();
-        setFont(Font.font("Helvetica", FontWeight.BOLD, 16));
+        setFont(Font.font(View.APP_FONT, FontWeight.BOLD, 16));
         setFill(Color.BLUE);
         setTextAlignment(TextAlignment.LEFT);
     }

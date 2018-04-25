@@ -133,8 +133,8 @@ public class EnterReceiverInformationView extends View {
         PccText prompt = new PccText("Enter Recipient Information");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFill(Color.web(APP_TEXT_COLOR));
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
 
@@ -249,8 +249,9 @@ public class EnterReceiverInformationView extends View {
         scrollPane.setContent(InventoryTable);
 
         Text netIdLabel = new Text(" Net ID : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
         netIdLabel.setFont(myFont);
+        netIdLabel.setFill(Color.web(APP_TEXT_COLOR));
         netIdLabel.setWrappingWidth(150);
         netIdLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(netIdLabel, 0, 1);
@@ -260,6 +261,7 @@ public class EnterReceiverInformationView extends View {
 
         Text fNameLabel = new Text(" First Name : ");
         fNameLabel.setFont(myFont);
+        fNameLabel.setFill(Color.web(APP_TEXT_COLOR));
         fNameLabel.setWrappingWidth(150);
         fNameLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(fNameLabel, 0, 2);
@@ -269,6 +271,7 @@ public class EnterReceiverInformationView extends View {
 
         Text lNameLabel = new Text(" Last Name : ");
         lNameLabel.setFont(myFont);
+        lNameLabel.setFill(Color.web(APP_TEXT_COLOR));
         lNameLabel.setWrappingWidth(150);
         lNameLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(lNameLabel, 0, 3);

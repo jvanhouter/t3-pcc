@@ -124,8 +124,8 @@ public class CheckoutHelperView extends View
         Text prompt = new Text("Active Cart");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFill(Color.web(APP_TEXT_COLOR));
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
@@ -241,7 +241,7 @@ public class CheckoutHelperView extends View
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
         addAnotherBarcodeButton = new PccButton("Add Another Barcode");
-        addAnotherBarcodeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         addAnotherBarcodeButton.setPrefSize(250, 20);
         addAnotherBarcodeButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -255,7 +255,7 @@ public class CheckoutHelperView extends View
         doneCont.getChildren().add(addAnotherBarcodeButton);
 
         enterReceiverInformationButton = new PccButton("Checkout Items");
-        enterReceiverInformationButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         enterReceiverInformationButton.setPrefSize(250, 20);
         enterReceiverInformationButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -277,7 +277,7 @@ public class CheckoutHelperView extends View
 
         doneCont.setAlignment(Pos.CENTER);
         cancelButton = new PccButton("Done");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 

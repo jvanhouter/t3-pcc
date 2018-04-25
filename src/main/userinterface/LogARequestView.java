@@ -97,7 +97,7 @@ public class LogARequestView extends View
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
 
@@ -107,7 +107,7 @@ public class LogARequestView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
 
         Text myNetId = new Text(" Net ID : ");
         myNetId.setFont(myFont);
@@ -271,7 +271,7 @@ public class LogARequestView extends View
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -283,7 +283,7 @@ public class LogARequestView extends View
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override

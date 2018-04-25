@@ -123,7 +123,7 @@ public class ColorCollectionView extends View
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
