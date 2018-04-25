@@ -43,7 +43,6 @@ public class RemoveArticleTypeTransaction extends Transaction
     {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchArticleType", "CancelTransaction");
-        dependencies.setProperty("CancelRemoveAT", "CancelTransaction");
         dependencies.setProperty("RemoveArticleType", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
@@ -139,7 +138,7 @@ public class RemoveArticleTypeTransaction extends Transaction
     {
         // DEBUG System.out.println("RemoveArticleTypeTransaction.sCR: key: " + key);
 
-        if ((key.equals("DoYourJob") ) || (key.equals("CancelArticleTypeList") ))
+        if ((key.equals("DoYourJob") ) || (key.equals("CancelArticleTypeList")|| (key.equals("CancelRemoveAT"))))
         {
             doYourJob();
         }

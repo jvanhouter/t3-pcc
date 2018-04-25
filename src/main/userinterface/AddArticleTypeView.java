@@ -115,7 +115,7 @@ public class AddArticleTypeView extends View
 
 		description = new TextField();
 		description.textProperty().addListener((observable, oldValue, newValue) -> {
-		    if (!newValue.matches("[a-zA-Z0-9 ]{0,30}")) {
+		    if (!newValue.matches("[a-zA-Z0-9 -]{0,30}")) {
 		        description.setText(oldValue);
             }
 		});
@@ -131,8 +131,11 @@ public class AddArticleTypeView extends View
 		alphaCode = new TextField();
 		alphaCode.textProperty().addListener((observable, oldValue, newValue) -> {
 		    if (!newValue.matches("[a-zA-Z]{0,5}")) {
-                        alphaCode.setText(oldValue);
+		    	alphaCode.setText(oldValue);
 		    }
+		    if(newValue.matches("[A-Za-z]{0,5}")) {
+		    	alphaCode.setText(newValue.toUpperCase());
+			}
 		});
 		grid.add(alphaCode, 1, 3);
 

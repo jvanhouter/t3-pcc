@@ -47,7 +47,7 @@ public class ModifyArticleTypeTransaction extends Transaction
 	{
 		dependencies = new Properties();
 		dependencies.setProperty("CancelSearchArticleType", "CancelTransaction");
-		dependencies.setProperty("CancelAddAT", "CancelTransaction");
+		dependencies.setProperty("CancelAddAT", "DoYourJob");
 		dependencies.setProperty("OK", "CancelTransaction");
 		dependencies.setProperty("ArticleTypeData", "TransactionError");
 
@@ -221,8 +221,7 @@ public class ModifyArticleTypeTransaction extends Transaction
 	public void stateChangeRequest(String key, Object value)
 	{
 		// DEBUG System.out.println("ModifyArticleTypeTransaction.sCR: key: " + key);
-
-		if ((key.equals("DoYourJob") == true) || (key.equals("CancelArticleTypeList") == true))
+		if ((key.equals("DoYourJob") == true) || (key.equals("CancelArticleTypeList") == true) || (key.equals("CancelAddAT") == true))
 		{
 			doYourJob();
 		}

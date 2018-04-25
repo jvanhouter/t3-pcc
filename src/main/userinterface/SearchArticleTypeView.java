@@ -127,6 +127,11 @@ public class SearchArticleTypeView extends View
 		grid.add(descripLabel, 0, 1);
 
 		description = new TextField();
+		description.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("[a-zA-Z0-9 -]{0,30}")) {
+				description.setText(oldValue);
+			}
+		});
 		description.setOnAction(e -> {
 		   clearErrorMessage();
 		Properties props = new Properties();
