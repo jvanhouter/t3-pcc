@@ -76,8 +76,8 @@ public class AddColorView extends View
         Text prompt = new Text("COLOR TYPE INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFill(Color.web(APP_TEXT_COLOR));
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
 
@@ -88,7 +88,7 @@ public class AddColorView extends View
         grid.setPadding(new Insets(0, 25, 10, 0));
 
         Text barcodePrefixLabel = new Text(" Barcode Prefix : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
         barcodePrefixLabel.setFont(myFont);
         barcodePrefixLabel.setWrappingWidth(150);
         barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);

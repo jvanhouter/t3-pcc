@@ -140,8 +140,8 @@ public class ClothingItemCollectionView extends View
 		Text prompt = new Text("");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-		prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFill(Color.web(APP_TEXT_COLOR));
+		prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
 		vbox.getChildren().add(prompt);
 
 		GridPane grid = new GridPane();

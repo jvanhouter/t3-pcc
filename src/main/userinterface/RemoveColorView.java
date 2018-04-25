@@ -67,8 +67,8 @@ public class RemoveColorView extends View
         Text prompt1 = new Text("Are you sure you wish to remove color?");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFill(Color.BLACK);
-        prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt1.setFill(Color.web(APP_TEXT_COLOR));
+        prompt1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt1);
 
         HBox doneCont = new HBox(10);

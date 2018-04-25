@@ -22,6 +22,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.StringConverter;
 import model.ArticleType;
 import model.Color;
+//import javafx.scene.paint.Color;
 
 import java.util.Iterator;
 import java.util.Properties;
@@ -88,8 +89,8 @@ public class AddClothingItemView extends View {
         Text prompt = new Text("CLOTHING ITEM INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(javafx.scene.paint.Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFill(javafx.scene.paint.Color.BLUE);
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
 
@@ -101,8 +102,9 @@ public class AddClothingItemView extends View {
 
         // Gender UI items ==================================================
         Text genderLabel = new Text(" Gender : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
         genderLabel.setFont(myFont);
+//        genderLabel.setFill(CAPP_TEXT_COLOR);
         genderLabel.setWrappingWidth(150);
         genderLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(genderLabel, 0, 1);

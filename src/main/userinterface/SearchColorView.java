@@ -70,13 +70,13 @@ public class SearchColorView extends View
     private VBox createFormContent()
     {
         VBox vbox = new VBox(10);
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
 
         Text prompt1 = new Text("Enter Color Barcode Prefix (if known)");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFill(Color.BLACK);
-        prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt1.setFill(Color.web(APP_TEXT_COLOR));
+        prompt1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt1);
 
         GridPane grid0 = new GridPane();
@@ -90,8 +90,8 @@ public class SearchColorView extends View
         Text prompt2 = new Text(" - Otherwise, enter other criteria below - ");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
-        prompt2.setFill(Color.BLACK);
-        prompt2.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt2.setFill(Color.web(APP_TEXT_COLOR));
+        prompt2.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt2);
 
         GridPane grid = new GridPane();

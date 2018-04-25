@@ -96,7 +96,7 @@ public class FulfillRequestView extends View {
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
@@ -105,8 +105,8 @@ public class FulfillRequestView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
-        Font headerFont = Font.font("Helvetica", FontWeight.BOLD, 16);
+        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
+        Font headerFont = Font.font(APP_FONT, FontWeight.BOLD, 16);
         Text myItem = new Text("Clothing Item");
         myItem.setFont(headerFont);
         myItem.setWrappingWidth(150);

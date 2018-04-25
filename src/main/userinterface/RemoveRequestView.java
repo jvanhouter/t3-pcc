@@ -4,8 +4,6 @@ package userinterface;
 // system imports
 
 import impresario.IModel;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,7 +12,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import model.Alert;
 
 /**
  * The class containing the Add Article Type View  for the Professional Clothes
@@ -68,14 +65,14 @@ public class RemoveRequestView extends View {
         Text prompt1 = new Text("Are you sure you wish to remove this request");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFill(Color.BLACK);
-        prompt1.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt1.setFill(Color.web(APP_TEXT_COLOR));
+        prompt1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt1);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Yes");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         submitButton.setOnAction(e -> {
 
             myModel.stateChangeRequest("RemoveRequest", null);
@@ -85,7 +82,7 @@ public class RemoveRequestView extends View {
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("No");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         cancelButton.setOnAction(e -> {
             clearErrorMessage();
             myModel.stateChangeRequest("CancelRequest", null);

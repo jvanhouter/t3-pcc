@@ -70,8 +70,8 @@ public class CheckoutInvalidItemView extends View {
         Text prompt = new Text("The Clothing Item associated with this barcode can not be checked out.");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        prompt.setFill(Color.web(APP_TEXT_COLOR));
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 16));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
@@ -83,7 +83,7 @@ public class CheckoutInvalidItemView extends View {
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
         addAnotherBarcodeButton = new PccButton("Add Different Barcode");
-        addAnotherBarcodeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         addAnotherBarcodeButton.setPrefSize(250, 20);
         addAnotherBarcodeButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -98,7 +98,7 @@ public class CheckoutInvalidItemView extends View {
         doneCont.getChildren().add(addAnotherBarcodeButton);
 
         enterReceiverInformationButton = new PccButton("Checkout Items");
-        enterReceiverInformationButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         enterReceiverInformationButton.setPrefSize(250, 20);
         enterReceiverInformationButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -113,7 +113,7 @@ public class CheckoutInvalidItemView extends View {
 
         doneCont.setAlignment(Pos.CENTER);
         cancelButton = new PccButton("Cancel");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
