@@ -34,7 +34,7 @@ import model.ColorCollection;
 //==============================================================================
 public class ColorCollectionView extends View
 {
-    protected TableView<ColorTableModel> tableOfColorTypes;
+    protected TableView<ColorTableModel> tableOfColors;
     protected PccButton cancelButton;
     protected PccButton submitButton;
 
@@ -78,7 +78,7 @@ public class ColorCollectionView extends View
             ColorCollection colorCollection =
                     (ColorCollection)myModel.getState("ColorList");
 
-            Vector entryList = (Vector)colorCollection.getState("ColorTypes");
+            Vector entryList = (Vector)colorCollection.getState("Colors");
 
             if (entryList.size() > 0)
             {
@@ -101,7 +101,7 @@ public class ColorCollectionView extends View
                 displayMessage("No matching entries found!");
             }
 
-            tableOfColorTypes.setItems(tableData);
+            tableOfColors.setItems(tableData);
         }
         catch (Exception e) {//SQLException e) {
             // Need to handle this exception
@@ -132,8 +132,8 @@ public class ColorCollectionView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        tableOfColorTypes = new TableView<ColorTableModel>();
-        tableOfColorTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableOfColors = new TableView<ColorTableModel>();
+        tableOfColors.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
         barcodePrefixColumn.setMinWidth(50);
@@ -155,10 +155,10 @@ public class ColorCollectionView extends View
         statusColumn.setCellValueFactory(
                 new PropertyValueFactory<ColorTableModel, String>("status"));
 
-                tableOfColorTypes.getColumns().addAll(descriptionColumn,
+                tableOfColors.getColumns().addAll(descriptionColumn,
                         barcodePrefixColumn, alphaCodeColumn, statusColumn);
 
-                tableOfColorTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
+                tableOfColors.setOnMousePressed(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event)
                     {
@@ -169,7 +169,7 @@ public class ColorCollectionView extends View
         });
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfColorTypes);
+        scrollPane.setContent(tableOfColors);
 
         submitButton = new PccButton("Submit");
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -221,7 +221,7 @@ public class ColorCollectionView extends View
     //--------------------------------------------------------------------------
     protected void processColorSelected()
     {
-        ColorTableModel selectedItem = tableOfColorTypes.getSelectionModel().getSelectedItem();
+        ColorTableModel selectedItem = tableOfColors.getSelectionModel().getSelectedItem();
 
         if(selectedItem != null)
         {

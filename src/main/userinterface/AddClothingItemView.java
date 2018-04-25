@@ -108,7 +108,8 @@ public class AddClothingItemView extends View {
         grid.add(genderLabel, 0, 1);
 
         genderCombo = new ComboBox<>();
-        genderCombo.getItems().addAll("Mens", "Womens");
+        genderCombo.getItems().addAll("Mens", "Womens", "Unisex");
+
 
         grid.add(genderCombo, 1, 1);
         // =================================================================

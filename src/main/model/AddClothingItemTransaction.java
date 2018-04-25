@@ -115,13 +115,11 @@ public class AddClothingItemTransaction extends Transaction
                 //CHECK FIRST INTEGER BARCODE OPTIONS, NOT ALWAYS M/F, 1/0
                 //
                 if (barcode.substring(0, 1).equals("1"))
-                {
                     gender = "Mens";
-                }
-                else
-                {
+                else if (barcode.substring(0, 1).equals("0"))
                     gender = "Womens";
-                }
+                else if (barcode.substring(0,1).equals("2"))
+                    gender = "Unisex";
                 myArticleTypeList = new ArticleTypeCollection();
                 myArticleTypeList.findAll();
                 myColorList = new ColorCollection();
@@ -207,4 +205,3 @@ public class AddClothingItemTransaction extends Transaction
     }
 
 }
-
