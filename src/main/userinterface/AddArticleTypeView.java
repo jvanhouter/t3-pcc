@@ -168,6 +168,7 @@ public class AddArticleTypeView extends View
 				{
 					props.setProperty("AlphaCode", alfaC);
 					myModel.stateChangeRequest("ArticleTypeData", props);
+					myModel.stateChangeRequest("OK", null);
 				}
 				else
 				{

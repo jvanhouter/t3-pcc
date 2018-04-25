@@ -292,6 +292,7 @@ public class AddClothingItemView extends View {
     public void populateFields() {
         clearErrorMessage();
         genderCombo.setValue((String) myModel.getState("Gender"));
+        // sometimes returns null, hashmap may solve
         Vector ArticleList = (Vector) myModel.getState("Articles");
         Iterator articles = ArticleList.iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
@@ -367,7 +368,7 @@ public class AddClothingItemView extends View {
             props.setProperty("DonorPhone", donorPhone);
             props.setProperty("DonorEmail", donorEmail);
             myModel.stateChangeRequest("ClothingItemData", props);
-
+            myModel.stateChangeRequest("OK", null);
         }
     }
 

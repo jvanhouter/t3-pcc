@@ -74,7 +74,10 @@ public class RemoveArticleTypeView extends View
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Yes");
-        submitButton.setOnAction(e -> myModel.stateChangeRequest("RemoveArticleType", null));
+        submitButton.setOnAction(e -> {
+            myModel.stateChangeRequest("RemoveArticleType", null);
+            myModel.stateChangeRequest("CancelRemoveAT", "");
+        });
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("No");

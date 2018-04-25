@@ -131,6 +131,13 @@ public class ClothingItem extends EntityBase implements IView {
 		stateChangeRequest(key, value);
 	}
 
+	public void updateExistsToTrue() {
+		/* cheap solution, fix later
+		* Basically, error arises when populating a Clothing Item collection
+		* in that it only passes in the props which sets exist to false.
+		*/
+		exists = true;
+	}
 
 	public void update() {
 		updateStateInDatabase();

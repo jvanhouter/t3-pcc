@@ -4,6 +4,8 @@ package userinterface;
 // system imports
 
 import impresario.IModel;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -13,8 +15,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import model.Alert;
-
-// project imports
 
 /**
  * The class containing the Add Article Type View  for the Professional Clothes
@@ -133,10 +133,9 @@ public class RemoveRequestView extends View {
      * Display error message
      */
     //----------------------------------------------------------
-    public void displayErrorMessage(String message) {
-        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        alert.displayErrorMessage(message);
-        //statusLog.displayErrorMessage(message);
+    public void displayErrorMessage(String message)
+    {
+        statusLog.displayErrorMessage(message);
     }
 
     /**
@@ -144,9 +143,7 @@ public class RemoveRequestView extends View {
      */
     //----------------------------------------------------------
     public void displayMessage(String message) {
-        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        alert.displayMessage(message);
-        //statusLog.displayMessage(message);
+        statusLog.displayMessage(message);
     }
 
     /**

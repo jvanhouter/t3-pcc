@@ -134,6 +134,7 @@ public class AddColorView extends View
                     {
                         props.setProperty("AlphaCode", alfaC);
                         myModel.stateChangeRequest("ColorData", props);
+                        myModel.stateChangeRequest("OK", null);
                     }
                     else
                     {

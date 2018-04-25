@@ -74,7 +74,10 @@ public class RemoveColorView extends View
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Yes");
-        submitButton.setOnAction(e -> myModel.stateChangeRequest("RemoveColor", null));
+        submitButton.setOnAction(e -> {
+            myModel.stateChangeRequest("RemoveColor", null);
+            myModel.stateChangeRequest("CancelRemoveCT", "");
+        });
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("No");

@@ -74,7 +74,10 @@ public class RemoveClothingItemView extends View
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Yes");
-        submitButton.setOnAction(e -> myModel.stateChangeRequest("RemoveClothingItem", null));
+        submitButton.setOnAction(e -> {
+            myModel.stateChangeRequest("RemoveClothingItem", null);
+            myModel.stateChangeRequest("CancelRemoveCI", "");
+        });
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("No");
