@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import com.sun.javafx.image.BytePixelSetter;
 import javafx.scene.control.Alert;
 import javafx.scene.Scene;
 import java.text.SimpleDateFormat;
@@ -16,9 +17,10 @@ import userinterface.ViewFactory;
 public class CheckoutClothingItemTransaction extends Transaction
 {
     private ClothingItem myClothingItem;
-    private ClothingItemCollection receiverPastSixMonths = new ClothingItemCollection();
+    private InventoryItemCollection receiverPastSixMonths = new InventoryItemCollection();
     private InventoryItemCollection inventoryItems = new InventoryItemCollection();
     private Vector<ClothingItem> clothingItems = new Vector<ClothingItem>();
+    private boolean beenNotifiedOfHistory = false;
 
     // GUI Components
     private String transactionErrorMessage = "";
@@ -112,48 +114,62 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     private void processReceiver(Properties props)
     {
-        String receiverNetid = props.getProperty("ReceiverNetid");
-        String receiverFirstName = props.getProperty("ReceiverFirstName");
-        String receiverLastName = props.getProperty("ReceiverLastName");
-        receiverPastSixMonths.findRecent(receiverNetid);
-
-
-
-        if(clothingItems.size() > 0)
+        if(props != null)
         {
-            int numUpdated = 0;
-            Iterator<ClothingItem> i = clothingItems.iterator();
-
-            // Compose timestamp
-            Calendar currDate = Calendar.getInstance();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-            String date = dateFormat.format(currDate.getTime());
-
-            while (i.hasNext())
-            {
-                ClothingItem currItem = i.next();
-                currItem.stateChangeRequest("ReceiverNetid", receiverNetid);
-                currItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
-                currItem.stateChangeRequest("ReceiverLastName", receiverLastName);
-                currItem.stateChangeRequest("Status", "Received");
-                currItem.stateChangeRequest("DateTaken", date);
-
-                currItem.update();
-
-                if(((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully"))
-                {
-                    numUpdated++;
-                    updateMessage = updateMessage + currItem.getState("Barcode") + " ";
-                }
-            }
-            updateMessage = numUpdated + " clothing items associated with the following barcodes:\n\n" + updateMessage + "\n\nHave been checked out!";
+            String receiverNetid = props.getProperty("ReceiverNetid");
+            String receiverFirstName = props.getProperty("ReceiverFirstName");
+            String receiverLastName = props.getProperty("ReceiverLastName");
         }
         else
         {
-            updateMessage = "There are no Clothing Items to update.";
+            String receiverNetid = receiverNetId;
+
         }
 
-        stateChangeRequest("DisplayUpdateMessage", "");
+        receiverPastSixMonths.findRecent(receiverNetid);
+        if(!((Vector)receiverPastSixMonths.getState("InventoryItems")).isEmpty() && beenNotifiedOfHistory == false)
+        {
+            beenNotifiedOfHistory = true;
+            switchToReceiverRecentCheckoutView();
+        }
+        else
+        {
+            if (clothingItems.size() > 0)
+            {
+                int numUpdated = 0;
+                Iterator<ClothingItem> i = clothingItems.iterator();
+
+                // Compose timestamp
+                Calendar currDate = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                String date = dateFormat.format(currDate.getTime());
+
+                while (i.hasNext())
+                {
+                    ClothingItem currItem = i.next();
+                    currItem.stateChangeRequest("ReceiverNetid", receiverNetid);
+                    currItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
+                    currItem.stateChangeRequest("ReceiverLastName", receiverLastName);
+                    currItem.stateChangeRequest("Status", "Received");
+                    currItem.stateChangeRequest("DateTaken", date);
+
+//                    currItem.update();
+
+                    if (((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully"))
+                    {
+                        numUpdated++;
+                        updateMessage = updateMessage + currItem.getState("Barcode") + " ";
+                    }
+                }
+                updateMessage = numUpdated + " clothing items associated with the following barcodes:\n\n" + updateMessage + "\n\nHave been checked out!";
+            }
+            else
+            {
+                updateMessage = "There are no Clothing Items to update.";
+            }
+
+            stateChangeRequest("DisplayUpdateMessage", "");
+        }
     }
 
     public void stateChangeRequest(String key, Object value)
@@ -166,6 +182,10 @@ public class CheckoutClothingItemTransaction extends Transaction
         else if (key.equals("ProcessBarcode") == true)
         {
             processTransaction((Properties)value);
+        }
+        else if (key.equals("ReceiverRecentCheckout") == true)
+        {
+            switchToReceiverRecentCheckoutView();
         }
         else if (key.equals("ReceiverData") == true)
         {
@@ -240,6 +260,12 @@ public class CheckoutClothingItemTransaction extends Transaction
         swapToView(newScene);
     }
 
+    private void switchToReceiverRecentCheckoutView()
+    {
+        Scene newScene = createReceiverRecentCheckoutView();
+        swapToView(newScene);
+    }
+
     private void switchToBarcodeScannerView()
     {
         Scene newScene = createBarcodeScannerView();
@@ -249,6 +275,14 @@ public class CheckoutClothingItemTransaction extends Transaction
     protected Scene createBarcodeScannerView()
     {
         View newView = ViewFactory.createView("BarcodeScannerView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+    }
+
+    protected Scene createReceiverRecentCheckoutView()
+    {
+        View newView = ViewFactory.createView("ReceiverRecentCheckoutView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;

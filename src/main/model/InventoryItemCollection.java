@@ -2,6 +2,8 @@
 package model;
 
 // system imports
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
@@ -40,7 +42,7 @@ public class InventoryItemCollection  extends EntityBase implements IView
     private void populateCollectionHelper(String query)
     {
         Vector<Properties> allClothingItemsRetrieved = getSelectQueryResult(query);
-//        DEBUG System.out.println(allClothingItemsRetrieved);
+//        System.out.println(allClothingItemsRetrieved);
         Iterator colorIterator = null;
         Iterator articleTypeIterator = null;
         if (allClothingItemsRetrieved != null)
@@ -132,14 +134,30 @@ public class InventoryItemCollection  extends EntityBase implements IView
         String query = "SELECT * FROM " + myTableName + " WHERE (Barcode = '" + barcode + "')";
         populateCollectionHelper(query);
     }
+
+    public void findRecent(String netId)
+    {
+        Calendar currDate = Calendar.getInstance();
+        currDate.add(Calendar.MONTH, -6);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        String date = dateFormat.format(currDate.getTime());
+//        System.out.println(date);
+        String query = "SELECT * FROM inventory WHERE ReceiverNetid = '" + netId +"' " +
+                "AND DateTaken <= '" + date + "';";
+//        System.out.println(query);
+        populateCollectionHelper(query);
+    }
     //----------------------------------------------------------
     public Object getState(String key)
     {
         if (key.equals("InventoryItems"))
+        {
             return inventoryItems;
-        else
-        if (key.equals("InventoryList"))
+        }
+        else if (key.equals("InventoryList"))
+        {
             return this;
+        }
         return null;
     }
 

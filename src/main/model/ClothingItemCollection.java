@@ -114,7 +114,7 @@ public class ClothingItemCollection  extends EntityBase implements IView
 		currDate.add(Calendar.MONTH, -6);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 		String date = dateFormat.format(currDate.getTime());
-		System.out.println(date);
+//		System.out.println(date);
 		String query = "SELECT * FROM inventory WHERE ReceiverNetid = '" + netId +"' " +
 				"AND DateTaken >= '" + date + "';";
 	}

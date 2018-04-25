@@ -50,6 +50,8 @@ public class ViewFactory {
             return new RemoveRequestView(model);
         } else if (viewName.equals("InventoryItemCollectionView")) {
             return new InventoryItemCollectionView(model);
+        } else if (viewName.equals("ReceiverRecentCheckoutView")) {
+            return new ReceiverRecentCheckoutView(model);
         } else
             return null;
     }
