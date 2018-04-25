@@ -173,7 +173,7 @@ public class LogARequestView extends View
 
         gender = new ComboBox<String>();
         grid.add(gender, 1, 6);
-        gender.getItems().addAll("Mens", "Womens");
+        gender.getItems().addAll("Mens", "Womens", "Unisex");
         gender.setValue("Mens");
 
         // Article Type UI Items ===========================================

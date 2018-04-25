@@ -14,6 +14,7 @@ import impresario.IControl;
 import impresario.IModel;
 import impresario.IView;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -56,7 +57,7 @@ public abstract class View extends Group
 
     Node createTitle() {
         VBox container = new VBox(10);
-
+        container.setAlignment(Pos.CENTER);
         Text clientText = new Text("Office of Career Services");
         clientText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 24));
         clientText.setWrappingWidth(WRAPPING_WIDTH);
