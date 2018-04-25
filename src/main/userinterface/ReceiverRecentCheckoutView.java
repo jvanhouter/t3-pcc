@@ -59,7 +59,7 @@ public class ReceiverRecentCheckoutView extends View
 
         populateFields();
 
-        myModel.subscribe("DisplayUpdateMessage", this);
+        myModel.subscribe("DisplayUpdateMessage2", this);
 
     }
 
@@ -146,7 +146,7 @@ public class ReceiverRecentCheckoutView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("Active Cart");
+        Text prompt = new Text("Receiver Recent History");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
@@ -264,7 +264,7 @@ public class ReceiverRecentCheckoutView extends View
 
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        checkoutButton = new Button("Checkout Items");
+        checkoutButton = new Button("Checkout Items Anyways");
         checkoutButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         checkoutButton.setPrefSize(250, 20);
         checkoutButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -280,7 +280,7 @@ public class ReceiverRecentCheckoutView extends View
         doneCont.getChildren().add(checkoutButton);
 
         doneCont.setAlignment(Pos.CENTER);
-        cancelButton = new Button("Done");
+        cancelButton = new Button("Cancel");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -303,7 +303,7 @@ public class ReceiverRecentCheckoutView extends View
     //--------------------------------------------------------------------------
     public void updateState(String key, Object value)
     {
-        if(key.equals("DisplayUpdateMessage"))
+        if(key.equals("DisplayUpdateMessage2"))
         {
             String updateMessage = (String)myModel.getState("UpdateMessage");
             Alert alert = new Alert(Alert.AlertType.INFORMATION, updateMessage);
