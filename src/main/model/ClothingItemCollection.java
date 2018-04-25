@@ -104,7 +104,7 @@ public class ClothingItemCollection  extends EntityBase implements IView
 				size = "";
 				query += "(Size LIKE '%" + size + "%') AND ";
 			}
-			query = Utilities.replaceLast("AND", ";", query);
+			query = Utilities.replaceLast("AND", " AND Status='Donated';", query);
 		}
 		populateCollectionHelper(query);
 	}

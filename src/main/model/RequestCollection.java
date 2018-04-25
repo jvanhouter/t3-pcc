@@ -71,7 +71,7 @@ public class RequestCollection  extends EntityBase implements IView
             query += "(RequestedGender ='" + gender + "') AND ";
         }
         if(type != null) {
-            query += "(RequestedArticleTy[e = '" + type + "') AND ";
+            query += "(RequestedArticleType = '" + type + "') AND ";
         }
         if(reqSize != null) {
             query += "(RequestedSize = '" + reqSize + "') AND ";
@@ -87,6 +87,38 @@ public class RequestCollection  extends EntityBase implements IView
         }
         query = replaceLast(query, "AND", "");
         populateCollectionHelper(query);
+    }
+
+    //-----------------------------------------------------------
+    // used to poll only requests with matching items
+    public void findByItem(ClothingItemCollection cic)
+    {
+        String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Pending')";
+        Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+
+        if (allDataRetrieved != null)
+        {
+            requests = new Vector<ClothingRequest>();
+
+            for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
+            {
+                Properties nextRQData = allDataRetrieved.elementAt(cnt);
+                ClothingRequest rq = new ClothingRequest(nextRQData);
+                cic.findDonatedCriteria((String) rq.getState("RequestedArticleType"),
+                        (String) rq.getState("RequestedGender"),
+                        (String) rq.getState("RequestedSize"));
+                if (rq != null) {
+                    if (((Vector) cic.getState("ClothingItems")).size() > 0) {
+                        addClothingRequest(rq);
+                    }
+                }
+                if (rq != null)
+                {
+                    addClothingRequest(rq);
+                }
+            }
+
+        }
     }
 
     //-----------------------------------------------------------

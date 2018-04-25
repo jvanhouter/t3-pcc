@@ -73,15 +73,28 @@ public class ClothingItemCollectionView extends View
 	//--------------------------------------------------------------------------
 	private void refactor(ClothingItemTableModel ctm)
 	{
-		ctm.setArticleType((String) Utilities.collectArticleTypeHash().get(ctm.getArticleType()).getState("Description"));
-		if(Utilities.collectColorHash().get(ctm.getColor1()) != null)
-			ctm.setColor1((String) Utilities.collectColorHash().get(ctm.getColor1()).getState("Description"));
-		else
-			ctm.setColor1("");
-		if(Utilities.collectColorHash().get(ctm.getColor2()) != null)
-			ctm.setColor2((String) Utilities.collectColorHash().get(ctm.getColor2()).getState("Description"));
-		else
-			ctm.setColor2("");
+		try {
+			ctm.setArticleType((String) Utilities.collectArticleTypeHash().get(ctm.getArticleType()).getState("Description"));
+		} catch (Exception e) {
+			ctm.setArticleType("Clothing Item Removed");
+			/* Future append clothing item that was removed */
+		}
+		try {
+			if (Utilities.collectColorHash().get(ctm.getColor1()) != null)
+				ctm.setColor1((String) Utilities.collectColorHash().get(ctm.getColor1()).getState("Description"));
+			else
+				ctm.setColor1("");
+		} catch (Exception e) {
+			ctm.setColor1("Color Removed");
+		}
+		try {
+			if (Utilities.collectColorHash().get(ctm.getColor2()) != null)
+				ctm.setColor2((String) Utilities.collectColorHash().get(ctm.getColor2()).getState("Description"));
+			else
+				ctm.setColor2("");
+		} catch (Exception e) {
+			ctm.setColor2("Color Removed");
+		}
 	}
 
 

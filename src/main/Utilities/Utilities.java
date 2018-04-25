@@ -23,6 +23,58 @@ public class Utilities {
     private static HashMap<String, ArticleType> articleTypeHash;
     private static HashMap<String, Color> colorHash;
     private static HashMap<String, ClothingItem> clothingHash;
+    private static HashMap<String, ClothingRequest> clothingRequestHash;
+
+    //----------------------------------------------------------
+    public static void removeArticleHashData(String id) {
+        articleTypeHash = collectArticleTypeHash();
+        articleTypeHash.remove(id);
+    }
+
+    //----------------------------------------------------------
+    public static void removeColorHashData(String id) {
+        colorHash = collectColorHash();
+        colorHash.remove(id);
+    }
+
+    //----------------------------------------------------------
+    public static void removeClothingHash(String id) {
+        clothingHash = collectClothingHash();
+        clothingHash.remove(id);
+    }
+
+    //----------------------------------------------------------
+    public static void removeClothingRequestHash(String id) {
+        clothingRequestHash = collectClothingRequestHash();
+        clothingRequestHash.remove(id);
+    }
+    //----------------------------------------------------------
+    public static HashMap<String, ClothingRequest> collectClothingRequestHash() {
+        if (clothingRequestHash == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Preparing clothing request...");
+            alert.setHeaderText("Loading...");
+            alert.setContentText("Please wait while Clothing Request is loaded.");
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.lookupButton(ButtonType.OK).setDisable(true);
+            dialogPane.lookupButton(ButtonType.OK).setVisible(false);
+            alert.show();
+            clothingRequestHash = new HashMap<>();
+            RequestCollection rq = new RequestCollection();
+            rq.findAll();
+            Vector clothingEntryList = (Vector) rq.getState("Requests");
+            if (clothingEntryList.size() > 0) {
+                Enumeration entries = clothingEntryList.elements();
+
+                while (entries.hasMoreElements()) {
+                    ClothingRequest nextCI = (ClothingRequest) entries.nextElement();
+                    clothingRequestHash.put((String) nextCI.getState("ID"), nextCI);
+                }
+            }
+            alert.close();
+        }
+        return clothingRequestHash;
+    }
 
     //----------------------------------------------------------
     public static HashMap<String, ClothingItem> collectClothingHash() {
@@ -106,6 +158,13 @@ public class Utilities {
         }
         return articleTypeHash;
     }
+
+    //----------------------------------------------------------
+    public static void putClothingRequestHash(String id, ClothingRequest item) {
+        clothingRequestHash = collectClothingRequestHash();
+        clothingRequestHash.put(id, item);
+    }
+
     //----------------------------------------------------------
     public static void putClothingHash(String id, ClothingItem item) {
         clothingHash = collectClothingHash();

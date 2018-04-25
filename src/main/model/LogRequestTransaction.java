@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import Utilities.Utilities;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
@@ -115,6 +116,7 @@ public class LogRequestTransaction extends Transaction
 
                     myClothingRequest = new ClothingRequest(props);
                     myClothingRequest.update();
+                    Utilities.putClothingRequestHash((String) myClothingRequest.getState("ID"), myClothingRequest);
                     transactionErrorMessage = (String) myClothingRequest.getState("UpdateStatusMessage");
                 }
                 catch (Exception excep)

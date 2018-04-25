@@ -1,5 +1,6 @@
 package model;
 
+import Utilities.Utilities;
 import event.Event;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
@@ -88,6 +89,7 @@ public class RemoveArticleTypeTransaction extends Transaction
         if(mySelectedArticleType != null) {
             mySelectedArticleType.stateChangeRequest("Status", "Inactive");
             mySelectedArticleType.update();
+            Utilities.removeArticleHashData((String) mySelectedArticleType.getState("ID"));
             transactionErrorMessage = (String)mySelectedArticleType.getState("UpdateStatusMessage");
         }
     }

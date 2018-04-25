@@ -3,6 +3,7 @@ package model;
 
 // system imports
 
+import Utilities.Utilities;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.util.Properties;
@@ -76,6 +77,7 @@ public class RemoveColorTransaction extends Transaction {
         if(mySelectedColor != null) {
             mySelectedColor.stateChangeRequest("Status", "Inactive");
             mySelectedColor.update();
+            Utilities.removeColorHashData((String) mySelectedColor.getState("ID"));
             transactionErrorMessage = (String)mySelectedColor.getState("UpdateStatusMessage");
         }
     }

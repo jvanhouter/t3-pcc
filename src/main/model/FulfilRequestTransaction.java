@@ -104,6 +104,8 @@ public class FulfilRequestTransaction extends Transaction
             myClothingItem.stateChangeRequest("ReceveiverLastName", (String) myClothingRequest.getState("RequesterLastName"));
             myClothingItem.update();
             myClothingRequest.update();
+            Utilities.removeClothingRequestHash((String) myClothingRequest.getState("ID"));
+            Utilities.removeClothingHash((String) myClothingItem.getState("ID"));
             transactionErrorMessage = "Request has been fulfilled";
         }
         if(key.equals("ClothingItemSelected") == true)

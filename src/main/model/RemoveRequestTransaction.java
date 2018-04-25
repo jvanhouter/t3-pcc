@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import Utilities.Utilities;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
@@ -57,6 +58,7 @@ public class RemoveRequestTransaction extends Transaction
         if(myClothingRequest != null) {
             myClothingRequest.stateChangeRequest("Status", "Removed");
             myClothingRequest.update();
+            Utilities.removeClothingRequestHash((String) myClothingRequest.getState("ID"));
             transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
         }
     }

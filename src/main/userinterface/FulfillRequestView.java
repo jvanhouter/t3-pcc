@@ -322,7 +322,7 @@ public class FulfillRequestView extends View {
         notesText.setText((String) ci.getState("Notes"));
 
         genderReq.setText((String) cr.getState("RequestedGender"));
-        if(((String) cr.getState("RequestedSize")).equals("999")) {
+        if(((String) cr.getState("Size")).equals("999")) {
             sizeTextReq.setText("");
         } else
             sizeTextReq.setText((String) cr.getState("RequestedSize"));
