@@ -128,7 +128,7 @@ public class ClothingItemCollectionView extends View
 			}
 			else
 			{
-				displayMessage("No matching entries found!");
+				displayMessage("No matching clothing items found!");
 			}
 
 			tableOfClothingItems.setItems(tableData);
