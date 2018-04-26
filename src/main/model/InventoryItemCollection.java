@@ -141,9 +141,9 @@ public class InventoryItemCollection  extends EntityBase implements IView
         currDate.add(Calendar.MONTH, -6);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date = dateFormat.format(currDate.getTime());
-        System.out.println(date);
+//        System.out.println(date);
         String query = "SELECT * FROM inventory WHERE ReceiverNetid = '" + netId +"' AND DateTaken >= '" + date + "';";
-        System.out.println(query);
+//        System.out.println(query);
         populateCollectionHelper(query);
     }
     //----------------------------------------------------------
