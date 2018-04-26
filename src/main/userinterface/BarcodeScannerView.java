@@ -153,7 +153,7 @@ public class BarcodeScannerView extends View {
         if (key.equals("TransactionError")) {
             String val = (String) value;
             if (val.startsWith("ERR")) {
-                displayErrorMessage(val);
+//                displayErrorMessage(val);
             } else {
                 displayMessage(val);
             }

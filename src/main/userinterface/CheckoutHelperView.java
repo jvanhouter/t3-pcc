@@ -58,7 +58,7 @@ public class CheckoutHelperView extends View
         // Error message area
         String errorMessage = "";
         container.getChildren().add(createStatusLog(""));
-        displayErrorMessage(errorMessage);
+//        displayErrorMessage(errorMessage);
 
         getChildren().add(container);
 

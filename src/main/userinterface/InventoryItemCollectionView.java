@@ -87,6 +87,9 @@ public class InventoryItemCollectionView extends View
 
                     // add this list entry to the list
                     InventoryTableModel nextTableRowData = new InventoryTableModel(view);
+                    if (nextTableRowData.getSize().equals("999")) {
+                        nextTableRowData.setSize("");
+                    }
                     tableData.add(nextTableRowData);
 
                 }
@@ -227,7 +230,7 @@ public class InventoryItemCollectionView extends View
                 dateDonatedColumn, dateTakenColumn);
 
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
+        scrollPane.setPrefSize(800, 300);
         scrollPane.setContent(InventoryTable);
 
         cancelButton = new PccButton("Return");
