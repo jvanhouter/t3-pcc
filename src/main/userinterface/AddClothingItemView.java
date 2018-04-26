@@ -4,6 +4,7 @@ package userinterface;
 // system imports
 
 import Utilities.UiConstants;
+import Utilities.Utilities;
 import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -255,6 +256,12 @@ public class AddClothingItemView extends View {
         donorLastNameText = new TextField();
         donorLastNameText.setOnAction(this::processAction);
         donorPhoneText = new TextField();
+        donorPhoneText.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9-]{0,12}")) {
+                donorPhoneText.setText(oldValue);
+            }
+            donorPhoneText.setText(Utilities.autoFillDashes(donorPhoneText.getText()));
+        });
         donorPhoneText.setOnAction(this::processAction);
         donorEmailText = new TextField();
         donorEmailText.setOnAction(this::processAction);

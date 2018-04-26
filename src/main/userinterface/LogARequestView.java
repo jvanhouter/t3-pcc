@@ -2,6 +2,7 @@
 package userinterface;
 
 // system imports
+import Utilities.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -145,8 +146,11 @@ public class LogARequestView extends View
         phoneNumber = new TextField();
         grid.add(phoneNumber, 1, 4);
 
-        phoneNumber.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-
+        phoneNumber.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9-]{0,12}")) {
+                phoneNumber.setText(oldValue);
+            }
+            phoneNumber.setText(Utilities.autoFillDashes(phoneNumber.getText()));
         });
 
         PccText myEmail = new PccText(" Email Address : ");
