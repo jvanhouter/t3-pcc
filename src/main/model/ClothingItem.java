@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
-
 public class ClothingItem extends EntityBase implements IView {
 	private static final String myTableName = "Inventory";
 
@@ -23,6 +22,7 @@ public class ClothingItem extends EntityBase implements IView {
 	public ClothingItem(String barcode) throws InvalidPrimaryKeyException, MultiplePrimaryKeysException {
 		super(myTableName);
 
+
 		setDependencies();
 
 		barcode = barcode.trim();
@@ -33,7 +33,7 @@ public class ClothingItem extends EntityBase implements IView {
 		// You must get one at least
 		if (allDataRetrieved != null) {
 			int size = allDataRetrieved.size();
-			// if size = 0 throw the Invalid Primary Key Exception
+
 			if (size == 0) {
 				exists = false;
 				throw new InvalidPrimaryKeyException("No clothing item matching barcode prefix : "
@@ -131,13 +131,6 @@ public class ClothingItem extends EntityBase implements IView {
 		stateChangeRequest(key, value);
 	}
 
-	public void updateExistsToTrue() {
-		/* cheap solution, fix later
-		* Basically, error arises when populating a Clothing Item collection
-		* in that it only passes in the props which sets exist to false.
-		*/
-		exists = true;
-	}
 
 	public void update() {
 		updateStateInDatabase();
