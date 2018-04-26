@@ -230,7 +230,7 @@ public class InventoryItemCollectionView extends View
                 dateDonatedColumn, dateTakenColumn);
 
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(800, 300);
+        scrollPane.setPrefSize(1000, 300);
         scrollPane.setContent(InventoryTable);
 
         cancelButton = new PccButton("Return");

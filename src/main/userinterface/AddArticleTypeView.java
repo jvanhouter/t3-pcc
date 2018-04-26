@@ -64,7 +64,7 @@ public class AddArticleTypeView extends View
 		myModel.subscribe("TransactionError", this);
 	}
 
-	//-------------------------------------------------------------
+	@Override
 	protected String getActionText()
 	{
 		return "** Adding a new Article Type **";

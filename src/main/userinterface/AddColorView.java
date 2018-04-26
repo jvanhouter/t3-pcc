@@ -87,13 +87,11 @@ public class AddColorView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        Text barcodePrefixLabel = new Text(" Barcode Prefix : ");
+        PccText barcodePrefixLabel = new PccText(" Barcode Prefix : ");
         Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
         barcodePrefixLabel.setFont(myFont);
         barcodePrefixLabel.setWrappingWidth(150);
         barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
-        barcodePrefixLabel.setFill(Color.web(APP_TEXT_COLOR));
-        barcodePrefixLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         grid.add(barcodePrefixLabel, 0, 1);
 
         barcodePrefix = new TextField();

@@ -90,7 +90,7 @@ public class AddClothingItemView extends View {
         PccText prompt = new PccText("CLOTHING ITEM INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(javafx.scene.paint.Color.BLUE);
+//        prompt.setFill(javafx.scene.paint.Color.BLUE);
         prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
