@@ -87,8 +87,8 @@ public class ClothingItemCollection  extends EntityBase implements IView
 				((articleType != null) && (articleType.length() > 0)) && ((size != null) && (size.length() > 0) && !size.equals("" + UiConstants.GENERIC_SIZE)))
 		{
 			// both values get into criteria
-			query += "(Gender LIKE '" + gender + "') AND (ArticleType LIKE '%" +
-					articleType + "%') AND (Size LIKE '%" + size + "%') AND Status='Donated';";
+			query += "((Gender LIKE '" + gender + "') OR (Gender LIKE 'Unisex')) AND (ArticleType LIKE '" +
+					articleType + "') AND ((Size LIKE '%" + size + "%') OR (Size LIKE '999')) AND Status='Donated';";
 		}
 		else {
 			query += "Status = 'Donated' AND ";
@@ -98,11 +98,11 @@ public class ClothingItemCollection  extends EntityBase implements IView
 			}
 			if ((articleType != null) && (articleType.length() > 0)) {
 				// only alphaCode gets into criteria
-				query += "(ArticleType LIKE '%" + articleType + "%') AND ";
+				query += "(ArticleType LIKE '" + articleType + "') AND ";
 			}
 			if ((size != null) && (size.length() > 0)) {
 				size = "";
-				query += "(Size LIKE '%" + size + "%') AND ";
+				query += "((Size LIKE '%" + size + "%') OR (Size LIKE '999')) AND ";
 			}
 			query = Utilities.replaceLast("AND", " AND Status='Donated';", query);
 		}
