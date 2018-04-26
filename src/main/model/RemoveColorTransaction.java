@@ -44,7 +44,6 @@ public class RemoveColorTransaction extends Transaction {
     protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchColor", "CancelTransaction");
-        dependencies.setProperty("CancelRemoveCT", "CancelTransaction");
         dependencies.setProperty("RemoveColor", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
@@ -122,7 +121,7 @@ public class RemoveColorTransaction extends Transaction {
 
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") ) || (key.equals("CancelColorList") ))
+        if ((key.equals("DoYourJob") ) || (key.equals("CancelColorList") || (key.equals("CancelRemoveCT"))))
         {
             doYourJob();
         }

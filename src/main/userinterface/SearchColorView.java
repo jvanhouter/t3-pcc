@@ -107,6 +107,11 @@ public class SearchColorView extends View
         grid.add(descripLabel, 0, 1);
 
         description = new TextField();
+        description.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z0-9 -]{0,30}")) {
+                description.setText(oldValue);
+            }
+        });
         description.setOnAction(e -> {
             clearErrorMessage();
             Properties props = new Properties();
@@ -127,6 +132,14 @@ public class SearchColorView extends View
         grid.add(alphaCodeLabel, 0, 2);
 
         alphaCode = new TextField();
+        alphaCode.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z]{0,5}")) {
+                alphaCode.setText(oldValue);
+            }
+            if(newValue.matches("[A-Za-z]{0,5}")) {
+                alphaCode.setText(newValue.toUpperCase());
+            }
+        });
 		alphaCode.setOnAction(e -> {
             clearErrorMessage();
             Properties props = new Properties();

@@ -38,7 +38,6 @@ public class ModifyColorTransaction extends Transaction {
     {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchColor", "CancelTransaction");
-        dependencies.setProperty("CancelAddCT", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
         dependencies.setProperty("ColorData", "TransactionError");
 
@@ -205,7 +204,7 @@ public class ModifyColorTransaction extends Transaction {
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value)
     {
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
+        if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true) || (key.equals("CancelAddCT")))
         {
             doYourJob();
         }
