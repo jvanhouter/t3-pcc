@@ -87,14 +87,14 @@ public class ClothingItemCollection  extends EntityBase implements IView
 				((articleType != null) && (articleType.length() > 0)) && ((size != null) && (size.length() > 0) && !size.equals("" + UiConstants.GENERIC_SIZE)))
 		{
 			// both values get into criteria
-			query += "(Gender LIKE '%" + gender + "%') AND (ArticleType LIKE '%" +
+			query += "(Gender LIKE '" + gender + "') AND (ArticleType LIKE '%" +
 					articleType + "%') AND (Size LIKE '%" + size + "%') AND Status='Donated';";
 		}
 		else {
 			query += "Status = 'Donated' AND ";
 			if ((gender != null) && (gender.length() > 0)) {
 				// only description gets into criteria
-				query += "(Gender LIKE '%" + gender + "%') AND ";
+				query += "((Gender LIKE '" + gender + "') OR (Gender LIKE 'Unisex')) AND ";
 			}
 			if ((articleType != null) && (articleType.length() > 0)) {
 				// only alphaCode gets into criteria
@@ -135,7 +135,6 @@ public class ClothingItemCollection  extends EntityBase implements IView
 		{
 			query += "";
 		}
-
 		populateCollectionHelper(query);
 	}
 		
