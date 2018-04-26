@@ -64,6 +64,7 @@ public class BarcodeScannerView extends View {
         populateFields();
 
         myModel.subscribe("TransactionError", this);
+        myModel.subscribe("HandleBarcodeProblems", this);
     }
 
     @Override
@@ -157,6 +158,15 @@ public class BarcodeScannerView extends View {
                 displayMessage(val);
             }
 
+        }
+        else if(key.equals("HandleBarcodeProblems"))
+        {
+            String val = (String)myModel.getState("BarcodeError");
+            String barcodeError = "The clothing item associated with barcode "+ val + " This clothing item will not be added to the checkout cart.";
+            Alert alert = new Alert(Alert.AlertType.ERROR, barcodeError);
+            alert.setTitle("Barcode Error");
+            alert.setHeaderText("There is a problem with the item you wish to checkout.");
+            alert.show();
         }
     }
 

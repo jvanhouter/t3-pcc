@@ -28,8 +28,6 @@ public class ViewFactory {
             return new SearchColorView(model);
         } else if(viewName.equals("RemoveColorView")) {
             return new RemoveColorView(model);
-        }else if (viewName.equals("EnterReceiverInformationView")) {
-            return new EnterReceiverInformationView(model);
         } else if (viewName.equals("AddClothingItemView")) {
             return new AddClothingItemView(model);
         } else if (viewName.equals("BarcodeScannerView")) {
@@ -52,9 +50,11 @@ public class ViewFactory {
             return new RemoveRequestView(model);
         } else if (viewName.equals("InventoryItemCollectionView")) {
             return new InventoryItemCollectionView(model);
+        } else if (viewName.equals("ReceiverRecentCheckoutView")) {
+            return new ReceiverRecentCheckoutView(model);
         } else if (viewName.equals("FulfillRequestView")) {
             return new FulfillRequestView(model);
-        } else
+        }else
             return null;
     }
 

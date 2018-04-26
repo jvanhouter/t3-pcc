@@ -186,9 +186,9 @@ public class ClothingItem extends EntityBase implements IView {
 		v.addElement(persistentState.getProperty("DonorFirstName"));
 		v.addElement(persistentState.getProperty("DonorPhone"));
 		v.addElement(persistentState.getProperty("DonorEmail"));
-		v.addElement(persistentState.getProperty("ReceveiverNetid"));
-		v.addElement(persistentState.getProperty("ReceveiverLastName"));
-		v.addElement(persistentState.getProperty("ReceveiverFirstName"));
+		v.addElement(persistentState.getProperty("ReceiverNetid"));
+		v.addElement(persistentState.getProperty("ReceiverLastName"));
+		v.addElement(persistentState.getProperty("ReceiverFirstName"));
 		v.addElement(persistentState.getProperty("DateDonated"));
 		v.addElement(persistentState.getProperty("DateTaken"));
 
