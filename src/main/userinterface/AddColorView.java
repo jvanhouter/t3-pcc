@@ -92,6 +92,8 @@ public class AddColorView extends View
         barcodePrefixLabel.setFont(myFont);
         barcodePrefixLabel.setWrappingWidth(150);
         barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
+        barcodePrefixLabel.setFill(Color.web(APP_TEXT_COLOR));
+        barcodePrefixLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         grid.add(barcodePrefixLabel, 0, 1);
 
         barcodePrefix = new TextField();
@@ -258,4 +260,3 @@ public class AddColorView extends View
 //---------------------------------------------------------------
 //	Revision History:
 //
-
