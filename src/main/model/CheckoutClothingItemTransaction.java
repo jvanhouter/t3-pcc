@@ -128,7 +128,7 @@ public class CheckoutClothingItemTransaction extends Transaction
                     currItem.stateChangeRequest("Status", "Received");
                     currItem.stateChangeRequest("DateTaken", date);
 
-                    currItem.update();
+//                    currItem.update();
 
                     if (((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully"))
                     {
