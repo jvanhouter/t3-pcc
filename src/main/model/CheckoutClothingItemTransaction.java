@@ -116,7 +116,7 @@ public class CheckoutClothingItemTransaction extends Transaction
 
                 // Compose timestamp
                 Calendar currDate = Calendar.getInstance();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String date = dateFormat.format(currDate.getTime());
 
                 while (i.hasNext())
