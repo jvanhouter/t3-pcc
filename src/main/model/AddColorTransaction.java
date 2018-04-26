@@ -69,6 +69,14 @@ public class AddColorTransaction extends Transaction
             {
 
                 Color oldColor = new Color(barcodePrefix);
+                /*System.out.println((String) oldColor.getState("Status"));
+                if(((String) oldColor.getState("Status")).equals("Inactive")) {
+                    oldColor.stateChangeRequest("Status", "Active");
+                    oldColor.update();
+                    transactionErrorMessage = "Color type with barcode prefix : " + barcodePrefix + " reinserted successfully";
+                    Utilities.putColorHash((String) myColor.getState("ID"), myColor);
+                    return;
+                }*/
                 oldColor.update();
 
                 transactionErrorMessage = "ERROR: Barcode Prefix " + barcodePrefix
@@ -120,9 +128,9 @@ public class AddColorTransaction extends Transaction
             }
             catch (Exception ex2)
             {
-                transactionErrorMessage = "ERROR: Multiple article types with barcode prefix!";
+                transactionErrorMessage = "ERROR: Multiple color types with barcode prefix!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Found multiple article types with barcode prefix : " + barcodePrefix + ". Reason: " + ex2.toString(),
+                        "Found multiple color types with barcode prefix : " + barcodePrefix + ". Reason: " + ex2.toString(),
                         Event.ERROR);
 
             }
