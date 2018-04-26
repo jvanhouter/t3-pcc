@@ -2,7 +2,6 @@
 package model;
 
 // system imports
-import javafx.scene.control.Alert;
 import javafx.scene.Scene;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,12 +15,18 @@ import userinterface.ViewFactory;
 public class CheckoutClothingItemTransaction extends Transaction
 {
     private ClothingItem myClothingItem;
+    private InventoryItemCollection receiverPastSixMonths = new InventoryItemCollection();
     private InventoryItemCollection inventoryItems = new InventoryItemCollection();
     private Vector<ClothingItem> clothingItems = new Vector<ClothingItem>();
 
     // GUI Components
     private String transactionErrorMessage = "";
     private String barcodeError = "";
+    private String updateMessage = "";
+    private String receiverNetid = "";
+    private String receiverFirstName = "";
+    private String receiverLastName = "";
+    private boolean verifiedHistory = false;
 
     //----------------------------------------------------------
     public CheckoutClothingItemTransaction() throws Exception
@@ -35,6 +40,7 @@ public class CheckoutClothingItemTransaction extends Transaction
         dependencies.setProperty("CancelCheckoutCI", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
         dependencies.setProperty("ReceiverData", "TransactionError");
+        dependencies.setProperty("BarcodeError", "HandleBarcodeProblems");
 
         myRegistry.setDependencies(dependencies);
     }
@@ -47,7 +53,6 @@ public class CheckoutClothingItemTransaction extends Transaction
         try
         {
             myClothingItem = new ClothingItem(barcode);
-//          DEBUG System.out.println(myClothingItem.getEntryListView());
             if(myClothingItem != null)
             {
                 if( myClothingItem.getState("Status").equals("Donated"))
@@ -69,19 +74,12 @@ public class CheckoutClothingItemTransaction extends Transaction
                     barcodeError = barcode + " is not avalible for checkout. The clothing item associated with this barcode has the incorrect status.";
                     handleBarcodeProblems();
                 }
-
             }
             else
             {
                 barcodeError = barcode + " does not exist in the database.";
                 handleBarcodeProblems();
             }
-//            DEBUG
-//            Iterator<ClothingItem> i = clothingItems.iterator();
-//            while(i.hasNext())
-//            {
-//                System.out.println(i.next().getEntryListView());
-//            }
         }
         catch (InvalidPrimaryKeyException e)
         {
@@ -94,63 +92,67 @@ public class CheckoutClothingItemTransaction extends Transaction
         }
     }
 
-    private boolean barcodeAlreadyAdded(String barcode)
-    {
-        for(ClothingItem ci : clothingItems)
-        {
-            if(ci.getState("Barcode").equals(barcode))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void processReceiver(Properties props)
     {
-        String receiverNetid = props.getProperty("ReceiverNetid");
-        String receiverFirstName = props.getProperty("ReceiverFirstName");
-        String receiverLastName = props.getProperty("ReceiverLastName");
-
-        if(clothingItems.size() > 0)
+        if(props != null)
         {
-            int numUpdated = 0;
-            Iterator<ClothingItem> i = clothingItems.iterator();
+            receiverNetid = props.getProperty("ReceiverNetid");
+            receiverFirstName = props.getProperty("ReceiverFirstName");
+            receiverLastName = props.getProperty("ReceiverLastName");
+            receiverPastSixMonths.findRecent(receiverNetid);
+        }
 
-            // Compose timestamp
-            Calendar currDate = Calendar.getInstance();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-            String date = dateFormat.format(currDate.getTime());
-
-            while (i.hasNext())
-            {
-                ClothingItem currItem = i.next();
-                currItem.stateChangeRequest("ReceiverNetid", receiverNetid);
-                currItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
-                currItem.stateChangeRequest("ReceiverLastName", receiverLastName);
-                currItem.stateChangeRequest("Status", "Received");
-                currItem.stateChangeRequest("DateTaken", date);
-
-                currItem.update();
-
-                if(((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully"))
-                {
-                    numUpdated++;
-                    transactionErrorMessage = transactionErrorMessage + currItem.getState("Barcode") + " ";
-                }
-            }
-
-            transactionErrorMessage = numUpdated + " clothing items associated with the following barcodes:\n\n" + transactionErrorMessage + "\n\nHave been checked out!";
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, transactionErrorMessage);
-            alert.setTitle("Checkout");
-            alert.setHeaderText("Clothing Items have been checked out.");
-            alert.show();
-
+        if(!((Vector)receiverPastSixMonths.getState("InventoryItems")).isEmpty() && verifiedHistory == false)
+        {
+            switchToReceiverRecentCheckoutView();
+            verifiedHistory = true;
         }
         else
         {
-            transactionErrorMessage = "There are no Clothing Items to update.";
+            if (clothingItems.size() > 0)
+            {
+                int numUpdated = 0;
+                Iterator<ClothingItem> i = clothingItems.iterator();
+
+                // Compose timestamp
+                Calendar currDate = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String date = dateFormat.format(currDate.getTime());
+
+                while (i.hasNext())
+                {
+                    ClothingItem currItem = i.next();
+                    currItem.stateChangeRequest("ReceiverNetid", receiverNetid);
+                    currItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
+                    currItem.stateChangeRequest("ReceiverLastName", receiverLastName);
+                    currItem.stateChangeRequest("Status", "Received");
+                    currItem.stateChangeRequest("DateTaken", date);
+
+//                    currItem.update();
+
+                    if (((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully"))
+                    {
+                        numUpdated++;
+                        updateMessage = updateMessage + currItem.getState("Barcode") + " ";
+                    }
+                }
+                updateMessage = numUpdated + " clothing items associated with the following barcodes:\n\n" + updateMessage + "\n\nHave been checked out!";
+            }
+            else
+            {
+                updateMessage = "There are no Clothing Items to update.";
+            }
+
+            if(verifiedHistory == true)
+            {
+                stateChangeRequest("DisplayUpdateMessage2", "");
+            }
+            else
+            {
+                stateChangeRequest("DisplayUpdateMessage", "");
+            }
+
+            stateChangeRequest("CancelCheckoutCI", null);
         }
     }
 
@@ -165,10 +167,13 @@ public class CheckoutClothingItemTransaction extends Transaction
         {
             processTransaction((Properties)value);
         }
+        else if (key.equals("ReceiverRecentCheckout") == true)
+        {
+            switchToReceiverRecentCheckoutView();
+        }
         else if (key.equals("ReceiverData") == true)
         {
             processReceiver((Properties)value);
-            stateChangeRequest("CancelCheckoutCI", null);
         }
         else if (key.equals("MoreData") == true)
         {
@@ -194,6 +199,14 @@ public class CheckoutClothingItemTransaction extends Transaction
         else if (key.equals("BarcodeError") == true)
         {
             return barcodeError;
+        }
+        else if (key.equals("ReceiverRecentCheckouts") == true)
+        {
+            return receiverPastSixMonths;
+        }
+        else if (key.equals("UpdateMessage") == true)
+        {
+            return updateMessage;
         }
         else if (key.equals("ClothingItems") == true)
         {
@@ -230,6 +243,12 @@ public class CheckoutClothingItemTransaction extends Transaction
         swapToView(newScene);
     }
 
+    private void switchToReceiverRecentCheckoutView()
+    {
+        Scene newScene = createReceiverRecentCheckoutView();
+        swapToView(newScene);
+    }
+
     private void switchToBarcodeScannerView()
     {
         Scene newScene = createBarcodeScannerView();
@@ -239,6 +258,14 @@ public class CheckoutClothingItemTransaction extends Transaction
     protected Scene createBarcodeScannerView()
     {
         View newView = ViewFactory.createView("BarcodeScannerView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+    }
+
+    protected Scene createReceiverRecentCheckoutView()
+    {
+        View newView = ViewFactory.createView("ReceiverRecentCheckoutView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;
@@ -254,8 +281,18 @@ public class CheckoutClothingItemTransaction extends Transaction
 
     private void handleBarcodeProblems()
     {
-        System.out.println(barcodeError);
+        stateChangeRequest("HandleBarcodeProblems", "");
+    }
 
-        stateChangeRequest("HandleBarcodeProblems", barcodeError);
+    private boolean barcodeAlreadyAdded(String barcode)
+    {
+        for(ClothingItem ci : clothingItems)
+        {
+            if(ci.getState("Barcode").equals(barcode))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

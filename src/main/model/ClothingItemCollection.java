@@ -2,6 +2,8 @@
 package model;
 
 //system imports
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -137,7 +139,18 @@ public class ClothingItemCollection  extends EntityBase implements IView
 
 		populateCollectionHelper(query);
 	}
-		
+
+	public void findRecent(String netId)
+	{
+		Calendar currDate = Calendar.getInstance();
+		currDate.add(Calendar.MONTH, -6);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+		String date = dateFormat.format(currDate.getTime());
+//		System.out.println(date);
+		String query = "SELECT * FROM inventory WHERE ReceiverNetid = '" + netId +"' " +
+				"AND DateTaken >= '" + date + "';";
+	}
+
 	
 	//----------------------------------------------------------------------------------
 	private void addClothingItem(ClothingItem a)

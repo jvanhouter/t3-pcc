@@ -28,31 +28,26 @@ import model.ClothingItem;
 import model.InventoryItemCollection;
 
 //==============================================================================
-public class CheckoutHelperView extends View
+public class ReceiverRecentCheckoutView extends View
 {
     protected TableView<InventoryTableModel> InventoryTable;
-    protected PccButton addAnotherBarcodeButton;
-    protected PccButton checkoutButton;
-    protected PccButton cancelButton;
-
-    protected TextField netId;
-    protected TextField fName;
-    protected TextField lName;
+    protected Button checkoutButton;
+    protected Button cancelButton;
 
     protected MessageView statusLog;
 
     //--------------------------------------------------------------------------
-    public CheckoutHelperView(IModel inv)
+    public ReceiverRecentCheckoutView(IModel inv)
     {
         super(inv, "InventoryItemCollectionView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
+        VBox container = new VBox(10);
+        container.setPadding(new Insets(15, 5, 5, 5));
 
-        // Add a title for this panel
+        // create our GUI components, add them to this panel
         container.getChildren().add(createTitle());
 
-        // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
 
         // Error message area
@@ -64,7 +59,7 @@ public class CheckoutHelperView extends View
 
         populateFields();
 
-        myModel.subscribe("DisplayUpdateMessage", this);
+        myModel.subscribe("DisplayUpdateMessage2", this);
 
     }
 
@@ -79,7 +74,7 @@ public class CheckoutHelperView extends View
     protected void getEntryTableModelValues()
     {
         ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
-        InventoryItemCollection inventoryItemCollection = (InventoryItemCollection)myModel.getState("InventoryList");
+        InventoryItemCollection inventoryItemCollection = (InventoryItemCollection)myModel.getState("ReceiverRecentCheckouts");
         Vector entryList = (Vector)inventoryItemCollection.getState("InventoryItems");
 
         if (entryList.size() > 0)
@@ -99,12 +94,51 @@ public class CheckoutHelperView extends View
         {
             displayMessage("No matching entries found!");
         }
-            InventoryTable.setItems(tableData);
+        InventoryTable.setItems(tableData);
     }
 
-    @Override
-    protected String getActionText() {
-        return "** Checkout Clothing Items **";
+    //-------------------------------------------------------------
+    private Node createTitle()
+    {
+        VBox container = new VBox(10);
+        container.setPadding(new Insets(1, 1, 1, 30));
+
+        Text clientText = new Text(" Office of Career Services ");
+        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        clientText.setWrappingWidth(350);
+        clientText.setTextAlignment(TextAlignment.CENTER);
+        clientText.setFill(Color.DARKGREEN);
+        container.getChildren().add(clientText);
+
+        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
+        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        collegeText.setWrappingWidth(350);
+        collegeText.setTextAlignment(TextAlignment.CENTER);
+        collegeText.setFill(Color.DARKGREEN);
+        container.getChildren().add(collegeText);
+
+        Text titleText = new Text(" Professional Clothes Closet Management System ");
+        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+        titleText.setWrappingWidth(350);
+        titleText.setTextAlignment(TextAlignment.CENTER);
+        titleText.setFill(Color.DARKGREEN);
+        container.getChildren().add(titleText);
+
+        Text blankText = new Text("  ");
+        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
+        blankText.setWrappingWidth(350);
+        blankText.setTextAlignment(TextAlignment.CENTER);
+        blankText.setFill(Color.WHITE);
+        container.getChildren().add(blankText);
+
+        Text actionText = new Text("      ** Checkout Clothing Items **       ");
+        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        actionText.setWrappingWidth(350);
+        actionText.setTextAlignment(TextAlignment.CENTER);
+        actionText.setFill(Color.BLACK);
+        container.getChildren().add(actionText);
+
+        return container;
     }
 
     //-------------------------------------------------------------
@@ -112,8 +146,8 @@ public class CheckoutHelperView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("Active Cart");
-        prompt.setWrappingWidth(WRAPPING_WIDTH);
+        Text prompt = new Text("Receiver Recent History");
+        prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
@@ -228,48 +262,9 @@ public class CheckoutHelperView extends View
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(InventoryTable);
 
-        Text netIdLabel = new Text(" Net ID : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
-        netIdLabel.setFont(myFont);
-        netIdLabel.setWrappingWidth(150);
-        netIdLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(netIdLabel, 0, 1);
-        netId = new TextField();
-        grid.add(netId, 1, 1);
-
-        Text fNameLabel = new Text(" First Name : ");
-        fNameLabel.setFont(myFont);
-        fNameLabel.setWrappingWidth(150);
-        fNameLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(fNameLabel, 0, 2);
-        fName = new TextField();
-        grid.add(fName, 1, 2);
-
-        Text lNameLabel = new Text(" Last Name : ");
-        lNameLabel.setFont(myFont);
-        lNameLabel.setWrappingWidth(150);
-        lNameLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(lNameLabel, 0, 3);
-        lName = new TextField();
-        grid.add(lName, 1, 3);
-
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        addAnotherBarcodeButton = new PccButton("Add Another Barcode");
-        addAnotherBarcodeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        addAnotherBarcodeButton.setPrefSize(250, 20);
-        addAnotherBarcodeButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("MoreData", null);
-
-            }
-        });
-        doneCont.getChildren().add(addAnotherBarcodeButton);
-
-        checkoutButton = new PccButton("Checkout Items");
+        checkoutButton = new Button("Checkout Items Anyways");
         checkoutButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         checkoutButton.setPrefSize(250, 20);
         checkoutButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -278,42 +273,14 @@ public class CheckoutHelperView extends View
             public void handle(ActionEvent e)
             {
                 clearErrorMessage();
-                Properties props = new Properties();
-                String netIdReceiver = netId.getText();
-                //TODO should netid have a maximum?
-                if (netIdReceiver.length() > 0)
-                {
-                    props.setProperty("ReceiverNetid", netIdReceiver);
-                    String fNameReceiver = fName.getText();
-                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < UiConstants.RECEIVER_FIRST_NAME_MAX_LENGTH)
-                    {
-                        props.setProperty("ReceiverFirstName", fNameReceiver);
-                        String lNameReceiver = lName.getText();
-                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < UiConstants.RECEIVER_LAST_NAME_MAX_LENGTH)
-                        {
-                            props.setProperty("ReceiverLastName", lNameReceiver);
-                            myModel.stateChangeRequest("ReceiverData", props);
-                        }
-                        else
-                        {
-                            displayErrorMessage("Last name incorrect size!");
-                        }
-                    }
-                    else
-                    {
-                        displayErrorMessage("First name incorrect size!");
-                    }
-                }
-                else
-                {
-                    displayErrorMessage("NetId incorrect size!");
-                }
+                myModel.stateChangeRequest("ReceiverData", null);
             }
+
         });
         doneCont.getChildren().add(checkoutButton);
 
         doneCont.setAlignment(Pos.CENTER);
-        cancelButton = new PccButton("Done");
+        cancelButton = new Button("Cancel");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -336,13 +303,13 @@ public class CheckoutHelperView extends View
     //--------------------------------------------------------------------------
     public void updateState(String key, Object value)
     {
-        if(key.equals("DisplayUpdateMessage"))
+        if(key.equals("DisplayUpdateMessage2"))
         {
-        String updateMessage = (String)myModel.getState("UpdateMessage");
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, updateMessage);
-        alert.setTitle("Checkout");
-        alert.setHeaderText("Clothing Items have been checked out.");
-        alert.show();
+            String updateMessage = (String)myModel.getState("UpdateMessage");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, updateMessage);
+            alert.setTitle("Checkout");
+            alert.setHeaderText("Clothing Items have been checked out.");
+            alert.show();
         }
 
     }
@@ -371,5 +338,3 @@ public class CheckoutHelperView extends View
         statusLog.displayErrorMessage(message);
     }
 }
-
-
