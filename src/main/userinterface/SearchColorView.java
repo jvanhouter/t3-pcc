@@ -72,7 +72,7 @@ public class SearchColorView extends View
         VBox vbox = new VBox(10);
         Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
 
-        Text prompt1 = new Text("Enter Color Barcode Prefix (if known)");
+        PccText prompt1 = new PccText("Enter Color Barcode Prefix (if known)");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.web(APP_TEXT_COLOR));
@@ -87,7 +87,7 @@ public class SearchColorView extends View
 
         vbox.getChildren().add(grid0);
 
-        Text prompt2 = new Text(" - Otherwise, enter other criteria below - ");
+        PccText prompt2 = new PccText(" - Otherwise, enter other criteria below - ");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.web(APP_TEXT_COLOR));
@@ -100,7 +100,7 @@ public class SearchColorView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        Text descripLabel = new Text(" Description : ");
+        PccText descripLabel = new PccText(" Description : ");
         descripLabel.setFont(myFont);
         descripLabel.setWrappingWidth(150);
         descripLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -125,7 +125,7 @@ public class SearchColorView extends View
         });
         grid.add(description, 1, 1);
 
-        Text alphaCodeLabel = new Text(" Alpha Code : ");
+        PccText alphaCodeLabel = new PccText(" Alpha Code : ");
         alphaCodeLabel.setFont(myFont);
         alphaCodeLabel.setWrappingWidth(150);
         alphaCodeLabel.setTextAlignment(TextAlignment.RIGHT);

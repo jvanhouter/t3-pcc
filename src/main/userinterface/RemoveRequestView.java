@@ -62,7 +62,7 @@ public class RemoveRequestView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
-        Text prompt1 = new Text("Are you sure you wish to remove this request");
+        PccText prompt1 = new PccText("Are you sure you wish to remove this request");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.web(APP_TEXT_COLOR));

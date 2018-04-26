@@ -67,7 +67,7 @@ public class CheckoutInvalidItemView extends View {
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("The Clothing Item associated with this barcode can not be checked out.");
+        PccText prompt = new PccText("The Clothing Item associated with this barcode can not be checked out.");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));

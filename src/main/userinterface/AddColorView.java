@@ -73,7 +73,7 @@ public class AddColorView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("COLOR TYPE INFORMATION");
+        PccText prompt = new PccText("COLOR TYPE INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
@@ -102,7 +102,7 @@ public class AddColorView extends View
         });
         grid.add(barcodePrefix, 1, 1);
 
-        Text descripLabel = new Text(" Description : ");
+        PccText descripLabel = new PccText(" Description : ");
         descripLabel.setFont(myFont);
         descripLabel.setWrappingWidth(150);
         descripLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -116,7 +116,7 @@ public class AddColorView extends View
         });
         grid.add(description, 1, 2);
 
-        Text alphaCodeLabel = new Text(" Alpha Code : ");
+        PccText alphaCodeLabel = new PccText(" Alpha Code : ");
         alphaCodeLabel.setFont(myFont);
         alphaCodeLabel.setWrappingWidth(150);
         alphaCodeLabel.setTextAlignment(TextAlignment.RIGHT);

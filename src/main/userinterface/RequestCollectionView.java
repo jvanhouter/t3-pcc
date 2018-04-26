@@ -152,7 +152,7 @@ public class RequestCollectionView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("");
+        PccText prompt = new PccText("");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));

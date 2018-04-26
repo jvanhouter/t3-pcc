@@ -93,10 +93,10 @@ public class LogARequestView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("LOG REQUEST INFORMATION");
+        PccText prompt = new PccText("LOG REQUEST INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(javafx.scene.paint.Color.BLACK);
+//        prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
@@ -109,7 +109,7 @@ public class LogARequestView extends View
 
         Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
 
-        Text myNetId = new Text(" Net ID : ");
+        PccText myNetId = new PccText(" Net ID : ");
         myNetId.setFont(myFont);
         myNetId.setWrappingWidth(150);
         myNetId.setTextAlignment(TextAlignment.RIGHT);
@@ -118,7 +118,7 @@ public class LogARequestView extends View
         netId = new TextField();
         grid.add(netId, 1, 1);
 
-        Text myFirstName = new Text(" First Name : ");
+        PccText myFirstName = new PccText(" First Name : ");
         myFirstName.setFont(myFont);
         myFirstName.setWrappingWidth(150);
         myFirstName.setTextAlignment(TextAlignment.RIGHT);
@@ -127,7 +127,7 @@ public class LogARequestView extends View
         firstName = new TextField();
         grid.add(firstName, 1, 2);
 
-        Text myLastName = new Text(" Last Name :");
+        PccText myLastName = new PccText(" Last Name :");
         myLastName.setFont(myFont);
         myLastName.setWrappingWidth(150);
         myLastName.setTextAlignment(TextAlignment.RIGHT);
@@ -136,7 +136,7 @@ public class LogARequestView extends View
         lastName = new TextField();
         grid.add(lastName, 1, 3);
 
-        Text myPhone = new Text(" Phone Number : ");
+        PccText myPhone = new PccText(" Phone Number : ");
         myPhone.setFont(myFont);
         myPhone.setWrappingWidth(150);
         myPhone.setTextAlignment(TextAlignment.RIGHT);
@@ -149,7 +149,7 @@ public class LogARequestView extends View
 
         });
 
-        Text myEmail = new Text(" Email Address : ");
+        PccText myEmail = new PccText(" Email Address : ");
         myEmail.setFont(myFont);
         myEmail.setWrappingWidth(150);
         myEmail.setTextAlignment(TextAlignment.RIGHT);
@@ -165,7 +165,7 @@ public class LogARequestView extends View
             }
         });
 
-        Text myGender = new Text(" Gender : ");
+        PccText myGender = new PccText(" Gender : ");
         myGender.setFont(myFont);
         myGender.setWrappingWidth(150);
         myGender.setTextAlignment(TextAlignment.RIGHT);
@@ -177,7 +177,7 @@ public class LogARequestView extends View
         gender.setValue("Mens");
 
         // Article Type UI Items ===========================================
-        Text articleTypeLabel = new Text(" Article Type : ");
+        PccText articleTypeLabel = new PccText(" Article Type : ");
         articleTypeLabel.setFont(myFont);
         articleTypeLabel.setWrappingWidth(150);
         articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -202,7 +202,7 @@ public class LogARequestView extends View
         grid.add(articleType, 1, 7);
         // =================================================================
         // Primary Color UI Items ==========================================
-        Text primaryColorLabel = new Text(" Primary Color : ");
+        PccText primaryColorLabel = new PccText(" Primary Color : ");
         primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -224,7 +224,7 @@ public class LogARequestView extends View
         grid.add(color1, 1, 8);
         // =================================================================
         // Secondary Color UI Items ========================================
-        Text secondaryColorLabel = new Text(" Secondary Color : ");
+        PccText secondaryColorLabel = new PccText(" Secondary Color : ");
         secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -246,7 +246,7 @@ public class LogARequestView extends View
         grid.add(color2, 1, 9);
         // =================================================================
         // Brand UI Items ==================================================
-        Text brandLabel = new Text(" Brand : ");
+        PccText brandLabel = new PccText(" Brand : ");
         brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -258,7 +258,7 @@ public class LogARequestView extends View
 
         // =================================================================
         // Brand UI Items ==================================================
-        Text mySize = new Text(" Size : ");
+        PccText mySize = new PccText(" Size : ");
         mySize.setFont(myFont);
         mySize.setWrappingWidth(150);
         mySize.setTextAlignment(TextAlignment.RIGHT);

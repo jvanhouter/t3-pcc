@@ -121,7 +121,7 @@ public class CheckoutHelperView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("Active Cart");
+        PccText prompt = new PccText("Active Cart");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));

@@ -76,7 +76,7 @@ public class BarcodeScannerView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("Scan or manually enter clothing item barcode");
+        PccText prompt = new PccText("Scan or manually enter clothing item barcode");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));

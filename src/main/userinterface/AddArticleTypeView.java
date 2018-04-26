@@ -76,7 +76,7 @@ public class AddArticleTypeView extends View
 	{
 		VBox vbox = new VBox(10);
 
-		Text prompt = new Text("ARTICLE TYPE INFORMATION");
+		PccText prompt = new PccText("ARTICLE TYPE INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
@@ -90,7 +90,7 @@ public class AddArticleTypeView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-		Text barcodePrefixLabel = new Text(" Barcode Prefix : ");
+		PccText barcodePrefixLabel = new PccText(" Barcode Prefix : ");
 		Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
 		barcodePrefixLabel.setFont(myFont);
 		barcodePrefixLabel.setFill(Color.web(APP_TEXT_COLOR));
@@ -106,7 +106,7 @@ public class AddArticleTypeView extends View
         });
 		grid.add(barcodePrefix, 1, 1);
 
-		Text descripLabel = new Text(" Description : ");
+		PccText descripLabel = new PccText(" Description : ");
 		descripLabel.setFont(myFont);
 		descripLabel.setFill(Color.web(APP_TEXT_COLOR));
 		descripLabel.setWrappingWidth(150);
@@ -121,7 +121,7 @@ public class AddArticleTypeView extends View
 		});
 		grid.add(description, 1, 2);
 
-		Text alphaCodeLabel = new Text(" Alpha Code : ");
+		PccText alphaCodeLabel = new PccText(" Alpha Code : ");
 		alphaCodeLabel.setFont(myFont);
 		alphaCodeLabel.setFill(Color.web(APP_TEXT_COLOR));
 		alphaCodeLabel.setWrappingWidth(150);

@@ -64,7 +64,7 @@ public class RemoveClothingItemView extends View
     {
         VBox vbox = new VBox(10);
 
-        Text prompt1 = new Text("Are you sure you wish to remove this clothing item.");
+        PccText prompt1 = new PccText("Are you sure you wish to remove this clothing item.");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.web(APP_TEXT_COLOR));

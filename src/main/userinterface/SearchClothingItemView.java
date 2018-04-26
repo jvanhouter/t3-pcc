@@ -73,7 +73,7 @@ public class SearchClothingItemView extends View
 	{
 		VBox vbox = new VBox(10);
 		
-		Text prompt1 = new Text("Enter Barcode (if known)");
+		PccText prompt1 = new PccText("Enter Barcode (if known)");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.web(APP_TEXT_COLOR));
@@ -86,7 +86,7 @@ public class SearchClothingItemView extends View
         grid0.setVgap(10);
         grid0.setPadding(new Insets(0, 25, 10, 0));
 		
-		Text barcodeLabel = new Text(" Barcode: ");
+		PccText barcodeLabel = new PccText(" Barcode: ");
 		Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
 		barcodeLabel.setFont(myFont);
 		barcodeLabel.setWrappingWidth(150);
@@ -108,7 +108,7 @@ public class SearchClothingItemView extends View
 		
 		vbox.getChildren().add(grid0);
 		//--------------------------------------------------------------------------//
-		Text prompt2 = new Text(" - Otherwise, enter other criteria below - ");
+		PccText prompt2 = new PccText(" - Otherwise, enter other criteria below - ");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.web(APP_TEXT_COLOR));
@@ -121,7 +121,7 @@ public class SearchClothingItemView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-		Text atLabel = new Text("Article Type : ");
+		PccText atLabel = new PccText("Article Type : ");
 		atLabel.setFont(myFont);
 		atLabel.setWrappingWidth(150);
 		atLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -141,7 +141,7 @@ public class SearchClothingItemView extends View
 });
 		grid.add(articleType, 1, 1);
 
-		Text colorLabel = new Text("Gender  : ");
+		PccText colorLabel = new PccText("Gender  : ");
 		colorLabel.setFont(myFont);
 		colorLabel.setWrappingWidth(150);
 		colorLabel.setTextAlignment(TextAlignment.RIGHT);

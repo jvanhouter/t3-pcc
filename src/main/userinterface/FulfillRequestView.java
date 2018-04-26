@@ -92,7 +92,7 @@ public class FulfillRequestView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
-        Text prompt = new Text("CLOTHING ITEM INFORMATION");
+        PccText prompt = new PccText("CLOTHING ITEM INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
@@ -107,20 +107,20 @@ public class FulfillRequestView extends View {
 
         Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
         Font headerFont = Font.font(APP_FONT, FontWeight.BOLD, 16);
-        Text myItem = new Text("Clothing Item");
+        PccText myItem = new PccText("Clothing Item");
         myItem.setFont(headerFont);
         myItem.setWrappingWidth(150);
         myItem.setTextAlignment(TextAlignment.CENTER);
         grid.add(myItem, 1, 0);
 
-        Text myRequest = new Text("Requested Item");
+        PccText myRequest = new PccText("Requested Item");
         myRequest.setFont(headerFont);
         myRequest.setWrappingWidth(150);
         myRequest.setTextAlignment(TextAlignment.CENTER);
         grid.add(myRequest, 3, 0);
 
         // Gender UI items ==================================================
-        Text genderLabel = new Text(" Gender : ");
+        PccText genderLabel = new PccText(" Gender : ");
         genderLabel.setFont(myFont);
         genderLabel.setWrappingWidth(150);
         genderLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -132,7 +132,7 @@ public class FulfillRequestView extends View {
         grid.add(gender, 1, 1);
         // =================================================================
         // Size UI Items ===================================================
-        Text sizeLabel = new Text(" Size : ");
+        PccText sizeLabel = new PccText(" Size : ");
         sizeLabel.setFont(myFont);
         sizeLabel.setWrappingWidth(150);
         sizeLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -144,7 +144,7 @@ public class FulfillRequestView extends View {
 
         // =================================================================
         // Article Type UI Items ===========================================
-        Text articleTypeLabel = new Text(" Article Type : ");
+        PccText articleTypeLabel = new PccText(" Article Type : ");
         articleTypeLabel.setFont(myFont);
         articleTypeLabel.setWrappingWidth(150);
         articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -156,7 +156,7 @@ public class FulfillRequestView extends View {
         grid.add(articleType, 1, 3);
         // =================================================================
         // Primary Color UI Items ==========================================
-        Text primaryColorLabel = new Text(" Primary Color : ");
+        PccText primaryColorLabel = new PccText(" Primary Color : ");
         primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -168,7 +168,7 @@ public class FulfillRequestView extends View {
         grid.add(primaryColor, 1, 4);
         // =================================================================
         // Secondary Color UI Items ========================================
-        Text secondaryColorLabel = new Text(" Secondary Color : ");
+        PccText secondaryColorLabel = new PccText(" Secondary Color : ");
         secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -180,7 +180,7 @@ public class FulfillRequestView extends View {
         grid.add(secondaryColor, 1, 5);
         // =================================================================
         // Brand UI Items ==================================================
-        Text brandLabel = new Text(" Brand : ");
+        PccText brandLabel = new PccText(" Brand : ");
         brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -192,7 +192,7 @@ public class FulfillRequestView extends View {
 
         // =================================================================
         // Notes UI Items ==================================================
-        Text notesLabel = new Text(" Notes : ");
+        PccText notesLabel = new PccText(" Notes : ");
         notesLabel.setFont(myFont);
         notesLabel.setWrappingWidth(150);
         notesLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -205,7 +205,7 @@ public class FulfillRequestView extends View {
         //------------------------------------------------
         // request fields
         // Gender UI items ==================================================
-        Text genderLabel2 = new Text(" Gender : ");
+        PccText genderLabel2 = new PccText(" Gender : ");
         genderLabel2.setFont(myFont);
         genderLabel2.setWrappingWidth(150);
         genderLabel2.setTextAlignment(TextAlignment.RIGHT);
@@ -217,7 +217,7 @@ public class FulfillRequestView extends View {
         grid.add(genderReq, 3, 1);
         // =================================================================
         // Size UI Items ===================================================
-        Text sizeLabel2 = new Text(" Size : ");
+        PccText sizeLabel2 = new PccText(" Size : ");
         sizeLabel2.setFont(myFont);
         sizeLabel2.setWrappingWidth(150);
         sizeLabel2.setTextAlignment(TextAlignment.RIGHT);
@@ -229,7 +229,7 @@ public class FulfillRequestView extends View {
 
         // =================================================================
         // Article Type UI Items ===========================================
-        Text articleTypeLabel2 = new Text(" Article Type : ");
+        PccText articleTypeLabel2 = new PccText(" Article Type : ");
         articleTypeLabel2.setFont(myFont);
         articleTypeLabel2.setWrappingWidth(150);
         articleTypeLabel2.setTextAlignment(TextAlignment.RIGHT);
@@ -241,7 +241,7 @@ public class FulfillRequestView extends View {
         grid.add(articleTypeReq, 3, 3);
         // =================================================================
         // Primary Color UI Items ==========================================
-        Text primaryColorLabel2 = new Text(" Primary Color : ");
+        PccText primaryColorLabel2 = new PccText(" Primary Color : ");
         primaryColorLabel2.setFont(myFont);
         primaryColorLabel2.setWrappingWidth(150);
         primaryColorLabel2.setTextAlignment(TextAlignment.RIGHT);
@@ -253,7 +253,7 @@ public class FulfillRequestView extends View {
         grid.add(primaryColorReq, 3, 4);
         // =================================================================
         // Secondary Color UI Items ========================================
-        Text secondaryColorLabel2 = new Text(" Secondary Color : ");
+        PccText secondaryColorLabel2 = new PccText(" Secondary Color : ");
         secondaryColorLabel2.setFont(myFont);
         secondaryColorLabel2.setWrappingWidth(150);
         secondaryColorLabel2.setTextAlignment(TextAlignment.RIGHT);
@@ -265,7 +265,7 @@ public class FulfillRequestView extends View {
         grid.add(secondaryColorReq, 3, 5);
         // =================================================================
         // Brand UI Items ==================================================
-        Text brandLabel2 = new Text(" Brand : ");
+        PccText brandLabel2 = new PccText(" Brand : ");
         brandLabel2.setFont(myFont);
         brandLabel2.setWrappingWidth(150);
         brandLabel2.setTextAlignment(TextAlignment.RIGHT);

@@ -86,7 +86,7 @@ public class AddClothingItemView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("CLOTHING ITEM INFORMATION");
+        PccText prompt = new PccText("CLOTHING ITEM INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLUE);
@@ -101,7 +101,7 @@ public class AddClothingItemView extends View {
         grid.setPadding(new Insets(0, 25, 10, 0));
 
         // Gender UI items ==================================================
-        Text genderLabel = new Text(" Gender : ");
+        PccText genderLabel = new PccText(" Gender : ");
         Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
         genderLabel.setFont(myFont);
 //        genderLabel.setFill(CAPP_TEXT_COLOR);
@@ -116,7 +116,7 @@ public class AddClothingItemView extends View {
         grid.add(genderCombo, 1, 1);
         // =================================================================
         // Size UI Items ===================================================
-        Text sizeLabel = new Text(" Size : ");
+        PccText sizeLabel = new PccText(" Size : ");
         sizeLabel.setFont(myFont);
         sizeLabel.setWrappingWidth(150);
         sizeLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -128,7 +128,7 @@ public class AddClothingItemView extends View {
 
         // =================================================================
         // Article Type UI Items ===========================================
-        Text articleTypeLabel = new Text(" Article Type : ");
+        PccText articleTypeLabel = new PccText(" Article Type : ");
         articleTypeLabel.setFont(myFont);
         articleTypeLabel.setWrappingWidth(150);
         articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -157,7 +157,7 @@ public class AddClothingItemView extends View {
         grid.add(articleTypeCombo, 1, 3);
         // =================================================================
         // Primary Color UI Items ==========================================
-        Text primaryColorLabel = new Text(" Primary Color : ");
+        PccText primaryColorLabel = new PccText(" Primary Color : ");
         primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -179,7 +179,7 @@ public class AddClothingItemView extends View {
         grid.add(primaryColorCombo, 1, 4);
         // =================================================================
         // Secondary Color UI Items ========================================
-        Text secondaryColorLabel = new Text(" Secondary Color : ");
+        PccText secondaryColorLabel = new PccText(" Secondary Color : ");
         secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -201,7 +201,7 @@ public class AddClothingItemView extends View {
         grid.add(secondaryColorCombo, 1, 5);
         // =================================================================
         // Brand UI Items ==================================================
-        Text brandLabel = new Text(" Brand : ");
+        PccText brandLabel = new PccText(" Brand : ");
         brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -213,7 +213,7 @@ public class AddClothingItemView extends View {
 
         // =================================================================
         // Notes UI Items ==================================================
-        Text notesLabel = new Text(" Notes : ");
+        PccText notesLabel = new PccText(" Notes : ");
         notesLabel.setFont(myFont);
         notesLabel.setWrappingWidth(150);
         notesLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -225,10 +225,10 @@ public class AddClothingItemView extends View {
 
         // =================================================================
         // Donor UI Items ==================================================
-        Text donorFirstNameLabel = new Text(" Donor First Name : ");
-        Text donorLastNameLabel = new Text(" Donor Last Name : ");
-        Text donorPhoneLabel = new Text(" Donor Phone Number : ");
-        Text donorEmailLabel = new Text(" Donor E-Mail : ");
+        PccText donorFirstNameLabel = new PccText(" Donor First Name : ");
+        PccText donorLastNameLabel = new PccText(" Donor Last Name : ");
+        PccText donorPhoneLabel = new PccText(" Donor Phone Number : ");
+        PccText donorEmailLabel = new PccText(" Donor E-Mail : ");
 
         donorFirstNameLabel.setFont(myFont);
         donorLastNameLabel.setFont(myFont);

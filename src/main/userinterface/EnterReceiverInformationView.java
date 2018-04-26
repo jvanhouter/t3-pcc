@@ -248,7 +248,7 @@ public class EnterReceiverInformationView extends View {
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(InventoryTable);
 
-        Text netIdLabel = new Text(" Net ID : ");
+        PccText netIdLabel = new PccText(" Net ID : ");
         Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
         netIdLabel.setFont(myFont);
         netIdLabel.setFill(Color.web(APP_TEXT_COLOR));
@@ -259,7 +259,7 @@ public class EnterReceiverInformationView extends View {
         netId = new TextField();
         grid.add(netId, 1, 1);
 
-        Text fNameLabel = new Text(" First Name : ");
+        PccText fNameLabel = new PccText(" First Name : ");
         fNameLabel.setFont(myFont);
         fNameLabel.setFill(Color.web(APP_TEXT_COLOR));
         fNameLabel.setWrappingWidth(150);
@@ -269,7 +269,7 @@ public class EnterReceiverInformationView extends View {
         fName = new TextField();
         grid.add(fName, 1, 2);
 
-        Text lNameLabel = new Text(" Last Name : ");
+        PccText lNameLabel = new PccText(" Last Name : ");
         lNameLabel.setFont(myFont);
         lNameLabel.setFill(Color.web(APP_TEXT_COLOR));
         lNameLabel.setWrappingWidth(150);
