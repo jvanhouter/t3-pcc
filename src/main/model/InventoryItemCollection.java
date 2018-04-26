@@ -5,6 +5,9 @@ package model;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.Date;
+import java.util.Calendar;
+
 
 import exception.MultiplePrimaryKeysException;
 import javafx.scene.Scene;
@@ -12,7 +15,7 @@ import javafx.scene.Scene;
 // project imports
 import exception.InvalidPrimaryKeyException;
 import event.Event;
-import database.*;
+import database.*; ///FIX THIS!!!!
 
 import impresario.IView;
 
@@ -21,12 +24,15 @@ import userinterface.ViewFactory;
 
 
 //==============================================================
-public class InventoryItemCollection  extends EntityBase implements IView
+public class InventoryItemCollection extends EntityBase implements IView
 {
     private static final String myTableName = "Inventory";
-    private Vector<ClothingItem> inventoryItems = new Vector<ClothingItem>();;
+    private Vector<ClothingItem> inventoryItems = new Vector<ClothingItem>();
     Vector<Properties> allColorItemsRetrieved = getColors();
     Vector<Properties> allArticleTypesRetrieved = getArticleTypes();
+    //Adding this vector to test aging
+    private Vector<ClothingItem> agingInventory = new Vector<ClothingItem>();
+
     // GUI Components
 
     // constructor for this class
@@ -132,12 +138,31 @@ public class InventoryItemCollection  extends EntityBase implements IView
         String query = "SELECT * FROM " + myTableName + " WHERE (Barcode = '" + barcode + "')";
         populateCollectionHelper(query);
     }
+    
+    //----------------------Attempting aging query for reports
+    public void findAging()
+    {
+    	Calendar cal = Calendar.getInstance();
+    	cal.add(Calendar.MONTH, -6); //This is hardcoded, but we may be
+    								//able to update this
+    	String agingDate = cal.getTime().toString();
+    	
+    	
+        String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Donated') AND "
+        		+ "(DateDonated < '" + agingDate + "'";
+        populateCollectionHelper(query);
+    }
+    
     //----------------------------------------------------------
     public Object getState(String key)
     {
         if (key.equals("InventoryItems"))
             return inventoryItems;
         else
+        //Adding else if here to try to customize the return
+//        if (key.equals("AgingItems"))
+//        	return agingItems;
+//        	
         if (key.equals("InventoryList"))
             return this;
         return null;
