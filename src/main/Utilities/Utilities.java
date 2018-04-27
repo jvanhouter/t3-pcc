@@ -48,6 +48,7 @@ public class Utilities {
         clothingRequestHash = collectClothingRequestHash();
         clothingRequestHash.remove(id);
     }
+
     //----------------------------------------------------------
     public static HashMap<String, ClothingRequest> collectClothingRequestHash() {
         if (clothingRequestHash == null) {
@@ -103,6 +104,7 @@ public class Utilities {
         }
         return clothingHash;
     }
+
     //----------------------------------------------------------
     public static HashMap<String, Color> collectColorHash() {
         if (colorHash == null) {
@@ -130,6 +132,7 @@ public class Utilities {
         }
         return colorHash;
     }
+
     //----------------------------------------------------------
     public static HashMap<String, ArticleType> collectArticleTypeHash() {
         if (articleTypeHash == null) {
@@ -170,11 +173,13 @@ public class Utilities {
         clothingHash = collectClothingHash();
         clothingHash.put(id, item);
     }
+
     //----------------------------------------------------------
     public static void putColorHash(String id, Color color) {
         colorHash = collectColorHash();
         colorHash.put(id, color);
     }
+
     //----------------------------------------------------------
     public static void putArticleTypeHash(String id, ArticleType article) {
         articleTypeHash = collectArticleTypeHash();
@@ -184,13 +189,11 @@ public class Utilities {
     //----------------------------------------------------------
     // auto fill dashes, placing here for universal constant.
     // commander we probably should've done this earlier
-    public static String autoFillDashes(String input)
-    {
-        if(input.matches("[0-9]{4}"))
-        {
+    public static String autoFillDashes(String input) {
+        if (input.matches("[0-9]{4}")) {
             return input.substring(0, input.length() - 1) + "-" + input.substring(input.length() - 1);
         }
-        if(input.matches("[0-9]{3}-[0-9]{5}")) {
+        if (input.matches("[0-9]{3}-[0-9]{5}")) {
             return input.substring(0, input.length() - 2) + "-" + input.substring(input.length() - 2);
         }
         return input;

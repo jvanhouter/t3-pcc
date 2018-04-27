@@ -2,6 +2,8 @@
 package userinterface;
 
 // system imports
+
+import impresario.IModel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -11,20 +13,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.util.Properties;
 
 // project imports
-import impresario.IModel;
 
-/** The class containing the Add Article Type View  for the Professional Clothes
- *  Closet application
+/**
+ * The class containing the Add Article Type View  for the Professional Clothes
+ * Closet application
  */
 //==============================================================
-public class AddColorView extends View
-{
+public class AddColorView extends View {
 
     // GUI components
     protected TextField barcodePrefix;
@@ -39,8 +39,7 @@ public class AddColorView extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public AddColorView(IModel color)
-    {
+    public AddColorView(IModel color) {
         super(color, "AddColorView");
 
         // create a container for showing the contents
@@ -62,15 +61,13 @@ public class AddColorView extends View
     }
 
     @Override
-    protected String getActionText()
-    {
+    protected String getActionText() {
         return "** Adding a new Color Type **";
     }
 
     // Create the main form content
     //-------------------------------------------------------------
-    private VBox createFormContent()
-    {
+    private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
         PccText prompt = new PccText("COLOR TYPE INFORMATION");
@@ -127,7 +124,7 @@ public class AddColorView extends View
             if (!newValue.matches("[a-zA-Z]{0,5}")) {
                 alphaCode.setText(oldValue);
             }
-            if(newValue.matches("[A-Za-z]{0,5}")) {
+            if (newValue.matches("[A-Za-z]{0,5}")) {
                 alphaCode.setText(newValue.toUpperCase());
             }
         });
@@ -140,33 +137,24 @@ public class AddColorView extends View
             clearErrorMessage();
             Properties props = new Properties();
             String bcPrfx = barcodePrefix.getText();
-            if (bcPrfx.length() > 0)
-            {
+            if (bcPrfx.length() > 0) {
                 props.setProperty("BarcodePrefix", bcPrfx);
                 String descrip = description.getText();
-                if (descrip.length() > 0)
-                {
+                if (descrip.length() > 0) {
                     props.setProperty("Description", descrip);
                     String alfaC = alphaCode.getText();
-                    if (alfaC.length() > 0)
-                    {
+                    if (alfaC.length() > 0) {
                         props.setProperty("AlphaCode", alfaC);
                         myModel.stateChangeRequest("ColorData", props);
                         myModel.stateChangeRequest("OK", null);
-                    }
-                    else
-                    {
+                    } else {
                         displayErrorMessage("ERROR: Please enter a valid alpha code!");
                     }
-                }
-                else
-                {
+                } else {
                     displayErrorMessage("ERROR: Please enter a valid description!");
                 }
 
-            }
-            else
-            {
+            } else {
                 displayErrorMessage("ERROR: Please enter a barcode prefix!");
 
             }
@@ -190,16 +178,14 @@ public class AddColorView extends View
 
     // Create the status log field
     //-------------------------------------------------------------
-    protected MessageView createStatusLog(String initialMessage)
-    {
+    protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
     //-------------------------------------------------------------
-    public void populateFields()
-    {
+    public void populateFields() {
 
     }
 
@@ -207,19 +193,14 @@ public class AddColorView extends View
      * Update method
      */
     //---------------------------------------------------------
-    public void updateState(String key, Object value)
-    {
+    public void updateState(String key, Object value) {
         clearErrorMessage();
 
-        if (key.equals("TransactionError") )
-        {
-            String val = (String)value;
-            if (val.startsWith("ERR") )
-            {
+        if (key.equals("TransactionError")) {
+            String val = (String) value;
+            if (val.startsWith("ERR")) {
                 displayErrorMessage(val);
-            }
-            else
-            {
+            } else {
                 displayMessage(val);
             }
 
@@ -230,8 +211,7 @@ public class AddColorView extends View
      * Display error message
      */
     //----------------------------------------------------------
-    public void displayErrorMessage(String message)
-    {
+    public void displayErrorMessage(String message) {
         statusLog.displayErrorMessage(message);
     }
 
@@ -239,8 +219,7 @@ public class AddColorView extends View
      * Display info message
      */
     //----------------------------------------------------------
-    public void displayMessage(String message)
-    {
+    public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
 
@@ -248,8 +227,7 @@ public class AddColorView extends View
      * Clear error message
      */
     //----------------------------------------------------------
-    public void clearErrorMessage()
-    {
+    public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 

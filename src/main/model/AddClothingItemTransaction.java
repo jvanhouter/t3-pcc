@@ -21,8 +21,7 @@ import java.util.Properties;
  * The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application
  */
 //==============================================================
-public class AddClothingItemTransaction extends Transaction
-{
+public class AddClothingItemTransaction extends Transaction {
 
     private ClothingItem myClothingItem;
     private ArticleTypeCollection myArticleTypeList;
@@ -39,14 +38,12 @@ public class AddClothingItemTransaction extends Transaction
      * Constructor for this class.
      */
 
-    public AddClothingItemTransaction() throws Exception
-    {
+    public AddClothingItemTransaction() throws Exception {
         super();
     }
 
 
-    protected void setDependencies()
-    {
+    protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelAddClothingItem", "CancelTransaction");
         dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
@@ -62,14 +59,11 @@ public class AddClothingItemTransaction extends Transaction
      * verifying its uniqueness, etc.
      */
 
-    public void processTransaction(Properties props)
-    {
-        if (barcode != null)
-        {
+    public void processTransaction(Properties props) {
+        if (barcode != null) {
             props.setProperty("Barcode", barcode);
 
-            try
-            {
+            try {
 
                 props.setProperty("ReceiverNetid", "");
                 props.setProperty("ReceiverFirstName", "");
@@ -84,9 +78,7 @@ public class AddClothingItemTransaction extends Transaction
                 Utilities.putClothingHash((String) myClothingItem.getState("ID"), myClothingItem);
                 transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
 
-            }
-            catch (Exception excep)
-            {
+            } catch (Exception excep) {
                 transactionErrorMessage = "ERROR: Invalid barcode: " + barcode
                         + "!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
@@ -96,21 +88,17 @@ public class AddClothingItemTransaction extends Transaction
         }
     }
 
-    private void processBarcode(Properties props)
-    {
-        if (props.getProperty("Barcode") != null)
-        {
+    private void processBarcode(Properties props) {
+        if (props.getProperty("Barcode") != null) {
             barcode = props.getProperty("Barcode");
-            try
-            {
+            try {
                 ClothingItem oldClothingItem = new ClothingItem(barcode);
                 transactionErrorMessage = "ERROR: Barcode Prefix " + barcode
                         + " already exists!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Clothing item with barcode : " + barcode + " already exists!",
                         Event.ERROR);
-            } catch (InvalidPrimaryKeyException ex)
-            {
+            } catch (InvalidPrimaryKeyException ex) {
                 //
                 //CHECK FIRST INTEGER BARCODE OPTIONS, NOT ALWAYS M/F, 1/0
                 //
@@ -118,15 +106,14 @@ public class AddClothingItemTransaction extends Transaction
                     gender = "Mens";
                 else if (barcode.substring(0, 1).equals("0"))
                     gender = "Womens";
-                else if (barcode.substring(0,1).equals("2"))
+                else if (barcode.substring(0, 1).equals("2"))
                     gender = "Unisex";
                 myArticleTypeList = new ArticleTypeCollection();
                 myArticleTypeList.findAll();
                 myColorList = new ColorCollection();
                 myColorList.findAll();
                 createAndShowAddClothingItemView();
-            } catch (MultiplePrimaryKeysException ex2)
-            {
+            } catch (MultiplePrimaryKeysException ex2) {
                 transactionErrorMessage = "ERROR: Multiple clothing items with barcode !";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Found multiple clothing items with barcode: "
@@ -149,6 +136,8 @@ public class AddClothingItemTransaction extends Transaction
             return myArticleTypeList.retrieveAll();
         } else if (key.equals("Colors")) {
             return myColorList.retrieveAll();
+        } else if (key.equals("Barcode")) {
+            return barcode;
         }
         return null;
     }

@@ -17,8 +17,10 @@
 //*************************************************************
 
 // JavaDoc information
-/** @author		$Author: tomb $ */
-/** @version	$Revision: 1.2 $ */
+/**
+ * @author $Author: tomb $  @version	$Revision: 1.2 $
+ */
+/** @version $Revision: 1.2 $ */
 
 // specify the package
 package impresario;
@@ -28,11 +30,11 @@ package impresario;
 // local includes
 
 //==============================================================
-public interface IControl
-{
-	// associate a Model to a Control object
-	public void subscribe(String key,  IModel subscriber);		// for updating Models
-	public void unSubscribe(String key, IModel subscriber);
+public interface IControl {
+    // associate a Model to a Control object
+    public void subscribe(String key, IModel subscriber);        // for updating Models
+
+    public void unSubscribe(String key, IModel subscriber);
 }
 
 //**************************************************************

@@ -3,7 +3,6 @@ package model;
 
 // system imports
 
-import event.Event;
 import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
@@ -12,7 +11,9 @@ import java.util.Properties;
 
 // project imports
 
-/** The class containing the List Inventory for the Professional Clothes Closet application */
+/**
+ * The class containing the List Inventory for the Professional Clothes Closet application
+ */
 //==============================================================
 public class ListInventoryTransaction extends Transaction {
 
@@ -40,11 +41,9 @@ public class ListInventoryTransaction extends Transaction {
 
     //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("TransactionError") ) {
+        if (key.equals("TransactionError")) {
             return transactionErrorMessage;
-        }
-        else if(key.equals("InventoryList"))
-        {
+        } else if (key.equals("InventoryList")) {
             return myInvList;
         }
         return null;
@@ -53,8 +52,7 @@ public class ListInventoryTransaction extends Transaction {
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") ))
-        {
+        if ((key.equals("DoYourJob"))) {
             doYourJob();
         }
         myRegistry.updateSubscribers(key, this);

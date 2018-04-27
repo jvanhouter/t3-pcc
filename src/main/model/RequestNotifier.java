@@ -4,8 +4,7 @@ import javafx.scene.Scene;
 
 import java.util.Properties;
 
-public class RequestNotifier extends Transaction
-{
+public class RequestNotifier extends Transaction {
 
     private static RequestNotifier myNotifier;
 
@@ -14,9 +13,17 @@ public class RequestNotifier extends Transaction
 
     private String transactionErrorMessage = "";
 
-    private RequestNotifier() throws Exception
-    {
+    private RequestNotifier() throws Exception {
         super();
+    }
+
+    public static RequestNotifier getInstance() {
+        try {
+            if (myNotifier == null) myNotifier = new RequestNotifier();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return myNotifier;
     }
 
     @Override
@@ -44,15 +51,6 @@ public class RequestNotifier extends Transaction
     @Override
     public void stateChangeRequest(String key, Object value) {
 
-    }
-
-    public static RequestNotifier getInstance() {
-        try {
-            if (myNotifier == null) myNotifier = new RequestNotifier();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return myNotifier;
     }
 
     /*

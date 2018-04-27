@@ -2,18 +2,22 @@
 package model;
 
 // system imports
-import javafx.scene.Scene;
-import java.text.SimpleDateFormat;
-import java.util.*;
+
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
-
-// project imports
+import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-public class CheckoutClothingItemTransaction extends Transaction
-{
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Vector;
+
+// project imports
+
+public class CheckoutClothingItemTransaction extends Transaction {
     private ClothingItem myClothingItem;
     private InventoryItemCollection receiverPastSixMonths = new InventoryItemCollection();
     private InventoryItemCollection inventoryItems = new InventoryItemCollection();
@@ -29,12 +33,11 @@ public class CheckoutClothingItemTransaction extends Transaction
     private boolean verifiedHistory = false;
 
     //----------------------------------------------------------
-    public CheckoutClothingItemTransaction() throws Exception
-    {
+    public CheckoutClothingItemTransaction() throws Exception {
         super();
     }
-    protected void setDependencies()
-    {
+
+    protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
         dependencies.setProperty("CancelCheckoutCI", "CancelTransaction");
@@ -46,71 +49,50 @@ public class CheckoutClothingItemTransaction extends Transaction
     }
 
     //----------------------------------------------------------
-    public void processTransaction(Properties props)
-    {
+    public void processTransaction(Properties props) {
         String barcode = props.getProperty("Barcode");
         barcode = barcode.toUpperCase();
-        try
-        {
+        try {
             myClothingItem = new ClothingItem(barcode);
-            if(myClothingItem != null)
-            {
-                if( myClothingItem.getState("Status").equals("Donated"))
-                {
-                    if(!barcodeAlreadyAdded(barcode))
-                    {
+            if (myClothingItem != null) {
+                if (myClothingItem.getState("Status").equals("Donated")) {
+                    if (!barcodeAlreadyAdded(barcode)) {
                         clothingItems.add(myClothingItem);
                         inventoryItems.findByBarCode(barcode);
                         switchToCheckoutHelperView();
-                    }
-                    else
-                    {
+                    } else {
                         barcodeError = barcode + " is already in the cart.";
                         handleBarcodeProblems();
                     }
-                }
-                else
-                {
+                } else {
                     barcodeError = barcode + " is not avalible for checkout. The clothing item associated with this barcode has the incorrect status.";
                     handleBarcodeProblems();
                 }
-            }
-            else
-            {
+            } else {
                 barcodeError = barcode + " does not exist in the database.";
                 handleBarcodeProblems();
             }
-        }
-        catch (InvalidPrimaryKeyException e)
-        {
+        } catch (InvalidPrimaryKeyException e) {
             barcodeError = barcode + " does not exist in the database.";
             handleBarcodeProblems();
-        }
-        catch (MultiplePrimaryKeysException e)
-        {
+        } catch (MultiplePrimaryKeysException e) {
             e.printStackTrace();
         }
     }
 
-    private void processReceiver(Properties props)
-    {
-        if(props != null)
-        {
+    private void processReceiver(Properties props) {
+        if (props != null) {
             receiverNetid = props.getProperty("ReceiverNetid");
             receiverFirstName = props.getProperty("ReceiverFirstName");
             receiverLastName = props.getProperty("ReceiverLastName");
             receiverPastSixMonths.findRecent(receiverNetid);
         }
 
-        if(!((Vector)receiverPastSixMonths.getState("InventoryItems")).isEmpty() && verifiedHistory == false)
-        {
+        if (!((Vector) receiverPastSixMonths.getState("InventoryItems")).isEmpty() && verifiedHistory == false) {
             switchToReceiverRecentCheckoutView();
             verifiedHistory = true;
-        }
-        else
-        {
-            if (clothingItems.size() > 0)
-            {
+        } else {
+            if (clothingItems.size() > 0) {
                 int numUpdated = 0;
                 Iterator<ClothingItem> i = clothingItems.iterator();
 
@@ -119,8 +101,7 @@ public class CheckoutClothingItemTransaction extends Transaction
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String date = dateFormat.format(currDate.getTime());
 
-                while (i.hasNext())
-                {
+                while (i.hasNext()) {
                     ClothingItem currItem = i.next();
                     currItem.stateChangeRequest("ReceiverNetid", receiverNetid);
                     currItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
@@ -130,25 +111,19 @@ public class CheckoutClothingItemTransaction extends Transaction
 
                     currItem.update();
 
-                    if (((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully"))
-                    {
+                    if (((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully")) {
                         numUpdated++;
                         updateMessage = updateMessage + currItem.getState("Barcode") + " ";
                     }
                 }
                 updateMessage = numUpdated + " clothing items associated with the following barcodes:\n\n" + updateMessage + "\n\nHave been checked out!";
-            }
-            else
-            {
+            } else {
                 updateMessage = "There are no Clothing Items to update.";
             }
 
-            if(verifiedHistory == true)
-            {
+            if (verifiedHistory == true) {
                 stateChangeRequest("DisplayUpdateMessage2", "");
-            }
-            else
-            {
+            } else {
                 stateChangeRequest("DisplayUpdateMessage", "");
             }
 
@@ -156,140 +131,100 @@ public class CheckoutClothingItemTransaction extends Transaction
         }
     }
 
-    public void stateChangeRequest(String key, Object value)
-    {
+    public void stateChangeRequest(String key, Object value) {
         //DEBUG System.out.println("CheckoutClothingItemTransaction.sCR: key: " + key);
-        if (key.equals("DoYourJob") == true)
-        {
+        if (key.equals("DoYourJob") == true) {
             doYourJob();
-        }
-        else if (key.equals("ProcessBarcode") == true)
-        {
-            processTransaction((Properties)value);
-        }
-        else if (key.equals("ReceiverRecentCheckout") == true)
-        {
+        } else if (key.equals("ProcessBarcode") == true) {
+            processTransaction((Properties) value);
+        } else if (key.equals("ReceiverRecentCheckout") == true) {
             switchToReceiverRecentCheckoutView();
-        }
-        else if (key.equals("ReceiverData") == true)
-        {
-            processReceiver((Properties)value);
-        }
-        else if (key.equals("MoreData") == true)
-        {
+        } else if (key.equals("ReceiverData") == true) {
+            processReceiver((Properties) value);
+        } else if (key.equals("MoreData") == true) {
             barcodeError = "";
             switchToBarcodeScannerView();
-        }
-        else if(key.equals("CancelBarcodeSearch") && clothingItems.size() > 0)
-        {
+        } else if (key.equals("CancelBarcodeSearch") && clothingItems.size() > 0) {
             switchToCheckoutHelperView();
-        }
-        else
-        {
+        } else {
             myRegistry.updateSubscribers(key, this);
         }
     }
 
-    public Object getState(String key)
-    {
-        if (key.equals("TransactionError") == true)
-        {
+    public Object getState(String key) {
+        if (key.equals("TransactionError") == true) {
             return transactionErrorMessage;
-        }
-        else if (key.equals("BarcodeError") == true)
-        {
+        } else if (key.equals("BarcodeError") == true) {
             return barcodeError;
-        }
-        else if (key.equals("ReceiverRecentCheckouts") == true)
-        {
+        } else if (key.equals("ReceiverRecentCheckouts") == true) {
             return receiverPastSixMonths;
-        }
-        else if (key.equals("UpdateMessage") == true)
-        {
+        } else if (key.equals("UpdateMessage") == true) {
             return updateMessage;
-        }
-        else if (key.equals("ClothingItems") == true)
-        {
+        } else if (key.equals("ClothingItems") == true) {
             return clothingItems;
-        }
-        else if(key.equals("InventoryList"))
-        {
+        } else if (key.equals("InventoryList")) {
             return inventoryItems;
         }
         return null;
     }
 
-    protected Scene createView()
-    {
+    protected Scene createView() {
         Scene currentScene = myViews.get("BarcodeScannerView");
 
-        if (currentScene == null)
-        {
+        if (currentScene == null) {
             View newView = ViewFactory.createView("BarcodeScannerView", this);
             currentScene = new Scene(newView);
             myViews.put("BarcodeScannerView", currentScene);
 
             return currentScene;
-        }
-        else
-        {
+        } else {
             return currentScene;
         }
     }
 
-    private void switchToCheckoutHelperView()
-    {
+    private void switchToCheckoutHelperView() {
         Scene newScene = createCheckoutHelperView();
         swapToView(newScene);
     }
 
-    private void switchToReceiverRecentCheckoutView()
-    {
+    private void switchToReceiverRecentCheckoutView() {
         Scene newScene = createReceiverRecentCheckoutView();
         swapToView(newScene);
     }
 
-    private void switchToBarcodeScannerView()
-    {
+    private void switchToBarcodeScannerView() {
         Scene newScene = createBarcodeScannerView();
         swapToView(newScene);
     }
 
-    protected Scene createBarcodeScannerView()
-    {
+    protected Scene createBarcodeScannerView() {
         View newView = ViewFactory.createView("BarcodeScannerView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;
     }
 
-    protected Scene createReceiverRecentCheckoutView()
-    {
+    protected Scene createReceiverRecentCheckoutView() {
         View newView = ViewFactory.createView("ReceiverRecentCheckoutView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;
     }
 
-    protected Scene createCheckoutHelperView()
-    {
+    protected Scene createCheckoutHelperView() {
         View newView = ViewFactory.createView("CheckoutHelperView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;
     }
 
-    private void handleBarcodeProblems()
-    {
+    private void handleBarcodeProblems() {
         stateChangeRequest("HandleBarcodeProblems", "");
     }
 
-    private boolean barcodeAlreadyAdded(String barcode)
-    {
-        for(ClothingItem ci : clothingItems)
-        {
-            if(ci.getState("Barcode").equals(barcode))
-            {
+    private boolean barcodeAlreadyAdded(String barcode) {
+        for (ClothingItem ci : clothingItems) {
+            if (ci.getState("Barcode").equals(barcode)) {
                 return true;
             }
         }

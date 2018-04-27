@@ -9,7 +9,7 @@ package model;
 public class TransactionFactory {
     public static Transaction createTransaction(String transType)
             throws Exception {
-      
+
         if (transType.equals("AddArticleType")) {
             return new AddArticleTypeTransaction();
         } else if (transType.equals("UpdateArticleType")) {

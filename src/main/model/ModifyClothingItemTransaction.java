@@ -2,14 +2,13 @@ package model;
 
 // system imports
 
+import Utilities.UiConstants;
 import Utilities.Utilities;
 import event.Event;
-import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
 import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
-import Utilities.UiConstants;
+
 import java.util.Properties;
 
 // project imports
@@ -97,7 +96,7 @@ public class ModifyClothingItemTransaction extends Transaction {
             insertItem.stateChangeRequest("DonorEmail", props.getProperty("DonorEmail"));
             insertItem.stateChangeRequest("DonorPhone", props.getProperty("DonorPhone"));
             insertItem.stateChangeRequest("Notes", props.getProperty("Notes"));
-            if(props.getProperty("Size").equals(""))
+            if (props.getProperty("Size").equals(""))
                 insertItem.stateChangeRequest("Size", "" + UiConstants.GENERIC_SIZE);
             else
                 insertItem.stateChangeRequest("Size", props.getProperty("Size"));
@@ -123,69 +122,69 @@ public class ModifyClothingItemTransaction extends Transaction {
 
     //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("ClothingItemList") ) {
+        if (key.equals("ClothingItemList")) {
             return myClothingItemList;
-        } else if (key.equals("Barcode") ) {
+        } else if (key.equals("Barcode")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Barcode");
             else
                 return "";
-        } else if (key.equals("Gender") ) {
+        } else if (key.equals("Gender")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Gender");
             else
                 return "";
-        } else if (key.equals("Color1") ) {
+        } else if (key.equals("Color1")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Color1");
             else
                 return "";
-        } else if (key.equals("Color2") ) {
+        } else if (key.equals("Color2")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Color2");
             else
                 return "";
-        } else if (key.equals("Brand") ) {
+        } else if (key.equals("Brand")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Brand");
             else
                 return "";
-        } else if (key.equals("ArticleType") ) {
+        } else if (key.equals("ArticleType")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("ArticleType");
             else
                 return "";
-        } else if (key.equals("DonorFirstName") ) {
+        } else if (key.equals("DonorFirstName")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("DonorFirstName");
             else
                 return "";
-        } else if (key.equals("DonorLastName") ) {
+        } else if (key.equals("DonorLastName")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("DonorLastName");
             else
                 return "";
-        } else if (key.equals("DonorEmail") ) {
+        } else if (key.equals("DonorEmail")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("DonorEmail");
             else
                 return "";
-        } else if (key.equals("DonorPhone") ) {
+        } else if (key.equals("DonorPhone")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("DonorPhone");
             else
                 return "";
-        } else if (key.equals("Notes") ) {
+        } else if (key.equals("Notes")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Notes");
             else
                 return "";
-        } else if (key.equals("Size") ) {
+        } else if (key.equals("Size")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Size");
             else
                 return "";
-        } else if (key.equals("TransactionError") ) {
+        } else if (key.equals("TransactionError")) {
             return transactionErrorMessage;
         } else if (key.equals("Gender")) {
             return gender;
@@ -201,23 +200,23 @@ public class ModifyClothingItemTransaction extends Transaction {
     public void stateChangeRequest(String key, Object value) {
         // DEBUG System.out.println("ModifyClothingItemTransaction.sCR: key: " + key);
 
-        if ((key.equals("DoYourJob") ) || (key.equals("CancelClothingItemList") )) {
+        if ((key.equals("DoYourJob")) || (key.equals("CancelClothingItemList"))) {
             doYourJob();
         } else if (key.equals("ProcessBarcode")) {
             processTransaction((Properties) value);
-        } else if (key.equals("ClothingItemSelected") ) {
+        } else if (key.equals("ClothingItemSelected")) {
             mySelectedClothingItem = myClothingItemList.retrieve((String) value);
             myArticleTypeList = new ArticleTypeCollection();
             myArticleTypeList.findAll();
             myColorList = new ColorCollection();
             myColorList.findAll();
             String barcode = (String) mySelectedClothingItem.getState("Barcode");
-            if(barcode.substring(0, 1).equals("1"))
-               gender = "Mens";
-           else if (barcode.substring(0, 1).equals("0"))
-               gender = "Womens";
-           else if (barcode.substring(0,1).equals("2"))
-               gender = "Unisex";
+            if (barcode.substring(0, 1).equals("1"))
+                gender = "Mens";
+            else if (barcode.substring(0, 1).equals("0"))
+                gender = "Womens";
+            else if (barcode.substring(0, 1).equals("2"))
+                gender = "Unisex";
             try {
 
                 Scene newScene = createModifyClothingItemView();
@@ -229,7 +228,7 @@ public class ModifyClothingItemTransaction extends Transaction {
                         "Error in creating ModifyClothingItemView", Event.ERROR);
                 ex.printStackTrace();
             }
-        } else if (key.equals("ClothingItemData") ) {
+        } else if (key.equals("ClothingItemData")) {
             processClothingItemModification((Properties) value);
         }
 

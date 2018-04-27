@@ -2,21 +2,22 @@
 package model;
 
 // system imports
-import Utilities.Utilities;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import java.util.Properties;
-import java.util.Vector;
 
-// project imports
+import Utilities.Utilities;
 import event.Event;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
-
+import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-/** The class containing the RemoveClothingItemTransaction for the Professional Clothes Closet application */
+import java.util.Properties;
+
+// project imports
+
+/**
+ * The class containing the RemoveClothingItemTransaction for the Professional Clothes Closet application
+ */
 //==============================================================
 public class RemoveClothingItemTransaction extends Transaction {
 
@@ -57,8 +58,7 @@ public class RemoveClothingItemTransaction extends Transaction {
         String desc = props.getProperty("Description");
         String alfaC = props.getProperty("AlphaCode");
 
-        try
-        {
+        try {
             Scene newScene = createColorCollectionView();
             swapToView(newScene);
         } catch (Exception ex) {
@@ -68,13 +68,12 @@ public class RemoveClothingItemTransaction extends Transaction {
 
     }
 
-    private void processColorRemoval()
-    {
-        if(mySelectedItem != null) {
+    private void processColorRemoval() {
+        if (mySelectedItem != null) {
             mySelectedItem.stateChangeRequest("Status", "Removed");
             mySelectedItem.update();
             Utilities.removeClothingHash((String) mySelectedItem.getState("ID"));
-            transactionErrorMessage = (String)mySelectedItem.getState("UpdateStatusMessage");
+            transactionErrorMessage = (String) mySelectedItem.getState("UpdateStatusMessage");
         }
     }
 
@@ -83,26 +82,18 @@ public class RemoveClothingItemTransaction extends Transaction {
     public Object getState(String key) {
         if (key.equals("TransactionError")) {
             return transactionErrorMessage;
-        }
-        else
-        return null;
+        } else
+            return null;
     }
 
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelClothingItemList") == true))
-        {
+        if ((key.equals("DoYourJob") == true) || (key.equals("CancelClothingItemList") == true)) {
             doYourJob();
-        }
-        else
-        if (key.equals("SearchClothingList") == true)
-        {
-            processTransaction((Properties)value);
-        }
-        else
-        if (key.equals("ProcessBarcode") == true)
-        {
+        } else if (key.equals("SearchClothingList") == true) {
+            processTransaction((Properties) value);
+        } else if (key.equals("ProcessBarcode") == true) {
             try {
                 Properties p = (Properties) value;
                 mySelectedItem = new ClothingItem((String) p.getProperty("Barcode")); //passes entire barcode
@@ -111,23 +102,17 @@ public class RemoveClothingItemTransaction extends Transaction {
             } catch (MultiplePrimaryKeysException e) {
                 e.printStackTrace();
             }
-            try
-            {
+            try {
 
                 Scene newScene = createRemoveClothingItemView();
 
                 swapToView(newScene);
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Error in creating RemoveClothingItemView", Event.ERROR);
             }
-        }
-        else
-        if (key.equals("RemoveClothingItem") == true)
-        {
+        } else if (key.equals("RemoveClothingItem") == true) {
             processColorRemoval();
         }
 
