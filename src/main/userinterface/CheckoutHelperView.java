@@ -228,7 +228,7 @@ public class CheckoutHelperView extends View
         scrollPane.setPrefSize(150, 150);
         scrollPane.setContent(InventoryTable);
 
-        Text netIdLabel = new Text(" Net ID : ");
+        PccText netIdLabel = new PccText(" Net ID : ");
         Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
         netIdLabel.setFont(myFont);
         netIdLabel.setWrappingWidth(150);
@@ -237,7 +237,7 @@ public class CheckoutHelperView extends View
         netId = new TextField();
         grid.add(netId, 1, 1);
 
-        Text fNameLabel = new Text(" First Name : ");
+        PccText fNameLabel = new PccText(" First Name : ");
         fNameLabel.setFont(myFont);
         fNameLabel.setWrappingWidth(150);
         fNameLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -245,7 +245,7 @@ public class CheckoutHelperView extends View
         fName = new TextField();
         grid.add(fName, 1, 2);
 
-        Text lNameLabel = new Text(" Last Name : ");
+        PccText lNameLabel = new PccText(" Last Name : ");
         lNameLabel.setFont(myFont);
         lNameLabel.setWrappingWidth(150);
         lNameLabel.setTextAlignment(TextAlignment.RIGHT);

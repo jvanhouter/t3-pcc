@@ -221,32 +221,22 @@ public class ReceiverRecentCheckoutView extends View
 
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        checkoutButton = new Button("Checkout Items Anyways");
-        checkoutButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        checkoutButton = new PccButton("Allow Checkout");
+//        checkoutButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         checkoutButton.setPrefSize(250, 20);
-        checkoutButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e)
-            {
-                clearErrorMessage();
-                myModel.stateChangeRequest("ReceiverData", null);
-            }
-
+        checkoutButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("ReceiverData", null);
         });
         doneCont.getChildren().add(checkoutButton);
 
         doneCont.setAlignment(Pos.CENTER);
-        cancelButton = new Button("Cancel");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        cancelButton = new PccButton("Cancel");
+//        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setPrefSize(250, 20);
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelCheckoutCI", null);
-            }
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelCheckoutCI", null);
         });
         doneCont.getChildren().add(cancelButton);
 

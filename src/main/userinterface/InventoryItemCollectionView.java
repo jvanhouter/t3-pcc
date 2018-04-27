@@ -1,17 +1,30 @@
 package userinterface;
 
 // system imports
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,12 +33,26 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.util.Vector;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.StringBuilder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.Optional;
 
 // project imports
 import impresario.IModel;
+import model.ArticleType;
+import model.ArticleTypeCollection;
 //import model.Item;
 import model.ClothingItem;
 import model.InventoryItemCollection;
@@ -34,10 +61,11 @@ import model.InventoryItemCollection;
 public class InventoryItemCollectionView extends View
 {
     protected TableView<InventoryTableModel> InventoryTable;
-    protected PccButton cancelButton;
-//    protected PccButton submitButton;
+    protected Button cancelButton;
+    protected Button outputButton;
 
     protected MessageView statusLog;
+//    protected Stage stage; //Added as part of Excel work
 
 
     //--------------------------------------------------------------------------
@@ -48,24 +76,27 @@ public class InventoryItemCollectionView extends View
         // create a container for showing the contents
         VBox container = getParentContainer();
 
-        // create our GUI components, add them to this panel
+        // Add a title for this panel
         container.getChildren().add(createTitle());
 
+        // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
 
-        // Error message area
-        container.getChildren().add(createStatusLog("                                            "));
+        container.getChildren().add(createStatusLog("             "));
 
         getChildren().add(container);
 
         populateFields();
     }
 
+
+    //--------------------------------------------------------------------------
     protected void populateFields()
     {
         getEntryTableModelValues();
     }
 
+    //--------------------------------------------------------------------------
     protected void getEntryTableModelValues()
     {
         ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
@@ -80,16 +111,13 @@ public class InventoryItemCollectionView extends View
             {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements())
+                while (entries.hasMoreElements() == true)
                 {
                     ClothingItem nextCI = (ClothingItem)entries.nextElement();
                     Vector<String> view = nextCI.getEntryListView();
 
                     // add this list entry to the list
                     InventoryTableModel nextTableRowData = new InventoryTableModel(view);
-                    if (nextTableRowData.getSize().equals("999")) {
-                        nextTableRowData.setSize("");
-                    }
                     tableData.add(nextTableRowData);
 
                 }
@@ -110,17 +138,18 @@ public class InventoryItemCollectionView extends View
     protected String getActionText() {
         return "** Available Inventory **";
     }
+
     // Create the main form content
     //-------------------------------------------------------------
     private VBox createFormContent()
     {
         VBox vbox = new VBox(10);
 
-        PccText prompt = new PccText("");
-        prompt.setWrappingWidth(WRAPPING_WIDTH);
+        Text prompt = new Text("");
+        prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt.setFill(Color.BLACK);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
@@ -234,27 +263,34 @@ public class InventoryItemCollectionView extends View
         scrollPane.setContent(InventoryTable);
 
         cancelButton = new PccButton("Return");
+        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        cancelButton.setOnAction(e -> {
+            /**
+             * Process the Cancel button.
+             * The ultimate result of this action is that the transaction will tell the Receptionist to
+             * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
+             * It simply tells its model (controller) that the transaction was canceled, and leaves it
+             * to the model to decide to tell the Receptionist to do the switch back.
+             */
+            //----------------------------------------------------------
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelInventory", null);
+        });
 
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                /**
-                 * Process the Cancel button.
-                 * The ultimate result of this action is that the transaction will tell the Receptionist to
-                 * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
-                 * It simply tells its model (controller) that the transaction was canceled, and leaves it
-                 * to the model to decide to tell the Receptionist to do the switch back.
-                 */
-                //----------------------------------------------------------
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelInventory", null);
-            }
+        outputButton = new PccButton("Save to File");
+        outputButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        outputButton.setOnAction(e -> {
+            /**
+             * This sends the current dataset out to a CSV file
+             */
+            clearErrorMessage();
+            saveToExcelFile();
         });
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
 
+        btnContainer.getChildren().add(outputButton);
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);
@@ -296,6 +332,161 @@ public class InventoryItemCollectionView extends View
         statusLog.clearErrorMessage();
     }
 
+    //Added stuff for Output to Excel
+    //----------------------------------------------------------
+    //--------------------------------------------------------------------------
+    protected void saveToExcelFile() {
+        // Put up JFileChooser
+        // Retrieve full path name of file user selects
+        // Create the file appropriately if it does not exist
+        String reportsPath = System.getProperty("user.dir");// + "/reports";
+        File reportsDir = new File(reportsPath);
 
+
+
+        FileChooser chooser = new FileChooser();
+        chooser.setInitialDirectory(reportsDir);
+
+        FileChooser.ExtensionFilter filter =
+                new FileChooser.ExtensionFilter(
+                        "CSV - (.cvs)", "*.cvs");
+
+        chooser.setSelectedExtensionFilter(filter);
+
+        File file = chooser.showSaveDialog(MainStageContainer.getInstance());
+
+        try {
+            String fileName = "";
+
+
+            try {
+                fileName = file.getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String tempName = fileName.toLowerCase();
+
+            if (tempName.endsWith(".csv")) {
+                writeToFile(fileName);
+            } else {
+                fileName += ".csv";
+                writeToFile(fileName);
+            }
+        } catch (Exception ex) {
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Error in saving to file: " + ex.toString(),
+                    bar);
+
+            alert.setTitle("ERROR");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+    }
+
+    //-------------------------------------------------------------
+    protected void writeToFile(String fName) {
+
+//        Vector allColumnNames = new Vector();
+//        ArticleTypeCollection articleTypeCollection =
+//                (ArticleTypeCollection) myModel.getState("ArticleTypeList");
+//        Vector clothingVector = (Vector) articleTypeCollection.getState("ArticleTypes");
+
+        try {
+            FileWriter outFile = new FileWriter(fName);
+            PrintWriter out = new PrintWriter(outFile);
+
+//            if ((clothingVector == null) || (clothingVector.size() == 0))
+//                return;
+
+            //This is hardcoded to the Inventory Table model - we need to find a way to
+            // dynamically change this string
+            out.println("Barcode, Gender, Size, Article Type, Color 1, Color 2,"+
+                    "Date Donated, Donor First Name, Donor Last Name, Donor Email," +
+                    "Donor Phone,");
+
+            //Added from above - gets the collection from InventoryItemCollection
+            InventoryItemCollection inventoryItemCollection =
+                    (InventoryItemCollection)myModel.getState("InventoryList");
+
+            Vector entryList = (Vector)inventoryItemCollection.getState("InventoryItems");
+
+            StringBuilder valuesLine = new StringBuilder();
+
+            if (entryList.size() > 0)
+            {
+                Enumeration entries = entryList.elements();
+
+                while (entries.hasMoreElements() == true)
+                {
+                    ClothingItem nextCI = (ClothingItem)entries.nextElement();
+                    Vector<String> view = nextCI.getEntryListView();
+
+                    // add this list entry to the list
+                    InventoryTableModel nextTableRowData = new InventoryTableModel(view);
+                    valuesLine.append(nextTableRowData.getBarcode() + ", " +
+                            nextTableRowData.getGender() + ", " +
+                            nextTableRowData.getSize() + ", " +
+                            nextTableRowData.getArticleType() + ", " +
+                            nextTableRowData.getColor1() + ", " +
+                            nextTableRowData.getColor2() + ", " +
+                            nextTableRowData.getDateDonated() + ", " +
+                            nextTableRowData.getDonorFirstName() + ", " +
+                            nextTableRowData.getDonorLastName() + ", " +
+                            nextTableRowData.getDonorEmail() + ", " +
+                            nextTableRowData.getDonorPhone() + "\n");
+                }
+            }
+            else
+            {
+                displayMessage("No matching entries found!");
+            }
+
+            //Output the string
+            out.println(valuesLine.toString());
+
+            // Also print the item count and filter type (eventually)
+            out.println("\nTotal number of : " + entryList.size());
+
+            // Finally, print the time-stamp
+            DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+            DateFormat timeFormat = new SimpleDateFormat("hh:mm aaa");
+            Date date = new Date();
+            String timeStamp = dateFormat.format(date) + " " +
+                    timeFormat.format(date);
+
+            out.println("Report created on " + timeStamp);
+            out.close();
+
+
+            // Acknowledge successful completion to user with Alert
+
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Report data saved successfully to selected file",
+                    bar);
+
+            alert.setTitle("Save Successful!");
+            Optional<ButtonType> result = alert.showAndWait();
+
+        } catch (FileNotFoundException e) {
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Could not access file to save: " + fName,
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
+
+        } catch (IOException e) {
+            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Error in saving to file: " + e.toString(),
+                    bar);
+
+            alert.setTitle("Save Error");
+            Optional<ButtonType> result = alert.showAndWait();
+        }
+
+    }
 }
-
