@@ -13,6 +13,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import model.ClothingRequest;
+import model.RequestNotifier;
+
+import java.util.Vector;
 
 // project imports
 
@@ -210,7 +214,10 @@ public class ReceptionistView extends View {
 
 
     public void populateFields() {
-
+        Vector<ClothingRequest> requests = (Vector<ClothingRequest>) myModel.getState("Requests");
+        if(requests.size() > 0) {
+            fulfillRequestButton.setText("Fulfill (" + requests.size() + ")");
+        }
     }
 
 

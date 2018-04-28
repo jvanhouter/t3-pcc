@@ -37,6 +37,8 @@ public class Receptionist implements IView, IModel
     private Hashtable<String, Scene> myViews;
     private Stage myStage;
 
+    private RequestNotifier myNotifier;
+
     private String transactionErrorMessage = "";
     private String historyEvent = "";
 
@@ -56,6 +58,9 @@ public class Receptionist implements IView, IModel
 
         // STEP 3.2: Be sure to set the dependencies correctly
         setDependencies();
+
+        // Setup the Singleton object
+        myNotifier = RequestNotifier.getInstance();
 
         // Set up the initial view
         createAndShowReceptionistView();
@@ -78,7 +83,10 @@ public class Receptionist implements IView, IModel
      */
     //----------------------------------------------------------
     public Object getState(String key) {
-
+        if(key.equals("Requests"))
+        {
+            return myNotifier.pollRequests();
+        }
         return "";
     }
 
@@ -144,14 +152,9 @@ public class Receptionist implements IView, IModel
 
     //------------------------------------------------------------
     private void createAndShowReceptionistView() {
-        Scene currentScene = (Scene) myViews.get("ReceptionistView");
-
-        if (currentScene == null) {
-            // create our initial view
-            View newView = ViewFactory.createView("ReceptionistView", this); // USE VIEW FACTORY
-            currentScene = new Scene(newView);
-            myViews.put("ReceptionistView", currentScene);
-        }
+        View newView = ViewFactory.createView("ReceptionistView", this); // USE VIEW FACTORY
+        Scene currentScene = new Scene(newView);
+        myViews.put("ReceptionistView", currentScene);
 
         swapToView(currentScene);
     }

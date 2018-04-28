@@ -19,9 +19,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 import java.util.regex.Pattern;
 
 // project imports
@@ -30,6 +28,8 @@ import javafx.util.StringConverter;
 import model.ArticleType;
 import model.Color;
 import Utilities.UiConstants;
+
+import javax.rmi.CORBA.Util;
 
 /** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application
@@ -144,14 +144,13 @@ public class LogARequestView extends View
         grid.add(myPhone, 0, 4);
 
         phoneNumber = new TextField();
-        grid.add(phoneNumber, 1, 4);
-
         phoneNumber.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("[0-9-]{0,12}")) {
                 phoneNumber.setText(oldValue);
             }
             phoneNumber.setText(Utilities.autoFillDashes(phoneNumber.getText()));
         });
+        grid.add(phoneNumber, 1, 4);
 
         PccText myEmail = new PccText(" Email Address : ");
         myEmail.setFont(myFont);
@@ -367,21 +366,35 @@ public class LogARequestView extends View
     {
         clearErrorMessage();
         gender.setValue((String) myModel.getState("Gender"));
-        Vector ArticleList = (Vector) myModel.getState("Articles");
-        Iterator articles = ArticleList.iterator();
+        Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
+        Comparator<ArticleType> compareAT = new Comparator<ArticleType>() {
+            @Override
+            public int compare(ArticleType o1, ArticleType o2) {
+                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+            }
+        };
         while (articles.hasNext()) {
-            articleTypes.add((ArticleType) articles.next());
+            Map.Entry pair = (Map.Entry)articles.next();
+            articleTypes.add((ArticleType) pair.getValue());
         }
+        articleTypes.sort(compareAT);
         articleType.setItems(articleTypes);
         articleType.getSelectionModel().select(0);
 
-        Vector ColorList = (Vector) myModel.getState("Colors");
-        Iterator colors = ColorList.iterator();
+        Iterator colors = Utilities.collectColorHash().entrySet().iterator();
         ObservableList<Color> colorItems = FXCollections.observableArrayList();
+        Comparator<Color> compareCT = new Comparator<Color>() {
+            @Override
+            public int compare(Color o1, Color o2) {
+                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+            }
+        };
         while (colors.hasNext()) {
-            colorItems.add((Color) colors.next());
+            Map.Entry pair = (Map.Entry)colors.next();
+            colorItems.add((Color) pair.getValue());
         }
+        colorItems.sort(compareCT);
         color1.setItems(colorItems);
         color1.getSelectionModel().select(0);
         color2.setItems(colorItems);

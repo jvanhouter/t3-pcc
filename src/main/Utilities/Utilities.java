@@ -96,7 +96,7 @@ public class Utilities {
 
                 while (entries.hasMoreElements()) {
                     ClothingItem nextCI = (ClothingItem) entries.nextElement();
-                    clothingHash.put((String) nextCI.getState("ID"), nextCI);
+                    clothingHash.put((String) nextCI.getState("Barcode"), nextCI);
                 }
             }
             alert.close();

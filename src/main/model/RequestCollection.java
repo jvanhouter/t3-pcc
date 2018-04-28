@@ -192,8 +192,11 @@ public class RequestCollection  extends EntityBase implements IView
     }
 
     //----------------------------------------------------------------
-    public void stateChangeRequest(String key, Object value)
-    {
+    public void stateChangeRequest(String key, Object value) {
+        if (key.equals("SetRequests") == true)
+        {
+            requests = (Vector<ClothingRequest>) value;
+        }
         myRegistry.updateSubscribers(key, this);
     }
 
