@@ -2,24 +2,24 @@
 package userinterface;
 
 // system imports
-
-import impresario.IModel;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 // project imports
+import impresario.IModel;
 
-/**
- * The class containing the Add Article Type View  for the Professional Clothes
- * Closet application
+/** The class containing the Add Article Type View  for the Professional Clothes
+ *  Closet application
  */
 //==============================================================
-public class RemoveColorView extends View {
+public class RemoveColorView extends View
+{
 
     protected PccButton submitButton;
     protected PccButton cancelButton;
@@ -29,7 +29,8 @@ public class RemoveColorView extends View {
 
     // constructor for this class -- takes a model object
 
-    public RemoveColorView(IModel at) {
+    public RemoveColorView(IModel at)
+    {
         super(at, "RemoveColorView");
 
         // create a container for showing the contents
@@ -52,13 +53,15 @@ public class RemoveColorView extends View {
 
 
     @Override
-    protected String getActionText() {
+    protected String getActionText()
+    {
         return "** Remove Color Type **";
     }
 
     // Create the main form content
 
-    private VBox createFormContent() {
+    private VBox createFormContent()
+    {
         VBox vbox = new VBox(10);
 
         PccText prompt1 = new PccText("Are you sure you wish to remove color?");
@@ -92,14 +95,16 @@ public class RemoveColorView extends View {
 
     // Create the status log field
 
-    protected MessageView createStatusLog(String initialMessage) {
+    protected MessageView createStatusLog(String initialMessage)
+    {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
 
-    public void populateFields() {
+    public void populateFields()
+    {
 
     }
 
@@ -107,14 +112,19 @@ public class RemoveColorView extends View {
      * Update method
      */
 
-    public void updateState(String key, Object value) {
+    public void updateState(String key, Object value)
+    {
         clearErrorMessage();
 
-        if (key.equals("TransactionError")) {
-            String val = (String) value;
-            if (val.startsWith("ERR")) {
+        if (key.equals("TransactionError") )
+        {
+            String val = (String)value;
+            if (val.startsWith("ERR") )
+            {
                 displayErrorMessage(val);
-            } else {
+            }
+            else
+            {
                 displayMessage(val);
             }
 
@@ -125,7 +135,8 @@ public class RemoveColorView extends View {
      * Display error message
      */
 
-    public void displayErrorMessage(String message) {
+    public void displayErrorMessage(String message)
+    {
         statusLog.displayErrorMessage(message);
     }
 
@@ -133,7 +144,8 @@ public class RemoveColorView extends View {
      * Display info message
      */
 
-    public void displayMessage(String message) {
+    public void displayMessage(String message)
+    {
         statusLog.displayMessage(message);
     }
 
@@ -141,7 +153,8 @@ public class RemoveColorView extends View {
      * Clear error message
      */
 
-    public void clearErrorMessage() {
+    public void clearErrorMessage()
+    {
         statusLog.clearErrorMessage();
     }
 

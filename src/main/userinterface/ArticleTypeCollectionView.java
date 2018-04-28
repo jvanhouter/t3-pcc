@@ -1,8 +1,6 @@
 package userinterface;
 
 // system imports
-
-import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -18,26 +16,31 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+
+import java.util.Vector;
+import java.util.Enumeration;
+
+// project imports
+import impresario.IModel;
 import model.ArticleType;
 import model.ArticleTypeCollection;
 
-import java.util.Enumeration;
-import java.util.Vector;
-
-// project imports
-
 //==============================================================================
-public class ArticleTypeCollectionView extends View {
-    protected PccButton cancelButton;
-    protected PccButton submitButton;
-    protected MessageView statusLog;
-    private TableView<ArticleTypeTableModel> tableOfArticleTypes;
+public class ArticleTypeCollectionView extends View
+{
+	private TableView<ArticleTypeTableModel> tableOfArticleTypes;
+	protected PccButton cancelButton;
+	protected PccButton submitButton;
+
+	protected MessageView statusLog;
 
 
-    //--------------------------------------------------------------------------
-    ArticleTypeCollectionView(IModel atc) {
-        super(atc, "ArticleTypeCollectionView");
+	//--------------------------------------------------------------------------
+    ArticleTypeCollectionView(IModel atc)
+	{
+		super(atc, "ArticleTypeCollectionView");
 
         // create a container for showing the contents
         VBox container = getParentContainer();
@@ -53,44 +56,52 @@ public class ArticleTypeCollectionView extends View {
         getChildren().add(container);
 
         populateFields();
-    }
+	}
 
-    //--------------------------------------------------------------------------
-    protected void populateFields() {
-        getEntryTableModelValues();
-    }
+	//--------------------------------------------------------------------------
+	protected void populateFields()
+	{
+		getEntryTableModelValues();
+	}
 
-    //--------------------------------------------------------------------------
-    private void getEntryTableModelValues() {
+	//--------------------------------------------------------------------------
+    private void getEntryTableModelValues()
+	{
 
-        ObservableList<ArticleTypeTableModel> tableData = FXCollections.observableArrayList();
-        try {
-            ArticleTypeCollection articleTypeCollection =
-                    (ArticleTypeCollection) myModel.getState("ArticleTypeList");
+		ObservableList<ArticleTypeTableModel> tableData = FXCollections.observableArrayList();
+		try
+		{
+			ArticleTypeCollection articleTypeCollection =
+				(ArticleTypeCollection)myModel.getState("ArticleTypeList");
 
-            Vector entryList = (Vector) articleTypeCollection.getState("ArticleTypes");
+	 		Vector entryList = (Vector)articleTypeCollection.getState("ArticleTypes");
 
-            if (entryList.size() > 0) {
-                Enumeration entries = entryList.elements();
+			if (entryList.size() > 0)
+			{
+				Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements()) {
-                    ArticleType nextAT = (ArticleType) entries.nextElement();
-                    Vector<String> view = nextAT.getEntryListView();
+				while (entries.hasMoreElements())
+				{
+					ArticleType nextAT = (ArticleType)entries.nextElement();
+					Vector<String> view = nextAT.getEntryListView();
 
-                    // add this list entry to the list
-                    ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
-                    tableData.add(nextTableRowData);
+					// add this list entry to the list
+					ArticleTypeTableModel nextTableRowData = new ArticleTypeTableModel(view);
+					tableData.add(nextTableRowData);
 
-                }
-            } else {
-                displayMessage("No matching entries found!");
-            }
+				}
+			}
+			else
+			{
+				displayMessage("No matching entries found!");
+			}
 
-            tableOfArticleTypes.setItems(tableData);
-        } catch (Exception e) {//SQLException e) {
-            // Need to handle this exception
-        }
-    }
+			tableOfArticleTypes.setItems(tableData);
+		}
+		catch (Exception e) {//SQLException e) {
+			// Need to handle this exception
+		}
+	}
 
     @Override
     protected String getActionText() {
@@ -98,121 +109,128 @@ public class ArticleTypeCollectionView extends View {
     }
 
     // Create the main form content
-    //-------------------------------------------------------------
-    private VBox createFormContent() {
-        VBox vbox = new VBox(10);
+	//-------------------------------------------------------------
+	private VBox createFormContent()
+	{
+		VBox vbox = new VBox(10);
 
-        PccText prompt = new PccText("");
+		PccText prompt = new PccText("");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
-        vbox.getChildren().add(prompt);
+		prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+		vbox.getChildren().add(prompt);
 
-        GridPane grid = new GridPane();
+		GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
+       	grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-        tableOfArticleTypes = new TableView<ArticleTypeTableModel>();
-        tableOfArticleTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		tableOfArticleTypes = new TableView<ArticleTypeTableModel>();
+		tableOfArticleTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix");
-        barcodePrefixColumn.setMinWidth(50);
-        barcodePrefixColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("barcodePrefix"));
+		TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
+		barcodePrefixColumn.setMinWidth(50);
+		barcodePrefixColumn.setCellValueFactory(
+	                new PropertyValueFactory<ArticleTypeTableModel, String>("barcodePrefix"));
 
-        TableColumn descriptionColumn = new TableColumn("Description");
-        descriptionColumn.setMinWidth(150);
-        descriptionColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("description"));
+		TableColumn descriptionColumn = new TableColumn("Description") ;
+		descriptionColumn.setMinWidth(150);
+		descriptionColumn.setCellValueFactory(
+	                new PropertyValueFactory<ArticleTypeTableModel, String>("description"));
 
-        TableColumn alphaCodeColumn = new TableColumn("Alpha Code");
-        alphaCodeColumn.setMinWidth(50);
-        alphaCodeColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("alphaCode"));
+		TableColumn alphaCodeColumn = new TableColumn("Alpha Code") ;
+		alphaCodeColumn.setMinWidth(50);
+		alphaCodeColumn.setCellValueFactory(
+	                new PropertyValueFactory<ArticleTypeTableModel, String>("alphaCode"));
 
-        TableColumn statusColumn = new TableColumn("Status");
-        statusColumn.setMinWidth(50);
-        statusColumn.setCellValueFactory(
-                new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
+		TableColumn statusColumn = new TableColumn("Status") ;
+		statusColumn.setMinWidth(50);
+		statusColumn.setCellValueFactory(
+	                new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
 
-        tableOfArticleTypes.getColumns().addAll(descriptionColumn,
-                barcodePrefixColumn, alphaCodeColumn, statusColumn);
+		tableOfArticleTypes.getColumns().addAll(descriptionColumn,
+			barcodePrefixColumn, alphaCodeColumn, statusColumn);
 
-        tableOfArticleTypes.setOnMousePressed(event -> {
-            if (event.isPrimaryButtonDown() && event.getClickCount() >= 2) {
+		tableOfArticleTypes.setOnMousePressed(event -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
                 processArticleTypeSelected();
             }
         });
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfArticleTypes);
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setPrefSize(150, 150);
+		scrollPane.setContent(tableOfArticleTypes);
 
-        submitButton = new PccButton("Submit");
+		submitButton = new PccButton("Submit");
 
-        submitButton.setOnAction(e -> {
-            clearErrorMessage();
+ 		submitButton.setOnAction(e -> {
+ 			clearErrorMessage();
             processArticleTypeSelected();
 
-        });
+	  });
 
-        cancelButton = new PccButton("Return");
-        cancelButton.setOnAction(e -> {
-            clearErrorMessage();
-            myModel.stateChangeRequest("CancelArticleTypeList", null);
-        });
+		cancelButton = new PccButton("Return");
+ 		cancelButton.setOnAction(e -> {
+			 clearErrorMessage();
+			 myModel.stateChangeRequest("CancelArticleTypeList", null);
+	   });
 
-        HBox btnContainer = new HBox(100);
-        btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(submitButton);
-        btnContainer.getChildren().add(cancelButton);
+		HBox btnContainer = new HBox(100);
+		btnContainer.setAlignment(Pos.CENTER);
+		btnContainer.getChildren().add(submitButton);
+		btnContainer.getChildren().add(cancelButton);
 
-        vbox.getChildren().add(grid);
-        vbox.getChildren().add(scrollPane);
-        vbox.getChildren().add(btnContainer);
+		vbox.getChildren().add(grid);
+		vbox.getChildren().add(scrollPane);
+		vbox.getChildren().add(btnContainer);
 
-        return vbox;
-    }
+		return vbox;
+	}
 
-    //--------------------------------------------------------------------------
-    public void updateState(String key, Object value) {
-    }
+	//--------------------------------------------------------------------------
+	public void updateState(String key, Object value)
+	{
+	}
 
-    //--------------------------------------------------------------------------
-    private void processArticleTypeSelected() {
-        ArticleTypeTableModel selectedItem = tableOfArticleTypes.getSelectionModel().getSelectedItem();
+	//--------------------------------------------------------------------------
+    private void processArticleTypeSelected()
+	{
+		ArticleTypeTableModel selectedItem = tableOfArticleTypes.getSelectionModel().getSelectedItem();
 
-        if (selectedItem != null) {
-            String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
+		if(selectedItem != null)
+		{
+			String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
 
-            myModel.stateChangeRequest("ArticleTypeSelected", selectedBarcodePrefix);
-        }
-    }
+			myModel.stateChangeRequest("ArticleTypeSelected", selectedBarcodePrefix);
+		}
+	}
 
-    //--------------------------------------------------------------------------
-    protected MessageView createStatusLog(String initialMessage) {
-        statusLog = new MessageView(initialMessage);
+	//--------------------------------------------------------------------------
+	protected MessageView createStatusLog(String initialMessage)
+	{
+		statusLog = new MessageView(initialMessage);
 
-        return statusLog;
-    }
+		return statusLog;
+	}
 
 
-    /**
-     * Display info message
-     */
-    //----------------------------------------------------------
-    public void displayMessage(String message) {
-        statusLog.displayMessage(message);
-    }
+	/**
+	 * Display info message
+	 */
+	//----------------------------------------------------------
+	public void displayMessage(String message)
+	{
+		statusLog.displayMessage(message);
+	}
 
-    /**
-     * Clear error message
-     */
-    //----------------------------------------------------------
-    public void clearErrorMessage() {
-        statusLog.clearErrorMessage();
-    }
+	/**
+	 * Clear error message
+	 */
+	//----------------------------------------------------------
+	public void clearErrorMessage()
+	{
+		statusLog.clearErrorMessage();
+	}
 
 }

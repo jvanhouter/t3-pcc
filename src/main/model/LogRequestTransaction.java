@@ -2,26 +2,27 @@
 package model;
 
 // system imports
-
 import Utilities.Utilities;
-import event.Event;
-import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
+import javafx.stage.Stage;
 import javafx.scene.Scene;
-import userinterface.View;
-import userinterface.ViewFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Vector;
 
 // project imports
+import event.Event;
+import exception.InvalidPrimaryKeyException;
+import exception.MultiplePrimaryKeysException;
 
-/**
- * The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application
- */
+import userinterface.View;
+import userinterface.ViewFactory;
+
+/** The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application */
 //==============================================================
-public class LogRequestTransaction extends Transaction {
+public class LogRequestTransaction extends Transaction
+{
 
     private ClothingRequest myClothingRequest;
 
@@ -33,14 +34,17 @@ public class LogRequestTransaction extends Transaction {
 
     /**
      * Constructor for this class.
+     *
      */
     //----------------------------------------------------------
-    public LogRequestTransaction() throws Exception {
+    public LogRequestTransaction() throws Exception
+    {
         super();
     }
 
     //----------------------------------------------------------
-    protected void setDependencies() {
+    protected void setDependencies()
+    {
         dependencies = new Properties();
         dependencies.setProperty("CancelLogRequest", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
@@ -54,13 +58,15 @@ public class LogRequestTransaction extends Transaction {
      * verifying its uniqueness, etc.
      */
     //----------------------------------------------------------
-    public void processTransaction(Properties props) {
+    public void processTransaction(Properties props)
+    {
         // in relation to step 3 requested by step 5 - Log A Request
-        if (props.getProperty("RequesterNetid") != null &&
+        if(props.getProperty("RequesterNetid") != null &&
                 props.getProperty("RequestedGender") != null &&
                 props.getProperty("RequestedArticleType") != null &&
                 props.getProperty("RequestedColor1") != null &&
-                props.getProperty("RequestedSize") != null) {
+                props.getProperty("RequestedSize") != null)
+        {
 
             String netId = props.getProperty("RequesterNetid");
             String gender = props.getProperty("RequestedGender");
@@ -69,21 +75,25 @@ public class LogRequestTransaction extends Transaction {
             String size = props.getProperty("RequestedSize");
 
             String color2 = "";
-            if (props.getProperty("RequestedColor2") != null)
+            if(props.getProperty("RequestedColor2") != null)
                 color2 = props.getProperty("RequestedColor2");
             String brand = "";
-            if (props.getProperty("RequestedBrand") != null)
+            if(props.getProperty("RequestedBrand") != null)
                 brand = props.getProperty("RequestedBrand");
 
-            try {
+            try
+            {
                 ClothingRequest oldClothingRequest = new ClothingRequest(netId, gender, articleType, size, color1, color2, brand);
                 transactionErrorMessage = "ERROR: Requester ID : " + netId + " of request for " + gender + ", " + articleType + ", " + size + ", " + size + ", " + color1 + ", " + color2 + ", " + brand + " already exists!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         transactionErrorMessage,
                         Event.ERROR);
-            } catch (InvalidPrimaryKeyException ex) {
+            }
+            catch (InvalidPrimaryKeyException ex)
+            {
                 // Barcode prefix does not exist, validate data
-                try {
+                try
+                {
                     String phoneNumber = props.getProperty("RequesterPhone");
                     String firstName = props.getProperty("RequesterFirstName");
                     String lastName = props.getProperty("RequesterLastName");
@@ -102,14 +112,18 @@ public class LogRequestTransaction extends Transaction {
                     myClothingRequest.update();
                     Utilities.putClothingRequestHash((String) myClothingRequest.getState("ID"), myClothingRequest);
                     transactionErrorMessage = (String) myClothingRequest.getState("UpdateStatusMessage");
-                } catch (Exception excep) {
+                }
+                catch (Exception excep)
+                {
                     transactionErrorMessage = "ERROR: Invalid requester net id : " + netId
                             + "! Must be numerical.";
                     new Event(Event.getLeafLevelClassName(this), "processTransaction",
                             transactionErrorMessage,
                             Event.ERROR);
                 }
-            } catch (MultiplePrimaryKeysException ex2) {
+            }
+            catch (MultiplePrimaryKeysException ex2)
+            {
                 transactionErrorMessage = "ERROR: Mutliple clothing requests for specified information provided!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Found multiple clothing requests with requester id : " + netId + ". Reason: " + ex2.toString(),
@@ -120,10 +134,12 @@ public class LogRequestTransaction extends Transaction {
     }
 
     //-----------------------------------------------------------
-    public Object getState(String key) {
-        if (key.equals("TransactionError") == true) {
+    public Object getState(String key)
+    {
+        if (key.equals("TransactionError") == true)
+        {
             return transactionErrorMessage;
-        } else if (key.equals("Gender")) {
+        }else if (key.equals("Gender")) {
             return gender;
         }
 
@@ -131,18 +147,18 @@ public class LogRequestTransaction extends Transaction {
     }
 
     //-----------------------------------------------------------
-    public void stateChangeRequest(String key, Object value) {
+    public void stateChangeRequest(String key, Object value)
+    {
 
-<<<<<<< HEAD
         if (key.equals("DoYourJob") == true)
         {
 
-=======
-        if (key.equals("DoYourJob") == true) {
->>>>>>> d6b04599fd846f52de7fc52a481b6f03a9849829
             doYourJob();
-        } else if (key.equals("ClothingRequestData") == true) {
-            processTransaction((Properties) value);
+        }
+        else
+        if (key.equals("ClothingRequestData") == true)
+        {
+            processTransaction((Properties)value);
         }
 
         myRegistry.updateSubscribers(key, this);
@@ -153,19 +169,23 @@ public class LogRequestTransaction extends Transaction {
      * swapToView() to display the view in the frame
      */
     //------------------------------------------------------
-    protected Scene createView() {
+    protected Scene createView()
+    {
 
 
         Scene currentScene = myViews.get("LogRequestView");
 
-        if (currentScene == null) {
+        if (currentScene == null)
+        {
             // create our initial view
             View newView = ViewFactory.createView("LogRequestView", this);
             currentScene = new Scene(newView);
             myViews.put("LogRequestView", currentScene);
 
             return currentScene;
-        } else {
+        }
+        else
+        {
             return currentScene;
         }
     }

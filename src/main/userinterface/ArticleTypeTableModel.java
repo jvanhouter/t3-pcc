@@ -1,26 +1,28 @@
 package userinterface;
 
-import javafx.beans.property.SimpleStringProperty;
-
 import java.util.Vector;
 
+import javafx.beans.property.SimpleStringProperty;
+
 //==============================================================================
-public class ArticleTypeTableModel {
-    private final SimpleStringProperty barcodePrefix;
-    private final SimpleStringProperty description;
-    private final SimpleStringProperty alphaCode;
-    private final SimpleStringProperty status;
+public class ArticleTypeTableModel
+{
+	private final SimpleStringProperty barcodePrefix;
+	private final SimpleStringProperty description;
+	private final SimpleStringProperty alphaCode;
+	private final SimpleStringProperty status;
 
 
-    public ArticleTypeTableModel(Vector<String> atData) {
-        barcodePrefix = new SimpleStringProperty(atData.elementAt(0));
-        description = new SimpleStringProperty(atData.elementAt(1));
-        alphaCode = new SimpleStringProperty(atData.elementAt(2));
-        status = new SimpleStringProperty(atData.elementAt(3));
-    }
+	public ArticleTypeTableModel(Vector<String> atData)
+	{
+		barcodePrefix =  new SimpleStringProperty(atData.elementAt(0));
+		description =  new SimpleStringProperty(atData.elementAt(1));
+		alphaCode =  new SimpleStringProperty(atData.elementAt(2));
+		status =  new SimpleStringProperty(atData.elementAt(3));
+	}
 
 
-    public String getBarcodePrefix() {
+	public String getBarcodePrefix() {
         return barcodePrefix.get();
     }
 
@@ -48,14 +50,15 @@ public class ArticleTypeTableModel {
     public void setAlphaCode(String code) {
         alphaCode.set(code);
     }
-
+    
 
     public String getStatus() {
         return status.get();
     }
 
 
-    public void setStatus(String stat) {
-        status.set(stat);
+    public void setStatus(String stat)
+    {
+    	status.set(stat);
     }
 }

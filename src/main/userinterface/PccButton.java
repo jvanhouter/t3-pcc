@@ -26,7 +26,7 @@ class PccButton extends Button {
             normalColor();
         });
         this.setOnMousePressed(e -> {
-            colorClicked();
+           colorClicked();
 
         });
 
@@ -35,11 +35,9 @@ class PccButton extends Button {
     private void normalColor() {
         this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
     }
-
     private void colorHover() {
         this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #007a58; -fx-text-fill: #ffc726");
     }
-
     private void colorClicked() {
         this.setStyle("-fx-border-color: #8d8d8d; -fx-border-width: 1px; -fx-background-color: #8d8d8d; -fx-text-fill: #ffc726");
     }

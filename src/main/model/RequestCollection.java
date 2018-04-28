@@ -2,24 +2,27 @@
 package model;
 
 // system imports
+import java.util.Properties;
+import java.util.Vector;
+import javafx.scene.Scene;
+
+// project imports
+import exception.InvalidPrimaryKeyException;
+import event.Event;
+import database.*;
 
 import impresario.IView;
-import javafx.scene.Scene;
+
 import userinterface.View;
 import userinterface.ViewFactory;
 
-import java.util.Properties;
-import java.util.Vector;
 
-// project imports
-
-
-/**
- * The class containing the ClothingRequestCollection for the Professional Clothes
- * Closet application
+/** The class containing the ClothingRequestCollection for the Professional Clothes
+ *  Closet application
  */
 //==============================================================
-public class RequestCollection extends EntityBase implements IView {
+public class RequestCollection  extends EntityBase implements IView
+{
     private static final String myTableName = "ClothingRequest";
 
     private Vector<ClothingRequest> requests;
@@ -27,24 +30,29 @@ public class RequestCollection extends EntityBase implements IView {
 
     // constructor for this class
     //----------------------------------------------------------
-    public RequestCollection() {
+    public RequestCollection( )
+    {
         super(myTableName);
 
     }
 
     //-----------------------------------------------------------
-    private void populateCollectionHelper(String query) {
+    private void populateCollectionHelper(String query)
+    {
 
         Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
-        if (allDataRetrieved != null) {
+        if (allDataRetrieved != null)
+        {
             requests = new Vector<ClothingRequest>();
 
-            for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++) {
+            for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
+            {
                 Properties nextRQData = allDataRetrieved.elementAt(cnt);
                 ClothingRequest rq = new ClothingRequest(nextRQData);
 
-                if (rq != null) {
+                if (rq != null)
+                {
                     addClothingRequest(rq);
                 }
             }
@@ -53,27 +61,28 @@ public class RequestCollection extends EntityBase implements IView {
     }
 
     //-----------------------------------------------------------
-    public void findBySet(String netId, String gender, String type, String reqSize, String color1, String color2, String brand) {
+    public void findBySet(String netId, String gender, String type, String reqSize, String color1, String color2, String brand)
+    {
         String query = "SELECT * FROM " + myTableName + " WHERE ";
-        if (netId != null) {
+        if(netId != null) {
             query += "(RequesterNetid = '" + netId + "') AND ";
         }
-        if (gender != null) {
+        if(gender != null) {
             query += "(RequestedGender ='" + gender + "') AND ";
         }
-        if (type != null) {
+        if(type != null) {
             query += "(RequestedArticleType = '" + type + "') AND ";
         }
-        if (reqSize != null) {
+        if(reqSize != null) {
             query += "(RequestedSize = '" + reqSize + "') AND ";
         }
-        if (color1 != null) {
+        if(color1 != null) {
             query += "(RequestedColor1 = '" + color1 + "') AND ";
         }
-        if (color2 != null) {
+        if(color2 != null) {
             query += "(RequestedColor2 = '" + color2 + "') AND ";
         }
-        if (brand != null) {
+        if(brand != null) {
             query += "(RequestedBrand = '" + brand + "') AND";
         }
         query = replaceLast(query, "AND", "");
@@ -82,14 +91,17 @@ public class RequestCollection extends EntityBase implements IView {
 
     //-----------------------------------------------------------
     // used to poll only requests with matching items
-    public void findByItem(ClothingItemCollection cic) {
+    public void findByItem(ClothingItemCollection cic)
+    {
         String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Pending')";
         Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 
-        if (allDataRetrieved != null) {
+        if (allDataRetrieved != null)
+        {
             requests = new Vector<ClothingRequest>();
 
-            for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++) {
+            for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
+            {
                 Properties nextRQData = allDataRetrieved.elementAt(cnt);
                 ClothingRequest rq = new ClothingRequest(nextRQData);
                 cic.findDonatedCriteria((String) rq.getState("RequestedArticleType"),
@@ -100,7 +112,8 @@ public class RequestCollection extends EntityBase implements IView {
                         addClothingRequest(rq);
                     }
                 }
-                if (rq != null) {
+                if (rq != null)
+                {
                     addClothingRequest(rq);
                 }
             }
@@ -109,45 +122,55 @@ public class RequestCollection extends EntityBase implements IView {
     }
 
     //-----------------------------------------------------------
-    public void findAll() {
+    public void findAll()
+    {
         String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Pending')";
         populateCollectionHelper(query);
     }
 
     //----------------------------------------------------------------------------------
-    private void addClothingRequest(ClothingRequest a) {
+    private void addClothingRequest(ClothingRequest a)
+    {
         int index = findIndexToAdd(a);
-        requests.insertElementAt(a, index); // To build up a collection sorted on some key
+        requests.insertElementAt(a,index); // To build up a collection sorted on some key
     }
 
     //----------------------------------------------------------------------------------
-    private String replaceLast(String string, String substring, String replacement) {
+    private String replaceLast(String string, String substring, String replacement)
+    {
         int index = string.lastIndexOf(substring);
         if (index == -1)
             return string;
         return string.substring(0, index) + replacement
-                + string.substring(index + substring.length());
+                + string.substring(index+substring.length());
     }
 
     //----------------------------------------------------------------------------------
-    private int findIndexToAdd(ClothingRequest a) {
-        int low = 0;
-        int high = requests.size() - 1;
+    private int findIndexToAdd(ClothingRequest a)
+    {
+        int low=0;
+        int high = requests.size()-1;
         int middle;
 
-        while (low <= high) {
-            middle = (low + high) / 2;
+        while (low <=high)
+        {
+            middle = (low+high)/2;
 
             ClothingRequest midSession = requests.elementAt(middle);
 
-            int result = ClothingRequest.compare(a, midSession);
+            int result = ClothingRequest.compare(a,midSession);
 
-            if (result == 0) {
+            if (result ==0)
+            {
                 return middle;
-            } else if (result < 0) {
-                high = middle - 1;
-            } else {
-                low = middle + 1;
+            }
+            else if (result<0)
+            {
+                high=middle-1;
+            }
+            else
+            {
+                low=middle+1;
             }
         }
         return low;
@@ -158,33 +181,35 @@ public class RequestCollection extends EntityBase implements IView {
      *
      */
     //----------------------------------------------------------
-    public Object getState(String key) {
+    public Object getState(String key)
+    {
         if (key.equals("Requests"))
             return requests;
-        else if (key.equals("RequestList"))
+        else
+        if (key.equals("RequestList"))
             return this;
         return null;
     }
 
     //----------------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
-<<<<<<< HEAD
         if (key.equals("SetRequests") == true)
         {
             requests = (Vector<ClothingRequest>) value;
         }
-=======
->>>>>>> d6b04599fd846f52de7fc52a481b6f03a9849829
         myRegistry.updateSubscribers(key, this);
     }
 
     //----------------------------------------------------------
-    public ClothingRequest retrieve(String id) {
+    public ClothingRequest retrieve(String id)
+    {
         ClothingRequest retValue = null;
-        for (int cnt = 0; cnt < requests.size(); cnt++) {
+        for (int cnt = 0; cnt < requests.size(); cnt++)
+        {
             ClothingRequest nextRQ = requests.elementAt(cnt);
-            String nextId = (String) nextRQ.getState("ID");
-            if (nextId.equals(id)) {
+            String nextId = (String)nextRQ.getState("ID");
+            if (nextId.equals(id) )
+            {
                 retValue = nextRQ;
                 return retValue; // we should say 'break;' here
             }
@@ -193,20 +218,23 @@ public class RequestCollection extends EntityBase implements IView {
         return retValue;
     }
 
-    /**
-     * Called via the IView relationship *
+    /** Called via the IView relationship *
+     *
      */
     //----------------------------------------------------------
-    public void updateState(String key, Object value) {
+    public void updateState(String key, Object value)
+    {
         stateChangeRequest(key, value);
     }
 
     //------------------------------------------------------
-    protected void createAndShowView() {
+    protected void createAndShowView()
+    {
 
         Scene localScene = myViews.get("RequestCollectionView");
 
-        if (localScene == null) {
+        if (localScene == null)
+        {
             // create our new view
             View newView = ViewFactory.createView("RequestCollectionView", this);
             localScene = new Scene(newView);
@@ -218,8 +246,10 @@ public class RequestCollection extends EntityBase implements IView {
     }
 
     //-----------------------------------------------------------------------------------
-    protected void initializeSchema(String tableName) {
-        if (mySchema == null) {
+    protected void initializeSchema(String tableName)
+    {
+        if (mySchema == null)
+        {
             mySchema = getSchemaInfo(tableName);
         }
     }

@@ -1,9 +1,6 @@
 package userinterface;
 
 // system imports
-
-import Utilities.UiConstants;
-import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,15 +15,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import model.ClothingItem;
-import model.InventoryItemCollection;
 
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
 
 // project imports
+import impresario.IModel;
+import model.ClothingItem;
+import model.InventoryItemCollection;
+import Utilities.UiConstants;
 
 
 public class EnterReceiverInformationView extends View {
@@ -46,7 +46,8 @@ public class EnterReceiverInformationView extends View {
 
     // constructor for this class -- takes a model object
 
-    public EnterReceiverInformationView(IModel at) {
+    public EnterReceiverInformationView(IModel at)
+    {
         super(at, "EnterReceiverInformationView");
 
         // create a container for showing the contents
@@ -71,23 +72,28 @@ public class EnterReceiverInformationView extends View {
 
 
     @Override
-    protected String getActionText() {
+    protected String getActionText()
+    {
         return "** Checkout a Clothing Item **";
     }
 
-    protected void getEntryTableModelValues() {
+    protected void getEntryTableModelValues()
+    {
         ObservableList<InventoryTableModel> tableData = FXCollections.observableArrayList();
-        try {
+        try
+        {
             InventoryItemCollection inventoryItemCollection =
-                    (InventoryItemCollection) myModel.getState("InventoryList");
+                    (InventoryItemCollection)myModel.getState("InventoryList");
 
-            Vector entryList = (Vector) inventoryItemCollection.getState("InventoryItems");
+            Vector entryList = (Vector)inventoryItemCollection.getState("InventoryItems");
 
-            if (entryList.size() > 0) {
+            if (entryList.size() > 0)
+            {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements()) {
-                    ClothingItem nextCI = (ClothingItem) entries.nextElement();
+                while (entries.hasMoreElements() )
+                {
+                    ClothingItem nextCI = (ClothingItem)entries.nextElement();
                     Vector<String> view = nextCI.getEntryListView();
 
                     // add this list entry to the list
@@ -95,19 +101,23 @@ public class EnterReceiverInformationView extends View {
                     tableData.add(nextTableRowData);
 
                 }
-            } else {
+            }
+            else
+            {
 //                displayMessage("No matching entries found!");
             }
 
             InventoryTable.setItems(tableData);
-        } catch (Exception e) {//SQLException e) {
+        }
+        catch (Exception e) {//SQLException e) {
             // Need to handle this exception
         }
     }
 
     // Create the main form content
 
-    private VBox createFormContent() {
+    private VBox createFormContent()
+    {
         VBox vbox = new VBox(10);
 
         PccText prompt = new PccText("Enter Recipient Information");
@@ -127,92 +137,92 @@ public class EnterReceiverInformationView extends View {
         InventoryTable = new TableView<InventoryTableModel>();
         InventoryTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        TableColumn barcodeColumn = new TableColumn("Barcode");
+        TableColumn barcodeColumn = new TableColumn("Barcode") ;
         barcodeColumn.setMinWidth(50);
         barcodeColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("barcode"));
 
-        TableColumn genderColumn = new TableColumn("Gender");
+        TableColumn genderColumn = new TableColumn("Gender") ;
         genderColumn.setMinWidth(150);
         genderColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("gender"));
 
-        TableColumn sizeColumn = new TableColumn("Size");
+        TableColumn sizeColumn = new TableColumn("Size") ;
         sizeColumn.setMinWidth(50);
         sizeColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("size"));
 
-        TableColumn articleTypeColumn = new TableColumn("Article Type");
+        TableColumn articleTypeColumn = new TableColumn("Article Type") ;
         articleTypeColumn.setMinWidth(50);
         articleTypeColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("articleType"));
 
-        TableColumn color1Column = new TableColumn("Color1");
+        TableColumn color1Column = new TableColumn("Color1") ;
         color1Column.setMinWidth(50);
         color1Column.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("color1"));
 
-        TableColumn color2Column = new TableColumn("Color2");
+        TableColumn color2Column = new TableColumn("Color2") ;
         color2Column.setMinWidth(50);
         color2Column.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("color2"));
 
-        TableColumn brandColumn = new TableColumn("Brand");
+        TableColumn brandColumn = new TableColumn("Brand") ;
         brandColumn.setMinWidth(50);
         brandColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("brand"));
 
-        TableColumn notesColumn = new TableColumn("Notes");
+        TableColumn notesColumn = new TableColumn("Notes") ;
         notesColumn.setMinWidth(50);
         notesColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("notes"));
 
-        TableColumn statusColumn = new TableColumn("Status");
+        TableColumn statusColumn = new TableColumn("Status") ;
         statusColumn.setMinWidth(50);
         statusColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("status"));
 
-        TableColumn donorFirstNameColumn = new TableColumn("Donor First Name");
+        TableColumn donorFirstNameColumn = new TableColumn("Donor First Name") ;
         donorFirstNameColumn.setMinWidth(50);
         donorFirstNameColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("donorFirstName"));
 
-        TableColumn donorLastNameColumn = new TableColumn("Donor Last Name");
+        TableColumn donorLastNameColumn = new TableColumn("Donor Last Name") ;
         donorLastNameColumn.setMinWidth(50);
         donorLastNameColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("donorLastName"));
 
-        TableColumn donorPhoneColumn = new TableColumn("Donor Phone");
+        TableColumn donorPhoneColumn = new TableColumn("Donor Phone") ;
         donorPhoneColumn.setMinWidth(50);
         donorPhoneColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("donorPhone"));
 
-        TableColumn donorEmailColumn = new TableColumn("Donor Email");
+        TableColumn donorEmailColumn = new TableColumn("Donor Email") ;
         donorEmailColumn.setMinWidth(50);
         donorEmailColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("donorEmail"));
 
-        TableColumn receiverNetIdColumn = new TableColumn("Receiver Net ID");
+        TableColumn receiverNetIdColumn = new TableColumn("Receiver Net ID") ;
         receiverNetIdColumn.setMinWidth(50);
         receiverNetIdColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("receiverNetId"));
 
-        TableColumn receiverFirstNameColumn = new TableColumn("Receiver First Name");
+        TableColumn receiverFirstNameColumn = new TableColumn("Receiver First Name") ;
         receiverFirstNameColumn.setMinWidth(50);
         receiverFirstNameColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("receiverFirstName"));
 
-        TableColumn receiverLastNameColumn = new TableColumn("Receiver Last Name");
+        TableColumn receiverLastNameColumn = new TableColumn("Receiver Last Name") ;
         receiverLastNameColumn.setMinWidth(50);
         receiverLastNameColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("receiverLastName"));
 
-        TableColumn dateDonatedColumn = new TableColumn("Date Donated");
+        TableColumn dateDonatedColumn = new TableColumn("Date Donated") ;
         dateDonatedColumn.setMinWidth(50);
         dateDonatedColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("dateDonated"));
 
-        TableColumn dateTakenColumn = new TableColumn("Date Taken");
+        TableColumn dateTakenColumn = new TableColumn("Date Taken") ;
         dateTakenColumn.setMinWidth(50);
         dateTakenColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("dateTaken"));
@@ -265,27 +275,37 @@ public class EnterReceiverInformationView extends View {
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
-            public void handle(ActionEvent e) {
+            public void handle(ActionEvent e)
+            {
                 clearErrorMessage();
                 Properties props = new Properties();
                 String netIdReceiver = netId.getText();
-                if (netIdReceiver.length() > 0) {
+                if (netIdReceiver.length() > 0)
+                {
                     props.setProperty("ReceiverNetid", netIdReceiver);
                     String fNameReceiver = fName.getText();
-                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < UiConstants.RECEIVER_FIRST_NAME_MAX_LENGTH) {
+                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < UiConstants.RECEIVER_FIRST_NAME_MAX_LENGTH)
+                    {
                         props.setProperty("ReceiverFirstName", fNameReceiver);
                         String lNameReceiver = lName.getText();
-                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < UiConstants.RECEIVER_LAST_NAME_MAX_LENGTH) {
+                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < UiConstants.RECEIVER_LAST_NAME_MAX_LENGTH)
+                        {
                             props.setProperty("ReceiverLastName", lNameReceiver);
                             myModel.stateChangeRequest("ReceiverData", props);
-                        } else {
+                        }
+                        else
+                        {
                             displayErrorMessage("Last name incorrect size!");
                         }
-                    } else {
+                    }
+                    else
+                    {
                         displayErrorMessage("First name incorrect size!");
                     }
 
-                } else {
+                }
+                else
+                {
                     displayErrorMessage("NetId incorrect size!");
 
                 }
@@ -314,29 +334,36 @@ public class EnterReceiverInformationView extends View {
 
     // Create the status log field
 
-    protected MessageView createStatusLog(String initialMessage) {
+    protected MessageView createStatusLog(String initialMessage)
+    {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
 
-    public void populateFields() {
-        getEntryTableModelValues();
+    public void populateFields()
+    {
+            getEntryTableModelValues();
     }
 
     /**
      * Update method
      */
 
-    public void updateState(String key, Object value) {
+    public void updateState(String key, Object value)
+    {
         clearErrorMessage();
 
-        if (key.equals("TransactionError")) {
-            String val = (String) value;
-            if (val.startsWith("ERR")) {
+        if (key.equals("TransactionError") )
+        {
+            String val = (String)value;
+            if (val.startsWith("ERR") )
+            {
                 displayErrorMessage(val);
-            } else {
+            }
+            else
+            {
                 displayMessage(val);
             }
 
@@ -347,7 +374,8 @@ public class EnterReceiverInformationView extends View {
      * Display error message
      */
 
-    public void displayErrorMessage(String message) {
+    public void displayErrorMessage(String message)
+    {
         statusLog.displayErrorMessage(message);
     }
 
@@ -355,7 +383,8 @@ public class EnterReceiverInformationView extends View {
      * Display info message
      */
 
-    public void displayMessage(String message) {
+    public void displayMessage(String message)
+    {
         statusLog.displayMessage(message);
     }
 
@@ -363,7 +392,8 @@ public class EnterReceiverInformationView extends View {
      * Clear error message
      */
 
-    public void clearErrorMessage() {
+    public void clearErrorMessage()
+    {
         statusLog.clearErrorMessage();
     }
 

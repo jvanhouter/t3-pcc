@@ -2,21 +2,32 @@
 package model;
 
 // system imports
-
 import Utilities.Utilities;
-import event.Event;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 import javafx.scene.Scene;
-import userinterface.View;
-import userinterface.ViewFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Vector;
+import java.util.Calendar;
 
 // project imports
+import event.Event;
+import exception.InvalidPrimaryKeyException;
+import exception.MultiplePrimaryKeysException;
+
+import userinterface.View;
+import userinterface.ViewFactory;
+
+import javax.rmi.CORBA.Util;
 
 
-public class FulfilRequestTransaction extends Transaction {
+public class FulfilRequestTransaction extends Transaction
+{
 
     private RequestCollection myRequestCollection;
     private ClothingRequest myClothingRequest;
@@ -31,12 +42,14 @@ public class FulfilRequestTransaction extends Transaction {
 
 
     //----------------------------------------------------------
-    public FulfilRequestTransaction() throws Exception {
+    public FulfilRequestTransaction() throws Exception
+    {
         super();
     }
 
     //----------------------------------------------------------
-    protected void setDependencies() {
+    protected void setDependencies()
+    {
         dependencies = new Properties();
         dependencies.setProperty("CancelRequest", "CancelTransaction");
         dependencies.setProperty("CancelClothingItemList", "CancelTransaction");
@@ -48,26 +61,38 @@ public class FulfilRequestTransaction extends Transaction {
     }
 
     //-----------------------------------------------------------
-    public void processTransaction(Properties props) {
+    public void processTransaction(Properties props)
+    {
         myRequestCollection = new RequestCollection();
         myRequestCollection.findAll();
 
-        try {
+        try
+        {
             Scene newScene = createRequestCollectionView();
             swapToView(newScene);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             new Event(Event.getLeafLevelClassName(this), "processTransaction",
                     "Error in creating ColorCollectionView", Event.ERROR);
         }
     }
 
     //----------------------------------------------------------------
-    public void stateChangeRequest(String key, Object value) {
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelTransaction") == true)) {
+    public void stateChangeRequest(String key, Object value)
+    {
+        if ((key.equals("DoYourJob") == true) || (key.equals("CancelTransaction") == true))
+        {
             doYourJob();
-        } else if (key.equals("SearchRequest") == true) {
-            processTransaction((Properties) value);
-        } else if (key.equals("ProcessRequest") == true) {
+        }
+        else
+        if (key.equals("SearchRequest") == true)
+        {
+            processTransaction((Properties)value);
+        }
+        else
+        if (key.equals("ProcessRequest") == true)
+        {
             myClothingItem.stateChangeRequest("Status", "Received");
             myClothingRequest.stateChangeRequest("Status", "Fulfilled");
             Date date = new Date();
@@ -83,7 +108,8 @@ public class FulfilRequestTransaction extends Transaction {
             Utilities.removeClothingHash((String) myClothingItem.getState("ID"));
             transactionErrorMessage = "Request has been fulfilled";
         }
-        if (key.equals("ClothingItemSelected") == true) {
+        if(key.equals("ClothingItemSelected") == true)
+        {
             try {
                 myClothingItem = myClothingCollection.retrieve((String) value);
 
@@ -97,23 +123,30 @@ public class FulfilRequestTransaction extends Transaction {
             }
 
         }
-        if (key.equals("RequestSelected") == true) {
+        if (key.equals("RequestSelected") == true)
+        {
             myClothingRequest = myRequestCollection.retrieve((String) value);
             myClothingCollection = new ClothingItemCollection();
             myClothingCollection.findDonatedCriteria((String) myClothingRequest.getState("RequestedArticleType"),
-                    (String) myClothingRequest.getState("RequestedGender"),
-                    (String) myClothingRequest.getState("RequestedSize"));
-            try {
+                                                     (String) myClothingRequest.getState("RequestedGender"),
+                                                     (String) myClothingRequest.getState("RequestedSize"));
+            try
+            {
 
                 Scene newScene = createInventoryCollectionView();
 
                 swapToView(newScene);
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Error in creating Inventory View", Event.ERROR);
             }
-        } else if (key.equals("RequestData") == true) {
+        }
+        else
+        if (key.equals("RequestData") == true)
+        {
             myClothingRequest = myRequestCollection.retrieve((String) value);
         }
 
@@ -121,47 +154,57 @@ public class FulfilRequestTransaction extends Transaction {
     }
 
     //------------------------------------------------------------
-    public Object getState(String key) {
+    public Object getState(String key)
+    {
         if (key.equals("ClothingItemList") == true) {
             return myClothingCollection;
         }
-        if (key.equals("RequestList") == true) {
+        if (key.equals("RequestList") == true)
+        {
             return myRequestCollection;
         }
-        if (key.equals("ClothingItem") == true) {
+        if (key.equals("ClothingItem") == true)
+        {
             return myClothingItem;
         }
-        if (key.equals("ClothingRequest") == true) {
+        if (key.equals("ClothingRequest") == true)
+        {
             return myClothingRequest;
         }
-        if (key.equals("TransactionError") == true) {
+        if (key.equals("TransactionError") == true)
+        {
             return transactionErrorMessage;
         }
         return null;
     }
 
     //-------------------------------------------------------------
-    protected Scene createView() {
+    protected Scene createView()
+    {
         // placed it here since the collection is drawn from step 2 of the use case
         myRequestCollection = new RequestCollection();
         myRequestCollection.findAll();
 
         Scene currentScene = myViews.get("RequestCollectionView");
 
-        if (currentScene == null) {
+        if (currentScene == null)
+        {
             // create our initial view
             View newView = ViewFactory.createView("RequestCollectionView", this);
             currentScene = new Scene(newView);
             myViews.put("RequestCollectionView", currentScene);
 
             return currentScene;
-        } else {
+        }
+        else
+        {
             return currentScene;
         }
     }
 
     //-------------------------------------------------------------
-    protected Scene createFulfilView() {
+    protected Scene createFulfilView()
+    {
         View newView = ViewFactory.createView("FulfillRequestView", this);
         Scene currentScene = new Scene(newView);
 
@@ -169,7 +212,8 @@ public class FulfilRequestTransaction extends Transaction {
     }
 
     //-------------------------------------------------------------
-    protected Scene createRequestCollectionView() {
+    protected Scene createRequestCollectionView()
+    {
         View newView = ViewFactory.createView("RequestCollectionView", this);
         Scene currentScene = new Scene(newView);
 
@@ -177,7 +221,8 @@ public class FulfilRequestTransaction extends Transaction {
     }
 
     //-------------------------------------------------------------
-    protected Scene createInventoryCollectionView() {
+    protected Scene createInventoryCollectionView()
+    {
         View newView = ViewFactory.createView("ClothingItemCollectionView", this);
         Scene currentScene = new Scene(newView);
 
@@ -185,7 +230,8 @@ public class FulfilRequestTransaction extends Transaction {
     }
 
     //---------------------------------------------------------------
-    protected Scene createFulfillRequestTractionView() {
+    protected Scene createFulfillRequestTractionView()
+    {
         return null;
     }
 

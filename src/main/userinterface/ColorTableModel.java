@@ -1,22 +1,24 @@
 package userinterface;
 
-import javafx.beans.property.SimpleStringProperty;
-
 import java.util.Vector;
 
+import javafx.beans.property.SimpleStringProperty;
+
 //==============================================================================
-public class ColorTableModel {
+public class ColorTableModel
+{
     private final SimpleStringProperty barcodePrefix;
     private final SimpleStringProperty description;
     private final SimpleStringProperty alphaCode;
     private final SimpleStringProperty status;
 
 
-    public ColorTableModel(Vector<String> atData) {
-        barcodePrefix = new SimpleStringProperty(atData.elementAt(2));
-        description = new SimpleStringProperty(atData.elementAt(1));
-        alphaCode = new SimpleStringProperty(atData.elementAt(3));
-        status = new SimpleStringProperty(atData.elementAt(4));
+    public ColorTableModel(Vector<String> atData)
+    {
+        barcodePrefix =  new SimpleStringProperty(atData.elementAt(2));
+        description =  new SimpleStringProperty(atData.elementAt(1));
+        alphaCode =  new SimpleStringProperty(atData.elementAt(3));
+        status =  new SimpleStringProperty(atData.elementAt(4));
     }
 
 
@@ -55,7 +57,8 @@ public class ColorTableModel {
     }
 
 
-    public void setStatus(String stat) {
+    public void setStatus(String stat)
+    {
         status.set(stat);
     }
 }

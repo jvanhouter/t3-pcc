@@ -6,14 +6,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
-<<<<<<< HEAD
 import Utilities.UiConstants;
 
 public class RequestNotifier
 {
-=======
-public class RequestNotifier extends Transaction {
->>>>>>> d6b04599fd846f52de7fc52a481b6f03a9849829
 
     private static RequestNotifier myNotifier;
 
@@ -22,12 +18,9 @@ public class RequestNotifier extends Transaction {
 
     private String transactionErrorMessage = "";
 
-<<<<<<< HEAD
     private RequestNotifier() throws Exception
     {
-=======
-    private RequestNotifier() throws Exception {
-        super();
+
     }
 
     public static RequestNotifier getInstance() {
@@ -37,34 +30,6 @@ public class RequestNotifier extends Transaction {
             e.printStackTrace();
         }
         return myNotifier;
-    }
-
-    @Override
-    protected void setDependencies() {
-        dependencies = new Properties();
-        dependencies.setProperty("CancelRequest", "CancelTransaction");
-        dependencies.setProperty("CancelClothingItemList", "CancelTransaction");
-        dependencies.setProperty("OK", "CancelTransaction");
-        dependencies.setProperty("ProcessRequest", "TransactionError");
-        dependencies.setProperty("ClothingRequestData", "TransactionError");
-
-        myRegistry.setDependencies(dependencies);
-    }
-
-    @Override
-    protected Scene createView() {
-        return null;
-    }
-
-    @Override
-    public Object getState(String key) {
-        return null;
-    }
-
-    @Override
-    public void stateChangeRequest(String key, Object value) {
->>>>>>> d6b04599fd846f52de7fc52a481b6f03a9849829
-
     }
 
     /*

@@ -13,7 +13,6 @@
 package userinterface;
 
 // system imports
-
 import javafx.stage.Stage;
 
 // project imports
@@ -23,26 +22,30 @@ import javafx.stage.Stage;
  * All scenes are inside this one stage only.
  */
 //==============================================================
-public class MainStageContainer {
-    // data members
+public class MainStageContainer
+{
+   	// data members
 
-    private static Stage myInstance = null;
+	private static Stage myInstance = null;
 
-    // class constructor
+	// class constructor
 
-    private MainStageContainer() {
-    }
-
-
-    public static Stage getInstance() {
-        return myInstance;
-    }
+	private MainStageContainer ()
+	{
+	}
 
 
-    public static void setStage(Stage st, String title) {
-        myInstance = st;
-        myInstance.setTitle(title);
-        myInstance.setResizable(false);
-    }
+	public static Stage getInstance()
+	{
+		return myInstance;
+	}
+
+
+	public static void setStage(Stage st, String title)
+	{
+		myInstance = st;
+		myInstance.setTitle(title);
+		myInstance.setResizable(false);
+	}
 
 }
