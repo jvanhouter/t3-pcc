@@ -2,6 +2,7 @@
 
 // system imports
 
+import Utilities.Utilities;
 import event.Event;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -41,6 +42,14 @@ public class Closet extends Application {
     public void start(Stage primaryStage) {
         System.out.println("Brockport Professional Clothes Closet Version 1.00");
         System.out.println("Copyright 2018 Sandeep Mitra and Students");
+
+        /*
+         * create HashMap creation
+         */
+        Utilities.collectArticleTypeHash();
+        Utilities.collectColorHash();
+        Utilities.collectClothingHash();
+        Utilities.collectClothingRequestHash();
 
         // Create the top-level container (main frame) and add contents to it.
         MainStageContainer.setStage(primaryStage, "Brockport Professional Clothes Closet Version 1.00");

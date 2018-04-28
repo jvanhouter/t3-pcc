@@ -38,8 +38,6 @@ public class TransactionFactory {
             return new FulfilRequestTransaction();
         } else if (transType.equals("ListAvailableInventory")) {
             return new ListInventoryTransaction();
-        } else if (transType.equals("RequestNotifier")) {
-            return RequestNotifier.getInstance();
         } else {
             return null;
         }

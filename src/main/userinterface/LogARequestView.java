@@ -2,42 +2,41 @@
 package userinterface;
 
 // system imports
-
-import Utilities.UiConstants;
 import Utilities.Utilities;
-import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.util.StringConverter;
-import model.ArticleType;
-import model.Color;
 
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 import java.util.regex.Pattern;
 
 // project imports
+import impresario.IModel;
+import javafx.util.StringConverter;
+import model.ArticleType;
+import model.Color;
+import Utilities.UiConstants;
 
-/**
- * The class containing the Add Article Type View  for the Professional Clothes
- * Closet application
+import javax.rmi.CORBA.Util;
+
+/** The class containing the Add Article Type View  for the Professional Clothes
+ *  Closet application
  */
 //==============================================================
-public class LogARequestView extends View {
+public class LogARequestView extends View
+{
 
     // GUI components
     protected TextField netId;
@@ -60,7 +59,8 @@ public class LogARequestView extends View {
 
     // constructor for this class -- takes a model object
 
-    public LogARequestView(IModel lv) {
+    public LogARequestView(IModel lv)
+    {
         super(lv, "LogARequestView");
 
         // create a container for showing the contents
@@ -83,13 +83,15 @@ public class LogARequestView extends View {
 
 
     @Override
-    protected String getActionText() {
+    protected String getActionText()
+    {
         return "** Log a request view **";
     }
 
     // Create the main form content
 
-    private VBox createFormContent() {
+    private VBox createFormContent()
+    {
         VBox vbox = new VBox(10);
 
         PccText prompt = new PccText("LOG REQUEST INFORMATION");
@@ -142,14 +144,13 @@ public class LogARequestView extends View {
         grid.add(myPhone, 0, 4);
 
         phoneNumber = new TextField();
-        grid.add(phoneNumber, 1, 4);
-
         phoneNumber.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("[0-9-]{0,12}")) {
                 phoneNumber.setText(oldValue);
             }
             phoneNumber.setText(Utilities.autoFillDashes(phoneNumber.getText()));
         });
+        grid.add(phoneNumber, 1, 4);
 
         PccText myEmail = new PccText(" Email Address : ");
         myEmail.setFont(myFont);
@@ -310,28 +311,28 @@ public class LogARequestView extends View {
                 "&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-" +
                 "]*[a-z0-9])?)$");
         Properties props = new Properties();
-        if (netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH) {
+        if(netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH) {
             props.setProperty("RequesterNetid", netId.getText());
             props.setProperty("RequestedGender", gender.getValue());
             props.setProperty("RequestedArticleType", (String) articleType.getValue().getState("ID"));
             props.setProperty("RequestedColor1", (String) color1.getValue().getState("ID"));
-            if (color2.getValue() != null && (String) color2.getValue().getState("ID") != null)
+            if(color2.getValue() != null && (String) color2.getValue().getState("ID") != null)
                 props.setProperty("RequestedColor2", (String) color2.getValue().getState("ID"));
             props.setProperty("RequestedBrand", brand.getText());
-            if (size.getText().equals("")) {
+            if(size.getText().equals("")) {
                 props.setProperty("RequestedSize", "" + UiConstants.GENERIC_SIZE);
             } else
                 props.setProperty("RequestedSize", size.getText());
-            if (phoneNumber.getText().length() <= UiConstants.REQUESTED_PHONE_MAX_LENGTH) {
+            if(phoneNumber.getText().length() <= UiConstants.REQUESTED_PHONE_MAX_LENGTH) {
                 props.setProperty("RequesterPhone", phoneNumber.getText());
-                if (!firstName.getText().equals("") && firstName.getText().length() <= UiConstants.REQUESTED_FIRST_NAME_MAX_LENGTH) {
+                if(!firstName.getText().equals("") && firstName.getText().length() <= UiConstants.REQUESTED_FIRST_NAME_MAX_LENGTH) {
                     props.setProperty("RequesterFirstName", firstName.getText());
-                    if (!lastName.getText().equals("") && lastName.getText().length() <= UiConstants.REQUESTED_LAST_NAME_MAX_LENGTH) {
+                    if(!lastName.getText().equals("") && lastName.getText().length() <= UiConstants.REQUESTED_LAST_NAME_MAX_LENGTH) {
                         props.setProperty("RequesterLastName", lastName.getText());
-                        if (email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH) {
-                            props.setProperty("RequesterEmail", email.getText());
-                            if (!email.getText().equals("") || !phoneNumber.getText().equals("")) {
-                                if (!email.getText().equals("") && !(emailValidation.matcher(email.getText().toLowerCase()).matches())) {
+                        if(email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH) {
+                                props.setProperty("RequesterEmail", email.getText());
+                            if(!email.getText().equals("") || !phoneNumber.getText().equals("")) {
+                                if(!email.getText().equals("") && !(emailValidation.matcher(email.getText().toLowerCase()).matches())) {
                                     displayErrorMessage("Invalid email entered.");
                                     return;
                                 }
@@ -353,31 +354,47 @@ public class LogARequestView extends View {
 
     // Create the status log field
 
-    protected MessageView createStatusLog(String initialMessage) {
+    protected MessageView createStatusLog(String initialMessage)
+    {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
 
-    public void populateFields() {
+    public void populateFields()
+    {
         clearErrorMessage();
         gender.setValue((String) myModel.getState("Gender"));
-        Vector ArticleList = (Vector) myModel.getState("Articles");
-        Iterator articles = ArticleList.iterator();
+        Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
+        Comparator<ArticleType> compareAT = new Comparator<ArticleType>() {
+            @Override
+            public int compare(ArticleType o1, ArticleType o2) {
+                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+            }
+        };
         while (articles.hasNext()) {
-            articleTypes.add((ArticleType) articles.next());
+            Map.Entry pair = (Map.Entry)articles.next();
+            articleTypes.add((ArticleType) pair.getValue());
         }
+        articleTypes.sort(compareAT);
         articleType.setItems(articleTypes);
         articleType.getSelectionModel().select(0);
 
-        Vector ColorList = (Vector) myModel.getState("Colors");
-        Iterator colors = ColorList.iterator();
+        Iterator colors = Utilities.collectColorHash().entrySet().iterator();
         ObservableList<Color> colorItems = FXCollections.observableArrayList();
+        Comparator<Color> compareCT = new Comparator<Color>() {
+            @Override
+            public int compare(Color o1, Color o2) {
+                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+            }
+        };
         while (colors.hasNext()) {
-            colorItems.add((Color) colors.next());
+            Map.Entry pair = (Map.Entry)colors.next();
+            colorItems.add((Color) pair.getValue());
         }
+        colorItems.sort(compareCT);
         color1.setItems(colorItems);
         color1.getSelectionModel().select(0);
         color2.setItems(colorItems);
@@ -388,14 +405,19 @@ public class LogARequestView extends View {
      * Update method
      */
 
-    public void updateState(String key, Object value) {
+    public void updateState(String key, Object value)
+    {
         clearErrorMessage();
 
-        if (key.equals("TransactionError")) {
-            String val = (String) value;
-            if (val.startsWith("ERR")) {
+        if (key.equals("TransactionError") )
+        {
+            String val = (String)value;
+            if (val.startsWith("ERR") )
+            {
                 displayErrorMessage(val);
-            } else {
+            }
+            else
+            {
                 displayMessage(val);
             }
 
@@ -406,7 +428,8 @@ public class LogARequestView extends View {
      * Display error message
      */
 
-    public void displayErrorMessage(String message) {
+    public void displayErrorMessage(String message)
+    {
         //model.Alert alert = new model.Alert(Alert.AlertType.INFORMATION);
         //alert.displayErrorMessage(message);
         statusLog.displayErrorMessage(message);
@@ -416,7 +439,8 @@ public class LogARequestView extends View {
      * Display info message
      */
 
-    public void displayMessage(String message) {
+    public void displayMessage(String message)
+    {
         //Alert alert = new Alert(Alert.AlertType.INFORMATION);
         //alert.displayMessage(message);
         statusLog.displayMessage(message);
@@ -426,7 +450,8 @@ public class LogARequestView extends View {
      * Clear error message
      */
     //----------------------------------------------------------
-    public void clearErrorMessage() {
+    public void clearErrorMessage()
+    {
         statusLog.clearErrorMessage();
     }
 
