@@ -4,7 +4,7 @@ package userinterface;
 
 import Utilities.UiConstants;
 import Utilities.Utilities;
-import javafx.beans.property.SimpleStringProperty;
+import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -20,25 +20,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import model.ClothingRequest;
+import model.RequestCollection;
 
-import java.util.HashMap;
-import java.util.Vector;
 import java.util.Enumeration;
+import java.util.Vector;
 
 // project imports
-import impresario.IModel;
-
 //We need to look at these - can we avoid the outside library, and
 // slim down the model.* to just the classes we need? - JVH
-import model.*;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 
 //==============================================================================
-public class RequestCollectionView extends View
-{
+public class RequestCollectionView extends View {
     protected TableView<RequestTableModel> tableOfRequests;
     protected PccButton cancelButton;
     protected PccButton submitButton;
@@ -47,8 +42,7 @@ public class RequestCollectionView extends View
 
 
     //--------------------------------------------------------------------------
-    public RequestCollectionView(IModel matt)
-    {
+    public RequestCollectionView(IModel matt) {
         super(matt, "RequestCollectionView");
 
         // create a container for showing the contents
@@ -67,14 +61,12 @@ public class RequestCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void populateFields()
-    {
+    protected void populateFields() {
         getEntryTableModelValues();
     }
 
     //--------------------------------------------------------------------------
-    private void refactor(RequestTableModel ctm)
-    {
+    private void refactor(RequestTableModel ctm) {
 
         try {
             ctm.setArticleType((String) Utilities.collectArticleTypeHash().get(ctm.getArticleType()).getState("Description"));
@@ -100,42 +92,35 @@ public class RequestCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void getEntryTableModelValues()
-    {
+    protected void getEntryTableModelValues() {
         ObservableList<RequestTableModel> tableData = FXCollections.observableArrayList();
-        try
-        {
+        try {
             RequestCollection requestCollection =
-                    (RequestCollection)myModel.getState("RequestList");
+                    (RequestCollection) myModel.getState("RequestList");
 
-            Vector entryList = (Vector)requestCollection.getState("Requests");
+            Vector entryList = (Vector) requestCollection.getState("Requests");
 
-            if (entryList.size() > 0)
-            {
+            if (entryList.size() > 0) {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements())
-                {
+                while (entries.hasMoreElements()) {
                     ClothingRequest nextRQ = (ClothingRequest) entries.nextElement();
                     Vector<String> view = nextRQ.getEntryListView();
 
                     // add this list entry to the list
                     RequestTableModel nextTableRowData = new RequestTableModel(view);
-                    if(nextTableRowData.getSize().equals("" + UiConstants.GENERIC_SIZE))
+                    if (nextTableRowData.getSize().equals("" + UiConstants.GENERIC_SIZE))
                         nextTableRowData.setSize("");
                     refactor(nextTableRowData);
                     tableData.add(nextTableRowData);
 
                 }
-            }
-            else
-            {
+            } else {
                 displayMessage("No matching entries found!");
             }
 
             tableOfRequests.setItems(tableData);
-        }
-        catch (Exception e) {//SQLException e) {
+        } catch (Exception e) {//SQLException e) {
             // Need to handle this exception
             e.printStackTrace();
         }
@@ -148,8 +133,7 @@ public class RequestCollectionView extends View
 
     // Create the main form content
     //-------------------------------------------------------------
-    private VBox createFormContent()
-    {
+    private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
         PccText prompt = new PccText("");
@@ -233,7 +217,7 @@ public class RequestCollectionView extends View
         requestMadeDate.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("requestMadeDate"));
 
-        TableColumn statusColumn = new TableColumn("Status") ;
+        TableColumn statusColumn = new TableColumn("Status");
         statusColumn.setMinWidth(50);
         statusColumn.setCellValueFactory(
                 new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
@@ -244,7 +228,7 @@ public class RequestCollectionView extends View
                 requestMadeDate, statusColumn);
 
         tableOfRequests.setOnMousePressed(event -> {
-            if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+            if (event.isPrimaryButtonDown() && event.getClickCount() >= 2) {
                 processRequestSelected();
             }
         });
@@ -282,25 +266,21 @@ public class RequestCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    public void updateState(String key, Object value)
-    {
+    public void updateState(String key, Object value) {
     }
 
     //--------------------------------------------------------------------------
-    protected void processRequestSelected()
-    {
+    protected void processRequestSelected() {
         RequestTableModel selectedItem = tableOfRequests.getSelectionModel().getSelectedItem();
 
-        if(selectedItem != null)
-        {
+        if (selectedItem != null) {
             String id = selectedItem.getId();
             myModel.stateChangeRequest("RequestSelected", id);
         }
     }
 
     //--------------------------------------------------------------------------
-    protected MessageView createStatusLog(String initialMessage)
-    {
+    protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
@@ -311,8 +291,7 @@ public class RequestCollectionView extends View
      * Display info message
      */
     //----------------------------------------------------------
-    public void displayMessage(String message)
-    {
+    public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
 
@@ -320,8 +299,7 @@ public class RequestCollectionView extends View
      * Clear error message
      */
     //----------------------------------------------------------
-    public void clearErrorMessage()
-    {
+    public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 

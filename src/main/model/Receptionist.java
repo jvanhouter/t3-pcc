@@ -78,7 +78,7 @@ public class Receptionist implements IView, IModel
      * Method called from client to get the value of a particular field
      * held by the objects encapsulated by this object.
      *
-     * @param    key    Name of database column (field) for which the client wants the value
+     * @param key Name of database column (field) for which the client wants the value
      * @return Value associated with the field
      */
     //----------------------------------------------------------

@@ -1,12 +1,11 @@
 package userinterface;
 
-import java.util.Vector;
-
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.Vector;
+
 //==============================================================================
-public class RequestTableModel
-{
+public class RequestTableModel {
     private final SimpleStringProperty id;
     private final SimpleStringProperty requesterNetId;
     private final SimpleStringProperty phone;
@@ -25,8 +24,7 @@ public class RequestTableModel
     private final SimpleStringProperty requestFulfilledDate;
 
     //----------------------------------------------------------------------------
-    public RequestTableModel(Vector<String> atData)
-    {
+    public RequestTableModel(Vector<String> atData) {
         id = new SimpleStringProperty(atData.elementAt(0));
         requesterNetId = new SimpleStringProperty(atData.elementAt(1));
         phone = new SimpleStringProperty(atData.elementAt(2));
@@ -46,99 +44,163 @@ public class RequestTableModel
     }
 
     //----------------------------------------------------------------------------
-    public String getId() { return id.get(); }
+    public String getId() {
+        return id.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setId(String pref) { id.set(pref); }
+    public void setId(String pref) {
+        id.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getRequesterNetid() { return requesterNetId.get(); }
+    public String getRequesterNetid() {
+        return requesterNetId.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setRequesterNetid(String pref) { requesterNetId.set(pref); }
+    public void setRequesterNetid(String pref) {
+        requesterNetId.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getPhone() { return phone.get(); }
+    public String getPhone() {
+        return phone.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setPhone(String pref) { phone.set(pref); }
+    public void setPhone(String pref) {
+        phone.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getEmail() { return email.get(); }
+    public String getEmail() {
+        return email.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setEmail(String pref) { email.set(pref); }
+    public void setEmail(String pref) {
+        email.set(pref);
+    }
 
 
     //----------------------------------------------------------------------------
-    public String getLastName() { return lastName.get(); }
+    public String getLastName() {
+        return lastName.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setLastName(String pref) { lastName.set(pref); }
+    public void setLastName(String pref) {
+        lastName.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getFirstName() { return firstName.get(); }
+    public String getFirstName() {
+        return firstName.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setFirstName(String pref) { firstName.set(pref); }
+    public void setFirstName(String pref) {
+        firstName.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getGender() { return gender.get(); }
+    public String getGender() {
+        return gender.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setGender(String pref) { gender.set(pref); }
+    public void setGender(String pref) {
+        gender.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getArticleType() { return articleType.get(); }
+    public String getArticleType() {
+        return articleType.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setArticleType(String pref) { articleType.set(pref); }
+    public void setArticleType(String pref) {
+        articleType.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getColor1() { return color1.get(); }
+    public String getColor1() {
+        return color1.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setColor1(String pref) { color1.set(pref); }
+    public void setColor1(String pref) {
+        color1.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getColor2() { return color2.get(); }
+    public String getColor2() {
+        return color2.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setColor2(String pref) { color2.set(pref); }
+    public void setColor2(String pref) {
+        color2.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getSize() { return size.get(); }
+    public String getSize() {
+        return size.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setSize(String pref) { size.set(pref); }
+    public void setSize(String pref) {
+        size.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getBrand() { return brand.get(); }
+    public String getBrand() {
+        return brand.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setBrand(String pref) { brand.set(pref); }
+    public void setBrand(String pref) {
+        brand.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getStatus() { return status.get(); }
+    public String getStatus() {
+        return status.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setStatus(String stat) { status.set(stat); }
+    public void setStatus(String stat) {
+        status.set(stat);
+    }
 
     //----------------------------------------------------------------------------
-    public String getFulfillItemBarcode() { return fulfillItemBarcode.get(); }
+    public String getFulfillItemBarcode() {
+        return fulfillItemBarcode.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setFulfillItemBarcode(String pref) { fulfillItemBarcode.set(pref); }
+    public void setFulfillItemBarcode(String pref) {
+        fulfillItemBarcode.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getRequestMadeDate() { return requestMadeDate.get(); }
+    public String getRequestMadeDate() {
+        return requestMadeDate.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setRequestMadeDate(String pref)  { requestMadeDate.set(pref); }
+    public void setRequestMadeDate(String pref) {
+        requestMadeDate.set(pref);
+    }
 
     //----------------------------------------------------------------------------
-    public String getRequestFulfilledDate() { return requestFulfilledDate.get(); }
+    public String getRequestFulfilledDate() {
+        return requestFulfilledDate.get();
+    }
 
     //----------------------------------------------------------------------------
-    public void setRequestFulfilledDate(String pref) { requestFulfilledDate.set(pref); }
+    public void setRequestFulfilledDate(String pref) {
+        requestFulfilledDate.set(pref);
+    }
 }

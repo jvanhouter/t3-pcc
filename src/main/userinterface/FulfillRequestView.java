@@ -3,33 +3,20 @@ package userinterface;
 
 // system imports
 
-import Utilities.UiConstants;
 import Utilities.Utilities;
 import impresario.IModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.util.StringConverter;
-import model.ArticleType;
 import model.ClothingItem;
 import model.ClothingRequest;
-import model.Color;
-
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Vector;
-import java.util.regex.Pattern;
 
 // project imports
 
@@ -309,27 +296,27 @@ public class FulfillRequestView extends View {
         ClothingRequest cr = (ClothingRequest) myModel.getState("ClothingRequest");
 
         gender.setText((String) ci.getState("Gender"));
-        if(((String) ci.getState("Size")).equals("999")) {
+        if (((String) ci.getState("Size")).equals("999")) {
             sizeText.setText("");
         } else
             sizeText.setText((String) ci.getState("Size"));
         articleType.setText((String) Utilities.collectArticleTypeHash().get(((String) ci.getState("ArticleType"))).getState("Description"));
-        if(Utilities.collectColorHash().get((String) ci.getState("Color1")) != null)
+        if (Utilities.collectColorHash().get((String) ci.getState("Color1")) != null)
             primaryColor.setText((String) Utilities.collectColorHash().get((String) ci.getState("Color1")).getState("Description"));
-        if(Utilities.collectColorHash().get((String) ci.getState("Color2")) != null)
+        if (Utilities.collectColorHash().get((String) ci.getState("Color2")) != null)
             secondaryColor.setText((String) Utilities.collectColorHash().get((String) ci.getState("Color2")).getState("Description"));
         brandText.setText((String) ci.getState("Brand"));
         notesText.setText((String) ci.getState("Notes"));
 
         genderReq.setText((String) cr.getState("RequestedGender"));
-        if(((String) cr.getState("RequestedSize")).equals("999")) {
+        if (((String) cr.getState("RequestedSize")).equals("999")) {
             sizeTextReq.setText("");
         } else
             sizeTextReq.setText((String) cr.getState("RequestedSize"));
         articleTypeReq.setText((String) Utilities.collectArticleTypeHash().get(((String) cr.getState("RequestedArticleType"))).getState("Description"));
-        if(Utilities.collectColorHash().get((String) cr.getState("RequestedColor1")) != null)
+        if (Utilities.collectColorHash().get((String) cr.getState("RequestedColor1")) != null)
             primaryColorReq.setText((String) Utilities.collectColorHash().get((String) cr.getState("RequestedColor1")).getState("Description"));
-        if(Utilities.collectColorHash().get((String) cr.getState("RequestedColor2")) != null)
+        if (Utilities.collectColorHash().get((String) cr.getState("RequestedColor2")) != null)
             secondaryColorReq.setText((String) Utilities.collectColorHash().get((String) cr.getState("RequestedColor2")).getState("Description"));
         brandTextReq.setText((String) ci.getState("RequestedBrand"));
 

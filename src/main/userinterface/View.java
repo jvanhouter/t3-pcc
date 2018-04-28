@@ -17,7 +17,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -27,17 +26,16 @@ import javafx.scene.text.TextAlignment;
 
 public abstract class View extends Group
         implements IView, IControl {
+    protected static final String APP_FONT = "Roboto";
+    protected static final String APP_TEXT_COLOR = "#ffc726";
+    protected static final Color CAPP_TEXT_COLOR = Color.web("#FFC726");
+    protected static final String APP_BACKGROUND_COLOR = "#647585";
+    protected final Integer WRAPPING_WIDTH = 400;
     // private data
     protected IModel myModel;
     protected ControlRegistry myRegistry;
     protected VBox container;
 
-    protected final Integer WRAPPING_WIDTH = 400;
-    protected static final String APP_FONT = "Roboto";
-    protected static final String APP_TEXT_COLOR="#ffc726";
-    protected static final Color CAPP_TEXT_COLOR = Color.web("#FFC726");
-    protected static final String APP_BACKGROUND_COLOR="#647585";
-    
     // GUI components
 
 
@@ -52,6 +50,7 @@ public abstract class View extends Group
         container.setStyle("-fx-background-color: #647585");
         container.setPadding(new Insets(50, 50, 50, 50));
     }
+
     VBox getParentContainer() {
         return container;
     }

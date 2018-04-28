@@ -2,6 +2,7 @@ package userinterface;
 
 // system imports
 
+import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,21 +20,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-
-
-import java.util.Vector;
-import java.util.Enumeration;
-
-// project imports
-import impresario.IModel;
 import model.Color;
 import model.ColorCollection;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
+// project imports
+
 //==============================================================================
-public class ColorCollectionView extends View
-{
+public class ColorCollectionView extends View {
     protected TableView<ColorTableModel> tableOfColors;
     protected PccButton cancelButton;
     protected PccButton submitButton;
@@ -42,8 +39,7 @@ public class ColorCollectionView extends View
 
 
     //--------------------------------------------------------------------------
-    public ColorCollectionView(IModel ccv)
-    {
+    public ColorCollectionView(IModel ccv) {
         super(ccv, "ColorCollectionView");
 
         // create a container for showing the contents
@@ -63,31 +59,26 @@ public class ColorCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void populateFields()
-    {
+    protected void populateFields() {
         getEntryTableModelValues();
     }
 
     //--------------------------------------------------------------------------
-    protected void getEntryTableModelValues()
-    {
+    protected void getEntryTableModelValues() {
 
         ObservableList<ColorTableModel> tableData = FXCollections.observableArrayList();
-        try
-        {
+        try {
             ColorCollection colorCollection =
-                    (ColorCollection)myModel.getState("ColorList");
+                    (ColorCollection) myModel.getState("ColorList");
 
-            Vector entryList = (Vector)colorCollection.getState("Colors");
+            Vector entryList = (Vector) colorCollection.getState("Colors");
 
-            if (entryList.size() > 0)
-            {
+            if (entryList.size() > 0) {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements() )
-                {
+                while (entries.hasMoreElements()) {
 
-                    Color nextCT = (Color)entries.nextElement();
+                    Color nextCT = (Color) entries.nextElement();
                     Vector<String> view = nextCT.getEntryListView();
 
                     // add this list entry to the list
@@ -95,15 +86,12 @@ public class ColorCollectionView extends View
                     tableData.add(nextTableRowData);
 
                 }
-            }
-            else
-            {
+            } else {
                 displayMessage("No matching entries found!");
             }
 
             tableOfColors.setItems(tableData);
-        }
-        catch (Exception e) {//SQLException e) {
+        } catch (Exception e) {//SQLException e) {
             // Need to handle this exception
         }
     }
@@ -115,8 +103,7 @@ public class ColorCollectionView extends View
 
     // Create the main form content
     //-------------------------------------------------------------
-    private VBox createFormContent()
-    {
+    private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
         PccText prompt = new PccText("");
@@ -135,34 +122,33 @@ public class ColorCollectionView extends View
         tableOfColors = new TableView<ColorTableModel>();
         tableOfColors.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
+        TableColumn barcodePrefixColumn = new TableColumn("Barcode Prefix");
         barcodePrefixColumn.setMinWidth(50);
         barcodePrefixColumn.setCellValueFactory(
                 new PropertyValueFactory<ColorTableModel, String>("barcodePrefix"));
 
-        TableColumn descriptionColumn = new TableColumn("Description") ;
+        TableColumn descriptionColumn = new TableColumn("Description");
         descriptionColumn.setMinWidth(150);
         descriptionColumn.setCellValueFactory(
                 new PropertyValueFactory<ColorTableModel, String>("description"));
 
-        TableColumn alphaCodeColumn = new TableColumn("Alpha Code") ;
+        TableColumn alphaCodeColumn = new TableColumn("Alpha Code");
         alphaCodeColumn.setMinWidth(50);
         alphaCodeColumn.setCellValueFactory(
                 new PropertyValueFactory<ColorTableModel, String>("alphaCode"));
 
-        TableColumn statusColumn = new TableColumn("Status") ;
+        TableColumn statusColumn = new TableColumn("Status");
         statusColumn.setMinWidth(50);
         statusColumn.setCellValueFactory(
                 new PropertyValueFactory<ColorTableModel, String>("status"));
 
-                tableOfColors.getColumns().addAll(descriptionColumn,
-                        barcodePrefixColumn, alphaCodeColumn, statusColumn);
+        tableOfColors.getColumns().addAll(descriptionColumn,
+                barcodePrefixColumn, alphaCodeColumn, statusColumn);
 
-                tableOfColors.setOnMousePressed(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event)
-                    {
-                        if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+        tableOfColors.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isPrimaryButtonDown() && event.getClickCount() >= 2) {
                     processColorSelected();
                 }
             }
@@ -214,17 +200,14 @@ public class ColorCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    public void updateState(String key, Object value)
-    {
+    public void updateState(String key, Object value) {
     }
 
     //--------------------------------------------------------------------------
-    protected void processColorSelected()
-    {
+    protected void processColorSelected() {
         ColorTableModel selectedItem = tableOfColors.getSelectionModel().getSelectedItem();
 
-        if(selectedItem != null)
-        {
+        if (selectedItem != null) {
             String selectedBarcodePrefix = selectedItem.getBarcodePrefix();
 
             myModel.stateChangeRequest("ColorSelected", selectedBarcodePrefix);
@@ -232,8 +215,7 @@ public class ColorCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected MessageView createStatusLog(String initialMessage)
-    {
+    protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
@@ -244,8 +226,7 @@ public class ColorCollectionView extends View
      * Display info message
      */
     //----------------------------------------------------------
-    public void displayMessage(String message)
-    {
+    public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
 
@@ -253,8 +234,7 @@ public class ColorCollectionView extends View
      * Clear error message
      */
     //----------------------------------------------------------
-    public void clearErrorMessage()
-    {
+    public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 

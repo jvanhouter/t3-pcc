@@ -12,15 +12,14 @@ public class PccAlert extends Alert {
 
 
     public static PccAlert getInstance() {
-        if(myAlert == null) {
+        if (myAlert == null) {
             myAlert = new PccAlert(Alert.AlertType.INFORMATION);
         }
         return myAlert;
     }
 
     //-------------------------------------------------
-    public void displayErrorMessage(String message)
-    {
+    public void displayErrorMessage(String message) {
 
     }
 
