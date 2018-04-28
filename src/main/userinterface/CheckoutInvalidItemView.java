@@ -1,6 +1,8 @@
 package userinterface;
 
 // system imports
+
+import impresario.IModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -10,11 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 // project imports
-import impresario.IModel;
 
 public class CheckoutInvalidItemView extends View {
 
@@ -29,8 +29,7 @@ public class CheckoutInvalidItemView extends View {
 
     // constructor for this class -- takes a model object
 
-    public CheckoutInvalidItemView(IModel at)
-    {
+    public CheckoutInvalidItemView(IModel at) {
         super(at, "CheckoutInvalidItemView");
 
         // create a container for showing the contents
@@ -56,15 +55,13 @@ public class CheckoutInvalidItemView extends View {
 
 
     @Override
-    protected String getActionText()
-    {
+    protected String getActionText() {
         return "** ERROR **";
     }
 
     // Create the main form content
 
-    private VBox createFormContent()
-    {
+    private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
         PccText prompt = new PccText("The Clothing Item associated with this barcode can not be checked out.");
@@ -133,16 +130,14 @@ public class CheckoutInvalidItemView extends View {
 
     // Create the status log field
 
-    protected MessageView createStatusLog(String initialMessage)
-    {
+    protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
 
-    public void populateFields()
-    {
+    public void populateFields() {
 
     }
 
@@ -150,19 +145,14 @@ public class CheckoutInvalidItemView extends View {
      * Update method
      */
 
-    public void updateState(String key, Object value)
-    {
+    public void updateState(String key, Object value) {
         clearErrorMessage();
 
-        if (key.equals("TransactionError") )
-        {
-            String val = (String)value;
-            if (val.startsWith("ERR") )
-            {
+        if (key.equals("TransactionError")) {
+            String val = (String) value;
+            if (val.startsWith("ERR")) {
                 displayErrorMessage(val);
-            }
-            else
-            {
+            } else {
                 displayMessage(val);
             }
 
@@ -173,8 +163,7 @@ public class CheckoutInvalidItemView extends View {
      * Display error message
      */
 
-    public void displayErrorMessage(String message)
-    {
+    public void displayErrorMessage(String message) {
         statusLog.displayErrorMessage(message);
     }
 
@@ -182,8 +171,7 @@ public class CheckoutInvalidItemView extends View {
      * Display info message
      */
 
-    public void displayMessage(String message)
-    {
+    public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
 
@@ -191,8 +179,7 @@ public class CheckoutInvalidItemView extends View {
      * Clear error message
      */
 
-    public void clearErrorMessage()
-    {
+    public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 

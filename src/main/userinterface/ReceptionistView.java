@@ -13,10 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import model.ClothingRequest;
-import model.RequestNotifier;
-
-import java.util.Vector;
 
 // project imports
 
@@ -90,7 +86,7 @@ public class ReceptionistView extends View {
         GridPane gridContainer = new GridPane();
         gridContainer.setHgap(10);
         gridContainer.setVgap(10);
-        gridContainer.setPadding(new Insets(0, 10, 0 ,10));
+        gridContainer.setPadding(new Insets(0, 10, 0, 10));
 
         ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.setHalignment(HPos.RIGHT);
@@ -105,7 +101,7 @@ public class ReceptionistView extends View {
         checkoutCont.getChildren().add(checkoutClothingItemButton);
 
         gridContainer.add(checkoutCont, 0, 0, 4, 1);
-        gridContainer.add(new Pane(), 0,1,4,1);
+        gridContainer.add(new Pane(), 0, 1, 4, 1);
         // Article type choices
         Text atLabel = new Text("Article Types: ");
         atLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
@@ -142,7 +138,7 @@ public class ReceptionistView extends View {
         gridContainer.add(colorLabel, 0, 3);
         gridContainer.add(addColorButton, 1, 3);
         gridContainer.add(updateColorButton, 2, 3);
-        gridContainer.add(removeColorButton,3,3);
+        gridContainer.add(removeColorButton, 3, 3);
 
         // Clothing item choices
         Label ciLabel = new Label("Clothing Items: ");
@@ -181,7 +177,7 @@ public class ReceptionistView extends View {
         gridContainer.add(fulfillRequestButton, 2, 5);
         gridContainer.add(removeRequestButton, 3, 5);
 
-        gridContainer.add(new Pane(), 0, 6, 4,1);
+        gridContainer.add(new Pane(), 0, 6, 4, 1);
 
         HBox listAvailCont = new HBox(10);
         listAvailCont.setAlignment(Pos.CENTER);
@@ -189,7 +185,7 @@ public class ReceptionistView extends View {
         listAvailableInventoryButton.setOnAction(e -> myModel.stateChangeRequest("ListAvailableInventory", null));
         listAvailCont.getChildren().add(listAvailableInventoryButton);
 
-        gridContainer.add(listAvailCont,0, 7, 4, 1);
+        gridContainer.add(listAvailCont, 0, 7, 4, 1);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
@@ -197,7 +193,7 @@ public class ReceptionistView extends View {
         cancelButton.setOnAction(e -> myModel.stateChangeRequest("ExitSystem", null));
         doneCont.getChildren().add(cancelButton);
 
-        gridContainer.add(new Pane(),0,8);
+        gridContainer.add(new Pane(), 0, 8);
 
         container.getChildren().add(gridContainer);
         container.getChildren().add(doneCont);
@@ -214,12 +210,8 @@ public class ReceptionistView extends View {
 
 
     public void populateFields() {
-        Vector<ClothingRequest> requests = (Vector<ClothingRequest>) myModel.getState("Requests");
-        if(requests.size() > 0) {
-            fulfillRequestButton.setText("Fulfill (" + requests.size() + ")");
-        }
-    }
 
+    }
 
 
     public void updateState(String key, Object value) {

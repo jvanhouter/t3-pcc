@@ -13,7 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.DialogPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -46,7 +45,7 @@ public class MessageView extends Text {
             setFill(Color.BLUE);
             setText(message);
         } else {
-            if(!myAlert.getInstance().isShowing()) {
+            if (!myAlert.getInstance().isShowing()) {
                 myAlert.getInstance().setAlertType(Alert.AlertType.INFORMATION);
                 myAlert.getInstance().setHeaderText("Message");
                 myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Info");
@@ -63,7 +62,7 @@ public class MessageView extends Text {
      */
     public void displayErrorMessage(String message) {
         // display the passed text in red
-        if(!myAlert.getInstance().isShowing()) {
+        if (!myAlert.getInstance().isShowing()) {
             myAlert.getInstance().setHeaderText("Error");
             myAlert.getInstance().setAlertType(Alert.AlertType.ERROR);
             myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Error");
@@ -82,7 +81,7 @@ public class MessageView extends Text {
     }
 
     public void display2ErrorMessage(String message) {
-        if(!myAlert.getInstance().isShowing()) {
+        if (!myAlert.getInstance().isShowing()) {
             myAlert.getInstance().setAlertType(Alert.AlertType.ERROR);
             myAlert.getInstance().setTitle("Error Dialog");
             myAlert.getInstance().setHeaderText("An error has occurred ");

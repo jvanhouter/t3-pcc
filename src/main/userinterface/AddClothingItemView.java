@@ -18,17 +18,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.StringConverter;
 import model.ArticleType;
 import model.Color;
-//import javafx.scene.paint.Color;
 
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.regex.Pattern;
+
+//import javafx.scene.paint.Color;
 
 // project imports
 
@@ -43,6 +43,8 @@ public class AddClothingItemView extends View {
     protected MessageView statusLog;
     // GUI components
     protected ComboBox<String> genderCombo;
+    protected TextField barcode;
+
     protected TextField sizeText;
     protected ComboBox<ArticleType> articleTypeCombo;
     protected ComboBox<Color> primaryColorCombo;
@@ -90,9 +92,11 @@ public class AddClothingItemView extends View {
         PccText prompt = new PccText("CLOTHING ITEM INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(javafx.scene.paint.Color.BLUE);
+//        prompt.setFill(javafx.scene.paint.Color.BLUE);
         prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
+
+        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
 
 
         GridPane grid = new GridPane();
@@ -101,11 +105,20 @@ public class AddClothingItemView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
+        // Barcode
+        PccText barcodeLabel = new PccText(" Barcode : ");
+        barcodeLabel.setFont(myFont);
+        barcodeLabel.setWrappingWidth(150);
+        barcodeLabel.setTextAlignment(TextAlignment.RIGHT);
+
+        barcode = new TextField();
+
+        grid.add(barcodeLabel, 0, 0);
+        grid.add(barcode, 1, 0);
+
         // Gender UI items ==================================================
         PccText genderLabel = new PccText(" Gender : ");
-        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
         genderLabel.setFont(myFont);
-//        genderLabel.setFill(CAPP_TEXT_COLOR);
         genderLabel.setWrappingWidth(150);
         genderLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(genderLabel, 0, 1);
@@ -115,7 +128,7 @@ public class AddClothingItemView extends View {
 
 
         grid.add(genderCombo, 1, 1);
-        // =================================================================
+
         // Size UI Items ===================================================
         PccText sizeLabel = new PccText(" Size : ");
         sizeLabel.setFont(myFont);
@@ -300,6 +313,9 @@ public class AddClothingItemView extends View {
 
     public void populateFields() {
         clearErrorMessage();
+        barcode.setText((String) myModel.getState("Barcode"));
+        barcode.setDisable(true);
+
         genderCombo.setValue((String) myModel.getState("Gender"));
         // sometimes returns null, hashmap may solve
         Vector ArticleList = (Vector) myModel.getState("Articles");
@@ -347,7 +363,7 @@ public class AddClothingItemView extends View {
         }/* else if (size.length() == 0) {
             displayErrorMessage("ERROR: Please enter a size!");
             sizeText.requestFocus();
-        } */else if (articleType == null) {
+        } */ else if (articleType == null) {
             displayErrorMessage("ERROR: Please select an article type!");
             articleTypeCombo.requestFocus();
         } else if (color1 == null) {
@@ -359,7 +375,7 @@ public class AddClothingItemView extends View {
             donorEmailText.requestFocus();
         } else {
             props.setProperty("Gender", gender);
-            if(size.length() == 0)
+            if (size.length() == 0)
                 props.setProperty("Size", "" + UiConstants.GENERIC_SIZE);
             else
                 props.setProperty("Size", size);

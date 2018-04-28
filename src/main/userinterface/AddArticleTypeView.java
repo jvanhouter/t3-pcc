@@ -2,6 +2,8 @@
 package userinterface;
 
 // system imports
+
+import impresario.IModel;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,252 +14,226 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 import java.util.Properties;
 
 // project imports
-import impresario.IModel;
 
-import javax.swing.*;
-
-/** The class containing the Add Article Type View  for the Professional Clothes
- *  Closet application
+/**
+ * The class containing the Add Article Type View  for the Professional Clothes
+ * Closet application
  */
 //==============================================================
-public class AddArticleTypeView extends View
-{
+public class AddArticleTypeView extends View {
 
-	// GUI components
-	protected TextField barcodePrefix;
-	protected TextField description;
-	protected TextField alphaCode;
+    // GUI components
+    protected TextField barcodePrefix;
+    protected TextField description;
+    protected TextField alphaCode;
 
-	protected PccButton submitButton;
-	protected PccButton cancelButton;
+    protected PccButton submitButton;
+    protected PccButton cancelButton;
 
-	// For showing error message
-	protected MessageView statusLog;
+    // For showing error message
+    protected MessageView statusLog;
 
-	// constructor for this class -- takes a model object
-	//----------------------------------------------------------
-	public AddArticleTypeView(IModel at)
-	{
-		super(at, "AddArticleTypeView");
+    // constructor for this class -- takes a model object
+    //----------------------------------------------------------
+    public AddArticleTypeView(IModel at) {
+        super(at, "AddArticleTypeView");
 
-		// create a container for showing the contents
-		VBox container = getParentContainer();
+        // create a container for showing the contents
+        VBox container = getParentContainer();
 
-		// Add a title for this panel
-		container.getChildren().add(createTitle());
+        // Add a title for this panel
+        container.getChildren().add(createTitle());
 
-		// create our GUI components, add them to this Container
-		container.getChildren().add(createFormContent());
+        // create our GUI components, add them to this Container
+        container.getChildren().add(createFormContent());
 
-		container.getChildren().add(createStatusLog("             "));
+        container.getChildren().add(createStatusLog("             "));
 
-		getChildren().add(container);
+        getChildren().add(container);
 
-		populateFields();
+        populateFields();
 
-		myModel.subscribe("TransactionError", this);
-	}
+        myModel.subscribe("TransactionError", this);
+    }
 
-	//-------------------------------------------------------------
-	protected String getActionText()
-	{
-		return "** Adding a new Article Type **";
-	}
+    @Override
+    protected String getActionText() {
+        return "** Adding a new Article Type **";
+    }
 
-	// Create the main form content
-	//-------------------------------------------------------------
-	private VBox createFormContent()
-	{
-		VBox vbox = new VBox(10);
+    // Create the main form content
+    //-------------------------------------------------------------
+    private VBox createFormContent() {
+        VBox vbox = new VBox(10);
 
-		PccText prompt = new PccText("ARTICLE TYPE INFORMATION");
+        PccText prompt = new PccText("ARTICLE TYPE INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-		prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
-		vbox.getChildren().add(prompt);
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        vbox.getChildren().add(prompt);
 
 
-		GridPane grid = new GridPane();
+        GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-       	grid.setHgap(10);
+        grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
-		PccText barcodePrefixLabel = new PccText(" Barcode Prefix : ");
-		Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
-		barcodePrefixLabel.setFont(myFont);
-		barcodePrefixLabel.setFill(Color.web(APP_TEXT_COLOR));
-		barcodePrefixLabel.setWrappingWidth(150);
-		barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(barcodePrefixLabel, 0, 1);
+        PccText barcodePrefixLabel = new PccText(" Barcode Prefix : ");
+        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
+        barcodePrefixLabel.setFont(myFont);
+        barcodePrefixLabel.setFill(Color.web(APP_TEXT_COLOR));
+        barcodePrefixLabel.setWrappingWidth(150);
+        barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(barcodePrefixLabel, 0, 1);
 
-		barcodePrefix = new TextField();
+        barcodePrefix = new TextField();
         barcodePrefix.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("[0-9]{0,5}")) {
                 barcodePrefix.setText(oldValue);
             }
         });
-		grid.add(barcodePrefix, 1, 1);
+        grid.add(barcodePrefix, 1, 1);
 
-		PccText descripLabel = new PccText(" Description : ");
-		descripLabel.setFont(myFont);
-		descripLabel.setFill(Color.web(APP_TEXT_COLOR));
-		descripLabel.setWrappingWidth(150);
-		descripLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(descripLabel, 0, 2);
+        PccText descripLabel = new PccText(" Description : ");
+        descripLabel.setFont(myFont);
+        descripLabel.setFill(Color.web(APP_TEXT_COLOR));
+        descripLabel.setWrappingWidth(150);
+        descripLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(descripLabel, 0, 2);
 
-		description = new TextField();
-		description.textProperty().addListener((observable, oldValue, newValue) -> {
-		    if (!newValue.matches("[a-zA-Z0-9 -]{0,30}")) {
-		        description.setText(oldValue);
+        description = new TextField();
+        description.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z0-9 -]{0,30}")) {
+                description.setText(oldValue);
             }
-		});
-		grid.add(description, 1, 2);
+        });
+        grid.add(description, 1, 2);
 
-		PccText alphaCodeLabel = new PccText(" Alpha Code : ");
-		alphaCodeLabel.setFont(myFont);
-		alphaCodeLabel.setFill(Color.web(APP_TEXT_COLOR));
-		alphaCodeLabel.setWrappingWidth(150);
-		alphaCodeLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(alphaCodeLabel, 0, 3);
+        PccText alphaCodeLabel = new PccText(" Alpha Code : ");
+        alphaCodeLabel.setFont(myFont);
+        alphaCodeLabel.setFill(Color.web(APP_TEXT_COLOR));
+        alphaCodeLabel.setWrappingWidth(150);
+        alphaCodeLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid.add(alphaCodeLabel, 0, 3);
 
-		alphaCode = new TextField();
-		alphaCode.textProperty().addListener((observable, oldValue, newValue) -> {
-		    if (!newValue.matches("[a-zA-Z]{0,5}")) {
-		    	alphaCode.setText(oldValue);
-		    }
-		    if(newValue.matches("[A-Za-z]{0,5}")) {
-		    	alphaCode.setText(newValue.toUpperCase());
-			}
-		});
-		grid.add(alphaCode, 1, 3);
+        alphaCode = new TextField();
+        alphaCode.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z]{0,5}")) {
+                alphaCode.setText(oldValue);
+            }
+            if (newValue.matches("[A-Za-z]{0,5}")) {
+                alphaCode.setText(newValue.toUpperCase());
+            }
+        });
+        grid.add(alphaCode, 1, 3);
 
-		HBox doneCont = new HBox(10);
-		doneCont.setAlignment(Pos.CENTER);
-		submitButton = new PccButton("Submit");
-		submitButton.setOnAction(this::processAction);
-		doneCont.getChildren().add(submitButton);
+        HBox doneCont = new HBox(10);
+        doneCont.setAlignment(Pos.CENTER);
+        submitButton = new PccButton("Submit");
+        submitButton.setOnAction(this::processAction);
+        doneCont.getChildren().add(submitButton);
 
-		cancelButton = new PccButton("Return");
-		cancelButton.setOnAction(e -> {
-		   clearErrorMessage();
-		   myModel.stateChangeRequest("CancelAddAT", null);
-	  });
-		doneCont.getChildren().add(cancelButton);
+        cancelButton = new PccButton("Return");
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelAddAT", null);
+        });
+        doneCont.getChildren().add(cancelButton);
 
-		vbox.getChildren().add(grid);
-		vbox.getChildren().add(doneCont);
+        vbox.getChildren().add(grid);
+        vbox.getChildren().add(doneCont);
 
-		return vbox;
-	}
+        return vbox;
+    }
 
-	private void processAction(ActionEvent e) {
-		clearErrorMessage();
-		Properties props = new Properties();
-		String bcPrfx = barcodePrefix.getText();
-		if (bcPrfx.length() > 0)
-		{
-			props.setProperty("BarcodePrefix", bcPrfx);
-			String descrip = description.getText();
-			if (descrip.length() > 0)
-			{
-				props.setProperty("Description", descrip);
-				String alfaC = alphaCode.getText();
-				if (alfaC.length() > 0)
-				{
-					props.setProperty("AlphaCode", alfaC);
-					myModel.stateChangeRequest("ArticleTypeData", props);
-					myModel.stateChangeRequest("OK", null);
-				}
-				else
-				{
-					displayErrorMessage("ERROR: Please enter a valid alpha code!");
-				}
-			}
-			else
-			{
-				displayErrorMessage("ERROR: Please enter a valid description!");
-			}
+    private void processAction(ActionEvent e) {
+        clearErrorMessage();
+        Properties props = new Properties();
+        String bcPrfx = barcodePrefix.getText();
+        if (bcPrfx.length() > 0) {
+            props.setProperty("BarcodePrefix", bcPrfx);
+            String descrip = description.getText();
+            if (descrip.length() > 0) {
+                props.setProperty("Description", descrip);
+                String alfaC = alphaCode.getText();
+                if (alfaC.length() > 0) {
+                    props.setProperty("AlphaCode", alfaC);
+                    myModel.stateChangeRequest("ArticleTypeData", props);
+                    myModel.stateChangeRequest("OK", null);
+                } else {
+                    displayErrorMessage("ERROR: Please enter a valid alpha code!");
+                }
+            } else {
+                displayErrorMessage("ERROR: Please enter a valid description!");
+            }
 
-		}
-		else
-		{
-			displayErrorMessage("ERROR: Please enter a barcode prefix!");
+        } else {
+            displayErrorMessage("ERROR: Please enter a barcode prefix!");
 
-		}
-	}
+        }
+    }
 
-	// Create the status log field
-	//-------------------------------------------------------------
-	protected MessageView createStatusLog(String initialMessage)
-	{
-		statusLog = new MessageView(initialMessage);
+    // Create the status log field
+    //-------------------------------------------------------------
+    protected MessageView createStatusLog(String initialMessage) {
+        statusLog = new MessageView(initialMessage);
 
-		return statusLog;
-	}
+        return statusLog;
+    }
 
-	//-------------------------------------------------------------
-	public void populateFields()
-	{
+    //-------------------------------------------------------------
+    public void populateFields() {
 
-	}
+    }
 
-	/**
-	 * Update method
-	 */
-	//---------------------------------------------------------
-	public void updateState(String key, Object value)
-	{
-		clearErrorMessage();
+    /**
+     * Update method
+     */
+    //---------------------------------------------------------
+    public void updateState(String key, Object value) {
+        clearErrorMessage();
 
-		if (key.equals("TransactionError") )
-		{
-			String val = (String)value;
-			if (val.startsWith("ERR") )
-			{
-				displayErrorMessage(val);
-			}
-			else
-			{
-				displayMessage(val);
-			}
+        if (key.equals("TransactionError")) {
+            String val = (String) value;
+            if (val.startsWith("ERR")) {
+                displayErrorMessage(val);
+            } else {
+                displayMessage(val);
+            }
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * Display error message
-	 */
-	//----------------------------------------------------------
-	public void displayErrorMessage(String message)
-	{
-		statusLog.displayErrorMessage(message);
-	}
+    /**
+     * Display error message
+     */
+    //----------------------------------------------------------
+    public void displayErrorMessage(String message) {
+        statusLog.displayErrorMessage(message);
+    }
 
-	/**
-	 * Display info message
-	 */
-	//----------------------------------------------------------
-	public void displayMessage(String message)
-	{
-		statusLog.displayMessage(message);
-	}
+    /**
+     * Display info message
+     */
+    //----------------------------------------------------------
+    public void displayMessage(String message) {
+        statusLog.displayMessage(message);
+    }
 
-	/**
-	 * Clear error message
-	 */
-	//----------------------------------------------------------
-	public void clearErrorMessage()
-	{
-		statusLog.clearErrorMessage();
-	}
+    /**
+     * Clear error message
+     */
+    //----------------------------------------------------------
+    public void clearErrorMessage() {
+        statusLog.clearErrorMessage();
+    }
 
 }
 

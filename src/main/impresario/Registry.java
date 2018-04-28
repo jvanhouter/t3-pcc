@@ -16,25 +16,22 @@
 //
 //*************************************************************
 
-/** @author		$Author: smitra $ */
-/** @version	$Revision: 1.12 $ */
+/**
+ * @author $Author: smitra $  @version	$Revision: 1.12 $
+ */
+/** @version $Revision: 1.12 $ */
 
 // specify the package
 package impresario;
 
 // system imports
+
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Properties;
 
 // project imports
-import common.PropertyFile;
-import common.StringList;
 
-import event.Event;
-
-/** 
+/**
  * This class is used to instantiate the object that is encapsulated
  * by every EasyObserver client in order to keep track of which control
  * subscribes to which key and which keys depend on which other keys.
@@ -43,116 +40,102 @@ import event.Event;
  * the keys that depend on the key on which the state change is posted.
  */
 //==============================================================
-public abstract class Registry
-{
+public abstract class Registry {
     // data members
     /** A list of subscribers for each key of interest */
-	protected Hashtable mySubscribers;
-	protected String myClassName;
-		
+    protected Hashtable mySubscribers;
+    protected String myClassName;
 
-	// Class constructor
-	//----------------------------------------------------------
-	public Registry(String classname) 	// the name of the class that contains this Registry, debug only
-	{
-		myClassName = classname;	// remember our classname for debug messages
 
-		// create an object to hold our subscriber list
-		mySubscribers = new Hashtable();
+    // Class constructor
+    //----------------------------------------------------------
+    public Registry(String classname)    // the name of the class that contains this Registry, debug only
+    {
+        myClassName = classname;    // remember our classname for debug messages
 
-	}
-		
+        // create an object to hold our subscriber list
+        mySubscribers = new Hashtable();
 
-	/** 
-	 * Method that is used to associate (subscribe) a particular object (Model, View) to a key. 
-	 * After this method executes, the Registry object knows that the subscriber object 
-	 * is associated with the key, and when an update to the key must be invoked, the subscriber
-	 * object is one of the actual objects whose update method must be called
-	 *
-	 * @param	key		String indicating key to which the subscriber object wants to subscribe
-	 *
-	 * @param	subscriber	Object that wishes to subscribe to the key
-	 */
-	//----------------------------------------------------------
-	public void subscribe(String key, Object subscriber)
-	{
-		// debug only, doesn't need translation
-		// DEBUG: if (key.equals("dbDateDue")) System.out.println("Registry.subscribe - (" + key + ", " + subscriber.getClass() + ")");		
-		
-		if(mySubscribers.containsKey(key) == true)
-		{
-			// pull the current object and see if it's a Vector
-			Object tempObj = mySubscribers.get(key);
-			if(tempObj instanceof Vector)
-			{
-				// SANDEEP: FIRST CHECK IF subscriber IS ALREADY IN THIS Vector. IF SO, DON'T ADD subscriber
-				// add this object to the existing list - i.e.,
-				// if (((Vector)tempObj).contains(subcriber) == false)
-				((Vector)tempObj).addElement(subscriber);
-			}
-			else // if not a Vector, must be a single subscriber so convert to a list
-			{
-				// SANDEEP: FIRST CHECK IF subscriber AND tempObj ARE THE SAME. IF SO, DON'T ADD subscriber  
-				// create a new vector to hold our subscriber list
-				Vector tempVector = new Vector();
-				// add the original subscriber and the new one
-				tempVector.addElement(tempObj);
-				tempVector.addElement(subscriber);
-				
-				// remove the original key and subscriber from the hashtable
-				mySubscribers.remove(key);
-				mySubscribers.put(key, tempVector);
-			}
-		}
-		else
-		{
-			// install as a single subscriber if not a Vector
-			if (subscriber instanceof Vector)
-			{
-				// create a new vector to hold our subscriber list
-				Vector tempVector = new Vector();
-				tempVector.addElement(subscriber);
-				mySubscribers.put(key, tempVector);
-					
-			}
-			else
-			{
-				mySubscribers.put(key, subscriber);
-			}
-		}
-	}
-	
+    }
 
-	/** 
-	 * Unassociate the subscriber object from the key
-	 *
-	 * @param	key		Key value to unassociate from subscriber
-	 *
-	 * @param	subscriber	Model or View to unassociate from key
-	 */
-	//----------------------------------------------------------
-	public void unSubscribe(String key, Object subscriber)
-	{
-		// debug only, doesn't need translation
+
+    /**
+     * Method that is used to associate (subscribe) a particular object (Model, View) to a key.
+     * After this method executes, the Registry object knows that the subscriber object
+     * is associated with the key, and when an update to the key must be invoked, the subscriber
+     * object is one of the actual objects whose update method must be called
+     *
+     * @param    key        String indicating key to which the subscriber object wants to subscribe
+     *
+     * @param    subscriber    Object that wishes to subscribe to the key
+     */
+    //----------------------------------------------------------
+    public void subscribe(String key, Object subscriber) {
+        // debug only, doesn't need translation
+        // DEBUG: if (key.equals("dbDateDue")) System.out.println("Registry.subscribe - (" + key + ", " + subscriber.getClass() + ")");
+
+        if (mySubscribers.containsKey(key) == true) {
+            // pull the current object and see if it's a Vector
+            Object tempObj = mySubscribers.get(key);
+            if (tempObj instanceof Vector) {
+                // SANDEEP: FIRST CHECK IF subscriber IS ALREADY IN THIS Vector. IF SO, DON'T ADD subscriber
+                // add this object to the existing list - i.e.,
+                // if (((Vector)tempObj).contains(subcriber) == false)
+                ((Vector) tempObj).addElement(subscriber);
+            } else // if not a Vector, must be a single subscriber so convert to a list
+            {
+                // SANDEEP: FIRST CHECK IF subscriber AND tempObj ARE THE SAME. IF SO, DON'T ADD subscriber
+                // create a new vector to hold our subscriber list
+                Vector tempVector = new Vector();
+                // add the original subscriber and the new one
+                tempVector.addElement(tempObj);
+                tempVector.addElement(subscriber);
+
+                // remove the original key and subscriber from the hashtable
+                mySubscribers.remove(key);
+                mySubscribers.put(key, tempVector);
+            }
+        } else {
+            // install as a single subscriber if not a Vector
+            if (subscriber instanceof Vector) {
+                // create a new vector to hold our subscriber list
+                Vector tempVector = new Vector();
+                tempVector.addElement(subscriber);
+                mySubscribers.put(key, tempVector);
+
+            } else {
+                mySubscribers.put(key, subscriber);
+            }
+        }
+    }
+
+
+    /**
+     * Unassociate the subscriber object from the key
+     *
+     * @param    key        Key value to unassociate from subscriber
+     *
+     * @param    subscriber    Model or View to unassociate from key
+     */
+    //----------------------------------------------------------
+    public void unSubscribe(String key, Object subscriber) {
+        // debug only, doesn't need translation
 //		new Event(Event.getLeafLevelClassName(this), "unSubscribe", "Unsubscribe key " + key + " for " + subscriber.getClass(), Event.DEBUG);
 
-		// make sure this is a valid request
-		if(mySubscribers.containsKey(key) == true)
-		{
-			// pull the current object and see if it's a Vector
-			Object tempObj = mySubscribers.get(key);
-			if(tempObj instanceof Vector)
-			{
-				// remove this object from the existing list
-				((Vector)tempObj).removeElement(subscriber);
-			}
-			else // if not a Vector, must be a single subscriber so just remove it
-			{
-				// remove the original key and subscriber from the hashtable
-				mySubscribers.remove(key);
-			}
-		}
-	}
+        // make sure this is a valid request
+        if (mySubscribers.containsKey(key) == true) {
+            // pull the current object and see if it's a Vector
+            Object tempObj = mySubscribers.get(key);
+            if (tempObj instanceof Vector) {
+                // remove this object from the existing list
+                ((Vector) tempObj).removeElement(subscriber);
+            } else // if not a Vector, must be a single subscriber so just remove it
+            {
+                // remove the original key and subscriber from the hashtable
+                mySubscribers.remove(key);
+            }
+        }
+    }
 
 }
 

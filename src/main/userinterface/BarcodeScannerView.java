@@ -3,6 +3,7 @@ package userinterface;
 
 // system imports
 
+import Utilities.UiConstants;
 import impresario.IModel;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -12,17 +13,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.util.Properties;
-import Utilities.UiConstants;
 // project imports
 
 /**
@@ -158,11 +156,9 @@ public class BarcodeScannerView extends View {
                 displayMessage(val);
             }
 
-        }
-        else if(key.equals("HandleBarcodeProblems"))
-        {
-            String val = (String)myModel.getState("BarcodeError");
-            String barcodeError = "The clothing item associated with barcode "+ val + " This clothing item will not be added to the checkout cart.";
+        } else if (key.equals("HandleBarcodeProblems")) {
+            String val = (String) myModel.getState("BarcodeError");
+            String barcodeError = "The clothing item associated with barcode " + val + " This clothing item will not be added to the checkout cart.";
             Alert alert = new Alert(Alert.AlertType.ERROR, barcodeError);
             alert.setTitle("Barcode Error");
             alert.setHeaderText("There is a problem with the item you wish to checkout.");

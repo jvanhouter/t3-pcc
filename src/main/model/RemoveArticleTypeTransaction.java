@@ -2,23 +2,19 @@ package model;
 
 import Utilities.Utilities;
 import event.Event;
-import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
+import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 import java.util.Properties;
-import java.util.Vector;
 
 
-
-/** The class containing the RemoveArticleTypeTransaction for the Professional Clothes Closet application */
+/**
+ * The class containing the RemoveArticleTypeTransaction for the Professional Clothes Closet application
+ */
 
 //==============================================================
-public class RemoveArticleTypeTransaction extends Transaction
-{
+public class RemoveArticleTypeTransaction extends Transaction {
 
     private ArticleTypeCollection myArticleTypeList;
     private ArticleType mySelectedArticleType;
@@ -30,17 +26,14 @@ public class RemoveArticleTypeTransaction extends Transaction
 
     /**
      * Constructor for this class.
-     *
      */
 
-    public RemoveArticleTypeTransaction() throws Exception
-    {
+    public RemoveArticleTypeTransaction() throws Exception {
         super();
     }
 
 
-    protected void setDependencies()
-    {
+    protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchArticleType", "CancelTransaction");
         dependencies.setProperty("RemoveArticleType", "TransactionError");
@@ -52,27 +45,20 @@ public class RemoveArticleTypeTransaction extends Transaction
      * This method encapsulates all the logic of creating the article type collection and showing the view
      */
 
-    public void processTransaction(Properties props)
-    {
+    public void processTransaction(Properties props) {
         myArticleTypeList = new ArticleTypeCollection();
-        if (props.getProperty("BarcodePrefix") != null)
-        {
+        if (props.getProperty("BarcodePrefix") != null) {
             String barcodePrefix = props.getProperty("BarcodePrefix");
             myArticleTypeList.findByBarcodePrefix(barcodePrefix);
-        }
-        else
-        {
+        } else {
             String desc = props.getProperty("Description");
             String alfaC = props.getProperty("AlphaCode");
             myArticleTypeList.findByCriteria(desc, alfaC);
         }
-        try
-        {
+        try {
             Scene newScene = createArticleTypeCollectionView();
             swapToView(newScene);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             new Event(Event.getLeafLevelClassName(this), "processTransaction",
                     "Error in creating ArticleTypeCollectionView", Event.ERROR);
         }
@@ -83,50 +69,35 @@ public class RemoveArticleTypeTransaction extends Transaction
      * verifying the new barcode, etc.
      */
 
-    private void processArticleTypeRemoval()
-    {
-        if(mySelectedArticleType != null) {
+    private void processArticleTypeRemoval() {
+        if (mySelectedArticleType != null) {
             mySelectedArticleType.stateChangeRequest("Status", "Inactive");
             mySelectedArticleType.update();
             Utilities.removeArticleHashData((String) mySelectedArticleType.getState("ID"));
-            transactionErrorMessage = (String)mySelectedArticleType.getState("UpdateStatusMessage");
+            transactionErrorMessage = (String) mySelectedArticleType.getState("UpdateStatusMessage");
         }
     }
 
 
-    public Object getState(String key)
-    {
-        if (key.equals("ArticleTypeList") )
-        {
+    public Object getState(String key) {
+        if (key.equals("ArticleTypeList")) {
             return myArticleTypeList;
-        }
-        else
-        if (key.equals("BarcodePrefix") )
-        {
+        } else if (key.equals("BarcodePrefix")) {
             if (mySelectedArticleType != null)
                 return mySelectedArticleType.getState("BarcodePrefix");
             else
                 return "";
-        }
-        else
-        if (key.equals("Description") )
-        {
+        } else if (key.equals("Description")) {
             if (mySelectedArticleType != null)
                 return mySelectedArticleType.getState("Description");
             else
                 return "";
-        }
-        else
-        if (key.equals("AlphaCode") )
-        {
+        } else if (key.equals("AlphaCode")) {
             if (mySelectedArticleType != null)
                 return mySelectedArticleType.getState("AlphaCode");
             else
                 return "";
-        }
-        else
-        if (key.equals("TransactionError") )
-        {
+        } else if (key.equals("TransactionError")) {
             return transactionErrorMessage;
         }
 
@@ -134,39 +105,26 @@ public class RemoveArticleTypeTransaction extends Transaction
     }
 
 
-    public void stateChangeRequest(String key, Object value)
-    {
+    public void stateChangeRequest(String key, Object value) {
         // DEBUG System.out.println("RemoveArticleTypeTransaction.sCR: key: " + key);
 
-        if ((key.equals("DoYourJob") ) || (key.equals("CancelArticleTypeList")|| (key.equals("CancelRemoveAT"))))
-        {
+        if ((key.equals("DoYourJob")) || (key.equals("CancelArticleTypeList") || (key.equals("CancelRemoveAT")))) {
             doYourJob();
-        }
-        else
-        if (key.equals("SearchArticleType") )
-        {
-            processTransaction((Properties)value);
-        }
-        else
-        if (key.equals("ArticleTypeSelected") )
-        {
-            mySelectedArticleType = myArticleTypeList.retrieve((String)value);
-            try
-            {
+        } else if (key.equals("SearchArticleType")) {
+            processTransaction((Properties) value);
+        } else if (key.equals("ArticleTypeSelected")) {
+            mySelectedArticleType = myArticleTypeList.retrieve((String) value);
+            try {
 
                 Scene newScene = createRemoveArticleTypeView();
 
                 swapToView(newScene);
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Error in creating RemoveArticleTypeView", Event.ERROR);
             }
-        }
-        else
-        if (key.equals("RemoveArticleType") ) {
+        } else if (key.equals("RemoveArticleType")) {
             processArticleTypeRemoval();
         }
         myRegistry.updateSubscribers(key, this);
@@ -177,21 +135,17 @@ public class RemoveArticleTypeTransaction extends Transaction
      * swapToView() to display the view in the frame
      */
 
-    protected Scene createView()
-    {
+    protected Scene createView() {
         Scene currentScene = myViews.get("SearchArticleTypeView");
 
-        if (currentScene == null)
-        {
+        if (currentScene == null) {
             // create our initial view
             View newView = ViewFactory.createView("SearchArticleTypeView", this);
             currentScene = new Scene(newView);
             myViews.put("SearchArticleTypeView", currentScene);
 
             return currentScene;
-        }
-        else
-        {
+        } else {
             return currentScene;
         }
     }
@@ -200,8 +154,7 @@ public class RemoveArticleTypeTransaction extends Transaction
      * Create the view containing the table of all matching article types on the search criteria sents
      */
 
-    protected Scene createArticleTypeCollectionView()
-    {
+    protected Scene createArticleTypeCollectionView() {
         View newView = ViewFactory.createView("ArticleTypeCollectionView", this);
         Scene currentScene = new Scene(newView);
 
@@ -213,8 +166,7 @@ public class RemoveArticleTypeTransaction extends Transaction
      * Create the view using which data about selected article type can be modified
      */
 
-    protected Scene createRemoveArticleTypeView()
-    {
+    protected Scene createRemoveArticleTypeView() {
         View newView = ViewFactory.createView("RemoveArticleTypeView", this);
         Scene currentScene = new Scene(newView);
 

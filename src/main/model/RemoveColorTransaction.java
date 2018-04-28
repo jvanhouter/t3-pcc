@@ -4,21 +4,18 @@ package model;
 // system imports
 
 import Utilities.Utilities;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import java.util.Properties;
-import java.util.Vector;
-
-// project imports
 import event.Event;
-import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
-
-
+import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-/** The class containing the RemoveColorTransaction for the Professional Clothes Closet application */
+import java.util.Properties;
+
+// project imports
+
+/**
+ * The class containing the RemoveColorTransaction for the Professional Clothes Closet application
+ */
 //==============================================================
 public class RemoveColorTransaction extends Transaction {
 
@@ -56,12 +53,11 @@ public class RemoveColorTransaction extends Transaction {
 
     public void processTransaction(Properties props) {
         myColorList = new ColorCollection();
-		String desc = props.getProperty("Description");
-		String alfaC = props.getProperty("AlphaCode");
-		myColorList.findByCriteria(desc, alfaC);
-        
-        try
-        {
+        String desc = props.getProperty("Description");
+        String alfaC = props.getProperty("AlphaCode");
+        myColorList.findByCriteria(desc, alfaC);
+
+        try {
             Scene newScene = createColorCollectionView();
             swapToView(newScene);
         } catch (Exception ex) {
@@ -71,45 +67,32 @@ public class RemoveColorTransaction extends Transaction {
 
     }
 
-    private void processColorRemoval()
-    {
-        if(mySelectedColor != null) {
+    private void processColorRemoval() {
+        if (mySelectedColor != null) {
             mySelectedColor.stateChangeRequest("Status", "Inactive");
             mySelectedColor.update();
             Utilities.removeColorHashData((String) mySelectedColor.getState("ID"));
-            transactionErrorMessage = (String)mySelectedColor.getState("UpdateStatusMessage");
+            transactionErrorMessage = (String) mySelectedColor.getState("UpdateStatusMessage");
         }
     }
 
 
-
     public Object getState(String key) {
-        if (key.equals("TransactionError") ) {
+        if (key.equals("TransactionError")) {
             return transactionErrorMessage;
-        } 
-		else
-		if (key.equals("ColorList") ) {
-			return myColorList;
-		}
-		else
-        if (key.equals("BarcodePrefix") )
-        {
+        } else if (key.equals("ColorList")) {
+            return myColorList;
+        } else if (key.equals("BarcodePrefix")) {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("BarcodePrefix");
             else
                 return "";
-        }
-        else
-        if (key.equals("Description") )
-        {
+        } else if (key.equals("Description")) {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("Description");
             else
                 return "";
-        }
-        else
-        if (key.equals("AlphaCode") )
-        {
+        } else if (key.equals("AlphaCode")) {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("AlphaCode");
             else
@@ -121,36 +104,23 @@ public class RemoveColorTransaction extends Transaction {
 
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") ) || (key.equals("CancelColorList") || (key.equals("CancelRemoveCT"))))
-        {
+        if ((key.equals("DoYourJob")) || (key.equals("CancelColorList") || (key.equals("CancelRemoveCT")))) {
             doYourJob();
-        }
-        else
-        if (key.equals("SearchColor") )
-        {
-            processTransaction((Properties)value);
-        }
-        else
-        if (key.equals("ColorSelected") )
-        {
-            mySelectedColor = myColorList.retrieve((String)value);
-            try
-            {
+        } else if (key.equals("SearchColor")) {
+            processTransaction((Properties) value);
+        } else if (key.equals("ColorSelected")) {
+            mySelectedColor = myColorList.retrieve((String) value);
+            try {
 
                 Scene newScene = createRemoveColorView();
 
                 swapToView(newScene);
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Error in creating RemoveColorView", Event.ERROR);
             }
-        }
-        else
-        if (key.equals("RemoveColor") )
-        {
+        } else if (key.equals("RemoveColor")) {
             processColorRemoval();
         }
 
@@ -184,7 +154,6 @@ public class RemoveColorTransaction extends Transaction {
         return currentScene;
 
     }
-
 
 
     protected Scene createRemoveColorView() {
