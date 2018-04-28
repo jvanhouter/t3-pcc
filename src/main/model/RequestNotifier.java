@@ -66,11 +66,14 @@ public class RequestNotifier
         while(iter.hasNext()) {
             Map.Entry pair = (Map.Entry) iter.next();
             ClothingItem ci = (ClothingItem) pair.getValue();
-            if (((String) ci.getState("Gender")).equals(gender) || ((String) ci.getState("Gender")).equals("Unisex")) {
-                if (size.equals("" + UiConstants.GENERIC_SIZE) || ((String) ci.getState("Size")).equals(size) || ((String) ci.getState("Size")).equals("" + UiConstants.GENERIC_SIZE)) {
-                    if (((String) ci.getState("ArticleType")).equals(articleType)) {
-                        //System.out.println("Success! " + gender + " and " + size + " and " + articleType);
-                        return true;
+            if(ci.getState("Status").equals("Donated")) {
+                if (((String) ci.getState("Gender")).equals(gender) || ((String) ci.getState("Gender")).equals("Unisex")) {
+                    if (size.equals("" + UiConstants.GENERIC_SIZE) || ((String) ci.getState("Size")).equals(size) || ((String) ci.getState("Size")).equals("" + UiConstants.GENERIC_SIZE)) {
+                        if (((String) ci.getState("ArticleType")).equals(articleType)) {
+                           // System.out.println("Success! " + gender + " and " + size + " and " + articleType);
+                            //System.out.println("CI: " + ci.getState("Gender") + " and " + ci.getState("Size") + " and " + ci.getState("ArticleType"));
+                            return true;
+                        }
                     }
                 }
             }

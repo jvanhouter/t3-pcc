@@ -94,6 +94,7 @@ public class ClothingItemCollection extends EntityBase implements IView {
             }
             query = Utilities.replaceLast("AND", " AND Status='Donated';", query);
         }
+        //System.out.println(query);
         populateCollectionHelper(query);
     }
 
