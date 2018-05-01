@@ -5,10 +5,15 @@
 import Utilities.Utilities;
 import event.Event;
 import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import model.Receptionist;
 import userinterface.MainStageContainer;
 import userinterface.WindowPosition;
+
+import java.io.File;
 
 // project imports
 
@@ -51,10 +56,12 @@ public class Closet extends Application {
         Utilities.collectClothingHash();
         Utilities.collectClothingRequestHash();
 
+
+
         // Create the top-level container (main frame) and add contents to it.
         MainStageContainer.setStage(primaryStage, "Brockport Professional Clothes Closet Version 1.00");
         mainStage = MainStageContainer.getInstance();
-
+        mainStage.getIcons().add(new Image("grandleader.png"));
         // Finish setting up the stage (ENABLE THE GUI TO BE CLOSED USING THE TOP RIGHT
         // 'X' IN THE WINDOW), and show it.
         mainStage.setOnCloseRequest(event -> System.exit(0));
