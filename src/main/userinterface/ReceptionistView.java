@@ -7,6 +7,9 @@ import impresario.IModel;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -14,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import model.ClothingRequest;
+import model.PccAlert;
 import model.RequestNotifier;
 
 import java.util.Vector;
@@ -171,7 +175,7 @@ public class ReceptionistView extends View {
         logRequestButton.setOnAction(e -> myModel.stateChangeRequest("LogRequest", null));
 
         fulfillRequestButton = new PccButton("Fulfill");
-        fulfillRequestButton.setOnAction(e -> myModel.stateChangeRequest("FulfillRequest", null));
+        fulfillRequestButton.setOnAction(e -> processAction());
 
         removeRequestButton = new PccButton("Remove");
         removeRequestButton.setOnAction(e -> myModel.stateChangeRequest("RemoveRequest", null));
@@ -220,7 +224,25 @@ public class ReceptionistView extends View {
         }
     }
 
-
+    private void processAction() {
+        Vector<ClothingRequest> myRequests = (Vector<ClothingRequest>) myModel.getState("Requests");
+        if(myRequests.size() > 0) {
+            PccAlert myAlert = PccAlert.getInstance();
+            myAlert.getInstance().setAlertType(Alert.AlertType.CONFIRMATION);
+            myAlert.getInstance().setHeaderText("Message");
+            myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Info");
+            myAlert.getInstance().setContentText("You have " + ((Vector<ClothingRequest>) myModel.getState("Requests")).size() + " requests pending to be fulfilled.\nWould you like to view them?");
+            ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+            myAlert.getInstance().getButtonTypes().setAll(yesButton, noButton);
+            myAlert.getInstance().showAndWait().ifPresent(type -> {
+                if (type.getText() == "Yes") {
+                    myModel.stateChangeRequest("FulfillRequestSpecific", myRequests);
+                } else
+                    myModel.stateChangeRequest("FulfillRequest", null);
+            });
+        }
+    }
 
     public void updateState(String key, Object value) {
         if (key.equals("TransactionError")) {

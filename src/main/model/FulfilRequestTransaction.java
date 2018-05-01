@@ -12,6 +12,7 @@ import userinterface.ViewFactory;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Vector;
 
 // project imports
 
@@ -64,6 +65,12 @@ public class FulfilRequestTransaction extends Transaction {
     //----------------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelTransaction") == true)) {
+            myRequestCollection = new RequestCollection();
+            if(value != null) {
+                myRequestCollection.setRequests((Vector<ClothingRequest>) value);
+            } else {
+                myRequestCollection.findAll();
+            }
             doYourJob();
         } else if (key.equals("SearchRequest") == true) {
             processTransaction((Properties) value);
@@ -142,9 +149,6 @@ public class FulfilRequestTransaction extends Transaction {
 
     //-------------------------------------------------------------
     protected Scene createView() {
-        // placed it here since the collection is drawn from step 2 of the use case
-        myRequestCollection = new RequestCollection();
-        myRequestCollection.findAll();
 
         Scene currentScene = myViews.get("RequestCollectionView");
 

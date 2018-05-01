@@ -24,9 +24,6 @@ import java.util.Properties;
 public class LogRequestTransaction extends Transaction {
 
     private ClothingRequest myClothingRequest;
-
-    private ArticleTypeCollection myArticleTypeList;
-    private ColorCollection myColorList;
     private String gender = "";
 
     // GUI Components
@@ -39,10 +36,6 @@ public class LogRequestTransaction extends Transaction {
     //----------------------------------------------------------
     public LogRequestTransaction() throws Exception {
         super();
-        myArticleTypeList = new ArticleTypeCollection();
-        myArticleTypeList.findAll();
-        myColorList = new ColorCollection();
-        myColorList.findAll();
     }
 
     //----------------------------------------------------------
@@ -131,10 +124,6 @@ public class LogRequestTransaction extends Transaction {
             return transactionErrorMessage;
         } else if (key.equals("Gender")) {
             return gender;
-        } else if (key.equals("Articles")) {
-            return myArticleTypeList.retrieveAll();
-        } else if (key.equals("Colors")) {
-            return myColorList.retrieveAll();
         }
 
 

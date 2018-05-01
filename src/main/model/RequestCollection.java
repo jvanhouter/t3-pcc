@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 import javafx.scene.Scene;
@@ -216,6 +217,16 @@ public class RequestCollection  extends EntityBase implements IView
         }
 
         return retValue;
+    }
+
+    //----------------------------------------------------------
+    public void setRequests(Vector<ClothingRequest> cr) {
+        Iterator iter = cr.iterator();
+        if(requests == null) requests = new Vector<>();
+        requests.clear();
+        while(iter.hasNext()) {
+            requests.add((ClothingRequest) iter.next());
+        }
     }
 
     /** Called via the IView relationship *

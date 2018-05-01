@@ -113,6 +113,23 @@ public class Receptionist implements IView, IModel
             transType = transType.trim();
 
             doTransaction(transType);
+        } else if (key.equals("FulfillRequestSpecific")) {
+            String transType = "FulfillRequest";
+
+            transType = transType.trim();
+
+            try {
+                Transaction trans = TransactionFactory.createTransaction(
+                        transType);
+
+                trans.subscribe("CancelTransaction", this);
+                trans.stateChangeRequest("DoYourJob", value);
+            } catch (Exception ex) {
+                transactionErrorMessage = "FATAL ERROR: TRANSACTION FAILURE: Unrecognized transaction!!";
+                new Event(Event.getLeafLevelClassName(this), "createTransaction",
+                        "Transaction Creation Failure: Unrecognized transaction " + ex.toString(),
+                        Event.ERROR);
+            }
         }
 
         myRegistry.updateSubscribers(key, this);
@@ -140,7 +157,7 @@ public class Receptionist implements IView, IModel
                     transactionType);
 
             trans.subscribe("CancelTransaction", this);
-            trans.stateChangeRequest("DoYourJob", "");
+            trans.stateChangeRequest("DoYourJob", null);
         } catch (Exception ex) {
             transactionErrorMessage = "FATAL ERROR: TRANSACTION FAILURE: Unrecognized transaction!!";
             new Event(Event.getLeafLevelClassName(this), "createTransaction",

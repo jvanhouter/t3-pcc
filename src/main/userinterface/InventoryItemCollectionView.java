@@ -2,6 +2,7 @@ package userinterface;
 
 // system imports
 
+import Utilities.UiConstants;
 import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -86,6 +87,8 @@ public class InventoryItemCollectionView extends View {
 
                     // add this list entry to the list
                     InventoryTableModel nextTableRowData = new InventoryTableModel(view);
+                    if(nextTableRowData.getSize().equals("" + UiConstants.GENERIC_SIZE))
+                        nextTableRowData.setSize("");
                     tableData.add(nextTableRowData);
 
                 }
@@ -382,6 +385,8 @@ public class InventoryItemCollectionView extends View {
 
                     // add this list entry to the list
                     InventoryTableModel nextTableRowData = new InventoryTableModel(view);
+                    if(nextTableRowData.getSize().equals("" + UiConstants.GENERIC_SIZE))
+                        nextTableRowData.setSize("");
                     valuesLine.append(nextTableRowData.getBarcode() + ", " +
                             nextTableRowData.getGender() + ", " +
                             nextTableRowData.getSize() + ", " +
