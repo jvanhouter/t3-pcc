@@ -106,30 +106,15 @@ public class Receptionist implements IView, IModel
                 (key.equals("AddClothingItem")) || (key.equals("ModifyClothingItem")) ||
                 (key.equals("RemoveClothingItem")) || (key.equals("CheckoutClothingItem")) ||
                 (key.equals("LogRequest")) || (key.equals("FulfillRequest")) ||
-                (key.equals("RemoveRequest")) || (key.equals("ListAvailableInventory"))
+                (key.equals("RemoveRequest")) || (key.equals("ListAvailableInventory") || (key.equals("FulfillRequestSpecific")))
                 ) {
+            if(key.equals("FulfillRequestSpecific"))
+                key = "FulfillRequest";
             String transType = key;
 
             transType = transType.trim();
 
-            doTransaction(transType);
-        } else if (key.equals("FulfillRequestSpecific")) {
-            String transType = "FulfillRequest";
-
-            transType = transType.trim();
-
-            try {
-                Transaction trans = TransactionFactory.createTransaction(
-                        transType);
-
-                trans.subscribe("CancelTransaction", this);
-                trans.stateChangeRequest("DoYourJob", value);
-            } catch (Exception ex) {
-                transactionErrorMessage = "FATAL ERROR: TRANSACTION FAILURE: Unrecognized transaction!!";
-                new Event(Event.getLeafLevelClassName(this), "createTransaction",
-                        "Transaction Creation Failure: Unrecognized transaction " + ex.toString(),
-                        Event.ERROR);
-            }
+            doTransaction(transType, value);
         }
 
         myRegistry.updateSubscribers(key, this);
@@ -151,13 +136,13 @@ public class Receptionist implements IView, IModel
      * create.
      */
     //----------------------------------------------------------
-    public void doTransaction(String transactionType) {
+    public void doTransaction(String transactionType, Object value) {
         try {
             Transaction trans = TransactionFactory.createTransaction(
                     transactionType);
 
             trans.subscribe("CancelTransaction", this);
-            trans.stateChangeRequest("DoYourJob", null);
+            trans.stateChangeRequest("DoYourJob", value);
         } catch (Exception ex) {
             transactionErrorMessage = "FATAL ERROR: TRANSACTION FAILURE: Unrecognized transaction!!";
             new Event(Event.getLeafLevelClassName(this), "createTransaction",
