@@ -185,36 +185,36 @@ public class CheckoutHelperView extends View {
         donorEmailColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("donorEmail"));
 
-        TableColumn receiverNetIdColumn = new TableColumn("Receiver Net ID");
-        receiverNetIdColumn.setMinWidth(50);
-        receiverNetIdColumn.setCellValueFactory(
-                new PropertyValueFactory<InventoryTableModel, String>("receiverNetId"));
-
-        TableColumn receiverFirstNameColumn = new TableColumn("Receiver First Name");
-        receiverFirstNameColumn.setMinWidth(50);
-        receiverFirstNameColumn.setCellValueFactory(
-                new PropertyValueFactory<InventoryTableModel, String>("receiverFirstName"));
-
-        TableColumn receiverLastNameColumn = new TableColumn("Receiver Last Name");
-        receiverLastNameColumn.setMinWidth(50);
-        receiverLastNameColumn.setCellValueFactory(
-                new PropertyValueFactory<InventoryTableModel, String>("receiverLastName"));
+//        TableColumn receiverNetIdColumn = new TableColumn("Receiver Net ID");
+//        receiverNetIdColumn.setMinWidth(50);
+//        receiverNetIdColumn.setCellValueFactory(
+//                new PropertyValueFactory<InventoryTableModel, String>("receiverNetId"));
+//
+//        TableColumn receiverFirstNameColumn = new TableColumn("Receiver First Name");
+//        receiverFirstNameColumn.setMinWidth(50);
+//        receiverFirstNameColumn.setCellValueFactory(
+//                new PropertyValueFactory<InventoryTableModel, String>("receiverFirstName"));
+//
+//        TableColumn receiverLastNameColumn = new TableColumn("Receiver Last Name");
+//        receiverLastNameColumn.setMinWidth(50);
+//        receiverLastNameColumn.setCellValueFactory(
+//                new PropertyValueFactory<InventoryTableModel, String>("receiverLastName"));
 
         TableColumn dateDonatedColumn = new TableColumn("Date Donated");
         dateDonatedColumn.setMinWidth(50);
         dateDonatedColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("dateDonated"));
 
-        TableColumn dateTakenColumn = new TableColumn("Date Taken");
-        dateTakenColumn.setMinWidth(50);
-        dateTakenColumn.setCellValueFactory(
-                new PropertyValueFactory<InventoryTableModel, String>("dateTaken"));
+//        TableColumn dateTakenColumn = new TableColumn("Date Taken");
+//        dateTakenColumn.setMinWidth(50);
+//        dateTakenColumn.setCellValueFactory(
+//                new PropertyValueFactory<InventoryTableModel, String>("dateTaken"));
 
         InventoryTable.getColumns().addAll(barcodeColumn, genderColumn, sizeColumn,
                 articleTypeColumn, color1Column, color2Column, brandColumn, notesColumn, statusColumn,
                 donorLastNameColumn, donorFirstNameColumn, donorPhoneColumn, donorEmailColumn,
-                receiverNetIdColumn, receiverLastNameColumn, receiverFirstNameColumn,
-                dateDonatedColumn, dateTakenColumn);
+                /*receiverNetIdColumn, receiverLastNameColumn, receiverFirstNameColumn,*/
+                dateDonatedColumn/*, dateTakenColumn*/);
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(150, 150);
