@@ -115,7 +115,7 @@ public class ListInventoryFilterView extends View {
         {
             query = query + "AND (Status = '" + status.getValue() + "')";
         }
-            query = query + ";";
+        query = query + ";";
         myModel.stateChangeRequest("Filter", query);
 
     }

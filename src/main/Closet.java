@@ -171,7 +171,7 @@ public class Closet extends Application {
                 loadProgress.progressProperty().unbind();
                 loadProgress.setProgress(1);
                 initStage.toFront();
-                FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
+                FadeTransition fadeSplash = new FadeTransition(Duration.seconds(.2), splashLayout);
                 fadeSplash.setFromValue(1.0);
                 fadeSplash.setToValue(0.0);
                 fadeSplash.setOnFinished(actionEvent -> initStage.hide());
@@ -196,3 +196,26 @@ public class Closet extends Application {
     }
 
 }
+
+/* Future Development Notes.
+ * Functionality notes on splash screen by Kyle Darling (2018)
+ *
+ * Description: Functionality regarding the Splash Screen enacts the
+ * screen on its own separate thread in order to work asynchronously
+ * with the developing backend processes on going.
+ * These processes are regarded to the hash maps to increase the
+ * speed of the program immensely all the while running on a single host
+ * machine. Later efforts may yield a thread that enacts a query
+ * pool in order to make up for connection loss or enable synchronous
+ * behaviour among many machines using the software.
+ *
+ * Splash Screen Development: The Splash Screen requires a task to be
+ * created in order for the splash screen to track any progress being done.
+ * The separate thread is also created for the asynchronous behaviour at hand.
+ *
+ * Any additional additions are advised to be placed within the Task rather than
+ * anywhere else in the program. This allows for better management and the
+ * updateProgress will keep track of itself if given the proper parameters if
+ * developing a loop, else a static instance is needed for both parameters
+ * throughout the loading process, like above.
+ */

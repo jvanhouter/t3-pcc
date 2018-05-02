@@ -6,6 +6,8 @@ package Utilities;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import model.*;
 
 import java.text.ParseException;
@@ -51,14 +53,6 @@ public class Utilities {
     //----------------------------------------------------------
     public static HashMap<String, ClothingRequest> collectClothingRequestHash() {
         if (clothingRequestHash == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Preparing clothing request...");
-            alert.setHeaderText("Loading...");
-            alert.setContentText("Please wait while Clothing Request is loaded.");
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.lookupButton(ButtonType.OK).setDisable(true);
-            dialogPane.lookupButton(ButtonType.OK).setVisible(false);
-            alert.show();
             clothingRequestHash = new HashMap<>();
             RequestCollection rq = new RequestCollection();
             rq.findAll();
@@ -71,7 +65,6 @@ public class Utilities {
                     clothingRequestHash.put((String) nextCI.getState("ID"), nextCI);
                 }
             }
-            alert.close();
         }
         return clothingRequestHash;
     }
@@ -79,14 +72,6 @@ public class Utilities {
     //----------------------------------------------------------
     public static HashMap<String, ClothingItem> collectClothingHash() {
         if (clothingHash == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Preparing clothing item...");
-            alert.setHeaderText("Loading...");
-            alert.setContentText("Please wait while ClothingItem is loaded.");
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.lookupButton(ButtonType.OK).setDisable(true);
-            dialogPane.lookupButton(ButtonType.OK).setVisible(false);
-            alert.show();
             clothingHash = new HashMap<>();
             ClothingItemCollection clothing = new ClothingItemCollection();
             clothing.findAll();
@@ -99,21 +84,12 @@ public class Utilities {
                     clothingHash.put((String) nextCI.getState("Barcode"), nextCI);
                 }
             }
-            alert.close();
         }
         return clothingHash;
     }
     //----------------------------------------------------------
     public static HashMap<String, Color> collectColorHash() {
         if (colorHash == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Preparing color...");
-            alert.setHeaderText("Loading...");
-            alert.setContentText("Please wait while Color is loaded.");
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.lookupButton(ButtonType.OK).setDisable(true);
-            dialogPane.lookupButton(ButtonType.OK).setVisible(false);
-            alert.show();
             colorHash = new HashMap<>();
             ColorCollection colors = new ColorCollection();
             colors.findAll();
@@ -126,22 +102,12 @@ public class Utilities {
                     colorHash.put((String) nextCT.getState("ID"), nextCT);
                 }
             }
-            alert.close();
         }
         return colorHash;
     }
     //----------------------------------------------------------
     public static HashMap<String, ArticleType> collectArticleTypeHash() {
         if (articleTypeHash == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Preparing article type...");
-            alert.setHeaderText("Loading...");
-            alert.setContentText("Please wait while Article Type is loaded.");
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.lookupButton(ButtonType.OK).setDisable(true);
-            dialogPane.lookupButton(ButtonType.OK).setVisible(false);
-
-            alert.show();
             articleTypeHash = new HashMap<>();
             ArticleTypeCollection atc = new ArticleTypeCollection();
             atc.findAll();
@@ -154,7 +120,6 @@ public class Utilities {
                     articleTypeHash.put((String) nextAT.getState("ID"), nextAT);
                 }
             }
-            alert.close();
         }
         return articleTypeHash;
     }
