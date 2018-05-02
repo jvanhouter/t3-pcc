@@ -75,8 +75,9 @@ public class AddClothingItemTransaction extends Transaction {
                 props.setProperty("DateDonated", date);
                 myClothingItem = new ClothingItem(props);
                 myClothingItem.update();
-                Utilities.putClothingHash((String) myClothingItem.getState("ID"), myClothingItem);
                 transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+                if(!transactionErrorMessage.toLowerCase().contains("error"))
+                    Utilities.putClothingHash((String) myClothingItem.getState("ID"), myClothingItem);
 
             } catch (Exception excep) {
                 transactionErrorMessage = "ERROR: Invalid barcode: " + barcode

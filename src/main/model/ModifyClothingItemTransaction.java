@@ -101,8 +101,9 @@ public class ModifyClothingItemTransaction extends Transaction {
             else
                 insertItem.stateChangeRequest("Size", props.getProperty("Size"));
             insertItem.update();
-            Utilities.putClothingHash((String) insertItem.getState("ID"), insertItem);
             transactionErrorMessage = (String) insertItem.getState("UpdateStatusMessage");
+            if(!transactionErrorMessage.toLowerCase().contains("error"))
+                Utilities.putClothingHash((String) insertItem.getState("ID"), insertItem);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -90,8 +90,9 @@ public class AddColorTransaction extends Transaction {
                             myColor = new Color(props);
                             myColor.update();
                             // set after update on error.
-                            Utilities.putColorHash((String) myColor.getState("ID"), myColor);
                             transactionErrorMessage = (String) myColor.getState("UpdateStatusMessage");
+                            if(!transactionErrorMessage.toLowerCase().contains("error"))
+                                Utilities.putColorHash((String) myColor.getState("ID"), myColor);
                         }
                     }
                 } catch (Exception excep) {

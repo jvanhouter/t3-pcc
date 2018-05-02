@@ -71,8 +71,9 @@ public class RemoveColorTransaction extends Transaction {
         if (mySelectedColor != null) {
             mySelectedColor.stateChangeRequest("Status", "Inactive");
             mySelectedColor.update();
-            Utilities.removeColorHashData((String) mySelectedColor.getState("ID"));
             transactionErrorMessage = (String) mySelectedColor.getState("UpdateStatusMessage");
+            if(!transactionErrorMessage.toLowerCase().contains("error"))
+                Utilities.removeColorHashData((String) mySelectedColor.getState("ID"));
         }
     }
 

@@ -72,8 +72,9 @@ public class RemoveClothingItemTransaction extends Transaction {
         if (mySelectedItem != null) {
             mySelectedItem.stateChangeRequest("Status", "Removed");
             mySelectedItem.update();
-            Utilities.removeClothingHash((String) mySelectedItem.getState("ID"));
             transactionErrorMessage = (String) mySelectedItem.getState("UpdateStatusMessage");
+            if(!transactionErrorMessage.toLowerCase().contains("error"))
+                Utilities.removeClothingHash((String) mySelectedItem.getState("ID"));
         }
     }
 

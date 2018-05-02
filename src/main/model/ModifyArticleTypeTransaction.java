@@ -90,8 +90,9 @@ public class ModifyArticleTypeTransaction extends Transaction {
                 mySelectedArticleType.stateChangeRequest("Description", descriptionOfAT);
                 mySelectedArticleType.stateChangeRequest("AlphaCode", alphaCode);
                 mySelectedArticleType.update();
-                Utilities.putArticleTypeHash((String) mySelectedArticleType.getState("ID"), mySelectedArticleType);
                 transactionErrorMessage = (String) mySelectedArticleType.getState("UpdateStatusMessage");
+                if(!transactionErrorMessage.toLowerCase().contains("error"))
+                    Utilities.putArticleTypeHash((String) mySelectedArticleType.getState("ID"), mySelectedArticleType);
             }
         }
     }

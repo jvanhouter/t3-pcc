@@ -81,8 +81,9 @@ public class ModifyColorTransaction extends Transaction {
                 mySelectedColor.stateChangeRequest("Description", descriptionOfCL);
                 mySelectedColor.stateChangeRequest("AlphaCode", alphaCode);
                 mySelectedColor.update();
-                Utilities.putColorHash((String) mySelectedColor.getState("ID"), mySelectedColor);
                 transactionErrorMessage = (String) mySelectedColor.getState("UpdateStatusMessage");
+                if(!transactionErrorMessage.toLowerCase().contains("error"))
+                    Utilities.putColorHash((String) mySelectedColor.getState("ID"), mySelectedColor);
             }
         }
     }

@@ -99,8 +99,9 @@ public class LogRequestTransaction extends Transaction {
 
                     myClothingRequest = new ClothingRequest(props);
                     myClothingRequest.update();
-                    Utilities.putClothingRequestHash((String) myClothingRequest.getState("ID"), myClothingRequest);
                     transactionErrorMessage = (String) myClothingRequest.getState("UpdateStatusMessage");
+                    if(!transactionErrorMessage.toLowerCase().contains("error"))
+                        Utilities.putClothingRequestHash((String) myClothingRequest.getState("ID"), myClothingRequest);
                 } catch (Exception excep) {
                     transactionErrorMessage = "ERROR: Invalid requester net id : " + netId
                             + "! Must be numerical.";
