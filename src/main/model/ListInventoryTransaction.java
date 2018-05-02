@@ -54,8 +54,19 @@ public class ListInventoryTransaction extends Transaction {
 
         if ((key.equals("DoYourJob"))) {
             doYourJob();
+        }else if (key.equals("Filter"))
+        {
+            processFilter((String) value);
         }
         myRegistry.updateSubscribers(key, this);
+    }
+
+    private void processFilter(String value)
+    {
+        myInvList = new InventoryItemCollection();
+        myInvList.findCustom(value);
+
+        switchToInventoryItemCollectionView();
     }
 
     /**
@@ -65,21 +76,29 @@ public class ListInventoryTransaction extends Transaction {
     //------------------------------------------------------
     protected Scene createView() {
 
-        myInvList = new InventoryItemCollection();
-        myInvList.findAll();
-
         Scene currentScene = null;
 
         if (currentScene == null) {
             // create our initial view
-            View newView = ViewFactory.createView("InventoryItemCollectionView", this);
+            View newView = ViewFactory.createView("ListInventoryFilterView", this);
             currentScene = new Scene(newView);
-            myViews.put("InventoryItemCollectionView", currentScene);
+            myViews.put("ListInventoryFilterView", currentScene);
 
             return currentScene;
         } else {
             return currentScene;
         }
+    }
+    protected Scene createInventoryItemCollectionView() {
+        View newView = ViewFactory.createView("InventoryItemCollectionView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+    }
+
+    private void switchToInventoryItemCollectionView() {
+        Scene newScene = createInventoryItemCollectionView();
+        swapToView(newScene);
     }
 }
 

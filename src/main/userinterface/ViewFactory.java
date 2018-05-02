@@ -54,6 +54,8 @@ public class ViewFactory {
             return new ReceiverRecentCheckoutView(model);
         } else if (viewName.equals("FulfillRequestView")) {
             return new FulfillRequestView(model);
+        } else if (viewName.equals("ListInventoryFilterView")) {
+            return new ListInventoryFilterView(model);
         } else
             return null;
     }

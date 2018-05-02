@@ -112,6 +112,10 @@ public class InventoryItemCollection extends EntityBase implements IView {
         populateCollectionHelper(query);
     }
 
+    public void findCustom(String query) {
+        populateCollectionHelper(query);
+    }
+
     public void findRecent(String netId) {
         Calendar currDate = Calendar.getInstance();
         currDate.add(Calendar.MONTH, -6);
