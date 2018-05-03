@@ -54,7 +54,7 @@ public class Closet extends Application {
      */
     private Stage mainStage;
 
-    private Image image = new Image("splash.jpg");
+    private Image image = new Image("pccSplash3.png");
     private ImageView SPLASH_IMAGE = new ImageView(image);
 
     private Pane splashLayout;
@@ -81,7 +81,7 @@ public class Closet extends Application {
         ImageView splash = SPLASH_IMAGE;
         loadProgress = new ProgressBar();
         loadProgress.setPrefWidth(SPLASH_WIDTH - 20);
-        progressText = new Label("Loading Hashmaps . . .");
+        progressText = new Label("Loading Assets . . .");
         splashLayout = new VBox();
         splashLayout.getChildren().addAll(splash, loadProgress, progressText);
         progressText.setAlignment(Pos.CENTER);
@@ -106,19 +106,19 @@ public class Closet extends Application {
         final Task<String> myTask = new Task<String>() {
             @Override
             protected String call() throws InterruptedException {
-                updateMessage("Loading Article Type HashMap . . .");
+                updateMessage("Loading Assets . . .");
                 updateProgress(1,4);
                 Utilities.collectArticleTypeHash();
                 Thread.sleep(400);
-                updateMessage("Loading Color HashMap . . .");
+                updateMessage("Loading Assets . . .");
                 updateProgress(2, 4);
                 Utilities.collectColorHash();
                 Thread.sleep(400);
-                updateMessage("Loading Clothing Item HashMap . . .");
+                updateMessage("Loading Assets . . .");
                 updateProgress(3, 4);
                 Utilities.collectClothingHash();
                 Thread.sleep(400);
-                updateMessage("Loading Clothing Request HashMap . . .");
+                updateMessage("Loading Assets  . . .");
                 updateProgress(4, 4);
                 Utilities.collectClothingRequestHash();
                 Thread.sleep(400);
