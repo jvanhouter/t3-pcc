@@ -337,9 +337,7 @@ public class FulfillRequestView extends View {
 
     private void processAction(ActionEvent e) {
         clearErrorMessage();
-
         myModel.stateChangeRequest("ProcessRequest", null);
-        myModel.stateChangeRequest("OK", null);
     }
 
     /**

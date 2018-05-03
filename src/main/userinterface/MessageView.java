@@ -11,6 +11,7 @@ package userinterface;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -50,7 +51,14 @@ public class MessageView extends Text {
                 myAlert.getInstance().setHeaderText("Message");
                 myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Info");
                 myAlert.getInstance().setContentText(message);
-                myAlert.getInstance().show();
+                myAlert.getInstance().getButtonTypes().clear();
+                ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
+                myAlert.getInstance().getButtonTypes().setAll(ok);
+                myAlert.getInstance().showAndWait().ifPresent(type -> {
+                    if (type.getText() == "Ok") {
+                        myAlert.getInstance().close();
+                    }
+                });
             }
 //        setFill(Color.BLUE);
 //        setText(message);
@@ -67,7 +75,14 @@ public class MessageView extends Text {
             myAlert.getInstance().setAlertType(Alert.AlertType.ERROR);
             myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Error");
             myAlert.getInstance().setContentText(message);
-            myAlert.getInstance().show();
+            myAlert.getInstance().getButtonTypes().clear();
+            ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
+            myAlert.getInstance().getButtonTypes().setAll(ok);
+            myAlert.getInstance().showAndWait().ifPresent(type -> {
+                if (type.getText() == "Ok") {
+                    myAlert.getInstance().close();
+                }
+            });
         }
 //        setFill(Color.RED);
 //        setText(message);
@@ -86,7 +101,7 @@ public class MessageView extends Text {
             myAlert.getInstance().setTitle("Error Dialog");
             myAlert.getInstance().setHeaderText("An error has occurred ");
             myAlert.getInstance().setContentText(message);
-
+            myAlert.getInstance().getButtonTypes().clear();
             DialogPane dialogPane = myAlert.getInstance().getDialogPane();
 // root
             dialogPane.setStyle("-fx-background-color: #647585;");
