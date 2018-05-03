@@ -28,8 +28,6 @@ import java.util.Properties;
 //==============================================================
 public class ListInventoryFilterView extends View {
 
-    protected final int NUMBER_OF_FILTERS = 1;
-
     // GUI components
     protected PccButton submitButton;
     protected Button cancelButton;
@@ -113,11 +111,10 @@ public class ListInventoryFilterView extends View {
         String query = "SELECT * FROM inventory WHERE 1 ";
         if(selectAllDonated.isSelected())
         {
-            query = query + "AND (Status = '" + status.getValue() + "')";
+            query = query + "AND (Status = '" + status.getValue() + "') ";
         }
         query = query + ";";
         myModel.stateChangeRequest("Filter", query);
-
     }
 
     // Create the status log field
