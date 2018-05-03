@@ -3,6 +3,7 @@ package model;
 
 // system imports
 
+import Utilities.Utilities;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
 import javafx.scene.Scene;
@@ -65,7 +66,7 @@ public class CheckoutClothingItemTransaction extends Transaction {
                         handleBarcodeProblems();
                     }
                 } else {
-                    barcodeError = barcode + " is not avalible for checkout. The clothing item associated with this barcode has the incorrect status.";
+                    barcodeError = barcode + " is not available for checkout. The clothing item associated with this barcode has the incorrect status.";
                     handleBarcodeProblems();
                 }
             } else {
@@ -112,6 +113,8 @@ public class CheckoutClothingItemTransaction extends Transaction {
                     currItem.update();
 
                     if (((String) currItem.getState("UpdateStatusMessage")).contains("updated successfully")) {
+                        // remove item from the clothing item hash
+                        Utilities.removeClothingHash((String) currItem.getState("ID"));
                         numUpdated++;
                         updateMessage = updateMessage + currItem.getState("Barcode") + " ";
                     }

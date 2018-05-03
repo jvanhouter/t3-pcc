@@ -46,22 +46,7 @@ public class MessageView extends Text {
             setFill(Color.BLUE);
             setText(message);
         } else {
-            if (!myAlert.getInstance().isShowing()) {
-                myAlert.getInstance().setAlertType(Alert.AlertType.INFORMATION);
-                myAlert.getInstance().setHeaderText("Message");
-                myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Info");
-                myAlert.getInstance().setContentText(message);
-                myAlert.getInstance().getButtonTypes().clear();
-                ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
-                myAlert.getInstance().getButtonTypes().setAll(ok);
-                myAlert.getInstance().showAndWait().ifPresent(type -> {
-                    if (type.getText() == "Ok") {
-                        myAlert.getInstance().close();
-                    }
-                });
-            }
-//        setFill(Color.BLUE);
-//        setText(message);
+            myAlert.getInstance().displayMessage(message);
         }
     }
 
@@ -70,22 +55,7 @@ public class MessageView extends Text {
      */
     public void displayErrorMessage(String message) {
         // display the passed text in red
-        if (!myAlert.getInstance().isShowing()) {
-            myAlert.getInstance().setHeaderText("Error");
-            myAlert.getInstance().setAlertType(Alert.AlertType.ERROR);
-            myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Error");
-            myAlert.getInstance().setContentText(message);
-            myAlert.getInstance().getButtonTypes().clear();
-            ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
-            myAlert.getInstance().getButtonTypes().setAll(ok);
-            myAlert.getInstance().showAndWait().ifPresent(type -> {
-                if (type.getText() == "Ok") {
-                    myAlert.getInstance().close();
-                }
-            });
-        }
-//        setFill(Color.RED);
-//        setText(message);
+        myAlert.getInstance().displayErrorMessage(message);
     }
 
     /**

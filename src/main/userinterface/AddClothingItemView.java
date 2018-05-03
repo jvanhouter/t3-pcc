@@ -23,9 +23,7 @@ import javafx.util.StringConverter;
 import model.ArticleType;
 import model.Color;
 
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 import java.util.regex.Pattern;
 
 //import javafx.scene.paint.Color;
@@ -317,21 +315,34 @@ public class AddClothingItemView extends View {
         barcode.setDisable(true);
 
         genderCombo.setValue((String) myModel.getState("Gender"));
-        // sometimes returns null, hashmap may solve
-        Vector ArticleList = (Vector) myModel.getState("Articles");
-        Iterator articles = ArticleList.iterator();
+        Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
+        Comparator<ArticleType> compareAT = new Comparator<ArticleType>() {
+            @Override
+            public int compare(ArticleType o1, ArticleType o2) {
+                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+            }
+        };
         while (articles.hasNext()) {
-            articleTypes.add((ArticleType) articles.next());
+            Map.Entry pair = (Map.Entry)articles.next();
+            articleTypes.add((ArticleType) pair.getValue());
         }
+        articleTypes.sort(compareAT);
         articleTypeCombo.setItems(articleTypes);
 
-        Vector ColorList = (Vector) myModel.getState("Colors");
-        Iterator colors = ColorList.iterator();
+        Iterator colors = Utilities.collectColorHash().entrySet().iterator();
         ObservableList<Color> colorItems = FXCollections.observableArrayList();
+        Comparator<Color> compareCT = new Comparator<Color>() {
+            @Override
+            public int compare(Color o1, Color o2) {
+                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+            }
+        };
         while (colors.hasNext()) {
-            colorItems.add((Color) colors.next());
+            Map.Entry pair = (Map.Entry)colors.next();
+            colorItems.add((Color) pair.getValue());
         }
+        colorItems.sort(compareCT);
         primaryColorCombo.setItems(colorItems);
         secondaryColorCombo.setItems(colorItems);
     }

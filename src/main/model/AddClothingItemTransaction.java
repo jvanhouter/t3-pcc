@@ -110,9 +110,9 @@ public class AddClothingItemTransaction extends Transaction {
                 else if (barcode.substring(0, 1).equals("2"))
                     gender = "Unisex";
                 myArticleTypeList = new ArticleTypeCollection();
-                myArticleTypeList.findAll();
+                //myArticleTypeList.findAll();
                 myColorList = new ColorCollection();
-                myColorList.findAll();
+                //myColorList.findAll();
                 createAndShowAddClothingItemView();
             } catch (MultiplePrimaryKeysException ex2) {
                 transactionErrorMessage = "ERROR: Multiple clothing items with barcode !";

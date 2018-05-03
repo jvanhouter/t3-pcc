@@ -185,6 +185,7 @@ public class Closet extends Application {
         Scene splashScene = new Scene(splashLayout, Color.TRANSPARENT);
         final Rectangle2D bounds = Screen.getPrimary().getBounds();
         initStage.setScene(splashScene);
+        initStage.getIcons().add(new Image("icon.png"));
         initStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - SPLASH_WIDTH / 2);
         initStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - SPLASH_HEIGHT / 2);
         initStage.initStyle(StageStyle.TRANSPARENT);

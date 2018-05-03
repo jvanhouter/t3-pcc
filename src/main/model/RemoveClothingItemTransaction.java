@@ -48,26 +48,6 @@ public class RemoveClothingItemTransaction extends Transaction {
         myRegistry.setDependencies(dependencies);
     }
 
-    /**
-     * This method encapsulates all the logic of creating the article type,
-     * verifying its uniqueness, etc.
-     */
-    //----------------------------------------------------------
-    public void processTransaction(Properties props) {
-
-        String desc = props.getProperty("Description");
-        String alfaC = props.getProperty("AlphaCode");
-
-        try {
-            Scene newScene = createColorCollectionView();
-            swapToView(newScene);
-        } catch (Exception ex) {
-            new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                    "Error in creating ColorCollectionView", Event.ERROR);
-        }
-
-    }
-
     private void processColorRemoval() {
         if (mySelectedItem != null) {
             mySelectedItem.stateChangeRequest("Status", "Removed");
@@ -92,32 +72,49 @@ public class RemoveClothingItemTransaction extends Transaction {
 
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelClothingItemList") == true)) {
             doYourJob();
-        } else if (key.equals("SearchClothingList") == true) {
-            processTransaction((Properties) value);
         } else if (key.equals("ProcessBarcode") == true) {
+            Properties props = (Properties) value;
+            String barcode = props.getProperty("Barcode");
+            barcode = barcode.toUpperCase();
             try {
-                Properties p = (Properties) value;
-                mySelectedItem = new ClothingItem((String) p.getProperty("Barcode")); //passes entire barcode
+                mySelectedItem = new ClothingItem(barcode);
+                if (mySelectedItem != null) {
+                    if (mySelectedItem.getState("Status").equals("Donated")) {
+                        try {
+
+                            Scene newScene = createRemoveClothingItemView();
+
+                            swapToView(newScene);
+
+                        } catch (Exception ex) {
+                            new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                                    "Error in creating RemoveClothingItemView", Event.ERROR);
+                        }
+                    } else {
+                        transactionErrorMessage = barcode + " is not available for removal.";
+                        handleBarcodeProblems(transactionErrorMessage);
+                    }
+                } else {
+                    transactionErrorMessage = barcode + " does not exist in the database.";
+                    handleBarcodeProblems(transactionErrorMessage);
+                }
             } catch (InvalidPrimaryKeyException e) {
-                e.printStackTrace();
+                transactionErrorMessage = barcode + " does not exist in the database.";
+                handleBarcodeProblems(transactionErrorMessage);
             } catch (MultiplePrimaryKeysException e) {
                 e.printStackTrace();
-            }
-            try {
-
-                Scene newScene = createRemoveClothingItemView();
-
-                swapToView(newScene);
-
-            } catch (Exception ex) {
-                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Error in creating RemoveClothingItemView", Event.ERROR);
             }
         } else if (key.equals("RemoveClothingItem") == true) {
             processColorRemoval();
         }
 
         myRegistry.updateSubscribers(key, this);
+    }
+
+    private void handleBarcodeProblems(String msg) {
+        PccAlert myAlert = PccAlert.getInstance();
+        myAlert.displayErrorMessage(msg);
+        // needs more clarification stateChangeRequest("HandleBarcodeProblems", "");
     }
 
     /**
