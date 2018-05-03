@@ -225,9 +225,11 @@ public class InventoryItemCollectionView extends View {
                 receiverNetIdColumn, receiverLastNameColumn, receiverFirstNameColumn,
                 dateDonatedColumn, dateTakenColumn);
 
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(1000, 300);
-        scrollPane.setContent(InventoryTable);
+        InventoryTable.setMaxSize(800, 250);
+
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setPrefSize(1000, 300);
+//        scrollPane.setContent(InventoryTable);
 
         cancelButton = new PccButton("Return");
         cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -261,7 +263,7 @@ public class InventoryItemCollectionView extends View {
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(InventoryTable);
         vbox.getChildren().add(btnContainer);
 
         return vbox;
