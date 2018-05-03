@@ -10,9 +10,7 @@ import userinterface.View;
 import userinterface.ViewFactory;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 
 // project imports
 
@@ -24,12 +22,20 @@ public class FulfilRequestTransaction extends Transaction {
     private ClothingItem myClothingItem;
     private ClothingItemCollection myClothingCollection;
 
+    private InventoryItemCollection receiverPastSixMonths = new InventoryItemCollection();
+
     private ArticleTypeCollection myArticleTypeList;
     private ColorCollection myColorList;
     private String gender;
 
     private String transactionErrorMessage = "";
 
+    /* Patricks Components */
+    private String updateMessage = "";
+    private String receiverNetid = "";
+    private String receiverFirstName = "";
+    private String receiverLastName = "";
+    private boolean verifiedHistory = false;
 
     //----------------------------------------------------------
     public FulfilRequestTransaction() throws Exception {
@@ -44,6 +50,9 @@ public class FulfilRequestTransaction extends Transaction {
         dependencies.setProperty("OK", "CancelTransaction");
         dependencies.setProperty("ProcessRequest", "TransactionError");
         dependencies.setProperty("ClothingRequestData", "TransactionError");
+        // communicate with ReceiverRecentCheckoutView
+        dependencies.setProperty("ReceiverData", "TransactionError");
+        dependencies.setProperty("CancelCheckoutCI", "CancelTransaction");
 
         myRegistry.setDependencies(dependencies);
     }
@@ -62,6 +71,35 @@ public class FulfilRequestTransaction extends Transaction {
         }
     }
 
+    private void processReceiver(Properties props) {
+        receiverNetid = (String) myClothingRequest.getState("RequesterNetid");
+        receiverPastSixMonths.findRecent(receiverNetid);
+        if (!((Vector) receiverPastSixMonths.getState("InventoryItems")).isEmpty() && verifiedHistory == false) {
+            switchToReceiverRecentCheckoutView();
+            verifiedHistory = true;
+        } else {
+            myClothingItem.stateChangeRequest("Status", "Received");
+            myClothingRequest.stateChangeRequest("Status", "Fulfilled");
+            Date date = new Date();
+            String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            myClothingItem.stateChangeRequest("DateTaken", modifiedDate);
+            myClothingRequest.stateChangeRequest("RequestFulfilledDate", modifiedDate);
+            myClothingItem.stateChangeRequest("ReceveiverNetid", (String) myClothingRequest.getState("RequesterNetid"));
+            myClothingItem.stateChangeRequest("ReceveiverFirstName", (String) myClothingRequest.getState("RequesterFirstName"));
+            myClothingItem.stateChangeRequest("ReceveiverLastName", (String) myClothingRequest.getState("RequesterLastName"));
+            //myClothingItem.update();
+            transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+            //myClothingRequest.update();
+            updateMessage = (String) myClothingRequest.getState("UpdateStatusMessage");
+            //if(!transactionErrorMessage.toLowerCase().contains("error") && !updateMessage.toLowerCase().contains("error")) {
+            //    Utilities.removeClothingRequestHash((String) myClothingRequest.getState("ID"));
+             //   Utilities.removeClothingHash((String) myClothingItem.getState("ID"));
+           // }
+            transactionErrorMessage = "Request has been fulfilled";
+            stateChangeRequest("CancelCheckoutCI", null);
+        }
+    }
+
     //----------------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
         if ((key.equals("DoYourJob") == true) || (key.equals("CancelTransaction") == true)) {
@@ -74,21 +112,8 @@ public class FulfilRequestTransaction extends Transaction {
             doYourJob();
         } else if (key.equals("SearchRequest") == true) {
             processTransaction((Properties) value);
-        } else if (key.equals("ProcessRequest") == true) {
-            myClothingItem.stateChangeRequest("Status", "Received");
-            myClothingRequest.stateChangeRequest("Status", "Fulfilled");
-            Date date = new Date();
-            String modifiedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-            myClothingItem.stateChangeRequest("DateTaken", modifiedDate);
-            myClothingRequest.stateChangeRequest("RequestFulfilledDate", modifiedDate);
-            myClothingItem.stateChangeRequest("ReceveiverNetid", (String) myClothingRequest.getState("RequesterNetid"));
-            myClothingItem.stateChangeRequest("ReceveiverFirstName", (String) myClothingRequest.getState("RequesterFirstName"));
-            myClothingItem.stateChangeRequest("ReceveiverLastName", (String) myClothingRequest.getState("RequesterLastName"));
-            myClothingItem.update();
-            myClothingRequest.update();
-            Utilities.removeClothingRequestHash((String) myClothingRequest.getState("ID"));
-            Utilities.removeClothingHash((String) myClothingItem.getState("ID"));
-            transactionErrorMessage = "Request has been fulfilled";
+        } else if (key.equals("ProcessRequest") == true || key.equals("ReceiverData") == true) {
+            processReceiver((Properties) value);
         }
         if (key.equals("ClothingItemSelected") == true) {
             try {
@@ -129,6 +154,9 @@ public class FulfilRequestTransaction extends Transaction {
 
     //------------------------------------------------------------
     public Object getState(String key) {
+        if (key.equals("ReceiverRecentCheckouts") == true) {
+            return receiverPastSixMonths;
+        }
         if (key.equals("ClothingItemList") == true) {
             return myClothingCollection;
         }
@@ -188,36 +216,18 @@ public class FulfilRequestTransaction extends Transaction {
         return currentScene;
     }
 
-    //---------------------------------------------------------------
-    protected Scene createFulfillRequestTractionView() {
-        return null;
+    //----------------------------------------------------------------
+    private void switchToReceiverRecentCheckoutView() {
+        Scene newScene = createReceiverRecentCheckoutView();
+        swapToView(newScene);
     }
 
-    /*
     //----------------------------------------------------------------
-    private void processFulfillRequestTransaction(Properties props)
-    {
-        //--
-        String receiverNetid = props.getProperty("ReceiverNetid");
-        String receiverFirstName = props.getProperty("ReceiverFirstName");
-        String receiverLastName = props.getProperty("ReceiverLastName");
+    protected Scene createReceiverRecentCheckoutView() {
+        View newView = ViewFactory.createView("ReceiverRecentCheckoutView", this);
+        Scene currentScene = new Scene(newView);
 
-        myClothingItem.stateChangeRequest("ReceiverNetid", receiverNetid);
-        myClothingItem.stateChangeRequest("ReceiverFirstName", receiverFirstName);
-        myClothingItem.stateChangeRequest("ReceiverLastName", receiverLastName);
-        myClothingItem.stateChangeRequest("Status", "Received");
-
-        Calendar currDate = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        String date = dateFormat.format(currDate.getTime());
-        myClothingItem.stateChangeRequest("DateTaken", date);
-
-        //---
-        if(myClothingRequest != null) {
-            myClothingRequest.stateChangeRequest("Status", "Received");
-            myClothingRequest.update();
-            transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
-        }
-    }*/
+        return currentScene;
+    }
 
 }
