@@ -54,7 +54,7 @@ public class Closet extends Application {
      */
     private Stage mainStage;
 
-    private Image image = new Image("pccSplash3.png");
+    private Image image = new Image("splash.png");
     private ImageView SPLASH_IMAGE = new ImageView(image);
 
     private Pane splashLayout;
@@ -85,15 +85,16 @@ public class Closet extends Application {
         splashLayout = new VBox();
         splashLayout.getChildren().addAll(splash, loadProgress, progressText);
         progressText.setAlignment(Pos.CENTER);
+        progressText.setStyle("-fx-text-fill: #fff; -fx-font-weight: bold;");
         splashLayout.setStyle(
                 "-fx-padding: 5; " +
-                        "-fx-background-color: cornsilk; " +
-                        "-fx-border-width:5; " +
+                        "-fx-background-color: #023627; " +
+                        "-fx-border-width:0; " +
                         "-fx-border-color: " +
                         "linear-gradient(" +
                         "to bottom, " +
-                        "chocolate, " +
-                        "derive(chocolate, 50%)" +
+                        "#5a7f15, " +
+                        "derive(#5a7f15, 50%)" +
                         ");"
         );
         splashLayout.setEffect(new DropShadow());
@@ -140,7 +141,7 @@ public class Closet extends Application {
         Stage primaryStage = new Stage();
         MainStageContainer.setStage(primaryStage, "Brockport Professional Clothes Closet Version 1.00");
         mainStage = MainStageContainer.getInstance();
-        mainStage.getIcons().add(new Image("grandleader.png"));
+        mainStage.getIcons().add(new Image("icon.png"));
         // Finish setting up the stage (ENABLE THE GUI TO BE CLOSED USING THE TOP RIGHT
         // 'X' IN THE WINDOW), and show it.
         mainStage.setOnCloseRequest(event -> System.exit(0));

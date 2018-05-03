@@ -87,14 +87,14 @@ public class FulfilRequestTransaction extends Transaction {
             myClothingItem.stateChangeRequest("ReceveiverNetid", (String) myClothingRequest.getState("RequesterNetid"));
             myClothingItem.stateChangeRequest("ReceveiverFirstName", (String) myClothingRequest.getState("RequesterFirstName"));
             myClothingItem.stateChangeRequest("ReceveiverLastName", (String) myClothingRequest.getState("RequesterLastName"));
-            //myClothingItem.update();
+            myClothingItem.update();
             transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
-            //myClothingRequest.update();
+            myClothingRequest.update();
             updateMessage = (String) myClothingRequest.getState("UpdateStatusMessage");
-            //if(!transactionErrorMessage.toLowerCase().contains("error") && !updateMessage.toLowerCase().contains("error")) {
-            //    Utilities.removeClothingRequestHash((String) myClothingRequest.getState("ID"));
-             //   Utilities.removeClothingHash((String) myClothingItem.getState("ID"));
-           // }
+            if(!transactionErrorMessage.toLowerCase().contains("error") && !updateMessage.toLowerCase().contains("error")) {
+                Utilities.removeClothingRequestHash((String) myClothingRequest.getState("ID"));
+                Utilities.removeClothingHash((String) myClothingItem.getState("ID"));
+            }
             transactionErrorMessage = "Request has been fulfilled";
             stateChangeRequest("CancelCheckoutCI", null);
         }
