@@ -38,7 +38,7 @@ public class PccAlert extends Alert {
     public void displayMessage(String message) {
         if (!myAlert.getInstance().isShowing()) {
             myAlert.getInstance().setHeaderText("Message");
-            myAlert.getInstance().setAlertType(Alert.AlertType.ERROR);
+            myAlert.getInstance().setAlertType(AlertType.INFORMATION);
             myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Error");
             myAlert.getInstance().setContentText(message);
             myAlert.getInstance().getButtonTypes().clear();

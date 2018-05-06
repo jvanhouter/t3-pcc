@@ -241,7 +241,8 @@ public class ReceptionistView extends View {
                 } else
                     myModel.stateChangeRequest("FulfillRequest", null);
             });
-        }
+        } else
+            myModel.stateChangeRequest("FulfillRequest", null);
     }
 
     public void updateState(String key, Object value) {
