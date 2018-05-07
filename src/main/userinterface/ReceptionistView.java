@@ -63,9 +63,10 @@ public class ReceptionistView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
+        container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createBanner());
         // how do you add white space? regex \\s for space
         container.getChildren().add(new Label(" "));
 
@@ -91,9 +92,11 @@ public class ReceptionistView extends View {
     private VBox createFormContents() {
 
         VBox container = new VBox(15);
+        container.setAlignment(Pos.CENTER);
         GridPane gridContainer = new GridPane();
-        gridContainer.setHgap(10);
-        gridContainer.setVgap(10);
+        gridContainer.setAlignment(Pos.CENTER);
+        gridContainer.setHgap(32);
+        gridContainer.setVgap(12);
         gridContainer.setPadding(new Insets(0, 10, 0 ,10));
 
         ColumnConstraints columnConstraints = new ColumnConstraints();

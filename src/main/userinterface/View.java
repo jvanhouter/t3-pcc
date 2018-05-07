@@ -1,10 +1,10 @@
 //************************************************************
 //	COPYRIGHT 2009/2015 Sandeep Mitra and Michael Steves, The
-//    College at Brockport, State University of New York. - 
+//    College at Brockport, State University of New York. -
 //	  ALL RIGHTS RESERVED
 //
-// This file is the product of The College at Brockport and cannot 
-// be reproduced, copied, or used in any shape or form without 
+// This file is the product of The College at Brockport and cannot
+// be reproduced, copied, or used in any shape or form without
 // the express written consent of The College at Brockport.
 //************************************************************
 package userinterface;
@@ -23,6 +23,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
 public abstract class View extends Group
         implements IView, IControl {
@@ -47,8 +49,18 @@ public abstract class View extends Group
         myRegistry = new ControlRegistry(classname);
 
         container = new VBox(10);
-        container.setStyle("-fx-background-color: #647585");
-        container.setPadding(new Insets(50, 50, 50, 50));
+        //container.setStyle("-fx-background-color: #647585");
+        container.setStyle(
+                        "-fx-background-color: #023627; "
+                      //  "-fx-border-width:3; " +
+                      //  "-fx-border-color: #ffc726;"
+                    //  "linear-gradient(" +
+                      //  "to top, " +
+                      //  "#ffc726, " +
+                        //"#023627" +
+                      //  ");"
+        );
+        container.setPadding(new Insets(30, 15, 15, 15));
     }
 
     VBox getParentContainer() {
@@ -93,6 +105,31 @@ public abstract class View extends Group
         return container;
     }
 
+    Node createBanner() {
+
+    Image image = new Image("pccTitle.png");
+
+    VBox pictureRegion = new VBox();
+    pictureRegion.setAlignment(Pos.CENTER);
+    final ImageView imv = new ImageView();
+    imv.setImage(image);
+    pictureRegion.getChildren().add(imv);
+
+    Text blankText = new Text(" ");
+    blankText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 24));
+    blankText.setFill(Color.WHITE);
+    pictureRegion.getChildren().add(blankText);
+
+    Text actionText = new Text(getActionText());
+    actionText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+    actionText.setWrappingWidth(WRAPPING_WIDTH);
+    actionText.setTextAlignment(TextAlignment.CENTER);
+    actionText.setFill(Color.web(APP_TEXT_COLOR));
+    pictureRegion.getChildren().add(actionText);
+
+    return pictureRegion;
+}
+
     protected String getActionText() {
         return " ";
     }
@@ -111,4 +148,3 @@ public abstract class View extends Group
         myRegistry.unSubscribe(key, subscriber);
     }
 }
-

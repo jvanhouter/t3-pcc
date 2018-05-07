@@ -65,11 +65,13 @@ public class LogARequestView extends View
 
         // create a container for showing the contents
         VBox container = getParentContainer();
+        container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
 
         // create our GUI components, add them to this Container
+        container.getChildren().add(createPrompt());
         container.getChildren().add(createFormContent());
 
         container.getChildren().add(createStatusLog("             "));
@@ -85,22 +87,29 @@ public class LogARequestView extends View
     @Override
     protected String getActionText()
     {
-        return "** Log a request view **";
+        return " \"Log a Request\" ";
     }
 
     // Create the main form content
 
-    private VBox createFormContent()
+
+    private VBox createPrompt()
     {
         VBox vbox = new VBox(10);
-
+        vbox.setAlignment(Pos.CENTER);
         PccText prompt = new PccText("LOG REQUEST INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-//        prompt.setFill(javafx.scene.paint.Color.BLACK);
+  //        prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
+        return vbox;
+      }
 
+    private VBox createFormContent()
+    {
+        VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -184,7 +193,7 @@ public class LogARequestView extends View
         articleTypeLabel.setFont(myFont);
         articleTypeLabel.setWrappingWidth(150);
         articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(articleTypeLabel, 0, 7);
+        grid.add(articleTypeLabel, 2, 1);
 
         articleType = new ComboBox<>();
         articleType.setConverter(new StringConverter<ArticleType>() {
@@ -202,14 +211,14 @@ public class LogARequestView extends View
         articleType.valueProperty().addListener((obs, oldval, newval) -> {
         });
 
-        grid.add(articleType, 1, 7);
+        grid.add(articleType, 3, 1);
         // =================================================================
         // Primary Color UI Items ==========================================
         PccText primaryColorLabel = new PccText(" Primary Color : ");
         primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(primaryColorLabel, 0, 8);
+        grid.add(primaryColorLabel, 2, 2);
 
         color1 = new ComboBox<>();
         color1.setConverter(new StringConverter<Color>() {
@@ -224,14 +233,14 @@ public class LogARequestView extends View
                         ct.getState("Description").equals(string)).findFirst().orElse(null);
             }
         });
-        grid.add(color1, 1, 8);
+        grid.add(color1, 3, 2);
         // =================================================================
         // Secondary Color UI Items ========================================
         PccText secondaryColorLabel = new PccText(" Secondary Color : ");
         secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(secondaryColorLabel, 0, 9);
+        grid.add(secondaryColorLabel, 2, 3);
 
         color2 = new ComboBox<>();
         color2.setConverter(new StringConverter<Color>() {
@@ -246,18 +255,18 @@ public class LogARequestView extends View
                         ct.getState("Description").equals(string)).findFirst().orElse(null);
             }
         });
-        grid.add(color2, 1, 9);
+        grid.add(color2, 3, 3);
         // =================================================================
         // Brand UI Items ==================================================
         PccText brandLabel = new PccText(" Brand : ");
         brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(brandLabel, 0, 10);
+        grid.add(brandLabel, 2, 4);
 
         brand = new TextField();
         //brand.setOnAction(this::processAction);
-        grid.add(brand, 1, 10);
+        grid.add(brand, 3, 4);
 
         // =================================================================
         // Brand UI Items ==================================================
@@ -265,11 +274,11 @@ public class LogARequestView extends View
         mySize.setFont(myFont);
         mySize.setWrappingWidth(150);
         mySize.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(mySize, 0, 11);
+        grid.add(mySize, 2, 5);
 
         size = new TextField();
         //brand.setOnAction(this::processAction);
-        grid.add(size, 1, 11);
+        grid.add(size, 3, 5);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
@@ -460,5 +469,3 @@ public class LogARequestView extends View
 //---------------------------------------------------------------
 //	Revision History:
 //
-
-

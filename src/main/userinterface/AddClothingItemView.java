@@ -65,6 +65,7 @@ public class AddClothingItemView extends View {
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
+        container.getChildren().add(createPrompt());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
@@ -82,10 +83,10 @@ public class AddClothingItemView extends View {
     protected String getActionText() {
         return "** Adding a new Clothing Item **";
     }
-
-    // Create the main form content
-    private VBox createFormContent() {
+    private VBox createPrompt() {
         VBox vbox = new VBox(10);
+
+        vbox.setAlignment(Pos.CENTER);
 
         PccText prompt = new PccText("CLOTHING ITEM INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
@@ -93,6 +94,15 @@ public class AddClothingItemView extends View {
 //        prompt.setFill(javafx.scene.paint.Color.BLUE);
         prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
         vbox.getChildren().add(prompt);
+
+        return vbox;
+      }
+
+    // Create the main form content
+    private VBox createFormContent() {
+        VBox vbox = new VBox(10);
+
+
 
         Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
 
@@ -217,11 +227,11 @@ public class AddClothingItemView extends View {
         brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(brandLabel, 0, 6);
+        grid.add(brandLabel, 2, 0);
 
         brandText = new TextField();
         brandText.setOnAction(this::processAction);
-        grid.add(brandText, 1, 6);
+        grid.add(brandText, 3, 0);
 
         // =================================================================
         // Notes UI Items ==================================================
@@ -229,11 +239,11 @@ public class AddClothingItemView extends View {
         notesLabel.setFont(myFont);
         notesLabel.setWrappingWidth(150);
         notesLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(notesLabel, 0, 7);
+        grid.add(notesLabel, 2, 1);
 
         notesText = new TextField();
         notesText.setOnAction(this::processAction);
-        grid.add(notesText, 1, 7);
+        grid.add(notesText, 3, 1);
 
         // =================================================================
         // Donor UI Items ==================================================
@@ -257,10 +267,10 @@ public class AddClothingItemView extends View {
         donorPhoneLabel.setTextAlignment(TextAlignment.RIGHT);
         donorEmailLabel.setTextAlignment(TextAlignment.RIGHT);
 
-        grid.add(donorFirstNameLabel, 0, 9);
-        grid.add(donorLastNameLabel, 0, 10);
-        grid.add(donorPhoneLabel, 0, 11);
-        grid.add(donorEmailLabel, 0, 12);
+        grid.add(donorFirstNameLabel, 2, 2);
+        grid.add(donorLastNameLabel, 2, 3);
+        grid.add(donorPhoneLabel, 2, 4);
+        grid.add(donorEmailLabel, 2, 5);
 
         donorFirstNameText = new TextField();
         donorFirstNameText.setOnAction(this::processAction);
@@ -277,10 +287,10 @@ public class AddClothingItemView extends View {
         donorEmailText = new TextField();
         donorEmailText.setOnAction(this::processAction);
 
-        grid.add(donorFirstNameText, 1, 9);
-        grid.add(donorLastNameText, 1, 10);
-        grid.add(donorPhoneText, 1, 11);
-        grid.add(donorEmailText, 1, 12);
+        grid.add(donorFirstNameText, 3, 2);
+        grid.add(donorLastNameText, 3, 3);
+        grid.add(donorPhoneText, 3, 4);
+        grid.add(donorEmailText, 3, 5);
         // =================================================================
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);

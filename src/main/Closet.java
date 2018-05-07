@@ -107,7 +107,7 @@ public class Closet extends Application {
         final Task<String> myTask = new Task<String>() {
             @Override
             protected String call() throws InterruptedException {
-                updateMessage("Loading Assets . . .");
+                updateMessage("Loading Assets. . .");
                 updateProgress(1,4);
                 Utilities.collectArticleTypeHash();
                 Thread.sleep(400);
@@ -115,11 +115,11 @@ public class Closet extends Application {
                 updateProgress(2, 4);
                 Utilities.collectColorHash();
                 Thread.sleep(400);
-                updateMessage("Loading Assets . . .");
+                updateMessage("Loading Assets. . .");
                 updateProgress(3, 4);
                 Utilities.collectClothingHash();
                 Thread.sleep(400);
-                updateMessage("Loading Assets  . . .");
+                updateMessage("Loading Assets . . .");
                 updateProgress(4, 4);
                 Utilities.collectClothingRequestHash();
                 Thread.sleep(400);
