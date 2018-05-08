@@ -87,6 +87,9 @@ public class CheckoutHelperView extends View {
                 Vector<String> view = nextCI.getEntryListView();
                 // add this list entry to the list
                 InventoryTableModel nextTableRowData = new InventoryTableModel(view);
+                /* check for testing */
+                if(nextTableRowData.getSize().equals("" + UiConstants.GENERIC_SIZE))
+                    nextTableRowData.setSize("");
                 tableData.add(nextTableRowData);
             }
         } else {
@@ -272,7 +275,8 @@ public class CheckoutHelperView extends View {
                 Properties props = new Properties();
                 String netIdReceiver = netId.getText();
                 //TODO should netid have a maximum?
-                if (netIdReceiver.length() > 0) {
+
+                if(netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH && netId.getText().substring(0, 1).matches("[A-Za-z]")) {
                     props.setProperty("ReceiverNetid", netIdReceiver);
                     String fNameReceiver = fName.getText();
                     if (fNameReceiver.length() > 0 && fNameReceiver.length() < UiConstants.RECEIVER_FIRST_NAME_MAX_LENGTH) {

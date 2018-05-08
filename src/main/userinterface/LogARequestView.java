@@ -320,7 +320,7 @@ public class LogARequestView extends View
                 "&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-" +
                 "]*[a-z0-9])?)$");
         Properties props = new Properties();
-        if(netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH) {
+        if(netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH && netId.getText().substring(0, 1).matches("[A-Za-z]")) {
             props.setProperty("RequesterNetid", netId.getText());
             props.setProperty("RequestedGender", gender.getValue());
             props.setProperty("RequestedArticleType", (String) articleType.getValue().getState("ID"));
