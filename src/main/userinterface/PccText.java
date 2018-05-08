@@ -12,7 +12,7 @@ class PccText extends Text {
     }
 
     private void initialize() {
-        this.setFont(Font.font(View.APP_FONT, FontWeight.BOLD, 14));
+        this.setFont(Font.font(View.APP_FONT, FontWeight.BOLD, 16));
         this.setFill(Color.web(View.APP_TEXT_COLOR));
     }
 }

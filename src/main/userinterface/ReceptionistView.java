@@ -115,7 +115,7 @@ public class ReceptionistView extends View {
         gridContainer.add(new Pane(), 0,1,4,1);
         // Article type choices
         Text atLabel = new Text("Article Types: ");
-        atLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
+        atLabel.setFont(Font.font(APP_FONT, 16));
 //        atLabel.setStyle("-fx-text-fill: #ffc726");
         atLabel.setFill(Color.web(APP_TEXT_COLOR));
         addArticleTypeButton = new PccButton("Add");
@@ -136,7 +136,7 @@ public class ReceptionistView extends View {
         // Color choices
         Label colorLabel = new Label("Colors: ");
         colorLabel.setStyle("-fx-text-fill: #ffc726");
-        colorLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
+        colorLabel.setFont(Font.font(APP_FONT, 16));
         addColorButton = new PccButton("Add");
         addColorButton.setOnAction(e -> myModel.stateChangeRequest("AddColor", null));
 
@@ -153,7 +153,7 @@ public class ReceptionistView extends View {
 
         // Clothing item choices
         Label ciLabel = new Label("Clothing Items: ");
-        ciLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
+        ciLabel.setFont(Font.font(APP_FONT, 16));
         ciLabel.setStyle("-fx-text-fill: #ffc726");
         addClothingItemButton = new PccButton("Add");
         addClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("AddClothingItem", null));
@@ -172,7 +172,7 @@ public class ReceptionistView extends View {
 
         // Clothing item request
         Label reqLabel = new Label("Requests: ");
-        reqLabel.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
+        reqLabel.setFont(Font.font(APP_FONT, 16));
         reqLabel.setStyle("-fx-text-fill: #ffc726");
         logRequestButton = new PccButton("Log");
         logRequestButton.setOnAction(e -> myModel.stateChangeRequest("LogRequest", null));

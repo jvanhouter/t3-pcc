@@ -28,10 +28,10 @@ import javafx.scene.image.Image;
 
 public abstract class View extends Group
         implements IView, IControl {
-    protected static final String APP_FONT = "Roboto";
+    protected static final String APP_FONT = "SanSerif";
     protected static final String APP_TEXT_COLOR = "#ffc726";
     protected static final Color CAPP_TEXT_COLOR = Color.web("#FFC726");
-    protected static final String APP_BACKGROUND_COLOR = "#647585";
+    protected static final String APP_BACKGROUND_COLOR = "#023627";
     protected final Integer WRAPPING_WIDTH = 400;
     // private data
     protected IModel myModel;
@@ -49,17 +49,8 @@ public abstract class View extends Group
         myRegistry = new ControlRegistry(classname);
 
         container = new VBox(10);
-        //container.setStyle("-fx-background-color: #647585");
-        container.setStyle(
-                        "-fx-background-color: #023627; "
-                      //  "-fx-border-width:3; " +
-                      //  "-fx-border-color: #ffc726;"
-                    //  "linear-gradient(" +
-                      //  "to top, " +
-                      //  "#ffc726, " +
-                        //"#023627" +
-                      //  ");"
-        );
+        container.setStyle("-fx-background-color: #023627");
+
         container.setPadding(new Insets(30, 15, 15, 15));
     }
 
@@ -121,7 +112,7 @@ public abstract class View extends Group
     pictureRegion.getChildren().add(blankText);
 
     Text actionText = new Text(getActionText());
-    actionText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+    actionText.setFont(Font.font(APP_FONT, 18));
     actionText.setWrappingWidth(WRAPPING_WIDTH);
     actionText.setTextAlignment(TextAlignment.CENTER);
     actionText.setFill(Color.web(APP_TEXT_COLOR));
