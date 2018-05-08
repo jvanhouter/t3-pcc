@@ -80,29 +80,23 @@ public class AddArticleTypeView extends View {
         blankText.setFill(Color.WHITE);
         vbox.getChildren().add(blankText);
 
-        PccText title = new PccText("Adding a new Article Type");
+        PccText title = new PccText("Adding a New Article Type");
         title.setWrappingWidth(WRAPPING_WIDTH);
         title.setTextAlignment(TextAlignment.CENTER);
         title.setFill(Color.web(APP_TEXT_COLOR));
-        title.setFont(Font.font(APP_FONT, 28));
+        title.setFont(Font.font(APP_FONT, 30));
         vbox.getChildren().add(title);
-
-        //Image image = new Image("midBanner.png");
-        //final ImageView imv = new ImageView();
-        //imv.setImage(image);
-        //vbox.getChildren().add(imv);
-
-
+        
         PccText blankText1 = new PccText(" ");
         blankText1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 20));
         blankText1.setFill(Color.WHITE);
         vbox.getChildren().add(blankText1);
 
-        PccText prompt = new PccText("ARTICLE TYPE INFORMATION:");
+        PccText prompt = new PccText("Please enter article type information:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, 18));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
         PccText blankText2 = new PccText(" ");
