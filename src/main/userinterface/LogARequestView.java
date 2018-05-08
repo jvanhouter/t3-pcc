@@ -29,7 +29,8 @@ import model.ArticleType;
 import model.Color;
 import Utilities.UiConstants;
 
-import javax.rmi.CORBA.Util;
+// WHERE does this come from??? - JVH
+//import javax.rmi.CORBA.Util;
 
 /** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application
