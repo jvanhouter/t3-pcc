@@ -217,9 +217,10 @@ public class CheckoutHelperView extends View {
                 /*receiverNetIdColumn, receiverLastNameColumn, receiverFirstNameColumn,*/
                 dateDonatedColumn/*, dateTakenColumn*/);
 
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(InventoryTable);
+        InventoryTable.setMaxSize(800, 250);
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setPrefSize(150, 150);
+//        scrollPane.setContent(InventoryTable);
 
         PccText netIdLabel = new PccText(" Net ID : ");
         Font myFont = Font.font(APP_FONT, 16);
@@ -298,7 +299,7 @@ public class CheckoutHelperView extends View {
         });
         doneCont.getChildren().add(cancelButton);
 
-        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(InventoryTable);
         vbox.getChildren().add(grid);
         vbox.getChildren().add(doneCont);
 
