@@ -58,6 +58,8 @@ public abstract class View extends Group
 
         container = new VBox(10);
         container.setStyle(APP_BACKGROUND_STYLE_COLOR);
+        container.setAlignment(Pos.CENTER);
+
 
         container.setPadding(new Insets(30, 15, 15, 15));
     }
