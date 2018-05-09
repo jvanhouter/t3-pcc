@@ -23,10 +23,6 @@ import java.util.Vector;
 //==============================================================
 public class ReceptionistView extends View {
 
-    // other private data
-    private final int labelWidth = 120;
-    private final int labelHeight = 25;
-
     // GUI components
     private PccButton addArticleTypeButton;
     private PccButton updateArticleTypeButton;
