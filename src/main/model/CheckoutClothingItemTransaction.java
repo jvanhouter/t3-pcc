@@ -89,7 +89,7 @@ public class CheckoutClothingItemTransaction extends Transaction {
             receiverPastSixMonths.findRecent(receiverNetid);
         }
 
-        if (!((Vector) receiverPastSixMonths.getState("InventoryItems")).isEmpty() && verifiedHistory == false) {
+        if (!((Vector) receiverPastSixMonths.getState("InventoryItems")).isEmpty() && !verifiedHistory) {
             switchToReceiverRecentCheckoutView();
             verifiedHistory = true;
         } else {
@@ -124,7 +124,7 @@ public class CheckoutClothingItemTransaction extends Transaction {
                 updateMessage = "There are no Clothing Items to update.";
             }
 
-            if (verifiedHistory == true) {
+            if (verifiedHistory) {
                 stateChangeRequest("DisplayUpdateMessage2", "");
             } else {
                 stateChangeRequest("DisplayUpdateMessage", "");
@@ -136,15 +136,15 @@ public class CheckoutClothingItemTransaction extends Transaction {
 
     public void stateChangeRequest(String key, Object value) {
         //DEBUG System.out.println("CheckoutClothingItemTransaction.sCR: key: " + key);
-        if (key.equals("DoYourJob") == true) {
+        if (key.equals("DoYourJob")) {
             doYourJob();
-        } else if (key.equals("ProcessBarcode") == true) {
+        } else if (key.equals("ProcessBarcode")) {
             processTransaction((Properties) value);
-        } else if (key.equals("ReceiverRecentCheckout") == true) {
+        } else if (key.equals("ReceiverRecentCheckout")) {
             switchToReceiverRecentCheckoutView();
-        } else if (key.equals("ReceiverData") == true) {
+        } else if (key.equals("ReceiverData")) {
             processReceiver((Properties) value);
-        } else if (key.equals("MoreData") == true) {
+        } else if (key.equals("MoreData")) {
             barcodeError = "";
             switchToBarcodeScannerView();
         } else if (key.equals("CancelBarcodeSearch") && clothingItems.size() > 0) {
@@ -155,18 +155,20 @@ public class CheckoutClothingItemTransaction extends Transaction {
     }
 
     public Object getState(String key) {
-        if (key.equals("TransactionError") == true) {
+        if (key.equals("TransactionError")) {
             return transactionErrorMessage;
-        } else if (key.equals("BarcodeError") == true) {
+        } else if (key.equals("BarcodeError")) {
             return barcodeError;
-        } else if (key.equals("ReceiverRecentCheckouts") == true) {
+        } else if (key.equals("ReceiverRecentCheckouts")) {
             return receiverPastSixMonths;
-        } else if (key.equals("UpdateMessage") == true) {
+        } else if (key.equals("UpdateMessage")) {
             return updateMessage;
-        } else if (key.equals("ClothingItems") == true) {
+        } else if (key.equals("ClothingItems")) {
             return clothingItems;
         } else if (key.equals("InventoryList")) {
             return inventoryItems;
+        } else if (key.equals("ListAll")) {
+            return false;
         }
         return null;
     }
