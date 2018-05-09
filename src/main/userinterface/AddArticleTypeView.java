@@ -45,19 +45,7 @@ public class AddArticleTypeView extends View {
     public AddArticleTypeView(IModel at) {
         super(at, "AddArticleTypeView");
 
-        // create a container for showing the contents
-        VBox container = getParentContainer();
-        container.setAlignment(Pos.CENTER);
-
-        // Add a title for this panel
-        //container.getChildren().add(createTitle());
-
-        // create our GUI components, add them to this Container
-        container.getChildren().add(createFormContent());
-
-        container.getChildren().add(createStatusLog("             "));
-
-        getChildren().add(container);
+        createLayout(false);
 
         populateFields();
 
@@ -71,7 +59,7 @@ public class AddArticleTypeView extends View {
 
     // Create the main form content
     //-------------------------------------------------------------
-    private VBox createFormContent() {
+    VBox createFormContents() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
 

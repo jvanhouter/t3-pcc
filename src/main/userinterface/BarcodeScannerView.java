@@ -127,6 +127,8 @@ public class BarcodeScannerView extends View {
             } else {
                 displayErrorMessage("ERROR: Barcode does not begin with 0, 1, or 2!");
             }
+        } else if ((boolean) myModel.getState("ListAll")) {
+            myModel.stateChangeRequest("ProcessBarcode", props);
         } else {
             displayErrorMessage("ERROR: Please enter a valid barcode!");
         }

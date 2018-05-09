@@ -125,34 +125,34 @@ public class LogARequestView extends View
         myNetId.setFont(myFont);
         myNetId.setWrappingWidth(150);
         myNetId.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(myNetId, 0, 1);
+        grid.add(myNetId, 0, 0);
 
         netId = new TextField();
-        grid.add(netId, 1, 1);
+        grid.add(netId, 1, 0);
 
         PccText myFirstName = new PccText(" First Name : ");
         myFirstName.setFont(myFont);
         myFirstName.setWrappingWidth(150);
         myFirstName.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(myFirstName, 0, 2);
+        grid.add(myFirstName, 0, 1);
 
         firstName = new TextField();
-        grid.add(firstName, 1, 2);
+        grid.add(firstName, 1, 1);
 
         PccText myLastName = new PccText(" Last Name :");
         myLastName.setFont(myFont);
         myLastName.setWrappingWidth(150);
         myLastName.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(myLastName, 0, 3);
+        grid.add(myLastName, 0, 2);
 
         lastName = new TextField();
-        grid.add(lastName, 1, 3);
+        grid.add(lastName, 1, 2);
 
         PccText myPhone = new PccText(" Phone Number : ");
         myPhone.setFont(myFont);
         myPhone.setWrappingWidth(150);
         myPhone.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(myPhone, 0, 4);
+        grid.add(myPhone, 0, 3);
 
         phoneNumber = new TextField();
         phoneNumber.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -161,32 +161,29 @@ public class LogARequestView extends View
             }
             phoneNumber.setText(Utilities.autoFillDashes(phoneNumber.getText()));
         });
-        grid.add(phoneNumber, 1, 4);
+        grid.add(phoneNumber, 1, 3);
 
         PccText myEmail = new PccText(" Email Address : ");
         myEmail.setFont(myFont);
         myEmail.setWrappingWidth(150);
         myEmail.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(myEmail, 0, 5);
+        grid.add(myEmail, 0, 4);
 
         email = new TextField();
-        grid.add(email, 1, 5);
+        grid.add(email, 1, 4);
 
-        email.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
+        email.addEventFilter(KeyEvent.KEY_TYPED, event -> {
 
-            }
         });
 
         PccText myGender = new PccText(" Gender : ");
         myGender.setFont(myFont);
         myGender.setWrappingWidth(150);
         myGender.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(myGender, 0, 6);
+        grid.add(myGender, 2, 0);
 
         gender = new ComboBox<String>();
-        grid.add(gender, 1, 6);
+        grid.add(gender, 3, 0);
         gender.getItems().addAll("Mens", "Womens", "Unisex");
         gender.setValue("Mens");
 
@@ -267,7 +264,6 @@ public class LogARequestView extends View
         grid.add(brandLabel, 2, 4);
 
         brand = new TextField();
-        //brand.setOnAction(this::processAction);
         grid.add(brand, 3, 4);
 
         // =================================================================
@@ -279,32 +275,23 @@ public class LogARequestView extends View
         grid.add(mySize, 2, 5);
 
         size = new TextField();
-        //brand.setOnAction(this::processAction);
         grid.add(size, 3, 5);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
 
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                processTransaction();
-            }
+        submitButton.setOnAction(e -> {
+            clearErrorMessage();
+            processTransaction();
         });
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
 
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelLogRequest", null);
-            }
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelLogRequest", null);
         });
         doneCont.getChildren().add(cancelButton);
 
@@ -379,12 +366,8 @@ public class LogARequestView extends View
         gender.setValue((String) myModel.getState("Gender"));
         Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
-        Comparator<ArticleType> compareAT = new Comparator<ArticleType>() {
-            @Override
-            public int compare(ArticleType o1, ArticleType o2) {
-                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
-            }
-        };
+        Comparator<ArticleType> compareAT = (o1, o2) ->
+                ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
         while (articles.hasNext()) {
             Map.Entry pair = (Map.Entry)articles.next();
             articleTypes.add((ArticleType) pair.getValue());
@@ -395,12 +378,8 @@ public class LogARequestView extends View
 
         Iterator colors = Utilities.collectColorHash().entrySet().iterator();
         ObservableList<Color> colorItems = FXCollections.observableArrayList();
-        Comparator<Color> compareCT = new Comparator<Color>() {
-            @Override
-            public int compare(Color o1, Color o2) {
-                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
-            }
-        };
+        Comparator<Color> compareCT = (o1, o2) ->
+                ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
         while (colors.hasNext()) {
             Map.Entry pair = (Map.Entry)colors.next();
             colorItems.add((Color) pair.getValue());

@@ -218,9 +218,10 @@ public class ClothingItemCollectionView extends View {
                 }
             }
         });
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfClothingItems);
+        tableOfClothingItems.setMaxSize(800, 250);
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setPrefSize(150, 150);
+//        scrollPane.setContent(tableOfClothingItems);
 
         submitButton = new PccButton("Submit");
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -259,7 +260,8 @@ public class ClothingItemCollectionView extends View {
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(scrollPane);
+//        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(tableOfClothingItems);
         vbox.getChildren().add(btnContainer);
 
         return vbox;

@@ -156,9 +156,11 @@ public class ColorCollectionView extends View {
                 }
             }
         });
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfColors);
+
+        tableOfColors.setMaxSize(800, 250);
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setPrefSize(150, 150);
+//        scrollPane.setContent(tableOfColors);
 
         submitButton = new PccButton("Submit");
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -201,7 +203,8 @@ public class ColorCollectionView extends View {
 
 
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(scrollPane);
+//        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(tableOfColors);
         vbox.getChildren().add(blankText3);
         vbox.getChildren().add(btnContainer);
 

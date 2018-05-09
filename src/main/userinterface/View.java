@@ -17,6 +17,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -24,15 +26,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
 
 public abstract class View extends Group
         implements IView, IControl {
     protected static final String APP_FONT = "Univers";
     protected static final String APP_TEXT_COLOR = "#ffc726";
     protected static final Color CAPP_TEXT_COLOR = Color.web("#FFC726");
-//    protected static final String APP_BACKGROUND_COLOR = "#023627";
+    //    protected static final String APP_BACKGROUND_COLOR = "#023627";
     protected static final String APP_BACKGROUND_COLOR = "#57527e";
     protected static final String APP_BACKGROUND_STYLE_COLOR = "-fx-background-color: #57527e";
     protected static final String APP_BACKGROUND2_STYLE_COLOR = "-fx-background-color: #00533e";
@@ -66,6 +66,18 @@ public abstract class View extends Group
 
     VBox getParentContainer() {
         return container;
+    }
+
+    void createLayout(boolean header) {
+        if (header) {
+            bp.setTop(createTitle());
+        }
+        container.getChildren().add(createActionArea());
+        container.getChildren().add(createFormContents());
+        container.getChildren().add(createStatusLog(""));
+        bp.setCenter(container);
+
+        getChildren().add(bp);
     }
 
     Node createTitle() {
@@ -116,28 +128,36 @@ public abstract class View extends Group
 
     Node createBanner() {
 
-    Image image = new Image("pccTitle.png");
+        Image image = new Image("pccTitle.png");
 
-    VBox pictureRegion = new VBox();
-    pictureRegion.setAlignment(Pos.CENTER);
-    final ImageView imv = new ImageView();
-    imv.setImage(image);
-    pictureRegion.getChildren().add(imv);
+        VBox pictureRegion = new VBox();
+        pictureRegion.setAlignment(Pos.CENTER);
+        final ImageView imv = new ImageView();
+        imv.setImage(image);
+        pictureRegion.getChildren().add(imv);
 
-    Text blankText = new Text(" ");
-    blankText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 24));
-    blankText.setFill(Color.WHITE);
-    pictureRegion.getChildren().add(blankText);
+        Text blankText = new Text(" ");
+        blankText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 24));
+        blankText.setFill(Color.WHITE);
+        pictureRegion.getChildren().add(blankText);
 
-    Text actionText = new Text(getActionText());
-    actionText.setFont(Font.font(APP_FONT, 18));
-    actionText.setWrappingWidth(WRAPPING_WIDTH);
-    actionText.setTextAlignment(TextAlignment.CENTER);
-    actionText.setFill(Color.web(APP_TEXT_COLOR));
-    pictureRegion.getChildren().add(actionText);
+        Text actionText = new Text(getActionText());
+        actionText.setFont(Font.font(APP_FONT, 18));
+        actionText.setWrappingWidth(WRAPPING_WIDTH);
+        actionText.setTextAlignment(TextAlignment.CENTER);
+        actionText.setFill(Color.web(APP_TEXT_COLOR));
+        pictureRegion.getChildren().add(actionText);
 
-    return pictureRegion;
-}
+        return pictureRegion;
+    }
+
+    Node createFormContents() {
+        return null;
+    }
+
+    Node createStatusLog(String initialMessage) {
+        return null;
+    }
 
     protected String getActionText() {
         return " ";

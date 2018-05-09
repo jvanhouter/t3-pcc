@@ -147,9 +147,11 @@ public class ArticleTypeCollectionView extends View {
                 processArticleTypeSelected();
             }
         });
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfArticleTypes);
+
+        tableOfArticleTypes.setMaxSize(800, 250);
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setPrefSize(150, 150);
+//        scrollPane.setContent(tableOfArticleTypes);
 
         submitButton = new PccButton("Submit");
 
@@ -173,7 +175,8 @@ public class ArticleTypeCollectionView extends View {
 
 
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(scrollPane);
+//        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(tableOfArticleTypes);
         vbox.getChildren().add(btnContainer);
 
         return vbox;

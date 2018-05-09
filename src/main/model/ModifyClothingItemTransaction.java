@@ -65,7 +65,9 @@ public class ModifyClothingItemTransaction extends Transaction {
             String genderString = props.getProperty("Gender");
             String articleTypeString = props.getProperty("ArticleType");
             myClothingItemList.findByCriteria(articleTypeString, genderString);
-        }*/
+        }*/ else {
+            myClothingItemList.findAll();
+        }
 
         try {
             Scene newScene = createClothingItemCollectionView();
@@ -193,6 +195,8 @@ public class ModifyClothingItemTransaction extends Transaction {
             return myArticleTypeList.retrieveAll();
         } else if (key.equals("Colors")) {
             return myColorList.retrieveAll();
+        } else if (key.equals("ListAll")) {
+            return true;
         }
         return null;
     }

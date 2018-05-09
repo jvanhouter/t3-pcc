@@ -139,6 +139,8 @@ public class AddClothingItemTransaction extends Transaction {
             return myColorList.retrieveAll();
         } else if (key.equals("Barcode")) {
             return barcode;
+        } else if (key.equals("ListAll")) {
+            return false;
         }
         return null;
     }

@@ -52,11 +52,10 @@ public class ReceptionistView extends View {
     ReceptionistView(IModel receptionist) {
         super(receptionist, "ReceptionistView");
 
-        // Create BorderPane for clean display of containers (full width color fill)
+        // BorderPane for clean display of containers (full width color fill)
         bp.setTop(createTitle());
 
         // create a container for showing the contents
-//        VBox container = getParentContainer();
         container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
@@ -80,7 +79,7 @@ public class ReceptionistView extends View {
     }
 
     // Create the navigation buttons
-    private VBox createFormContents() {
+    VBox createFormContents() {
 
         VBox container = new VBox(15);
         container.setAlignment(Pos.CENTER);
@@ -191,7 +190,7 @@ public class ReceptionistView extends View {
         return container;
     }
 
-    private MessageView createStatusLog(String initialMessage) {
+    MessageView createStatusLog(String initialMessage) {
 
         statusLog = new MessageView(initialMessage);
 
