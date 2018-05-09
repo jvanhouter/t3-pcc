@@ -18,6 +18,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+import java.lang.StringBuilder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Properties;
 // project imports
 
@@ -32,8 +35,12 @@ public class ListInventoryFilterView extends View {
     protected PccButton submitButton;
     protected Button cancelButton;
 
-    protected CheckBox selectAllDonated;
+    protected CheckBox selectStatus;
     protected ComboBox status;
+    protected CheckBox selectDonateDate;
+    protected TextField donateDate;
+    protected CheckBox selectRecDate;
+    protected TextField recDate;
 
     // For showing error message
     protected MessageView statusLog;
@@ -91,13 +98,31 @@ public class ListInventoryFilterView extends View {
             myModel.stateChangeRequest("CancelInventory", null);
         });
 
-        selectAllDonated = new CheckBox("Status: ");
+        //These checkboxes provide filter options
+
+        PccText statusLabel = new PccText("Status: ");
+        //selectStatus = new CheckBox("Status: ");
+        selectStatus = new CheckBox();
         status = new ComboBox();
         status.getItems().addAll("Donated", "Received", "Removed");
         status.getSelectionModel().select(0);
 
-        grid.add(selectAllDonated, 0, 0);
-        grid.add(status, 1, 0);
+
+        PccText donateLabel = new PccText("Donated Date: ");
+        selectDonateDate = new CheckBox();
+        donateDate = new TextField();
+        donateDate.setPromptText("Items older than...");
+
+
+
+
+        grid.add(statusLabel, 0, 0);
+        grid.add(selectStatus, 1, 0);
+        grid.add(status, 2, 0);
+
+        grid.add(donateLabel, 0, 1);
+        grid.add(selectDonateDate, 1, 1);
+        grid.add(donateDate, 2, 1);
 
 
         vbox.getChildren().add(grid);
@@ -108,13 +133,41 @@ public class ListInventoryFilterView extends View {
     }
 
     private void processAction(ActionEvent actionEvent) {
-        String query = "SELECT * FROM inventory WHERE 1 ";
-        if(selectAllDonated.isSelected())
-        {
-            query = query + "AND (Status = '" + status.getValue() + "') ";
+
+        //String query = "SELECT * FROM inventory WHERE 1 ";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM inventory WHERE 1 ");
+
+//        if(selectAllDonated.isSelected())
+//        {
+//            query = query + "AND (Status = '" + status.getValue() + "') ";
+//        }
+//        query = query + ";";
+
+        //Build the queries here, based on selected checkboxes
+        // - Search by Status
+        if(selectStatus.isSelected())
+            query.append("AND (Status = '" + status.getValue() + "') ");
+
+        // - Search by DonatedDate
+        if (selectDonateDate.isSelected()){
+            String searchDate = donateDate.getText();
+
+            //Check for null in the textfield
+            if (searchDate == null || searchDate.trim().isEmpty()) {
+                //Assume today's date if the field is empty
+                Calendar currDate = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                searchDate = dateFormat.format(currDate.getTime());
+            }
+
+            query.append("AND (DateDonated <= '" + searchDate + "') ");
         }
-        query = query + ";";
-        myModel.stateChangeRequest("Filter", query);
+
+
+        //Close the search query string
+        query.append(";");
+        myModel.stateChangeRequest("Filter", query.toString());
     }
 
     // Create the status log field
