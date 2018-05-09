@@ -2,13 +2,16 @@ package userinterface;
 
 
 import Utilities.UiConstants;
+import Utilities.Utilities;
 import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.ArticleType;
 import model.Color;
 
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 
 // project imports
@@ -45,39 +48,33 @@ public class ModifyClothingItemView extends AddClothingItemView {
             genderCombo.setValue(genderString);
         }
         String atString = (String) myModel.getState("ArticleType");
-        if (atString != null) {
-            Vector ArticleList = (Vector) myModel.getState("Articles");
-            Iterator articles = ArticleList.iterator();
-            ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
-            while (articles.hasNext()) {
-                //articleTypes.add((ArticleType) articles.next());
-                ArticleType at = (ArticleType) articles.next();
-                if (at.getState("ID").equals(atString)) {
-                    articleTypeCombo.setValue(at);
-                }
+        Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
+        while (articles.hasNext()) {
+            Map.Entry pair = (Map.Entry)articles.next();
+            if(pair.getKey().equals(atString)) {
+                articleTypeCombo.setValue((ArticleType) pair.getValue());
+                break;
             }
         }
         String color1String = (String) myModel.getState("Color1");
         if (color1String != null) {
-            Vector ColorList = (Vector) myModel.getState("Colors");
-            Iterator colors = ColorList.iterator();
-            ObservableList<model.Color> colorItems = FXCollections.observableArrayList();
+            Iterator colors = Utilities.collectColorHash().entrySet().iterator();
             while (colors.hasNext()) {
-                Color ct = (Color) colors.next();
-                if (ct.getState("ID").equals(color1String)) {
-                    primaryColorCombo.setValue(ct);
+                Map.Entry pair = (Map.Entry)colors.next();
+                if(pair.getKey().equals(color1String)) {
+                    primaryColorCombo.setValue((Color) pair.getValue());
+                    break;
                 }
             }
         }
         String color2String = (String) myModel.getState("Color2");
         if (color2String != null) {
-            Vector ColorList = (Vector) myModel.getState("Colors");
-            Iterator colors = ColorList.iterator();
-            ObservableList<model.Color> colorItems = FXCollections.observableArrayList();
+            Iterator colors = Utilities.collectColorHash().entrySet().iterator();
             while (colors.hasNext()) {
-                Color ct = (Color) colors.next();
-                if (ct.getState("ID").equals(color2String)) {
-                    secondaryColorCombo.setValue(ct);
+                Map.Entry pair = (Map.Entry)colors.next();
+                if(pair.getKey().equals(color2String)) {
+                    secondaryColorCombo.setValue((Color) pair.getValue());
+                    break;
                 }
             }
         }

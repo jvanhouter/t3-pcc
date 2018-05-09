@@ -133,3 +133,4 @@ fabric.properties
 /.idea/inspectionProfiles/
 .idea/
 src/t3-pcc.iml
+src/main/userinterface/EnterColorDescriptionAlphaView.java
