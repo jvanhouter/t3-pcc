@@ -132,7 +132,8 @@ public class InventoryItemCollection extends EntityBase implements IView {
                 query.append(" AND (ArticleType = '").append(article).append("')");
             }
             if( color != null){
-                query.append(" AND (Color = '").append(color).append("')");
+                query.append(" AND (Color1 = '").append(color).append("')");
+                query.append(" OR (Color2 = '").append(color).append("')");
             }
 
         }

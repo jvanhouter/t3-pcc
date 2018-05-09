@@ -163,6 +163,25 @@ public class ListInventoryFilterView extends View {
         });
         articleChoice.setDisable(true);
 
+        PccText colorLabel = new PccText("Color: ");
+        selectColor = new CheckBox();
+        selectColor.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> colorChoice.setDisable(!newValue));
+        colorChoice = new ComboBox<>();
+        colorChoice.setConverter(new StringConverter<Color>() {
+            @Override
+            public String toString(Color object) {
+                return (String) object.getState("Description");
+            }
+
+            @Override
+            public Color fromString(String string) {
+                return colorChoice.getItems().stream().filter(ct ->
+                        ct.getState("Description").equals(string)).findFirst().orElse(null);
+            }
+        });
+        colorChoice.setDisable(true);
+
         //Add all of the Filter widgets to the grid container
         grid.add(statusLabel, 0, 0);
         grid.add(selectStatus, 1, 0);
@@ -176,6 +195,10 @@ public class ListInventoryFilterView extends View {
         grid.add(articleLabel, 0, 2);
         grid.add(selectArticle, 1, 2);
         grid.add(articleChoice, 2, 2);
+
+        grid.add(colorLabel, 0, 3);
+        grid.add(selectColor, 1, 3);
+        grid.add(colorChoice, 2, 3);
 
 
         vbox.getChildren().add(grid);
@@ -206,11 +229,11 @@ public class ListInventoryFilterView extends View {
         if (selectArticle.isSelected()) {
             props.put("article", articleChoice.getValue().getState("ID"));
         }
-//
-//        if (selectColor.isSelected()) {
-//            props.put("article", colorChoice.getValue().getState("ID"));
-//
-//        }
+
+        if (selectColor.isSelected()) {
+            props.put("color", colorChoice.getValue().getState("ID"));
+
+        }
 
         myModel.stateChangeRequest("Filter", props);
     }
@@ -238,20 +261,16 @@ public class ListInventoryFilterView extends View {
         articleTypes.sort(compareAT);
         articleChoice.setItems(articleTypes);
 
-//        Iterator colors = Utilities.collectColorHash().entrySet().iterator();
-//        ObservableList<Color> colorItems = FXCollections.observableArrayList();
-//        Comparator<Color> compareCT = new Comparator<Color>() {
-//            @Override
-//            public int compare(Color o1, Color o2) {
-//                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
-//            }
-//        };
-//        while (colors.hasNext()) {
-//            Map.Entry pair = (Map.Entry)colors.next();
-//            colorItems.add((Color) pair.getValue());
-//        }
-//        colorItems.sort(compareCT);
-//        primaryColorCombo.setItems(colorItems);
+        Iterator colors = Utilities.collectColorHash().entrySet().iterator();
+        ObservableList<Color> colorItems = FXCollections.observableArrayList();
+        Comparator<Color> compareCT = (o1, o2) ->
+                ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+        while (colors.hasNext()) {
+            Map.Entry pair = (Map.Entry)colors.next();
+            colorItems.add((Color) pair.getValue());
+        }
+        colorItems.sort(compareCT);
+        colorChoice.setItems(colorItems);
     }
 
     /**
