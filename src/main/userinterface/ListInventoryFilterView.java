@@ -2,30 +2,40 @@
 package userinterface;
 
 // system imports
-
-import Utilities.UiConstants;
-import impresario.IModel;
 import javafx.animation.PauseTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 import java.lang.StringBuilder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Properties;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.Comparator;
+
 // project imports
+import Utilities.UiConstants;
+import Utilities.Utilities;
+
+import impresario.IModel;
+import model.ArticleType;
+import model.Color;
 
 /**
- * The class containing the Add Article Type View  for the Professional Clothes
+ * The class containing the List Inventory Filter View  for the Professional Clothes
  * Closet application
  */
 //==============================================================
@@ -33,14 +43,17 @@ public class ListInventoryFilterView extends View {
 
     // GUI components
     protected PccButton submitButton;
-    protected Button cancelButton;
+    protected PccButton cancelButton;
 
     protected CheckBox selectStatus;
     protected ComboBox status;
     protected CheckBox selectDonateDate;
     protected TextField donateDate;
-    protected CheckBox selectRecDate;
-    protected TextField recDate;
+    protected CheckBox selectArticle;
+    protected ComboBox<ArticleType> articleChoice;
+    protected CheckBox selectColor;
+    protected ComboBox<Color> colorChoice;
+
 
     // For showing error message
     protected MessageView statusLog;
@@ -79,7 +92,7 @@ public class ListInventoryFilterView extends View {
         PccText prompt = new PccText("Please select desired filters.\nLeave all filters unchecked to list all items.");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.web(APP_TEXT_COLOR));
+//        prompt.setFill(Color.web(APP_TEXT_COLOR));
         prompt.setFont(Font.font(APP_FONT, 18));
         vbox.getChildren().add(prompt);
 
@@ -99,7 +112,6 @@ public class ListInventoryFilterView extends View {
         });
 
         //These checkboxes provide filter options
-
         PccText statusLabel = new PccText("Status: ");
         //selectStatus = new CheckBox("Status: ");
         selectStatus = new CheckBox();
@@ -113,9 +125,32 @@ public class ListInventoryFilterView extends View {
         donateDate = new TextField();
         donateDate.setPromptText("Items older than...");
 
+        PccText articleLabel = new PccText("Article Type: ");
+        selectArticle = new CheckBox();
+
+        //Borrowed from AddClothingItemView
+        articleChoice = new ComboBox<>();
+        articleChoice.setConverter(new StringConverter<ArticleType>() {
+            @Override
+            public String toString(ArticleType object) {
+                return (String) object.getState("Description");
+            }
+
+            @Override
+            public ArticleType fromString(String string) {
+                return articleChoice.getItems().stream().filter(at ->
+                        at.getState("Description").equals(string)).findFirst().orElse(null);
+            }
+        });
+        articleChoice.valueProperty().addListener((obs, oldval, newval) -> {
+            /*if (newval != null) {
+                System.out.println("Selected article type: " + newval.getState("Description")
+                        + " ID: " + newval.getState("ID"));
+            }*/
+        });
 
 
-
+        //Add all of the Filter widgets to the grid container
         grid.add(statusLabel, 0, 0);
         grid.add(selectStatus, 1, 0);
         grid.add(status, 2, 0);
@@ -123,6 +158,10 @@ public class ListInventoryFilterView extends View {
         grid.add(donateLabel, 0, 1);
         grid.add(selectDonateDate, 1, 1);
         grid.add(donateDate, 2, 1);
+
+        grid.add(articleLabel, 0, 2);
+        grid.add(selectArticle, 1, 2);
+        grid.add(articleChoice, 2, 2);
 
 
         vbox.getChildren().add(grid);
@@ -179,6 +218,37 @@ public class ListInventoryFilterView extends View {
 
     public void populateFields() {
         clearErrorMessage();
+
+        //Instantiate the article type and color values
+        Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
+        ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
+        Comparator<ArticleType> compareAT = new Comparator<ArticleType>() {
+            @Override
+            public int compare(ArticleType o1, ArticleType o2) {
+                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+            }
+        };
+        while (articles.hasNext()) {
+            Map.Entry pair = (Map.Entry)articles.next();
+            articleTypes.add((ArticleType) pair.getValue());
+        }
+        articleTypes.sort(compareAT);
+        articleChoice.setItems(articleTypes);
+
+//        Iterator colors = Utilities.collectColorHash().entrySet().iterator();
+//        ObservableList<Color> colorItems = FXCollections.observableArrayList();
+//        Comparator<Color> compareCT = new Comparator<Color>() {
+//            @Override
+//            public int compare(Color o1, Color o2) {
+//                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+//            }
+//        };
+//        while (colors.hasNext()) {
+//            Map.Entry pair = (Map.Entry)colors.next();
+//            colorItems.add((Color) pair.getValue());
+//        }
+//        colorItems.sort(compareCT);
+//        primaryColorCombo.setItems(colorItems);
     }
 
     /**
