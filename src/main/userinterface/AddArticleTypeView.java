@@ -73,47 +73,47 @@ public class AddArticleTypeView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
+//
+//
+//        PccText blankText = new PccText(" ");
+//        blankText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 10));
+//        blankText.setFill(Color.WHITE);
+//        vbox.getChildren().add(blankText);
+//
+//        PccText title = new PccText("Adding a New Article Type");
+//        title.setWrappingWidth(WRAPPING_WIDTH);
+//        title.setTextAlignment(TextAlignment.CENTER);
+//        title.setFill(Color.web(APP_TEXT_COLOR));
+//        title.setFont(Font.font(APP_FONT, 30));
+//        vbox.getChildren().add(title);
+//
+//        PccText blankText1 = new PccText(" ");
+//        blankText1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 20));
+//        blankText1.setFill(Color.WHITE);
+//        vbox.getChildren().add(blankText1);
 
-
-        PccText blankText = new PccText(" ");
-        blankText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 10));
-        blankText.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText);
-
-        PccText title = new PccText("Adding a New Article Type");
-        title.setWrappingWidth(WRAPPING_WIDTH);
-        title.setTextAlignment(TextAlignment.CENTER);
-        title.setFill(Color.web(APP_TEXT_COLOR));
-        title.setFont(Font.font(APP_FONT, 30));
-        vbox.getChildren().add(title);
-        
-        PccText blankText1 = new PccText(" ");
-        blankText1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 20));
-        blankText1.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText1);
-
-        PccText prompt = new PccText("Please enter article type information:");
+//        PccText prompt = new PccText("Please enter article type information:");
+        PccText prompt = new PccText("ARTICLE TYPE INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, 20));
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD,18));
         vbox.getChildren().add(prompt);
 
-        PccText blankText2 = new PccText(" ");
-        blankText2.setFont(Font.font(APP_FONT, 10));
-        blankText2.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText2);
+//        PccText blankText2 = new PccText(" ");
+//        blankText2.setFont(Font.font(APP_FONT, 10));
+//        blankText2.setFill(Color.WHITE);
+//        vbox.getChildren().add(blankText2);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(20);
-        grid.setVgap(12);
+        grid.setHgap(10);
+        grid.setVgap(10);
         grid.setPadding(new Insets(0, 25, 10, 0));
 
         PccText barcodePrefixLabel = new PccText(" Barcode Prefix : ");
         Font myFont = Font.font(APP_FONT, 16);
         barcodePrefixLabel.setFont(myFont);
-        barcodePrefixLabel.setFill(Color.web(APP_TEXT_COLOR));
         barcodePrefixLabel.setWrappingWidth(150);
         barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(barcodePrefixLabel, 0, 1);
@@ -180,17 +180,17 @@ public class AddArticleTypeView extends View {
 
     private void processAction(ActionEvent e) {
         clearErrorMessage();
-        Properties props = new Properties();
-        String bcPrfx = barcodePrefix.getText();
-        if (bcPrfx.length() > 0) {
-            props.setProperty("BarcodePrefix", bcPrfx);
-            String descrip = description.getText();
-            if (descrip.length() > 0) {
-                props.setProperty("Description", descrip);
-                String alfaC = alphaCode.getText();
-                if (alfaC.length() > 0) {
-                    props.setProperty("AlphaCode", alfaC);
-                    myModel.stateChangeRequest("ArticleTypeData", props);
+        Properties properties = new Properties();
+        String barcodePrefixText = barcodePrefix.getText();
+        if (barcodePrefixText.length() > 0) {
+            properties.setProperty("BarcodePrefix", barcodePrefixText);
+            String descriptionText = description.getText();
+            if (descriptionText.length() > 0) {
+                properties.setProperty("Description", descriptionText);
+                String alphaCodeText = alphaCode.getText();
+                if (alphaCodeText.length() > 0) {
+                    properties.setProperty("AlphaCode", alphaCodeText);
+                    myModel.stateChangeRequest("ArticleTypeData", properties);
                     myModel.stateChangeRequest("OK", null);
                 } else {
                     displayErrorMessage("ERROR: Please enter a valid alpha code!");
@@ -206,14 +206,12 @@ public class AddArticleTypeView extends View {
     }
 
     // Create the status log field
-    //-------------------------------------------------------------
     protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
-    //-------------------------------------------------------------
     public void populateFields() {
 
     }
@@ -221,7 +219,6 @@ public class AddArticleTypeView extends View {
     /**
      * Update method
      */
-    //---------------------------------------------------------
     public void updateState(String key, Object value) {
         clearErrorMessage();
 
@@ -239,7 +236,6 @@ public class AddArticleTypeView extends View {
     /**
      * Display error message
      */
-    //----------------------------------------------------------
     public void displayErrorMessage(String message) {
         statusLog.displayErrorMessage(message);
     }
@@ -247,7 +243,6 @@ public class AddArticleTypeView extends View {
     /**
      * Display info message
      */
-    //----------------------------------------------------------
     public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
@@ -255,13 +250,8 @@ public class AddArticleTypeView extends View {
     /**
      * Clear error message
      */
-    //----------------------------------------------------------
     public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 
 }
-
-//---------------------------------------------------------------
-//	Revision History:
-//

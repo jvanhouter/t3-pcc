@@ -15,7 +15,7 @@ import javafx.scene.text.TextAlignment;
 // project imports
 
 /**
- * The class containing the Add Article Type View  for the Professional Clothes
+ * The class containing the Remove Color View for the Professional Clothes
  * Closet application
  */
 //==============================================================

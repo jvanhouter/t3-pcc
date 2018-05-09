@@ -4,6 +4,7 @@ package userinterface;
 // system imports
 
 import impresario.IModel;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -14,6 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.Properties;
 
@@ -46,7 +49,7 @@ public class AddColorView extends View {
         VBox container = getParentContainer();
 
         // Add a title for this panel
-        container.getChildren().add(createTitle());
+//        container.getChildren().add(createTitle());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
@@ -69,6 +72,7 @@ public class AddColorView extends View {
     //-------------------------------------------------------------
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
         PccText prompt = new PccText("COLOR TYPE INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
@@ -133,33 +137,7 @@ public class AddColorView extends View {
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
-        submitButton.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-            String bcPrfx = barcodePrefix.getText();
-            if (bcPrfx.length() > 0) {
-                props.setProperty("BarcodePrefix", bcPrfx);
-                String descrip = description.getText();
-                if (descrip.length() > 0) {
-                    props.setProperty("Description", descrip);
-                    String alfaC = alphaCode.getText();
-                    if (alfaC.length() > 0) {
-                        props.setProperty("AlphaCode", alfaC);
-                        myModel.stateChangeRequest("ColorData", props);
-                        myModel.stateChangeRequest("OK", null);
-                    } else {
-                        displayErrorMessage("ERROR: Please enter a valid alpha code!");
-                    }
-                } else {
-                    displayErrorMessage("ERROR: Please enter a valid description!");
-                }
-
-            } else {
-                displayErrorMessage("ERROR: Please enter a barcode prefix!");
-
-            }
-
-        });
+        submitButton.setOnAction(this::processAction);
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
@@ -175,16 +153,40 @@ public class AddColorView extends View {
         return vbox;
     }
 
+    private void processAction(ActionEvent e) {
+        clearErrorMessage();
+        Properties properties = new Properties();
+        String barcodePrefixText = barcodePrefix.getText();
+        if (barcodePrefixText.length() > 0) {
+            properties.setProperty("BarcodePrefix", barcodePrefixText);
+            String descriptionText = description.getText();
+            if (descriptionText.length() > 0) {
+                properties.setProperty("Description", descriptionText);
+                String alphaCodeText = alphaCode.getText();
+                if (alphaCodeText.length() > 0) {
+                    properties.setProperty("AlphaCode", alphaCodeText);
+                    myModel.stateChangeRequest("ColorData", properties);
+                    myModel.stateChangeRequest("OK", null);
+                } else {
+                    displayErrorMessage("ERROR: Please enter a valid alpha code!");
+                }
+            } else {
+                displayErrorMessage("ERROR: Please enter a valid description!");
+            }
+
+        } else {
+            displayErrorMessage("ERROR: Please enter a barcode prefix!");
+
+        }
+    }
 
     // Create the status log field
-    //-------------------------------------------------------------
     protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
-    //-------------------------------------------------------------
     public void populateFields() {
 
     }
@@ -192,7 +194,6 @@ public class AddColorView extends View {
     /**
      * Update method
      */
-    //---------------------------------------------------------
     public void updateState(String key, Object value) {
         clearErrorMessage();
 
@@ -210,7 +211,6 @@ public class AddColorView extends View {
     /**
      * Display error message
      */
-    //----------------------------------------------------------
     public void displayErrorMessage(String message) {
         statusLog.displayErrorMessage(message);
     }
@@ -218,7 +218,6 @@ public class AddColorView extends View {
     /**
      * Display info message
      */
-    //----------------------------------------------------------
     public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
@@ -226,13 +225,8 @@ public class AddColorView extends View {
     /**
      * Clear error message
      */
-    //----------------------------------------------------------
     public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 
 }
-
-//---------------------------------------------------------------
-//	Revision History:
-//

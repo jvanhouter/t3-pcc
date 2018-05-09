@@ -40,8 +40,4 @@ public class ModifyArticleTypeView extends AddArticleTypeView {
     }
 }
 
-
 //	Revision History:
-//
-
-

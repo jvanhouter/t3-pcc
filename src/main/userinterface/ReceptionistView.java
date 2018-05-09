@@ -58,24 +58,28 @@ public class ReceptionistView extends View {
 
     // constructor for this class -- takes a model object
 
-    public ReceptionistView(IModel teller) {
-        super(teller, "ReceptionistView");
-
+    ReceptionistView(IModel receptionist) {
+        super(receptionist, "ReceptionistView");
         // create a container for showing the contents
         VBox container = getParentContainer();
         container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
-        container.getChildren().add(createBanner());
+//        container.getChildren().add(createBanner());
         // how do you add white space? regex \\s for space
-        container.getChildren().add(new Label(" "));
+//        container.getChildren().add(new Label(" "));
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContents());
 
-        container.getChildren().add(createStatusLog("             "));
+//        container.getChildren().add(createStatusLog("             "));
+        bp.setTop(createTitle());
+        bp.setCenter(container);
+        bp.setBottom(createStatusLog(""));
 
-        getChildren().add(container);
+        getChildren().add(bp);
+//        getChildren().add(container);
 
         populateFields();
 
@@ -103,7 +107,6 @@ public class ReceptionistView extends View {
         columnConstraints.setHalignment(HPos.RIGHT);
         gridContainer.getColumnConstraints().add(columnConstraints);
 
-
         // create the buttons, listen for events, add them to the container
         HBox checkoutCont = new HBox(10);
         checkoutCont.setAlignment(Pos.CENTER);
@@ -114,10 +117,7 @@ public class ReceptionistView extends View {
         gridContainer.add(checkoutCont, 0, 0, 4, 1);
         gridContainer.add(new Pane(), 0,1,4,1);
         // Article type choices
-        Text atLabel = new Text("Article Types: ");
-        atLabel.setFont(Font.font(APP_FONT, 16));
-//        atLabel.setStyle("-fx-text-fill: #ffc726");
-        atLabel.setFill(Color.web(APP_TEXT_COLOR));
+        PccText atLabel = new PccText("Article Types: ");
         addArticleTypeButton = new PccButton("Add");
         addArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("AddArticleType", null));
 
@@ -132,11 +132,8 @@ public class ReceptionistView extends View {
         gridContainer.add(updateArticleTypeButton, 2, 2);
         gridContainer.add(removeArticleTypeButton, 3, 2);
 
-
         // Color choices
-        Label colorLabel = new Label("Colors: ");
-        colorLabel.setStyle("-fx-text-fill: #ffc726");
-        colorLabel.setFont(Font.font(APP_FONT, 16));
+        PccText colorLabel = new PccText("Colors: ");
         addColorButton = new PccButton("Add");
         addColorButton.setOnAction(e -> myModel.stateChangeRequest("AddColor", null));
 
@@ -152,9 +149,7 @@ public class ReceptionistView extends View {
         gridContainer.add(removeColorButton,3,3);
 
         // Clothing item choices
-        Label ciLabel = new Label("Clothing Items: ");
-        ciLabel.setFont(Font.font(APP_FONT, 16));
-        ciLabel.setStyle("-fx-text-fill: #ffc726");
+        PccText ciLabel = new PccText("Clothing Items: ");
         addClothingItemButton = new PccButton("Add");
         addClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("AddClothingItem", null));
 
@@ -169,11 +164,8 @@ public class ReceptionistView extends View {
         gridContainer.add(updateClothingItemButton, 2, 4);
         gridContainer.add(removeClothingItemButton, 3, 4);
 
-
         // Clothing item request
-        Label reqLabel = new Label("Requests: ");
-        reqLabel.setFont(Font.font(APP_FONT, 16));
-        reqLabel.setStyle("-fx-text-fill: #ffc726");
+        PccText reqLabel = new PccText("Requests: ");
         logRequestButton = new PccButton("Log");
         logRequestButton.setOnAction(e -> myModel.stateChangeRequest("LogRequest", null));
 
@@ -221,25 +213,27 @@ public class ReceptionistView extends View {
 
 
     public void populateFields() {
-        Vector<ClothingRequest> requests = (Vector<ClothingRequest>) myModel.getState("Requests");
+        Vector requests = (Vector) myModel.getState("Requests");
         if(requests.size() > 0) {
             fulfillRequestButton.setText("Fulfill (" + requests.size() + ")");
         }
     }
 
     private void processAction() {
-        Vector<ClothingRequest> myRequests = (Vector<ClothingRequest>) myModel.getState("Requests");
+        Vector myRequests = (Vector) myModel.getState("Requests");
         if(myRequests.size() > 0) {
             PccAlert myAlert = PccAlert.getInstance();
-            myAlert.getInstance().setAlertType(Alert.AlertType.CONFIRMATION);
-            myAlert.getInstance().setHeaderText("Message");
-            myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Info");
-            myAlert.getInstance().setContentText("You have " + ((Vector<ClothingRequest>) myModel.getState("Requests")).size() + " requests pending to be fulfilled.\nWould you like to view them?");
+            myAlert.setAlertType(Alert.AlertType.CONFIRMATION);
+            myAlert.setHeaderText("Message");
+            myAlert.setTitle("Brockport Professional Clothes Closet Info");
+            myAlert.setContentText("You have " + ((Vector)
+                    myModel.getState("Requests")).size() +
+                    " requests pending to be fulfilled.\nWould you like to view them?");
             ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
             ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-            myAlert.getInstance().getButtonTypes().setAll(yesButton, noButton);
-            myAlert.getInstance().showAndWait().ifPresent(type -> {
-                if (type.getText() == "Yes") {
+            myAlert.getButtonTypes().setAll(yesButton, noButton);
+            myAlert.showAndWait().ifPresent(type -> {
+                if (type.getText().equals("Yes")) {
                     myModel.stateChangeRequest("FulfillRequestSpecific", myRequests);
                 } else
                     myModel.stateChangeRequest("FulfillRequest", null);

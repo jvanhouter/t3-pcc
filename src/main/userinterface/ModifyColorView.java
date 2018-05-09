@@ -8,15 +8,11 @@ import impresario.IModel;
 // project imports
 
 /**
- * The class containing the Modify Article Type View  for the Professional Clothes
+ * The class containing the Modify Color View  for the Professional Clothes
  * Closet application
  */
 //==============================================================
 public class ModifyColorView extends AddColorView {
-
-    //
-
-    // constructor for this class -- takes a model object
 
     public ModifyColorView(IModel color) {
         super(color);
@@ -42,9 +38,6 @@ public class ModifyColorView extends AddColorView {
             alphaCode.setText(alfaC);
         }
     }
-
 }
 
-
 //	Revision History:
-//

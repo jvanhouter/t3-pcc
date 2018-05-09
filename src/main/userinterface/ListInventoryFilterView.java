@@ -6,6 +6,8 @@ package userinterface;
 import Utilities.UiConstants;
 import impresario.IModel;
 import javafx.animation.PauseTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +22,8 @@ import javafx.util.Duration;
 
 import java.lang.StringBuilder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Properties;
 // project imports
@@ -41,6 +45,7 @@ public class ListInventoryFilterView extends View {
     protected TextField donateDate;
     protected CheckBox selectRecDate;
     protected TextField recDate;
+    DatePicker datePicker = new DatePicker();
 
     // For showing error message
     protected MessageView statusLog;
@@ -103,14 +108,20 @@ public class ListInventoryFilterView extends View {
         PccText statusLabel = new PccText("Status: ");
         //selectStatus = new CheckBox("Status: ");
         selectStatus = new CheckBox();
+        selectStatus.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> status.setDisable(!newValue));
         status = new ComboBox();
         status.getItems().addAll("Donated", "Received", "Removed");
+        status.setDisable(true);
         status.getSelectionModel().select(0);
 
 
         PccText donateLabel = new PccText("Donated Date: ");
         selectDonateDate = new CheckBox();
+        selectDonateDate.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> datePicker.setDisable(!newValue));
         donateDate = new TextField();
+        datePicker.setDisable(true);
         donateDate.setPromptText("Items older than...");
 
 
@@ -122,7 +133,8 @@ public class ListInventoryFilterView extends View {
 
         grid.add(donateLabel, 0, 1);
         grid.add(selectDonateDate, 1, 1);
-        grid.add(donateDate, 2, 1);
+//        grid.add(donateDate, 2, 1);
+        grid.add(datePicker, 2, 1);
 
 
         vbox.getChildren().add(grid);
@@ -151,15 +163,17 @@ public class ListInventoryFilterView extends View {
 
         // - Search by DonatedDate
         if (selectDonateDate.isSelected()){
-            String searchDate = donateDate.getText();
+//            String searchDate;
 
             //Check for null in the textfield
-            if (searchDate == null || searchDate.trim().isEmpty()) {
+//            if (searchDate == null || searchDate.trim().isEmpty()) {
                 //Assume today's date if the field is empty
-                Calendar currDate = Calendar.getInstance();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                searchDate = dateFormat.format(currDate.getTime());
-            }
+//                Calendar currDate = Calendar.getInstance();
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+               String searchDate = datePicker.getValue().format(dateTimeFormatter);
+            System.out.println(searchDate);
+//            }
 
             query.append("AND (DateDonated <= '" + searchDate + "') ");
         }
@@ -179,6 +193,7 @@ public class ListInventoryFilterView extends View {
 
     public void populateFields() {
         clearErrorMessage();
+        datePicker.setValue(LocalDate.now());
     }
 
     /**

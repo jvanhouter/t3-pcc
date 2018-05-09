@@ -37,7 +37,8 @@ class PccButton extends Button {
     }
 
     private void colorHover() {
-        this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #007a58; -fx-text-fill: #ffc726");
+        // Original 007a58
+        this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #6c8072; -fx-text-fill: #ffc726");
     }
 
     private void colorClicked() {
