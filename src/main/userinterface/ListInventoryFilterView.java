@@ -26,10 +26,7 @@ import java.lang.StringBuilder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.Comparator;
+import java.util.*;
 
 // project imports
 import Utilities.UiConstants;
@@ -141,6 +138,8 @@ public class ListInventoryFilterView extends View {
 
         PccText articleLabel = new PccText("Article Type: ");
         selectArticle = new CheckBox();
+        selectArticle.selectedProperty().addListener(
+                (observable, oldValue, newValue) -> articleChoice.setDisable(!newValue));
 
         //Borrowed from AddClothingItemView
         articleChoice = new ComboBox<>();
@@ -162,7 +161,7 @@ public class ListInventoryFilterView extends View {
                         + " ID: " + newval.getState("ID"));
             }*/
         });
-
+        articleChoice.setDisable(true);
 
         //Add all of the Filter widgets to the grid container
         grid.add(statusLabel, 0, 0);
@@ -187,43 +186,33 @@ public class ListInventoryFilterView extends View {
     }
 
     private void processAction(ActionEvent actionEvent) {
-
-        //String query = "SELECT * FROM inventory WHERE 1 ";
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM inventory WHERE 1 ");
-
-//        if(selectAllDonated.isSelected())
-//        {
-//            query = query + "AND (Status = '" + status.getValue() + "') ";
-//        }
-//        query = query + ";";
+        Properties props = new Properties();
 
         //Build the queries here, based on selected checkboxes
         // - Search by Status
-        if(selectStatus.isSelected())
-            query.append("AND (Status = '" + status.getValue() + "') ");
+        if (selectStatus.isSelected()) {
+            props.put("status", status.getValue());
+        }
 
         // - Search by DonatedDate
         if (selectDonateDate.isSelected()){
-//            String searchDate;
-
-            //Check for null in the textfield
-//            if (searchDate == null || searchDate.trim().isEmpty()) {
-                //Assume today's date if the field is empty
-//                Calendar currDate = Calendar.getInstance();
-//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-               String searchDate = datePicker.getValue().format(dateTimeFormatter);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String searchDate = datePicker.getValue().format(dateTimeFormatter);
             System.out.println(searchDate);
-//            }
 
-            query.append("AND (DateDonated <= '" + searchDate + "') ");
+            props.put("date", searchDate);
         }
 
+        if (selectArticle.isSelected()) {
+            props.put("article", articleChoice.getValue().getState("ID"));
+        }
+//
+//        if (selectColor.isSelected()) {
+//            props.put("article", colorChoice.getValue().getState("ID"));
+//
+//        }
 
-        //Close the search query string
-        query.append(";");
-        myModel.stateChangeRequest("Filter", query.toString());
+        myModel.stateChangeRequest("Filter", props);
     }
 
     // Create the status log field
@@ -240,12 +229,8 @@ public class ListInventoryFilterView extends View {
         //Instantiate the article type and color values
         Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
-        Comparator<ArticleType> compareAT = new Comparator<ArticleType>() {
-            @Override
-            public int compare(ArticleType o1, ArticleType o2) {
-                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
-            }
-        };
+        Comparator<ArticleType> compareAT = (o1, o2) ->
+                ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
         while (articles.hasNext()) {
             Map.Entry pair = (Map.Entry)articles.next();
             articleTypes.add((ArticleType) pair.getValue());

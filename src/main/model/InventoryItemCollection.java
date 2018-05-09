@@ -112,8 +112,34 @@ public class InventoryItemCollection extends EntityBase implements IView {
         populateCollectionHelper(query);
     }
 
-    public void findCustom(String query) {
-        populateCollectionHelper(query);
+    public void findFilteredResults(Properties props) {
+        StringBuilder query = new StringBuilder("SELECT * FROM " + myTableName + " WHERE 1");
+
+
+        if (props != null) {
+            String status = props.getProperty("status");
+            String date = props.getProperty("date");
+            String article = props.getProperty("article");
+            String color = props.getProperty("color");
+
+            if( status != null){
+                query.append(" AND (Status = '").append(status).append("')");
+            }
+            if( date != null){
+                query.append(" AND (DateDonated <= '").append(date).append("')");
+            }
+            if( article != null){
+                query.append(" AND (ArticleType = '").append(article).append("')");
+            }
+            if( color != null){
+                query.append(" AND (Color = '").append(color).append("')");
+            }
+
+        }
+        // Build query
+        query.append(';');
+
+        populateCollectionHelper(query.toString());
     }
 
     public void findRecent(String netId) {

@@ -56,15 +56,15 @@ public class ListInventoryTransaction extends Transaction {
             doYourJob();
         }else if (key.equals("Filter"))
         {
-            processFilter((String) value);
+            processFilter((Properties) value);
         }
         myRegistry.updateSubscribers(key, this);
     }
 
-    private void processFilter(String value)
+    private void processFilter(Properties value)
     {
         myInvList = new InventoryItemCollection();
-        myInvList.findCustom(value);
+        myInvList.findFilteredResults(value);
 
         switchToInventoryItemCollectionView();
     }
