@@ -160,7 +160,6 @@ public class SearchColorView extends View {
         PccText prompt3 = new PccText("(enter nothing to list all colors)");
         prompt3.setWrappingWidth(WRAPPING_WIDTH);
         prompt3.setTextAlignment(TextAlignment.CENTER);
-        prompt3.setFill(Color.web(APP_TEXT_COLOR));
         prompt3.setFont(Font.font(APP_FONT, 14));
 
         vbox.getChildren().add(grid);

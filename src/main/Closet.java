@@ -128,7 +128,7 @@ public class Closet extends Application {
                 Utilities.collectClothingRequestHash();
 //                updateMessage("All assets have been loaded!");
                 updateMessage("World domination is now imminent!");
-                Thread.sleep(400);
+                Thread.sleep(1000);
                 return "SUCCESS!";
             }
         };

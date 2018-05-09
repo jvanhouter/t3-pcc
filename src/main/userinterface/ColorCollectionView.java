@@ -147,48 +147,26 @@ public class ColorCollectionView extends View {
         tableOfColors.getColumns().addAll(descriptionColumn,
                 barcodePrefixColumn, alphaCodeColumn, statusColumn);
 
-        tableOfColors.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.isPrimaryButtonDown() && event.getClickCount() >= 2) {
-                    processColorSelected();
-                }
+        tableOfColors.setOnMousePressed(event -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() >= 2) {
+                processColorSelected();
             }
         });
 
         tableOfColors.setMaxSize(800, 250);
-//        ScrollPane scrollPane = new ScrollPane();
-//        scrollPane.setPrefSize(150, 150);
-//        scrollPane.setContent(tableOfColors);
 
         submitButton = new PccButton("Submit");
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+        submitButton.setOnAction(e -> {
+            clearErrorMessage();
+            // do the inquiry
+            processColorSelected();
 
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                // do the inquiry
-                processColorSelected();
-
-            }
         });
 
         cancelButton = new PccButton("Return");
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                /**
-                 * Process the Cancel button.
-                 * The ultimate result of this action is that the transaction will tell the Receptionist to
-                 * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
-                 * It simply tells its model (controller) that the transaction was canceled, and leaves it
-                 * to the model to decide to tell the Receptionist to do the switch back.
-                 */
-                //----------------------------------------------------------
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelColorList", null);
-            }
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelColorList", null);
         });
 
         HBox btnContainer = new HBox(100);
@@ -196,15 +174,8 @@ public class ColorCollectionView extends View {
         btnContainer.getChildren().add(submitButton);
         btnContainer.getChildren().add(cancelButton);
 
-        PccText blankText3 = new PccText(" ");
-        blankText3.setFont(Font.font(APP_FONT, 4));
-
-
-
         vbox.getChildren().add(grid);
-//        vbox.getChildren().add(scrollPane);
         vbox.getChildren().add(tableOfColors);
-        vbox.getChildren().add(blankText3);
         vbox.getChildren().add(btnContainer);
 
         return vbox;

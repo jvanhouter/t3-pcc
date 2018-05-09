@@ -55,6 +55,7 @@ public class ModifyArticleTypeTransaction extends Transaction {
     //----------------------------------------------------------
     public void processTransaction(Properties props) {
         myArticleTypeList = new ArticleTypeCollection();
+
         if (props.getProperty("BarcodePrefix") != null) {
             String barcodePrefix = props.getProperty("BarcodePrefix");
             myArticleTypeList.findByBarcodePrefix(barcodePrefix);
@@ -63,6 +64,7 @@ public class ModifyArticleTypeTransaction extends Transaction {
             String alfaC = props.getProperty("AlphaCode");
             myArticleTypeList.findByCriteria(desc, alfaC);
         }
+
         try {
             Scene newScene = createArticleTypeCollectionView();
             swapToView(newScene);
