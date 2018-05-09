@@ -217,9 +217,10 @@ public class CheckoutHelperView extends View {
                 /*receiverNetIdColumn, receiverLastNameColumn, receiverFirstNameColumn,*/
                 dateDonatedColumn/*, dateTakenColumn*/);
 
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(InventoryTable);
+        InventoryTable.setMaxSize(800, 250);
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setPrefSize(150, 150);
+//        scrollPane.setContent(InventoryTable);
 
         PccText netIdLabel = new PccText(" Net ID : ");
         Font myFont = Font.font(APP_FONT, 16);
@@ -252,46 +253,38 @@ public class CheckoutHelperView extends View {
         addAnotherBarcodeButton = new PccButton("Add Another Barcode");
 
         addAnotherBarcodeButton.setPrefSize(250, 20);
-        addAnotherBarcodeButton.setOnAction(new EventHandler<ActionEvent>() {
+        addAnotherBarcodeButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("MoreData", null);
 
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("MoreData", null);
-
-            }
         });
         doneCont.getChildren().add(addAnotherBarcodeButton);
 
         checkoutButton = new PccButton("Finish Checkout");
         checkoutButton.setPrefSize(250, 20);
-        checkoutButton.setOnAction(new EventHandler<ActionEvent>() {
+        checkoutButton.setOnAction(e -> {
+            clearErrorMessage();
+            Properties props = new Properties();
+            String netIdReceiver = netId.getText();
+            //TODO should netid have a maximum?
 
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                Properties props = new Properties();
-                String netIdReceiver = netId.getText();
-                //TODO should netid have a maximum?
-
-                if(netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH && netId.getText().substring(0, 1).matches("[A-Za-z]")) {
-                    props.setProperty("ReceiverNetid", netIdReceiver);
-                    String fNameReceiver = fName.getText();
-                    if (fNameReceiver.length() > 0 && fNameReceiver.length() < UiConstants.RECEIVER_FIRST_NAME_MAX_LENGTH) {
-                        props.setProperty("ReceiverFirstName", fNameReceiver);
-                        String lNameReceiver = lName.getText();
-                        if (lNameReceiver.length() > 0 && lNameReceiver.length() < UiConstants.RECEIVER_LAST_NAME_MAX_LENGTH) {
-                            props.setProperty("ReceiverLastName", lNameReceiver);
-                            myModel.stateChangeRequest("ReceiverData", props);
-                        } else {
-                            displayErrorMessage("Last name incorrect size!");
-                        }
+            if(netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH && netId.getText().substring(0, 1).matches("[A-Za-z]")) {
+                props.setProperty("ReceiverNetid", netIdReceiver);
+                String fNameReceiver = fName.getText();
+                if (fNameReceiver.length() > 0 && fNameReceiver.length() < UiConstants.RECEIVER_FIRST_NAME_MAX_LENGTH) {
+                    props.setProperty("ReceiverFirstName", fNameReceiver);
+                    String lNameReceiver = lName.getText();
+                    if (lNameReceiver.length() > 0 && lNameReceiver.length() < UiConstants.RECEIVER_LAST_NAME_MAX_LENGTH) {
+                        props.setProperty("ReceiverLastName", lNameReceiver);
+                        myModel.stateChangeRequest("ReceiverData", props);
                     } else {
-                        displayErrorMessage("First name incorrect size!");
+                        displayErrorMessage("Last name incorrect size!");
                     }
                 } else {
-                    displayErrorMessage("NetId incorrect size!");
+                    displayErrorMessage("First name incorrect size!");
                 }
+            } else {
+                displayErrorMessage("NetId incorrect size!");
             }
         });
         doneCont.getChildren().add(checkoutButton);
@@ -300,17 +293,13 @@ public class CheckoutHelperView extends View {
         cancelButton = new PccButton("Return");
 
         cancelButton.setPrefSize(250, 20);
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelCheckoutCI", null);
-            }
+        cancelButton.setOnAction(e -> {
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelCheckoutCI", null);
         });
         doneCont.getChildren().add(cancelButton);
 
-        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(InventoryTable);
         vbox.getChildren().add(grid);
         vbox.getChildren().add(doneCont);
 
