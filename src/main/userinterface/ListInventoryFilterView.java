@@ -269,6 +269,8 @@ public class ListInventoryFilterView extends View {
         }
         colorItems.sort(compareCT);
         colorChoice.setItems(colorItems);
+        articleChoice.getSelectionModel().selectFirst();
+        colorChoice.getSelectionModel().selectFirst();
     }
 
     /**
