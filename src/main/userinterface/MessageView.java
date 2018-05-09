@@ -43,7 +43,7 @@ public class MessageView extends Text {
         //e.printStackTrace();
         // display the passed text in blue
         if (message.equals("Loading...") || message.length() == 0) {
-            setFill(Color.BLUE);
+            setFill(Color.web("#ffc726"));
             setText(message);
         } else {
             myAlert.getInstance().displayMessage(message);

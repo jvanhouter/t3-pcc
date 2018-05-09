@@ -44,7 +44,7 @@ public class SearchArticleTypeView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
-        container.setAlignment(Pos.CENTER);
+        
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -97,6 +97,11 @@ public class SearchArticleTypeView extends View {
         grid0.add(barcodePrefixLabel, 0, 1);
 
         barcodePrefix = new TextField();
+        barcodePrefix.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]{0,5}")) {
+                barcodePrefix.setText(oldValue);
+            }
+        });
         barcodePrefix.setOnAction(e -> {
             clearErrorMessage();
             Properties props = new Properties();
@@ -162,11 +167,23 @@ public class SearchArticleTypeView extends View {
 
         PccText alphaCodeLabel = new PccText(" Alpha Code : ");
         alphaCodeLabel.setFont(myFont);
+
         alphaCodeLabel.setWrappingWidth(150);
         alphaCodeLabel.setTextAlignment(TextAlignment.RIGHT);
+
+
+
         grid.add(alphaCodeLabel, 0, 2);
 
         alphaCode = new TextField();
+        alphaCode.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z]{0,5}")) {
+                alphaCode.setText(oldValue);
+            }
+            if (newValue.matches("[A-Za-z]{0,5}")) {
+                alphaCode.setText(newValue.toUpperCase());
+            }
+        });
         grid.add(alphaCode, 1, 2);
 
 

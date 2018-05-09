@@ -43,7 +43,6 @@ public class SearchClothingItemView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
-        container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
         container.getChildren().add(createTitle());

@@ -45,7 +45,7 @@ public class SearchColorView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
-        container.setAlignment(Pos.CENTER);
+        
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -95,7 +95,7 @@ public class SearchColorView extends View {
 
         barcodePrefix = new TextField();
         barcodePrefix.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[a-zA-Z0-9 -]{0,30}")) {
+            if (!newValue.matches("[a-zA-Z0-9 -]{0,5}")) {
                 barcodePrefix.setText(oldValue);
             }
         });
