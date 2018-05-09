@@ -43,6 +43,7 @@ public class SearchClothingItemView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
+        container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -62,29 +63,30 @@ public class SearchClothingItemView extends View {
     //-------------------------------------------------------------
     @Override
     protected String getActionText() {
-        return "** Search for Clothing **";
+        return "Search for Clothing";
     }
 
     // Create the main form content
     //-------------------------------------------------------------
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        PccText prompt1 = new PccText("Enter Barcode (if known)");
+        PccText prompt1 = new PccText("Enter Barcode:");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.web(APP_TEXT_COLOR));
-        prompt1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt1.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt1);
 
         GridPane grid0 = new GridPane();
         grid0.setAlignment(Pos.CENTER);
         grid0.setHgap(10);
         grid0.setVgap(10);
-        grid0.setPadding(new Insets(0, 25, 10, 0));
+        grid0.setPadding(new Insets(5, 30, 20, 0));
 
         PccText barcodeLabel = new PccText(" Barcode: ");
-        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, 12);
         barcodeLabel.setFont(myFont);
         barcodeLabel.setWrappingWidth(150);
         barcodeLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -104,18 +106,18 @@ public class SearchClothingItemView extends View {
 
         vbox.getChildren().add(grid0);
         //--------------------------------------------------------------------------//
-        PccText prompt2 = new PccText(" - Otherwise, enter other criteria below - ");
+        PccText prompt2 = new PccText(" Or Search by Article Type and/or Gender ");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.web(APP_TEXT_COLOR));
-        prompt2.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt2.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt2);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setHgap(20);
+        grid.setVgap(12);
+        grid.setPadding(new Insets(5, 30, 20, 0));
 
         PccText atLabel = new PccText("Article Type : ");
         atLabel.setFont(myFont);
@@ -241,6 +243,3 @@ public class SearchClothingItemView extends View {
 //---------------------------------------------------------------
 //	Revision History:
 //
-
-
-

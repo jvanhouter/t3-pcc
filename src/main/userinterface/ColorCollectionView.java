@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
+
 import model.Color;
 import model.ColorCollection;
 
@@ -44,6 +45,7 @@ public class ColorCollectionView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
+        container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -98,26 +100,27 @@ public class ColorCollectionView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Matching Colors **";
+        return "Color Search Results";
     }
 
     // Create the main form content
     //-------------------------------------------------------------
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        PccText prompt = new PccText("");
+        PccText prompt = new PccText("Please Select a Color:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(javafx.scene.paint.Color.BLACK);
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
+
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setHgap(20);
+        grid.setVgap(12);
+        grid.setPadding(new Insets(5, 5, 5, 5));
 
         tableOfColors = new TableView<ColorTableModel>();
         tableOfColors.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -192,8 +195,14 @@ public class ColorCollectionView extends View {
         btnContainer.getChildren().add(submitButton);
         btnContainer.getChildren().add(cancelButton);
 
+        PccText blankText3 = new PccText(" ");
+        blankText3.setFont(Font.font(APP_FONT, 4));
+
+
+
         vbox.getChildren().add(grid);
         vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(blankText3);
         vbox.getChildren().add(btnContainer);
 
         return vbox;

@@ -58,7 +58,7 @@ public abstract class View extends Group
         return container;
     }
 
-    Node createTitle() {
+  /*  Node createTitle() {
         VBox container = new VBox(10);
         container.setAlignment(Pos.CENTER);
         Text clientText = new Text("Office of Career Services");
@@ -94,7 +94,24 @@ public abstract class View extends Group
         actionText.setFill(Color.web(APP_TEXT_COLOR));
         container.getChildren().add(actionText);
         return container;
+   } */
+
+
+   Node createTitle() {
+         VBox container = new VBox(10);
+         container.setAlignment(Pos.CENTER);
+
+         container.setPadding(new Insets(20, 20, 20, 20));
+
+         Text actionText = new Text(getActionText());
+         actionText.setFont(Font.font(APP_FONT, 30));
+         actionText.setWrappingWidth(WRAPPING_WIDTH);
+         actionText.setTextAlignment(TextAlignment.CENTER);
+         actionText.setFill(Color.web(APP_TEXT_COLOR));
+         container.getChildren().add(actionText);
+         return container;
     }
+
 
     Node createBanner() {
 

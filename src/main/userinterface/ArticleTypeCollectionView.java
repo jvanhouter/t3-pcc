@@ -94,26 +94,27 @@ public class ArticleTypeCollectionView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Matching Article Types **";
+        return "Article Type Search Results";
     }
 
     // Create the main form content
     //-------------------------------------------------------------
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        PccText prompt = new PccText("");
+        PccText prompt = new PccText("Please Select Article Type:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setPadding(new Insets(5, 5, 5, 20));
 
         tableOfArticleTypes = new TableView<ArticleTypeTableModel>();
         tableOfArticleTypes.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -168,6 +169,8 @@ public class ArticleTypeCollectionView extends View {
         btnContainer.setAlignment(Pos.CENTER);
         btnContainer.getChildren().add(submitButton);
         btnContainer.getChildren().add(cancelButton);
+
+
 
         vbox.getChildren().add(grid);
         vbox.getChildren().add(scrollPane);

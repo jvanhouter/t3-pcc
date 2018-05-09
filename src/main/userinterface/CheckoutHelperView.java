@@ -47,6 +47,7 @@ public class CheckoutHelperView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
+        container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -100,25 +101,26 @@ public class CheckoutHelperView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Checkout Clothing Items **";
+        return "Checkout Clothing Items";
     }
 
     //-------------------------------------------------------------
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        PccText prompt = new PccText("Active Cart");
+        PccText prompt = new PccText("Active Cart:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setHgap(20);
+        grid.setVgap(12);
+        grid.setPadding(new Insets(5, 40, 20, 0));
 
         InventoryTable = new TableView<InventoryTableModel>();
         InventoryTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -224,7 +226,7 @@ public class CheckoutHelperView extends View {
         scrollPane.setContent(InventoryTable);
 
         PccText netIdLabel = new PccText(" Net ID : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, 16);
         netIdLabel.setFont(myFont);
         netIdLabel.setWrappingWidth(150);
         netIdLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -248,6 +250,7 @@ public class CheckoutHelperView extends View {
         lName = new TextField();
         grid.add(lName, 1, 3);
 
+
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
         addAnotherBarcodeButton = new PccButton("Add Another Barcode");
@@ -264,8 +267,7 @@ public class CheckoutHelperView extends View {
         });
         doneCont.getChildren().add(addAnotherBarcodeButton);
 
-        checkoutButton = new PccButton("Checkout Items");
-        checkoutButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        checkoutButton = new PccButton("Finish Checkout");
         checkoutButton.setPrefSize(250, 20);
         checkoutButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -299,7 +301,7 @@ public class CheckoutHelperView extends View {
         doneCont.getChildren().add(checkoutButton);
 
         doneCont.setAlignment(Pos.CENTER);
-        cancelButton = new PccButton("Done");
+        cancelButton = new PccButton("Return");
 
         cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -352,5 +354,3 @@ public class CheckoutHelperView extends View {
         statusLog.displayErrorMessage(message);
     }
 }
-
-

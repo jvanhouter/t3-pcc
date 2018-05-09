@@ -129,26 +129,27 @@ public class ClothingItemCollectionView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Matching clothing items **";
+        return "Clothing Item Search Results";
     }
 
     // Create the main form content
 
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        PccText prompt = new PccText("");
+        PccText prompt = new PccText("Please Select a Clothing Item:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT,  20));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setHgap(20);
+        grid.setVgap(12);
+        grid.setPadding(new Insets(5, 5, 5, 5));
 
         tableOfClothingItems = new TableView<ClothingItemTableModel>();
         tableOfClothingItems.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

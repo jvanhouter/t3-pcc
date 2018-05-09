@@ -85,27 +85,27 @@ public class FulfillRequestView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Fulfil Request **";
+        return "Fulfil Request";
     }
 
     // Create the main form content
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
-        PccText prompt = new PccText("CLOTHING ITEM INFORMATION");
+        PccText prompt = new PccText("Please Input Clothing Item Information:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(javafx.scene.paint.Color.BLACK);
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setPadding(new Insets(5, 25, 20, 0));
 
-        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 16);
         Font headerFont = Font.font(APP_FONT, FontWeight.BOLD, 16);
         PccText myItem = new PccText("Clothing Item");
         myItem.setFont(headerFont);

@@ -20,7 +20,7 @@ public class ModifyArticleTypeView extends AddArticleTypeView {
 
 
     protected String getActionText() {
-        return "** Modify Article Type Data **";
+        return "Modify Article Type Data";
     }
 
 
@@ -43,5 +43,3 @@ public class ModifyArticleTypeView extends AddArticleTypeView {
 
 //	Revision History:
 //
-
-

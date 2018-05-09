@@ -24,7 +24,7 @@ public class ModifyColorView extends AddColorView {
 
 
     protected String getActionText() {
-        return "** Modify Color Data **";
+        return "Modify a Color";
     }
 
 

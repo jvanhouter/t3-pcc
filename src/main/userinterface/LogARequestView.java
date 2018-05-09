@@ -87,7 +87,7 @@ public class LogARequestView extends View
     @Override
     protected String getActionText()
     {
-        return " \"Log a Request\" ";
+        return "Log a Request";
     }
 
     // Create the main form content
@@ -97,11 +97,12 @@ public class LogARequestView extends View
     {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
+
         PccText prompt = new PccText("LOG REQUEST INFORMATION");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
   //        prompt.setFill(javafx.scene.paint.Color.BLACK);
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
         return vbox;
       }

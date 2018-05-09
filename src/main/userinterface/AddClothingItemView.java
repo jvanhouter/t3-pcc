@@ -62,7 +62,7 @@ public class AddClothingItemView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
-
+        container.setAlignment(Pos.CENTER);
         // Add a title for this panel
         container.getChildren().add(createTitle());
         container.getChildren().add(createPrompt());
@@ -81,18 +81,17 @@ public class AddClothingItemView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Adding a new Clothing Item **";
+        return "Clothing Item Information";
     }
     private VBox createPrompt() {
         VBox vbox = new VBox(10);
-
         vbox.setAlignment(Pos.CENTER);
 
-        PccText prompt = new PccText("CLOTHING ITEM INFORMATION");
+        PccText prompt = new PccText("Please Input Clothing Item Information:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
 //        prompt.setFill(javafx.scene.paint.Color.BLUE);
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
         return vbox;
@@ -101,17 +100,17 @@ public class AddClothingItemView extends View {
     // Create the main form content
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
 
-
-        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, 16);
 
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setPadding(new Insets(5, 25, 20, 0));
 
         // Barcode
         PccText barcodeLabel = new PccText(" Barcode : ");
