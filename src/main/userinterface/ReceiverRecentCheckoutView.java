@@ -35,18 +35,18 @@ public class ReceiverRecentCheckoutView extends View {
     public ReceiverRecentCheckoutView(IModel inv) {
         super(inv, "InventoryItemCollectionView");
 
-// create a container for showing the contents
-        VBox container = getParentContainer();
-        container.setAlignment(Pos.CENTER);
-        // create our GUI components, add them to this panel
-        container.getChildren().add(createTitle());
+        // create a container for showing the contents
+        container.getChildren().add(createActionArea());
 
+        // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        // Error message area
-        container.getChildren().add(createStatusLog("                                            "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 

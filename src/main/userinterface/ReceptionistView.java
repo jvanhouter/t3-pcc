@@ -10,22 +10,15 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import model.ClothingRequest;
 import model.PccAlert;
-import model.RequestNotifier;
 
 import java.util.Vector;
 
 // project imports
 
 /**
- * The class containing the Transaction Choice View  for the ATM application
+ * The class containing the Transaction Choice View for the PCC application
  */
 //==============================================================
 public class ReceptionistView extends View {
@@ -35,7 +28,6 @@ public class ReceptionistView extends View {
     private final int labelHeight = 25;
 
     // GUI components
-
     private PccButton addArticleTypeButton;
     private PccButton updateArticleTypeButton;
     private PccButton removeArticleTypeButton;
@@ -57,25 +49,24 @@ public class ReceptionistView extends View {
     private MessageView statusLog;
 
     // constructor for this class -- takes a model object
+    ReceptionistView(IModel receptionist) {
+        super(receptionist, "ReceptionistView");
 
-    public ReceptionistView(IModel teller) {
-        super(teller, "ReceptionistView");
+        // BorderPane for clean display of containers (full width color fill)
+        bp.setTop(createBanner());
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-        container.setAlignment(Pos.CENTER);
-
-        // Add a title for this panel
-        container.getChildren().add(createBanner());
-        // how do you add white space? regex \\s for space
-        container.getChildren().add(new Label(" "));
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
-        container.getChildren().add(createFormContents());
+        container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 
@@ -88,8 +79,7 @@ public class ReceptionistView extends View {
     }
 
     // Create the navigation buttons
-
-    private VBox createFormContents() {
+    private VBox createFormContent() {
 
         VBox container = new VBox(15);
         container.setAlignment(Pos.CENTER);
@@ -97,12 +87,11 @@ public class ReceptionistView extends View {
         gridContainer.setAlignment(Pos.CENTER);
         gridContainer.setHgap(32);
         gridContainer.setVgap(12);
-        gridContainer.setPadding(new Insets(0, 10, 0 ,10));
+        gridContainer.setPadding(new Insets(0, 10, 0, 10));
 
         ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.setHalignment(HPos.RIGHT);
         gridContainer.getColumnConstraints().add(columnConstraints);
-
 
         // create the buttons, listen for events, add them to the container
         HBox checkoutCont = new HBox(10);
@@ -112,12 +101,9 @@ public class ReceptionistView extends View {
         checkoutCont.getChildren().add(checkoutClothingItemButton);
 
         gridContainer.add(checkoutCont, 0, 0, 4, 1);
-        gridContainer.add(new Pane(), 0,1,4,1);
+        gridContainer.add(new Pane(), 0, 1, 4, 1);
         // Article type choices
-        Text atLabel = new Text("Article Types: ");
-        atLabel.setFont(Font.font(APP_FONT, 16));
-//        atLabel.setStyle("-fx-text-fill: #ffc726");
-        atLabel.setFill(Color.web(APP_TEXT_COLOR));
+        PccText atLabel = new PccText("Article Types: ");
         addArticleTypeButton = new PccButton("Add");
         addArticleTypeButton.setOnAction(e -> myModel.stateChangeRequest("AddArticleType", null));
 
@@ -132,11 +118,8 @@ public class ReceptionistView extends View {
         gridContainer.add(updateArticleTypeButton, 2, 2);
         gridContainer.add(removeArticleTypeButton, 3, 2);
 
-
         // Color choices
-        Label colorLabel = new Label("Colors: ");
-        colorLabel.setStyle("-fx-text-fill: #ffc726");
-        colorLabel.setFont(Font.font(APP_FONT, 16));
+        PccText colorLabel = new PccText("Colors: ");
         addColorButton = new PccButton("Add");
         addColorButton.setOnAction(e -> myModel.stateChangeRequest("AddColor", null));
 
@@ -149,12 +132,10 @@ public class ReceptionistView extends View {
         gridContainer.add(colorLabel, 0, 3);
         gridContainer.add(addColorButton, 1, 3);
         gridContainer.add(updateColorButton, 2, 3);
-        gridContainer.add(removeColorButton,3,3);
+        gridContainer.add(removeColorButton, 3, 3);
 
         // Clothing item choices
-        Label ciLabel = new Label("Clothing Items: ");
-        ciLabel.setFont(Font.font(APP_FONT, 16));
-        ciLabel.setStyle("-fx-text-fill: #ffc726");
+        PccText ciLabel = new PccText("Clothing Items: ");
         addClothingItemButton = new PccButton("Add");
         addClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("AddClothingItem", null));
 
@@ -169,11 +150,8 @@ public class ReceptionistView extends View {
         gridContainer.add(updateClothingItemButton, 2, 4);
         gridContainer.add(removeClothingItemButton, 3, 4);
 
-
         // Clothing item request
-        Label reqLabel = new Label("Requests: ");
-        reqLabel.setFont(Font.font(APP_FONT, 16));
-        reqLabel.setStyle("-fx-text-fill: #ffc726");
+        PccText reqLabel = new PccText("Requests: ");
         logRequestButton = new PccButton("Log");
         logRequestButton.setOnAction(e -> myModel.stateChangeRequest("LogRequest", null));
 
@@ -188,7 +166,7 @@ public class ReceptionistView extends View {
         gridContainer.add(fulfillRequestButton, 2, 5);
         gridContainer.add(removeRequestButton, 3, 5);
 
-        gridContainer.add(new Pane(), 0, 6, 4,1);
+        gridContainer.add(new Pane(), 0, 6, 4, 1);
 
         HBox listAvailCont = new HBox(10);
         listAvailCont.setAlignment(Pos.CENTER);
@@ -196,7 +174,7 @@ public class ReceptionistView extends View {
         listAvailableInventoryButton.setOnAction(e -> myModel.stateChangeRequest("ListAvailableInventory", null));
         listAvailCont.getChildren().add(listAvailableInventoryButton);
 
-        gridContainer.add(listAvailCont,0, 7, 4, 1);
+        gridContainer.add(listAvailCont, 0, 7, 4, 1);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
@@ -204,7 +182,7 @@ public class ReceptionistView extends View {
         cancelButton.setOnAction(e -> myModel.stateChangeRequest("ExitSystem", null));
         doneCont.getChildren().add(cancelButton);
 
-        gridContainer.add(new Pane(),0,8);
+        gridContainer.add(new Pane(), 0, 8);
 
         container.getChildren().add(gridContainer);
         container.getChildren().add(doneCont);
@@ -212,7 +190,7 @@ public class ReceptionistView extends View {
         return container;
     }
 
-    private MessageView createStatusLog(String initialMessage) {
+    MessageView createStatusLog(String initialMessage) {
 
         statusLog = new MessageView(initialMessage);
 
@@ -221,25 +199,27 @@ public class ReceptionistView extends View {
 
 
     public void populateFields() {
-        Vector<ClothingRequest> requests = (Vector<ClothingRequest>) myModel.getState("Requests");
-        if(requests.size() > 0) {
+        Vector requests = (Vector) myModel.getState("Requests");
+        if (requests.size() > 0) {
             fulfillRequestButton.setText("Fulfill (" + requests.size() + ")");
         }
     }
 
     private void processAction() {
-        Vector<ClothingRequest> myRequests = (Vector<ClothingRequest>) myModel.getState("Requests");
-        if(myRequests.size() > 0) {
+        Vector myRequests = (Vector) myModel.getState("Requests");
+        if (myRequests.size() > 0) {
             PccAlert myAlert = PccAlert.getInstance();
-            myAlert.getInstance().setAlertType(Alert.AlertType.CONFIRMATION);
-            myAlert.getInstance().setHeaderText("Message");
-            myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Info");
-            myAlert.getInstance().setContentText("You have " + ((Vector<ClothingRequest>) myModel.getState("Requests")).size() + " requests pending to be fulfilled.\nWould you like to view them?");
+            myAlert.setAlertType(Alert.AlertType.CONFIRMATION);
+            myAlert.setHeaderText("Request Fulfillment");
+            myAlert.setTitle("Brockport Professional Clothes Closet Info");
+            myAlert.setContentText("You have " + ((Vector)
+                    myModel.getState("Requests")).size() +
+                    " requests ready to be fulfilled.\nWould you like to view them?");
             ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
             ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-            myAlert.getInstance().getButtonTypes().setAll(yesButton, noButton);
-            myAlert.getInstance().showAndWait().ifPresent(type -> {
-                if (type.getText() == "Yes") {
+            myAlert.getButtonTypes().setAll(yesButton, noButton);
+            myAlert.showAndWait().ifPresent(type -> {
+                if (type.getText().equals("Yes")) {
                     myModel.stateChangeRequest("FulfillRequestSpecific", myRequests);
                 } else
                     myModel.stateChangeRequest("FulfillRequest", null);

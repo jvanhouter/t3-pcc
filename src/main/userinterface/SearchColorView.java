@@ -4,6 +4,7 @@ package userinterface;
 // system imports
 
 import impresario.IModel;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -20,17 +21,16 @@ import java.util.Properties;
 // project imports
 
 /**
- * The class containing the Add Article Type View  for the Professional Clothes
+ * The class containing the Search Color View  for the Professional Clothes
  * Closet application
  */
 //==============================================================
 public class SearchColorView extends View {
 
-
     // GUI components
+    protected TextField barcodePrefix;
     protected TextField description;
     protected TextField alphaCode;
-    protected TextField barcodePrefix;
 
     protected PccButton submitButton;
     protected PccButton cancelButton;
@@ -44,18 +44,17 @@ public class SearchColorView extends View {
         super(at, "SearchColorView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-        
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 
@@ -73,10 +72,9 @@ public class SearchColorView extends View {
         vbox.setAlignment(Pos.CENTER);
         Font myFont = Font.font(APP_FONT,  16);
 
-        PccText prompt1 = new PccText("Enter Color Barcode Prefix:");
+        PccText prompt1 = new PccText("Please Enter Color Barcode Prefix:");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFill(Color.web(APP_TEXT_COLOR));
         prompt1.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt1);
 
@@ -86,12 +84,10 @@ public class SearchColorView extends View {
         grid0.setVgap(10);
         grid0.setPadding(new Insets(5, 30, 20, 0));
 
-
-        PccText bcLabel = new PccText(" Barcode Prefix: ");
-        bcLabel.setFont(myFont);
-        bcLabel.setWrappingWidth(150);
-        bcLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid0.add(bcLabel, 0, 1);
+        PccText barcodePrefixLabel = new PccText(" Barcode Prefix : ");
+        barcodePrefixLabel.setWrappingWidth(150);
+        barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
+        grid0.add(barcodePrefixLabel, 0, 1);
 
         barcodePrefix = new TextField();
         barcodePrefix.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -99,19 +95,12 @@ public class SearchColorView extends View {
                 barcodePrefix.setText(oldValue);
             }
         });
-        barcodePrefix.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-
-            String bcPrefix = barcodePrefix.getText();
-            props.setProperty("BarcodePrefix", bcPrefix);
-            myModel.stateChangeRequest("SearchColor", props);
-
-        });
+        barcodePrefix.setOnAction(this::processSearch);
         grid0.add(barcodePrefix, 1, 1);
+
         vbox.getChildren().add(grid0);
 
-        PccText prompt2 = new PccText("Or Enter a Description and/or an Alphacode:");
+        PccText prompt2 = new PccText("Or Enter a Description and/or an Alpha code:");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.web(APP_TEXT_COLOR));
@@ -125,7 +114,6 @@ public class SearchColorView extends View {
         grid.setPadding(new Insets(5, 30, 20, 0));
 
         PccText descripLabel = new PccText(" Description : ");
-        descripLabel.setFont(myFont);
         descripLabel.setWrappingWidth(150);
         descripLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(descripLabel, 0, 1);
@@ -136,21 +124,10 @@ public class SearchColorView extends View {
                 description.setText(oldValue);
             }
         });
-        description.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-
-            String descrip = description.getText();
-            props.setProperty("Description", descrip);
-            String alfaC = alphaCode.getText();
-            props.setProperty("AlphaCode", alfaC);
-            myModel.stateChangeRequest("SearchColor", props);
-
-        });
+        description.setOnAction(this::processSearch);
         grid.add(description, 1, 1);
 
         PccText alphaCodeLabel = new PccText(" Alpha Code : ");
-        alphaCodeLabel.setFont(myFont);
         alphaCodeLabel.setWrappingWidth(150);
         alphaCodeLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(alphaCodeLabel, 0, 2);
@@ -164,33 +141,13 @@ public class SearchColorView extends View {
                 alphaCode.setText(newValue.toUpperCase());
             }
         });
-        alphaCode.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-
-            String descrip = description.getText();
-            props.setProperty("Description", descrip);
-            String alfaC = alphaCode.getText();
-            props.setProperty("AlphaCode", alfaC);
-            myModel.stateChangeRequest("SearchColor", props);
-
-        });
+        alphaCode.setOnAction(this::processSearch);
         grid.add(alphaCode, 1, 2);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
-        submitButton.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-
-            String descrip = description.getText();
-            props.setProperty("Description", descrip);
-            String alfaC = alphaCode.getText();
-            props.setProperty("AlphaCode", alfaC);
-            myModel.stateChangeRequest("SearchColor", props);
-
-        });
+        submitButton.setOnAction(this::processSearch);
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
@@ -200,7 +157,7 @@ public class SearchColorView extends View {
         });
         doneCont.getChildren().add(cancelButton);
 
-        PccText prompt3 = new PccText("(enter nothing to see a list of all colors)");
+        PccText prompt3 = new PccText("(enter nothing to list all colors)");
         prompt3.setWrappingWidth(WRAPPING_WIDTH);
         prompt3.setTextAlignment(TextAlignment.CENTER);
         prompt3.setFill(Color.web(APP_TEXT_COLOR));
@@ -213,9 +170,23 @@ public class SearchColorView extends View {
         return vbox;
     }
 
+    private void processSearch(ActionEvent e) {
+        clearErrorMessage();
+        Properties props = new Properties();
+        String bcPrfx = barcodePrefix.getText();
+        if (bcPrfx.length() > 0) {
+            props.setProperty("BarcodePrefix", bcPrfx);
+            myModel.stateChangeRequest("SearchColor", props);
+        } else {
+            String descrip = description.getText();
+            props.setProperty("Description", descrip);
+            String alfaC = alphaCode.getText();
+            props.setProperty("AlphaCode", alfaC);
+            myModel.stateChangeRequest("SearchColor", props);
+        }
+    }
 
     // Create the status log field
-
     protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
@@ -270,7 +241,3 @@ public class SearchColorView extends View {
     }
 
 }
-
-
-//	Revision History:
-//

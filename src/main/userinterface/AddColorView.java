@@ -4,6 +4,7 @@ package userinterface;
 // system imports
 
 import impresario.IModel;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -43,17 +44,17 @@ public class AddColorView extends View {
         super(color, "AddColorView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 
@@ -70,7 +71,7 @@ public class AddColorView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
-        
+
         PccText prompt = new PccText("Please Enter Color Information:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
@@ -134,33 +135,7 @@ public class AddColorView extends View {
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
-        submitButton.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-            String bcPrfx = barcodePrefix.getText();
-            if (bcPrfx.length() > 0) {
-                props.setProperty("BarcodePrefix", bcPrfx);
-                String descrip = description.getText();
-                if (descrip.length() > 0) {
-                    props.setProperty("Description", descrip);
-                    String alfaC = alphaCode.getText();
-                    if (alfaC.length() > 0) {
-                        props.setProperty("AlphaCode", alfaC);
-                        myModel.stateChangeRequest("ColorData", props);
-                        myModel.stateChangeRequest("OK", null);
-                    } else {
-                        displayErrorMessage("ERROR: Please enter a valid alpha code!");
-                    }
-                } else {
-                    displayErrorMessage("ERROR: Please enter a valid description!");
-                }
-
-            } else {
-                displayErrorMessage("ERROR: Please enter a barcode prefix!");
-
-            }
-
-        });
+        submitButton.setOnAction(this::processAction);
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
@@ -176,16 +151,40 @@ public class AddColorView extends View {
         return vbox;
     }
 
+    private void processAction(ActionEvent e) {
+        clearErrorMessage();
+        Properties properties = new Properties();
+        String barcodePrefixText = barcodePrefix.getText();
+        if (barcodePrefixText.length() > 0) {
+            properties.setProperty("BarcodePrefix", barcodePrefixText);
+            String descriptionText = description.getText();
+            if (descriptionText.length() > 0) {
+                properties.setProperty("Description", descriptionText);
+                String alphaCodeText = alphaCode.getText();
+                if (alphaCodeText.length() > 0) {
+                    properties.setProperty("AlphaCode", alphaCodeText);
+                    myModel.stateChangeRequest("ColorData", properties);
+                    myModel.stateChangeRequest("OK", null);
+                } else {
+                    displayErrorMessage("ERROR: Please enter a valid alpha code!");
+                }
+            } else {
+                displayErrorMessage("ERROR: Please enter a valid description!");
+            }
+
+        } else {
+            displayErrorMessage("ERROR: Please enter a barcode prefix!");
+
+        }
+    }
 
     // Create the status log field
-    //-------------------------------------------------------------
     protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
-    //-------------------------------------------------------------
     public void populateFields() {
 
     }
@@ -193,7 +192,6 @@ public class AddColorView extends View {
     /**
      * Update method
      */
-    //---------------------------------------------------------
     public void updateState(String key, Object value) {
         clearErrorMessage();
 
@@ -211,7 +209,6 @@ public class AddColorView extends View {
     /**
      * Display error message
      */
-    //----------------------------------------------------------
     public void displayErrorMessage(String message) {
         statusLog.displayErrorMessage(message);
     }
@@ -219,7 +216,6 @@ public class AddColorView extends View {
     /**
      * Display info message
      */
-    //----------------------------------------------------------
     public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
@@ -227,13 +223,8 @@ public class AddColorView extends View {
     /**
      * Clear error message
      */
-    //----------------------------------------------------------
     public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 
 }
-
-//---------------------------------------------------------------
-//	Revision History:
-//

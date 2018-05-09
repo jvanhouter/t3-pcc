@@ -40,17 +40,17 @@ public class ArticleTypeCollectionView extends View {
         super(atc, "ArticleTypeCollectionView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
     }
@@ -147,9 +147,11 @@ public class ArticleTypeCollectionView extends View {
                 processArticleTypeSelected();
             }
         });
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfArticleTypes);
+
+        tableOfArticleTypes.setMaxSize(800, 250);
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setPrefSize(150, 150);
+//        scrollPane.setContent(tableOfArticleTypes);
 
         submitButton = new PccButton("Submit");
 
@@ -173,7 +175,8 @@ public class ArticleTypeCollectionView extends View {
 
 
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(scrollPane);
+//        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(tableOfArticleTypes);
         vbox.getChildren().add(btnContainer);
 
         return vbox;

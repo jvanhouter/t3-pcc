@@ -4,6 +4,7 @@ package userinterface;
 // system imports
 
 import impresario.IModel;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -20,7 +21,7 @@ import java.util.Properties;
 // project imports
 
 /**
- * The class containing the Add Article Type View  for the Professional Clothes
+ * The class containing the Search Article Type View  for the Professional Clothes
  * Closet application
  */
 //==============================================================
@@ -43,18 +44,17 @@ public class SearchArticleTypeView extends View {
         super(at, "SearchArticleTypeView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-        
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 
@@ -74,14 +74,8 @@ public class SearchArticleTypeView extends View {
         PccText prompt1 = new PccText("Please Enter Article Type Barcode Prefix:");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFill(Color.web(APP_TEXT_COLOR));
         prompt1.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt1);
-
-        PccText blankText3 = new PccText(" ");
-        blankText3.setFont(Font.font(APP_FONT, 2));
-        blankText3.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText3);
 
         GridPane grid0 = new GridPane();
         grid0.setAlignment(Pos.CENTER);
@@ -98,30 +92,16 @@ public class SearchArticleTypeView extends View {
 
         barcodePrefix = new TextField();
         barcodePrefix.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[0-9]{0,5}")) {
+            if (!newValue.matches("[a-zA-Z0-9 -]{0,30}")) {
                 barcodePrefix.setText(oldValue);
             }
         });
-        barcodePrefix.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-            String bcPrfx = barcodePrefix.getText();
-            if (bcPrfx.length() > 0) {
-                props.setProperty("BarcodePrefix", bcPrfx);
-                myModel.stateChangeRequest("SearchArticleType", props);
-            }
-        });
+        barcodePrefix.setOnAction(this::processSearch);
         grid0.add(barcodePrefix, 1, 1);
 
         vbox.getChildren().add(grid0);
 
-        PccText blankText4 = new PccText(" ");
-        blankText4.setFont(Font.font(APP_FONT, 2));
-        blankText4.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText4);
-
-
-        PccText prompt2 = new PccText("Or Enter a Description and/or an Alphacode:");
+        PccText prompt2 = new PccText("Or Enter a Description and/or an Alpha code:");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.web(APP_TEXT_COLOR));
@@ -134,14 +114,7 @@ public class SearchArticleTypeView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(5, 30, 20, 0));
 
-        PccText blankText5 = new PccText(" ");
-        blankText5.setFont(Font.font(APP_FONT, 2));
-        blankText5.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText5);
-
-
         PccText descripLabel = new PccText(" Description : ");
-        descripLabel.setFont(myFont);
         descripLabel.setWrappingWidth(150);
         descripLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(descripLabel, 0, 1);
@@ -152,27 +125,12 @@ public class SearchArticleTypeView extends View {
                 description.setText(oldValue);
             }
         });
-        description.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-
-            String descrip = description.getText();
-            props.setProperty("Description", descrip);
-            String alfaC = alphaCode.getText();
-            props.setProperty("AlphaCode", alfaC);
-            myModel.stateChangeRequest("SearchArticleType", props);
-
-        });
+        description.setOnAction(this::processSearch);
         grid.add(description, 1, 1);
 
         PccText alphaCodeLabel = new PccText(" Alpha Code : ");
-        alphaCodeLabel.setFont(myFont);
-
         alphaCodeLabel.setWrappingWidth(150);
         alphaCodeLabel.setTextAlignment(TextAlignment.RIGHT);
-
-
-
         grid.add(alphaCodeLabel, 0, 2);
 
         alphaCode = new TextField();
@@ -184,28 +142,13 @@ public class SearchArticleTypeView extends View {
                 alphaCode.setText(newValue.toUpperCase());
             }
         });
+        alphaCode.setOnAction(this::processSearch);
         grid.add(alphaCode, 1, 2);
-
-
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
-        submitButton.setOnAction(e -> {
-            clearErrorMessage();
-            Properties props = new Properties();
-            String bcPrfx = barcodePrefix.getText();
-            if (bcPrfx.length() > 0) {
-                props.setProperty("BarcodePrefix", bcPrfx);
-                myModel.stateChangeRequest("SearchArticleType", props);
-            } else {
-                String descrip = description.getText();
-                props.setProperty("Description", descrip);
-                String alfaC = alphaCode.getText();
-                props.setProperty("AlphaCode", alfaC);
-                myModel.stateChangeRequest("SearchArticleType", props);
-            }
-        });
+        submitButton.setOnAction(this::processSearch);
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
@@ -215,25 +158,33 @@ public class SearchArticleTypeView extends View {
         });
         doneCont.getChildren().add(cancelButton);
 
-
-        PccText prompt3 = new PccText("(enter nothing to see a list of all article types)");
+        PccText prompt3 = new PccText("(enter nothing to list all article types)");
         prompt3.setWrappingWidth(WRAPPING_WIDTH);
         prompt3.setTextAlignment(TextAlignment.CENTER);
-        prompt3.setFill(Color.web(APP_TEXT_COLOR));
-        prompt3.setFont(Font.font(APP_FONT, 15));
+        prompt3.setFont(Font.font(APP_FONT, 14));
 
         vbox.getChildren().add(grid);
         vbox.getChildren().add(prompt3);
-
-        PccText blankText6 = new PccText(" ");
-        blankText6.setFont(Font.font(APP_FONT, 4));
-        blankText6.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText6);
         vbox.getChildren().add(doneCont);
 
         return vbox;
     }
 
+    private void processSearch(ActionEvent e) {
+        clearErrorMessage();
+        Properties props = new Properties();
+        String bcPrfx = barcodePrefix.getText();
+        if (bcPrfx.length() > 0) {
+            props.setProperty("BarcodePrefix", bcPrfx);
+            myModel.stateChangeRequest("SearchArticleType", props);
+        } else {
+            String descrip = description.getText();
+            props.setProperty("Description", descrip);
+            String alfaC = alphaCode.getText();
+            props.setProperty("AlphaCode", alfaC);
+            myModel.stateChangeRequest("SearchArticleType", props);
+        }
+    }
 
     // Create the status log field
 
@@ -291,7 +242,3 @@ public class SearchArticleTypeView extends View {
     }
 
 }
-
-
-//	Revision History:
-//

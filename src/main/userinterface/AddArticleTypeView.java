@@ -46,19 +46,17 @@ public class AddArticleTypeView extends View {
         super(at, "AddArticleTypeView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-        container.setAlignment(Pos.CENTER);
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
-
+        // Add BorderPane to our view
+        getChildren().add(bp);
         populateFields();
 
         myModel.subscribe("TransactionError", this);
@@ -71,7 +69,7 @@ public class AddArticleTypeView extends View {
 
     // Create the main form content
     //-------------------------------------------------------------
-    private VBox createFormContent() {
+    VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
 
@@ -93,7 +91,6 @@ public class AddArticleTypeView extends View {
         PccText barcodePrefixLabel = new PccText(" Barcode Prefix : ");
         Font myFont = Font.font(APP_FONT, 16);
         barcodePrefixLabel.setFont(myFont);
-        barcodePrefixLabel.setFill(Color.web(APP_TEXT_COLOR));
         barcodePrefixLabel.setWrappingWidth(150);
         barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(barcodePrefixLabel, 0, 1);
@@ -160,17 +157,17 @@ public class AddArticleTypeView extends View {
 
     private void processAction(ActionEvent e) {
         clearErrorMessage();
-        Properties props = new Properties();
-        String bcPrfx = barcodePrefix.getText();
-        if (bcPrfx.length() > 0) {
-            props.setProperty("BarcodePrefix", bcPrfx);
-            String descrip = description.getText();
-            if (descrip.length() > 0) {
-                props.setProperty("Description", descrip);
-                String alfaC = alphaCode.getText();
-                if (alfaC.length() > 0) {
-                    props.setProperty("AlphaCode", alfaC);
-                    myModel.stateChangeRequest("ArticleTypeData", props);
+        Properties properties = new Properties();
+        String barcodePrefixText = barcodePrefix.getText();
+        if (barcodePrefixText.length() > 0) {
+            properties.setProperty("BarcodePrefix", barcodePrefixText);
+            String descriptionText = description.getText();
+            if (descriptionText.length() > 0) {
+                properties.setProperty("Description", descriptionText);
+                String alphaCodeText = alphaCode.getText();
+                if (alphaCodeText.length() > 0) {
+                    properties.setProperty("AlphaCode", alphaCodeText);
+                    myModel.stateChangeRequest("ArticleTypeData", properties);
                     myModel.stateChangeRequest("OK", null);
                 } else {
                     displayErrorMessage("ERROR: Please enter a valid alpha code!");
@@ -186,14 +183,12 @@ public class AddArticleTypeView extends View {
     }
 
     // Create the status log field
-    //-------------------------------------------------------------
     protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
-    //-------------------------------------------------------------
     public void populateFields() {
 
     }
@@ -201,7 +196,6 @@ public class AddArticleTypeView extends View {
     /**
      * Update method
      */
-    //---------------------------------------------------------
     public void updateState(String key, Object value) {
         clearErrorMessage();
 
@@ -219,7 +213,6 @@ public class AddArticleTypeView extends View {
     /**
      * Display error message
      */
-    //----------------------------------------------------------
     public void displayErrorMessage(String message) {
         statusLog.displayErrorMessage(message);
     }
@@ -227,7 +220,6 @@ public class AddArticleTypeView extends View {
     /**
      * Display info message
      */
-    //----------------------------------------------------------
     public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
@@ -235,13 +227,8 @@ public class AddArticleTypeView extends View {
     /**
      * Clear error message
      */
-    //----------------------------------------------------------
     public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 
 }
-
-//---------------------------------------------------------------
-//	Revision History:
-//

@@ -21,13 +21,13 @@ import java.util.Properties;
 //==============================================================
 public class RemoveClothingItemTransaction extends Transaction {
 
-    //private ColorCollection myColorList;
+    private ClothingItemCollection myClothingItemList;
+    private ClothingItem mySelectedClothingItem;
+
     private ClothingItem mySelectedItem;
 
     // GUI Components
-
     private String transactionErrorMessage = "";
-    private String clothingRemoveStatusMessage = "";
 
     /**
      * Constructor for this class.
@@ -48,7 +48,7 @@ public class RemoveClothingItemTransaction extends Transaction {
         myRegistry.setDependencies(dependencies);
     }
 
-    private void processColorRemoval() {
+    private void processClothingRemoval() {
         if (mySelectedItem != null) {
             mySelectedItem.stateChangeRequest("Status", "Removed");
             mySelectedItem.update();
@@ -61,18 +61,111 @@ public class RemoveClothingItemTransaction extends Transaction {
 
     //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("TransactionError")) {
+        if (key.equals("ClothingItemList")) {
+            return myClothingItemList;
+        }  else if (key.equals("Barcode")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("Barcode");
+            else
+                return "";
+        } else if (key.equals("Gender")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("Gender");
+            else
+                return "";
+        } else if (key.equals("Color1")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("Color1");
+            else
+                return "";
+        } else if (key.equals("Color2")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("Color2");
+            else
+                return "";
+        } else if (key.equals("Brand")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("Brand");
+            else
+                return "";
+        } else if (key.equals("ArticleType")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("ArticleType");
+            else
+                return "";
+        } else if (key.equals("DonorFirstName")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("DonorFirstName");
+            else
+                return "";
+        } else if (key.equals("DonorLastName")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("DonorLastName");
+            else
+                return "";
+        } else if (key.equals("DonorEmail")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("DonorEmail");
+            else
+                return "";
+        } else if (key.equals("DonorPhone")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("DonorPhone");
+            else
+                return "";
+        } else if (key.equals("Notes")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("Notes");
+            else
+                return "";
+        } else if (key.equals("Size")) {
+            if (mySelectedClothingItem != null)
+                return mySelectedClothingItem.getState("Size");
+            else
+                return "";
+        } else if (key.equals("TransactionError")) {
             return transactionErrorMessage;
+//        } else if (key.equals("Gender")) {
+//            return gender;
+//        } else if (key.equals("Articles")) {
+//            return myArticleTypeList.retrieveAll();
+//        } else if (key.equals("Colors")) {
+//            return myColorList.retrieveAll();
+        } else if (key.equals("ListAll")) {
+            return false;
         } else
             return null;
+    }
+
+    public void processTransaction(Properties props) {
+        myClothingItemList = new ClothingItemCollection();
+
+        if (props.getProperty("Barcode") != null) {
+            String barcode = props.getProperty("Barcode");
+            myClothingItemList.findByBarcode(barcode);
+        } /*else { Properties doesn't contain gender or article type
+            String genderString = props.getProperty("Gender");
+            String articleTypeString = props.getProperty("ArticleType");
+            myClothingItemList.findByCriteria(articleTypeString, genderString);
+        }*/ else {
+            myClothingItemList.findAll();
+        }
+
+        try {
+            Scene newScene = createClothingItemCollectionView();
+            swapToView(newScene);
+        } catch (Exception ex) {
+            new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                    "Error in creating ClothingItemCollectionView", Event.ERROR);
+        }
     }
 
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelClothingItemList") == true)) {
+        if ((key.equals("DoYourJob")) || (key.equals("CancelClothingItemList"))) {
             doYourJob();
-        } else if (key.equals("ProcessBarcode") == true) {
+        } else if (key.equals("ProcessBarcode")) {
             Properties props = (Properties) value;
             String barcode = props.getProperty("Barcode");
             barcode = barcode.toUpperCase();
@@ -104,8 +197,8 @@ public class RemoveClothingItemTransaction extends Transaction {
             } catch (MultiplePrimaryKeysException e) {
                 e.printStackTrace();
             }
-        } else if (key.equals("RemoveClothingItem") == true) {
-            processColorRemoval();
+        } else if (key.equals("RemoveClothingItem")) {
+            processClothingRemoval();
         }
 
         myRegistry.updateSubscribers(key, this);
@@ -137,14 +230,17 @@ public class RemoveClothingItemTransaction extends Transaction {
         }
     }
 
-    protected Scene createColorCollectionView() {
-        View newView = ViewFactory.createView("ColorCollectionView", this);
+    /**
+     * Create the view containing the table of all matching clothing items on the search criteria sents
+     */
+    //------------------------------------------------------
+    protected Scene createClothingItemCollectionView() {
+        View newView = ViewFactory.createView("ClothingItemCollectionView", this);
         Scene currentScene = new Scene(newView);
 
         return currentScene;
 
     }
-
 
     //------------------------------------------------------
     protected Scene createRemoveClothingItemView() {

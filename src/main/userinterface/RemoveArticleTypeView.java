@@ -15,7 +15,7 @@ import javafx.scene.text.TextAlignment;
 // project imports
 
 /**
- * The class containing the Add Article Type View  for the Professional Clothes
+ * The class containing the Remove Article Type View for the Professional Clothes
  * Closet application
  */
 //==============================================================
@@ -33,17 +33,17 @@ public class RemoveArticleTypeView extends View {
         super(at, "RemoveArticleTypeView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 

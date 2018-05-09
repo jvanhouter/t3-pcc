@@ -48,17 +48,17 @@ public class InventoryItemCollectionView extends View {
         super(inv, "InventoryItemCollectionView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
     }
@@ -81,7 +81,7 @@ public class InventoryItemCollectionView extends View {
             if (entryList.size() > 0) {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements() == true) {
+                while (entries.hasMoreElements()) {
                     ClothingItem nextCI = (ClothingItem) entries.nextElement();
                     Vector<String> view = nextCI.getEntryListView();
 
@@ -93,7 +93,7 @@ public class InventoryItemCollectionView extends View {
 
                 }
             } else {
-                displayMessage("No matching entries found!");
+                displayMessage("No matching entries found with selected filters!");
             }
 
             InventoryTable.setItems(tableData);
@@ -104,7 +104,7 @@ public class InventoryItemCollectionView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Available Inventory **";
+        return "List of Available Inventory";
     }
 
     // Create the main form content
@@ -129,12 +129,12 @@ public class InventoryItemCollectionView extends View {
         InventoryTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         TableColumn barcodeColumn = new TableColumn("Barcode");
-        barcodeColumn.setMinWidth(50);
+        barcodeColumn.setMinWidth(60);
         barcodeColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("barcode"));
 
         TableColumn genderColumn = new TableColumn("Gender");
-        genderColumn.setMinWidth(150);
+        genderColumn.setMinWidth(60);
         genderColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("gender"));
 
@@ -232,7 +232,7 @@ public class InventoryItemCollectionView extends View {
 //        scrollPane.setContent(InventoryTable);
 
         cancelButton = new PccButton("Return");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+//        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setOnAction(e -> {
             /**
              * Process the Cancel button.
@@ -247,7 +247,7 @@ public class InventoryItemCollectionView extends View {
         });
 
         outputButton = new PccButton("Save to File");
-        outputButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+//        outputButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         outputButton.setOnAction(e -> {
             /**
              * This sends the current dataset out to a CSV file
@@ -319,33 +319,34 @@ public class InventoryItemCollectionView extends View {
         chooser.setSelectedExtensionFilter(filter);
 
         File file = chooser.showSaveDialog(MainStageContainer.getInstance());
-
-        try {
-            String fileName = "";
-
-
+        if (file == null) {
+            System.out.println("No file selected");
+        } else {
             try {
-                fileName = file.getCanonicalPath();
-            } catch (IOException e) {
-                e.printStackTrace();
+                String fileName = "";
+                try {
+                    fileName = file.getCanonicalPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String tempName = fileName.toLowerCase();
+
+                if (tempName.endsWith(".csv")) {
+                    writeToFile(fileName);
+                } else {
+                    fileName += ".csv";
+                    writeToFile(fileName);
+                }
+            } catch (Exception ex) {
+                ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                        "Error in saving to file: " + ex.toString(),
+                        bar);
+
+                alert.setTitle("ERROR");
+                Optional<ButtonType> result = alert.showAndWait();
             }
-
-            String tempName = fileName.toLowerCase();
-
-            if (tempName.endsWith(".csv")) {
-                writeToFile(fileName);
-            } else {
-                fileName += ".csv";
-                writeToFile(fileName);
-            }
-        } catch (Exception ex) {
-            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Error in saving to file: " + ex.toString(),
-                    bar);
-
-            alert.setTitle("ERROR");
-            Optional<ButtonType> result = alert.showAndWait();
         }
     }
 
@@ -381,7 +382,7 @@ public class InventoryItemCollectionView extends View {
             if (entryList.size() > 0) {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements() == true) {
+                while (entries.hasMoreElements()) {
                     ClothingItem nextCI = (ClothingItem) entries.nextElement();
                     Vector<String> view = nextCI.getEntryListView();
 

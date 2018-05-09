@@ -107,23 +107,28 @@ public class Closet extends Application {
         final Task<String> myTask = new Task<String>() {
             @Override
             protected String call() throws InterruptedException {
-                updateMessage("Loading Assets. . .");
+//                updateMessage("Loading Assets -");
+                updateMessage("Adding hidden agendas...");
                 updateProgress(1,4);
                 Utilities.collectArticleTypeHash();
                 Thread.sleep(400);
-                updateMessage("Loading Assets . . .");
+//                updateMessage("Loading Assets \\");
+                updateMessage("Reticulating splines...");
                 updateProgress(2, 4);
                 Utilities.collectColorHash();
                 Thread.sleep(400);
-                updateMessage("Loading Assets. . .");
+//                updateMessage("Loading Assets |");
+                updateMessage("Searching for llamas...");
                 updateProgress(3, 4);
                 Utilities.collectClothingHash();
                 Thread.sleep(400);
-                updateMessage("Loading Assets . . .");
+//                updateMessage("Loading Assets  /");
+                updateMessage("Routing Neural Network Infanstructure...");
                 updateProgress(4, 4);
                 Utilities.collectClothingRequestHash();
+//                updateMessage("All assets have been loaded!");
+                updateMessage("World domination is now imminent!");
                 Thread.sleep(400);
-                updateMessage("All HashMaps have been loaded.");
                 return "SUCCESS!";
             }
         };
