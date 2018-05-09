@@ -63,7 +63,7 @@ public class AddColorView extends View {
 
     @Override
     protected String getActionText() {
-        return "Color Information";
+        return "Add a Color";
     }
 
     // Create the main form content
