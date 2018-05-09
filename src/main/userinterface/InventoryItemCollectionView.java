@@ -81,7 +81,7 @@ public class InventoryItemCollectionView extends View {
             if (entryList.size() > 0) {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements() == true) {
+                while (entries.hasMoreElements()) {
                     ClothingItem nextCI = (ClothingItem) entries.nextElement();
                     Vector<String> view = nextCI.getEntryListView();
 
@@ -129,12 +129,12 @@ public class InventoryItemCollectionView extends View {
         InventoryTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         TableColumn barcodeColumn = new TableColumn("Barcode");
-        barcodeColumn.setMinWidth(50);
+        barcodeColumn.setMinWidth(60);
         barcodeColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("barcode"));
 
         TableColumn genderColumn = new TableColumn("Gender");
-        genderColumn.setMinWidth(150);
+        genderColumn.setMinWidth(60);
         genderColumn.setCellValueFactory(
                 new PropertyValueFactory<InventoryTableModel, String>("gender"));
 
@@ -319,33 +319,34 @@ public class InventoryItemCollectionView extends View {
         chooser.setSelectedExtensionFilter(filter);
 
         File file = chooser.showSaveDialog(MainStageContainer.getInstance());
-
-        try {
-            String fileName = "";
-
-
+        if (file == null) {
+            System.out.println("No file selected");
+        } else {
             try {
-                fileName = file.getCanonicalPath();
-            } catch (IOException e) {
-                e.printStackTrace();
+                String fileName = "";
+                try {
+                    fileName = file.getCanonicalPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String tempName = fileName.toLowerCase();
+
+                if (tempName.endsWith(".csv")) {
+                    writeToFile(fileName);
+                } else {
+                    fileName += ".csv";
+                    writeToFile(fileName);
+                }
+            } catch (Exception ex) {
+                ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                        "Error in saving to file: " + ex.toString(),
+                        bar);
+
+                alert.setTitle("ERROR");
+                Optional<ButtonType> result = alert.showAndWait();
             }
-
-            String tempName = fileName.toLowerCase();
-
-            if (tempName.endsWith(".csv")) {
-                writeToFile(fileName);
-            } else {
-                fileName += ".csv";
-                writeToFile(fileName);
-            }
-        } catch (Exception ex) {
-            ButtonType bar = new ButtonType("Close", ButtonBar.ButtonData.CANCEL_CLOSE);
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Error in saving to file: " + ex.toString(),
-                    bar);
-
-            alert.setTitle("ERROR");
-            Optional<ButtonType> result = alert.showAndWait();
         }
     }
 
@@ -381,7 +382,7 @@ public class InventoryItemCollectionView extends View {
             if (entryList.size() > 0) {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements() == true) {
+                while (entries.hasMoreElements()) {
                     ClothingItem nextCI = (ClothingItem) entries.nextElement();
                     Vector<String> view = nextCI.getEntryListView();
 

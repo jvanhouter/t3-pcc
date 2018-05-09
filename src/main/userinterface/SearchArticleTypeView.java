@@ -78,11 +78,6 @@ public class SearchArticleTypeView extends View {
         prompt1.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt1);
 
-        PccText blankText3 = new PccText(" ");
-        blankText3.setFont(Font.font(APP_FONT, 2));
-        blankText3.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText3);
-
         GridPane grid0 = new GridPane();
         grid0.setAlignment(Pos.CENTER);
         grid0.setHgap(10);
@@ -97,16 +92,15 @@ public class SearchArticleTypeView extends View {
         grid0.add(barcodePrefixLabel, 0, 1);
 
         barcodePrefix = new TextField();
+        barcodePrefix.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z0-9 -]{0,30}")) {
+                barcodePrefix.setText(oldValue);
+            }
+        });
         barcodePrefix.setOnAction(this::processSearch);
         grid0.add(barcodePrefix, 1, 1);
 
         vbox.getChildren().add(grid0);
-
-        PccText blankText4 = new PccText(" ");
-        blankText4.setFont(Font.font(APP_FONT, 2));
-        blankText4.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText4);
-
 
         PccText prompt2 = new PccText("Or Enter a Description and/or an Alphacode:");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
@@ -120,12 +114,6 @@ public class SearchArticleTypeView extends View {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(5, 30, 20, 0));
-
-        PccText blankText5 = new PccText(" ");
-        blankText5.setFont(Font.font(APP_FONT, 2));
-        blankText5.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText5);
-
 
         PccText descripLabel = new PccText(" Description : ");
         descripLabel.setWrappingWidth(150);
@@ -175,17 +163,10 @@ public class SearchArticleTypeView extends View {
         prompt3.setWrappingWidth(WRAPPING_WIDTH);
         prompt3.setTextAlignment(TextAlignment.CENTER);
         prompt3.setFill(Color.web(APP_TEXT_COLOR));
-        prompt3.setFont(Font.font(APP_FONT, 15));
+        prompt3.setFont(Font.font(APP_FONT, 14));
 
         vbox.getChildren().add(grid);
         vbox.getChildren().add(prompt3);
-
-        PccText blankText6 = new PccText(" ");
-        blankText6.setFont(Font.font(APP_FONT, 4));
-        blankText6.setFill(Color.WHITE);
-        vbox.getChildren().add(blankText6);
-        vbox.getChildren().add(doneCont);
-        vbox.getChildren().add(grid);
         vbox.getChildren().add(doneCont);
 
         return vbox;
