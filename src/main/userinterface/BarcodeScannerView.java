@@ -7,16 +7,16 @@ import Utilities.UiConstants;
 import impresario.IModel;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
@@ -35,8 +35,10 @@ public class BarcodeScannerView extends View {
     protected TextField description;
     protected TextField alphaCode;
 
+    protected PccText searchPrompt;
+
     protected PccButton submitButton;
-    protected Button cancelButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;
@@ -104,8 +106,17 @@ public class BarcodeScannerView extends View {
             myModel.stateChangeRequest("CancelBarcodeSearch", null);
         });
 
-        grid.add(submitButton, 0, 2);
-        grid.add(cancelButton, 1, 2);
+        searchPrompt = new PccText("", 14);
+        GridPane.setHalignment(searchPrompt, HPos.CENTER);
+        grid.add(searchPrompt, 0, 2, 2, 1);
+
+        HBox donCont = new HBox(100);
+        donCont.setAlignment(Pos.CENTER);
+        donCont.getChildren().add(submitButton);
+        donCont.getChildren().add(cancelButton);
+        grid.add(donCont, 0, 3, 2, 1);
+//        grid.add(submitButton, 0, 3);
+//        grid.add(cancelButton, 1, 3);
 
         vbox.getChildren().add(grid);
 
@@ -144,6 +155,9 @@ public class BarcodeScannerView extends View {
 
     public void populateFields() {
         clearErrorMessage();
+        if ((boolean) myModel.getState("ListAll")) {
+            searchPrompt.setText("(enter nothing to list all clothing items)");
+        }
     }
 
     /**

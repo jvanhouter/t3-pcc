@@ -101,7 +101,7 @@ public class SearchArticleTypeView extends View {
 
         vbox.getChildren().add(grid0);
 
-        PccText prompt2 = new PccText("Or Enter a Description and/or an Alphacode:");
+        PccText prompt2 = new PccText("Or Enter a Description and/or an Alpha code:");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.web(APP_TEXT_COLOR));
@@ -158,10 +158,9 @@ public class SearchArticleTypeView extends View {
         });
         doneCont.getChildren().add(cancelButton);
 
-        PccText prompt3 = new PccText("(enter nothing to see a list of all article types)");
+        PccText prompt3 = new PccText("(enter nothing to list all article types)");
         prompt3.setWrappingWidth(WRAPPING_WIDTH);
         prompt3.setTextAlignment(TextAlignment.CENTER);
-        prompt3.setFill(Color.web(APP_TEXT_COLOR));
         prompt3.setFont(Font.font(APP_FONT, 14));
 
         vbox.getChildren().add(grid);

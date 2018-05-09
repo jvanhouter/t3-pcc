@@ -53,7 +53,7 @@ public class ReceptionistView extends View {
         super(receptionist, "ReceptionistView");
 
         // BorderPane for clean display of containers (full width color fill)
-        bp.setTop(createTitle());
+        bp.setTop(createBanner());
 
         // create a container for showing the contents
         container.getChildren().add(createActionArea());

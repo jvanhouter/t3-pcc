@@ -32,11 +32,12 @@ public abstract class View extends Group
     protected static final String APP_FONT = "Univers";
     protected static final String APP_TEXT_COLOR = "#ffc726";
     protected static final Color CAPP_TEXT_COLOR = Color.web("#FFC726");
-    //    protected static final String APP_BACKGROUND_COLOR = "#023627";
-    protected static final String APP_BACKGROUND_COLOR = "#57527e";
-    protected static final String APP_BACKGROUND_STYLE_COLOR = "-fx-background-color: #57527e";
+    // Alternate APP_BACKGROUND_COLOR = "#57527e";
+    protected static final String APP_BACKGROUND_COLOR = "#023627";
+    protected static final String APP_BACKGROUND_STYLE_COLOR = "-fx-background-color: #023627";
     protected static final String APP_BACKGROUND2_STYLE_COLOR = "-fx-background-color: #00533e";
     protected final Integer WRAPPING_WIDTH = 400;
+
     // private data
     protected IModel myModel;
     protected ControlRegistry myRegistry;
@@ -47,7 +48,6 @@ public abstract class View extends Group
 
 
     // Class constructor
-
     public View(IModel model, String classname) {
         myModel = model;
 
@@ -116,7 +116,7 @@ public abstract class View extends Group
         container.setAlignment(Pos.CENTER);
 
         PccText actionText = new PccText(getActionText());
-        actionText.setFont(Font.font(APP_FONT, 30));
+        actionText.setFont(Font.font(APP_FONT, 24));
         actionText.setWrappingWidth(WRAPPING_WIDTH);
         actionText.setTextAlignment(TextAlignment.CENTER);
         container.getChildren().add(actionText);
@@ -127,26 +127,19 @@ public abstract class View extends Group
     }
 
     Node createBanner() {
+        VBox pictureRegion = new VBox();
+        pictureRegion.setStyle(APP_BACKGROUND_STYLE_COLOR);
 
         Image image = new Image("pccTitle.png");
 
-        VBox pictureRegion = new VBox();
+        pictureRegion.getChildren().add(new PccText(" "));
         pictureRegion.setAlignment(Pos.CENTER);
+
         final ImageView imv = new ImageView();
         imv.setImage(image);
         pictureRegion.getChildren().add(imv);
 
-        Text blankText = new Text(" ");
-        blankText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 24));
-        blankText.setFill(Color.WHITE);
-        pictureRegion.getChildren().add(blankText);
-
-        Text actionText = new Text(getActionText());
-        actionText.setFont(Font.font(APP_FONT, 18));
-        actionText.setWrappingWidth(WRAPPING_WIDTH);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.web(APP_TEXT_COLOR));
-        pictureRegion.getChildren().add(actionText);
+        pictureRegion.getChildren().add(new PccText(" "));
 
         return pictureRegion;
     }

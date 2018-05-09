@@ -90,14 +90,12 @@ public class ListInventoryFilterView extends View {
     }
 
     // Create the main form content
-
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
         PccText prompt = new PccText("Please select desired filters.\nLeave all filters unchecked to list all items.");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-//        prompt.setFill(Color.web(APP_TEXT_COLOR));
         prompt.setFont(Font.font(APP_FONT, 18));
         vbox.getChildren().add(prompt);
 

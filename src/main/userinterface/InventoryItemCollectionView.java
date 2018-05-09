@@ -93,7 +93,7 @@ public class InventoryItemCollectionView extends View {
 
                 }
             } else {
-                displayMessage("No matching entries found!");
+                displayMessage("No matching entries found with selected filters!");
             }
 
             InventoryTable.setItems(tableData);
@@ -104,7 +104,7 @@ public class InventoryItemCollectionView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Available Inventory **";
+        return "List of Available Inventory";
     }
 
     // Create the main form content
@@ -232,7 +232,7 @@ public class InventoryItemCollectionView extends View {
 //        scrollPane.setContent(InventoryTable);
 
         cancelButton = new PccButton("Return");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+//        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         cancelButton.setOnAction(e -> {
             /**
              * Process the Cancel button.
@@ -247,7 +247,7 @@ public class InventoryItemCollectionView extends View {
         });
 
         outputButton = new PccButton("Save to File");
-        outputButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+//        outputButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         outputButton.setOnAction(e -> {
             /**
              * This sends the current dataset out to a CSV file

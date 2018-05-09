@@ -14,7 +14,7 @@ class PccButton extends Button {
     private void initialize() {
         this.setFont(Font.font(View.APP_FONT, FontWeight.NORMAL, 16));
         this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
-        this.setMinWidth(80);
+        this.setMinWidth(100);
         this.setMaxWidth(Double.MAX_VALUE);
         this.setOnMouseEntered(e -> {
             colorHover();

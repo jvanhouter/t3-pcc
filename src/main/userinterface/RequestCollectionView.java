@@ -234,9 +234,11 @@ public class RequestCollectionView extends View {
                 processRequestSelected();
             }
         });
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfRequests);
+        tableOfRequests.setMaxSize(800, 250);
+
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setPrefSize(150, 150);
+//        scrollPane.setContent(tableOfRequests);
 
         submitButton = new PccButton("Submit");
 
@@ -261,7 +263,7 @@ public class RequestCollectionView extends View {
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(tableOfRequests);
         vbox.getChildren().add(btnContainer);
 
         return vbox;

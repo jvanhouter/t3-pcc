@@ -72,7 +72,7 @@ public class SearchColorView extends View {
         vbox.setAlignment(Pos.CENTER);
         Font myFont = Font.font(APP_FONT,  16);
 
-        PccText prompt1 = new PccText("Enter Color Barcode Prefix:");
+        PccText prompt1 = new PccText("Please Enter Color Barcode Prefix:");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFont(Font.font(APP_FONT, 20));
@@ -100,7 +100,7 @@ public class SearchColorView extends View {
 
         vbox.getChildren().add(grid0);
 
-        PccText prompt2 = new PccText("Or Enter a Description and/or an Alphacode:");
+        PccText prompt2 = new PccText("Or Enter a Description and/or an Alpha code:");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.web(APP_TEXT_COLOR));
@@ -157,7 +157,7 @@ public class SearchColorView extends View {
         });
         doneCont.getChildren().add(cancelButton);
 
-        PccText prompt3 = new PccText("(enter nothing to see a list of all colors)");
+        PccText prompt3 = new PccText("(enter nothing to list all colors)");
         prompt3.setWrappingWidth(WRAPPING_WIDTH);
         prompt3.setTextAlignment(TextAlignment.CENTER);
         prompt3.setFill(Color.web(APP_TEXT_COLOR));
