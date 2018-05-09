@@ -53,20 +53,24 @@ public class RemoveArticleTypeView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Remove Article Type **";
+        return "Remove Article Type";
     }
 
     // Create the main form content
 
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
-
-        PccText prompt1 = new PccText("Are you sure you wish to remove article type?");
+        vbox.setAlignment(Pos.CENTER);
+        PccText prompt1 = new PccText("Are You Sure You Wish to Remove This Article Type?");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.web(APP_TEXT_COLOR));
-        prompt1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt1.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt1);
+
+        PccText blankText1 = new PccText(" ");
+        blankText1.setFont(Font.font(APP_FONT, 12));
+        vbox.getChildren().add(blankText1);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);

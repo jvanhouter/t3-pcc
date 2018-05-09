@@ -45,6 +45,7 @@ public class SearchColorView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
+        container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
@@ -64,23 +65,25 @@ public class SearchColorView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Search for Colors **";
+        return "Search for Colors";
     }
 
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
+        Font myFont = Font.font(APP_FONT,  16);
 
-        PccText prompt1 = new PccText("Enter Color Barcode Prefix (if known)");
+        PccText prompt1 = new PccText("Enter Color Barcode Prefix:");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt1.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt1);
 
         GridPane grid0 = new GridPane();
         grid0.setAlignment(Pos.CENTER);
         grid0.setHgap(10);
         grid0.setVgap(10);
-        grid0.setPadding(new Insets(0, 25, 10, 0));
+        grid0.setPadding(new Insets(5, 30, 20, 0));
 
         PccText barcodePrefixLabel = new PccText(" Barcode Prefix : ");
         barcodePrefixLabel.setWrappingWidth(150);
@@ -88,23 +91,28 @@ public class SearchColorView extends View {
         grid0.add(barcodePrefixLabel, 0, 1);
 
         barcodePrefix = new TextField();
+        barcodePrefix.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[a-zA-Z0-9 -]{0,30}")) {
+                barcodePrefix.setText(oldValue);
+            }
+        });
         barcodePrefix.setOnAction(this::processSearch);
         grid0.add(barcodePrefix, 1, 1);
 
         vbox.getChildren().add(grid0);
 
-        PccText prompt2 = new PccText(" - Otherwise, enter other criteria below - ");
+        PccText prompt2 = new PccText("Or Enter a Description and/or an Alphacode:");
         prompt2.setWrappingWidth(WRAPPING_WIDTH);
         prompt2.setTextAlignment(TextAlignment.CENTER);
         prompt2.setFill(Color.web(APP_TEXT_COLOR));
-        prompt2.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt2.setFont(Font.font(APP_FONT,  20));
         vbox.getChildren().add(prompt2);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setPadding(new Insets(5, 30, 20, 0));
 
         PccText descripLabel = new PccText(" Description : ");
         descripLabel.setWrappingWidth(150);
@@ -150,7 +158,14 @@ public class SearchColorView extends View {
         });
         doneCont.getChildren().add(cancelButton);
 
+        PccText prompt3 = new PccText("(enter nothing to see a list of all colors)");
+        prompt3.setWrappingWidth(WRAPPING_WIDTH);
+        prompt3.setTextAlignment(TextAlignment.CENTER);
+        prompt3.setFill(Color.web(APP_TEXT_COLOR));
+        prompt3.setFont(Font.font(APP_FONT, 14));
+
         vbox.getChildren().add(grid);
+        vbox.getChildren().add(prompt3);
         vbox.getChildren().add(doneCont);
 
         return vbox;

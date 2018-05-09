@@ -47,6 +47,7 @@ public class AddArticleTypeView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
+        container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
         //container.getChildren().add(createTitle());
@@ -65,7 +66,7 @@ public class AddArticleTypeView extends View {
 
     @Override
     protected String getActionText() {
-        return " Adding a new Article Type ";
+        return " Add an Article Type ";
     }
 
     // Create the main form content
@@ -73,43 +74,21 @@ public class AddArticleTypeView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
-//
-//
-//        PccText blankText = new PccText(" ");
-//        blankText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 10));
-//        blankText.setFill(Color.WHITE);
-//        vbox.getChildren().add(blankText);
-//
-//        PccText title = new PccText("Adding a New Article Type");
-//        title.setWrappingWidth(WRAPPING_WIDTH);
-//        title.setTextAlignment(TextAlignment.CENTER);
-//        title.setFill(Color.web(APP_TEXT_COLOR));
-//        title.setFont(Font.font(APP_FONT, 30));
-//        vbox.getChildren().add(title);
-//
-//        PccText blankText1 = new PccText(" ");
-//        blankText1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 20));
-//        blankText1.setFill(Color.WHITE);
-//        vbox.getChildren().add(blankText1);
 
-//        PccText prompt = new PccText("Please enter article type information:");
-        PccText prompt = new PccText("ARTICLE TYPE INFORMATION");
+
+
+        PccText prompt = new PccText("Please Enter Article Type Information:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD,18));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
-
-//        PccText blankText2 = new PccText(" ");
-//        blankText2.setFont(Font.font(APP_FONT, 10));
-//        blankText2.setFill(Color.WHITE);
-//        vbox.getChildren().add(blankText2);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setHgap(20);
+        grid.setVgap(12);
+        grid.setPadding(new Insets(5, 25, 20, 0));
 
         PccText barcodePrefixLabel = new PccText(" Barcode Prefix : ");
         Font myFont = Font.font(APP_FONT, 16);

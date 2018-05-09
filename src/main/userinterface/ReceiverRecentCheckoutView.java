@@ -37,7 +37,7 @@ public class ReceiverRecentCheckoutView extends View {
 
 // create a container for showing the contents
         VBox container = getParentContainer();
-
+        container.setAlignment(Pos.CENTER);
         // create our GUI components, add them to this panel
         container.getChildren().add(createTitle());
 
@@ -84,24 +84,24 @@ public class ReceiverRecentCheckoutView extends View {
 
     @Override
     protected String getActionText() {
-        return "** User received clothes within last 6 months **";
+        return "User received clothes within last 6 months";
     }
 
     //-------------------------------------------------------------
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
-
+        vbox.setAlignment(Pos.CENTER);
         PccText prompt = new PccText("Receiver Recent History");
         prompt.setWrappingWidth(400);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setHgap(20);
+        grid.setVgap(12);
+        grid.setPadding(new Insets(5, 5, 5, 5));
 
         InventoryTable = new TableView<InventoryTableModel>();
         InventoryTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

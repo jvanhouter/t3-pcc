@@ -34,9 +34,11 @@ public class RemoveRequestView extends View {
 //        VBox container = new VBox(10);
         VBox container = getParentContainer();
 //        container.setPadding(new Insets(15, 5, 5, 5));
+        container.setAlignment(Pos.CENTER);
 
         // Add a title for this panel
         container.getChildren().add(createTitle());
+
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
@@ -53,19 +55,20 @@ public class RemoveRequestView extends View {
     //-------------------------------------------------------------
     @Override
     protected String getActionText() {
-        return "** Remove Request **";
+        return "Remove a Request";
     }
 
     // Create the main form content
     //-------------------------------------------------------------
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        PccText prompt1 = new PccText("Are you sure you wish to remove this request");
+        PccText prompt1 = new PccText("Are You Sure You Wish To Remove This Request");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.web(APP_TEXT_COLOR));
-        prompt1.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt1.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt1);
 
         HBox doneCont = new HBox(10);
@@ -154,5 +157,3 @@ public class RemoveRequestView extends View {
 //---------------------------------------------------------------
 //	Revision History:
 //
-
-

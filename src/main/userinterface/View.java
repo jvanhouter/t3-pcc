@@ -32,6 +32,7 @@ public abstract class View extends Group
     protected static final String APP_FONT = "Univers";
     protected static final String APP_TEXT_COLOR = "#ffc726";
     protected static final Color CAPP_TEXT_COLOR = Color.web("#FFC726");
+    protected static final String APP_BACKGROUND_COLOR = "#023627";
 //    protected static final String APP_BACKGROUND_COLOR = "#023627";
     protected static final String APP_BACKGROUND_COLOR = "#57527e";
     protected static final String APP_BACKGROUND_STYLE_COLOR = "-fx-background-color: #57527e";

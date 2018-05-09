@@ -48,7 +48,7 @@ public class BarcodeScannerView extends View {
 
         // create a container for showing the contents
         VBox container = getParentContainer();
-
+        container.setAlignment(Pos.CENTER);
         // Add a title for this panel
         container.getChildren().add(createTitle());
 
@@ -70,23 +70,25 @@ public class BarcodeScannerView extends View {
         return "Barcode Search";
     }
 
+
     // Create the main form content
 
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        PccText prompt = new PccText("Scan or manually enter clothing item barcode");
+        PccText prompt = new PccText("Please scan or manually enter \nclothing item barcode:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 14));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 0, 25));
+        grid.setHgap(20);
+        grid.setVgap(25);
+        grid.setPadding(new Insets(5, 25, 0, 25));
 
         barcodeField = new TextField();
         barcodeField.setOnAction(this::processAction);

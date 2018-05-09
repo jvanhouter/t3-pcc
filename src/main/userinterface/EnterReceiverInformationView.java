@@ -72,7 +72,7 @@ public class EnterReceiverInformationView extends View {
 
     @Override
     protected String getActionText() {
-        return "** Checkout a Clothing Item **";
+        return "Checkout a Clothing Item";
     }
 
     protected void getEntryTableModelValues() {
@@ -109,20 +109,21 @@ public class EnterReceiverInformationView extends View {
 
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
-
+        vbox.setAlignment(Pos.CENTER);
+        
         PccText prompt = new PccText("Enter Recipient Information");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.web(APP_TEXT_COLOR));
-        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setHgap(20);
+        grid.setVgap(12);
+        grid.setPadding(new Insets(5, 25, 20, 0));
 
         InventoryTable = new TableView<InventoryTableModel>();
         InventoryTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -229,7 +230,7 @@ public class EnterReceiverInformationView extends View {
         scrollPane.setContent(InventoryTable);
 
         PccText netIdLabel = new PccText(" Net ID : ");
-        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 12);
+        Font myFont = Font.font(APP_FONT, 16);
         netIdLabel.setFont(myFont);
         netIdLabel.setFill(Color.web(APP_TEXT_COLOR));
         netIdLabel.setWrappingWidth(150);

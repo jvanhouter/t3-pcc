@@ -30,7 +30,7 @@ public class ModifyClothingItemView extends AddClothingItemView {
 
     //-------------------------------------------------------------
     protected String getActionText() {
-        return "** Modify Clothing Item Data **";
+        return "Modify a Clothing Item";
     }
 
     //-------------------------------------------------------------
