@@ -59,7 +59,7 @@ public class ReceptionistView extends View {
         container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
-        container.getChildren().add(createFormContents());
+        container.getChildren().add(createFormContent());
         container.getChildren().add(createStatusLog(""));
 
         //Add container to our BorderPane
@@ -79,7 +79,7 @@ public class ReceptionistView extends View {
     }
 
     // Create the navigation buttons
-    VBox createFormContents() {
+    private VBox createFormContent() {
 
         VBox container = new VBox(15);
         container.setAlignment(Pos.CENTER);

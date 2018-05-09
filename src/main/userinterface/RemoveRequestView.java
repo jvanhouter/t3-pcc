@@ -31,21 +31,17 @@ public class RemoveRequestView extends View {
         super(at, "RemoveRequestView");
 
         // create a container for showing the contents
-//        VBox container = new VBox(10);
-        VBox container = getParentContainer();
-//        container.setPadding(new Insets(15, 5, 5, 5));
-        container.setAlignment(Pos.CENTER);
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
-
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 

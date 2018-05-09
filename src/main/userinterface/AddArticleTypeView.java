@@ -45,8 +45,18 @@ public class AddArticleTypeView extends View {
     public AddArticleTypeView(IModel at) {
         super(at, "AddArticleTypeView");
 
-        createLayout(false);
+        // create a container for showing the contents
+        container.getChildren().add(createActionArea());
 
+        // create our GUI components, add them to this Container
+        container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
+
+        //Add container to our BorderPane
+        bp.setCenter(container);
+
+        // Add BorderPane to our view
+        getChildren().add(bp);
         populateFields();
 
         myModel.subscribe("TransactionError", this);
@@ -59,7 +69,7 @@ public class AddArticleTypeView extends View {
 
     // Create the main form content
     //-------------------------------------------------------------
-    VBox createFormContents() {
+    VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
 

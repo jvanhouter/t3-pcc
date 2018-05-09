@@ -33,20 +33,17 @@ public class CheckoutInvalidItemView extends View {
         super(at, "CheckoutInvalidItemView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
-
-        //The initial status message needs to be the current barcodes.
-        String initialMessage = (String) myModel.getState("BarcodeError");
         container.getChildren().add(createStatusLog(""));
-        displayErrorMessage(initialMessage);
 
-        getChildren().add(container);
+        //Add container to our BorderPane
+        bp.setCenter(container);
+
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 

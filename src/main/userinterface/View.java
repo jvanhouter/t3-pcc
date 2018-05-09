@@ -73,7 +73,7 @@ public abstract class View extends Group
             bp.setTop(createTitle());
         }
         container.getChildren().add(createActionArea());
-        container.getChildren().add(createFormContents());
+        container.getChildren().add(createFormContent());
         container.getChildren().add(createStatusLog(""));
         bp.setCenter(container);
 
@@ -116,7 +116,7 @@ public abstract class View extends Group
         container.setAlignment(Pos.CENTER);
 
         PccText actionText = new PccText(getActionText());
-        actionText.setFont(Font.font(APP_FONT, FontWeight.BOLD, 18));
+        actionText.setFont(Font.font(APP_FONT, 30));
         actionText.setWrappingWidth(WRAPPING_WIDTH);
         actionText.setTextAlignment(TextAlignment.CENTER);
         container.getChildren().add(actionText);
@@ -151,7 +151,7 @@ public abstract class View extends Group
         return pictureRegion;
     }
 
-    Node createFormContents() {
+    private Node createFormContent() {
         return null;
     }
 

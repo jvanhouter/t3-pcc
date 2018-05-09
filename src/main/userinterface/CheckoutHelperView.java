@@ -46,21 +46,17 @@ public class CheckoutHelperView extends View {
         super(inv, "InventoryItemCollectionView");
 
         // create a container for showing the contents
-        VBox container = getParentContainer();
-        container.setAlignment(Pos.CENTER);
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
-
-        // Error message area
-        String errorMessage = "";
         container.getChildren().add(createStatusLog(""));
-//        displayErrorMessage(errorMessage);
 
-        getChildren().add(container);
+        //Add container to our BorderPane
+        bp.setCenter(container);
+
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 
