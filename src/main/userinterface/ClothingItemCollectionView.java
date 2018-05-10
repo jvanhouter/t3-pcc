@@ -96,17 +96,15 @@ public class ClothingItemCollectionView extends View {
 
         ObservableList<ClothingItemTableModel> tableData = FXCollections.observableArrayList();
         try {
-//            ClothingItemCollection clothingItemCollection =
-//                    (ClothingItemCollection) myModel.getState("ClothingItemList");
-            HashMap clothingItemCollection = (HashMap) myModel.getState("ClothingItemList");
-//            Iterator entryList = clothingItemCollection.entrySet().iterator();
-//            Vector entryList = (Vector) clothingItemCollection.getState("ClothingItems");
-            if (clothingItemCollection.size() > 0) {
-//                Enumeration entries = entryList.elements();
-                Enumeration entries = Collections.enumeration(clothingItemCollection.keySet());
+            ClothingItemCollection clothingItemCollection =
+                    (ClothingItemCollection) myModel.getState("ClothingItemList");
+
+            Vector entryList = (Vector) clothingItemCollection.getState("ClothingItems");
+            if (entryList.size() > 0) {
+                Enumeration entries = entryList.elements();
 
                 while (entries.hasMoreElements()) {
-                    ClothingItem nextAT = (ClothingItem) clothingItemCollection.get(entries.nextElement());
+                    ClothingItem nextAT = (ClothingItem) entries.nextElement();
                     Vector<String> view = nextAT.getEntryListView();
 
                     // add this list entry to the list
