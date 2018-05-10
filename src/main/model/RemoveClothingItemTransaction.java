@@ -5,11 +5,12 @@ package model;
 
 import Utilities.Utilities;
 import event.Event;
+import exception.InvalidPrimaryKeyException;
+import exception.MultiplePrimaryKeysException;
 import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-import java.util.HashMap;
 import java.util.Properties;
 
 // project imports
@@ -21,11 +22,6 @@ import java.util.Properties;
 public class RemoveClothingItemTransaction extends Transaction {
 
     private ClothingItemCollection myClothingItemList;
-    private ClothingItem mySelectedClothingItem;
-
-    private HashMap myArticleTypeList;
-    private HashMap myColorList;
-    private String gender;
 
     private ClothingItem mySelectedItem;
 
@@ -47,25 +43,110 @@ public class RemoveClothingItemTransaction extends Transaction {
         dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
         dependencies.setProperty("CancelRemoveCI", "CancelTransaction");
         dependencies.setProperty("RemoveClothingItem", "TransactionError");
-        dependencies.setProperty("ProcessBarcode", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
     }
 
-    /**
-     * This method encapsulates all the logic of creating the clothing item collection and showing the view
-     */
-    //----------------------------------------------------------
+    private void processClothingRemoval() {
+        if (mySelectedItem != null) {
+            mySelectedItem.stateChangeRequest("Status", "Removed");
+            mySelectedItem.update();
+            transactionErrorMessage = ((String) mySelectedItem.getState("UpdateStatusMessage")).replace("updated", "removed");
+            if(!transactionErrorMessage.toLowerCase().contains("error"))
+                Utilities.removeClothingHash((String) mySelectedItem.getState("ID"));
+        }
+    }
+
+
+    //-----------------------------------------------------------
+    public Object getState(String key) {
+        if (key.equals("ClothingItemList")) {
+            return myClothingItemList;
+        }  else if (key.equals("Barcode")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Barcode");
+            else
+                return "";
+        } else if (key.equals("Gender")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Gender");
+            else
+                return "";
+        } else if (key.equals("Color1")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Color1");
+            else
+                return "";
+        } else if (key.equals("Color2")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Color2");
+            else
+                return "";
+        } else if (key.equals("Brand")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Brand");
+            else
+                return "";
+        } else if (key.equals("ArticleType")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("ArticleType");
+            else
+                return "";
+        } else if (key.equals("DonorFirstName")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("DonorFirstName");
+            else
+                return "";
+        } else if (key.equals("DonorLastName")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("DonorLastName");
+            else
+                return "";
+        } else if (key.equals("DonorEmail")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("DonorEmail");
+            else
+                return "";
+        } else if (key.equals("DonorPhone")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("DonorPhone");
+            else
+                return "";
+        } else if (key.equals("Notes")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Notes");
+            else
+                return "";
+        } else if (key.equals("Size")) {
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Size");
+            else
+                return "";
+        } else if (key.equals("TransactionError")) {
+            return transactionErrorMessage;
+//        } else if (key.equals("Gender")) {
+//            return gender;
+//        } else if (key.equals("Articles")) {
+//            return myArticleTypeList.retrieveAll();
+//        } else if (key.equals("Colors")) {
+//            return myColorList.retrieveAll();
+        } else if (key.equals("ListAll")) {
+            return false;
+        } else
+            return null;
+    }
+
     public void processTransaction(Properties props) {
         myClothingItemList = new ClothingItemCollection();
-        myArticleTypeList = Utilities.collectArticleTypeHash();
-        myColorList = Utilities.collectColorHash();
-
 
         if (props.getProperty("Barcode") != null) {
             String barcode = props.getProperty("Barcode");
             myClothingItemList.findByBarcode(barcode);
-        } else {
+        } /*else { Properties doesn't contain gender or article type
+            String genderString = props.getProperty("Gender");
+            String articleTypeString = props.getProperty("ArticleType");
+            myClothingItemList.findByCriteria(articleTypeString, genderString);
+        }*/ else {
             myClothingItemList.findAll();
         }
 
@@ -77,96 +158,6 @@ public class RemoveClothingItemTransaction extends Transaction {
                     "Error in creating ClothingItemCollectionView", Event.ERROR);
         }
     }
-    /**
-     * This method encapsulates all the logic of removing the clothing item,
-     * verifying the new barcode, etc.
-     */
-    private void processClothingRemoval() {
-        if (mySelectedClothingItem != null) {
-            mySelectedClothingItem.stateChangeRequest("Status", "Removed");
-            mySelectedClothingItem.update();
-            transactionErrorMessage = (String) mySelectedClothingItem.getState("UpdateStatusMessage");
-            if(!transactionErrorMessage.toLowerCase().contains("error"))
-                Utilities.removeClothingHash((String) mySelectedClothingItem.getState("ID"));
-        }
-    }
-
-    public Object getState(String key) {
-        if (key.equals("ClothingItemList")) {
-            return myClothingItemList;
-        } else if (key.equals("Barcode")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Barcode");
-            else
-                return "";
-        } else if (key.equals("Gender")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Gender");
-            else
-                return "";
-        } else if (key.equals("Color1")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Color1");
-            else
-                return "";
-        } else if (key.equals("Color2")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Color2");
-            else
-                return "";
-        } else if (key.equals("Brand")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Brand");
-            else
-                return "";
-        } else if (key.equals("ArticleType")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("ArticleType");
-            else
-                return "";
-        } else if (key.equals("DonorFirstName")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("DonorFirstName");
-            else
-                return "";
-        } else if (key.equals("DonorLastName")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("DonorLastName");
-            else
-                return "";
-        } else if (key.equals("DonorEmail")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("DonorEmail");
-            else
-                return "";
-        } else if (key.equals("DonorPhone")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("DonorPhone");
-            else
-                return "";
-        } else if (key.equals("Notes")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Notes");
-            else
-                return "";
-        } else if (key.equals("Size")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Size");
-            else
-                return "";
-        } else if (key.equals("TransactionError")) {
-            return transactionErrorMessage;
-        } else if (key.equals("Gender")) {
-            return gender;
-        } else if (key.equals("Articles")) {
-            return myArticleTypeList;
-        } else if (key.equals("Colors")) {
-            return myColorList;
-        } else if (key.equals("ListAll")) {
-            return true;
-        } else
-            return null;
-    }
 
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
@@ -174,26 +165,35 @@ public class RemoveClothingItemTransaction extends Transaction {
         if ((key.equals("DoYourJob")) || (key.equals("CancelClothingItemList"))) {
             doYourJob();
         } else if (key.equals("ProcessBarcode")) {
-            processTransaction((Properties) value);
-        } else if (key.equals("ClothingItemSelected")){
-            mySelectedClothingItem = myClothingItemList.retrieve((String) value);
-            String barcode = (String) mySelectedClothingItem.getState("Barcode");
-            if (barcode.substring(0, 1).equals("1"))
-                gender = "Mens";
-            else if (barcode.substring(0, 1).equals("0"))
-                gender = "Womens";
-            else if (barcode.substring(0, 1).equals("2"))
-                gender = "Unisex";
+            Properties props = (Properties) value;
+            String barcode = props.getProperty("Barcode");
+            barcode = barcode.toUpperCase();
             try {
+                mySelectedItem = new ClothingItem(barcode);
+                if (mySelectedItem != null) {
+                    if (mySelectedItem.getState("Status").equals("Donated")) {
+                        try {
+                            Scene newScene = createRemoveClothingItemView();
 
-                Scene newScene = createRemoveClothingItemView();
+                            swapToView(newScene);
 
-                swapToView(newScene);
-
-            } catch (Exception ex) {
-                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Error in creating ModifyClothingItemView", Event.ERROR);
-                ex.printStackTrace();
+                        } catch (Exception ex) {
+                            new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                                    "Error in creating RemoveClothingItemView", Event.ERROR);
+                        }
+                    } else {
+                        transactionErrorMessage = barcode + " is not available for removal.";
+                        handleBarcodeProblems(transactionErrorMessage);
+                    }
+                } else {
+                    transactionErrorMessage = barcode + " does not exist in the database.";
+                    handleBarcodeProblems(transactionErrorMessage);
+                }
+            } catch (InvalidPrimaryKeyException e) {
+                transactionErrorMessage = barcode + " does not exist in the database.";
+                handleBarcodeProblems(transactionErrorMessage);
+            } catch (MultiplePrimaryKeysException e) {
+                e.printStackTrace();
             }
         } else if (key.equals("RemoveClothingItem")) {
             processClothingRemoval();
@@ -218,7 +218,8 @@ public class RemoveClothingItemTransaction extends Transaction {
 
         if (currentScene == null) {
             // create our initial view
-            currentScene = new Scene(ViewFactory.createView("BarcodeScannerView", this));
+            View newView = ViewFactory.createView("BarcodeScannerView", this);
+            currentScene = new Scene(newView);
             myViews.put("BarcodeScannerView", currentScene);
 
             return currentScene;

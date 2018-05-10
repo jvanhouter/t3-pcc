@@ -49,7 +49,7 @@ public class RemoveRequestTransaction extends Transaction {
         if (myClothingRequest != null) {
             myClothingRequest.stateChangeRequest("Status", "Removed");
             myClothingRequest.update();
-            transactionErrorMessage = (String) myClothingRequest.getState("UpdateStatusMessage");
+            transactionErrorMessage = ((String) myClothingRequest.getState("UpdateStatusMessage")).replace("updated", "removed");
             if(!transactionErrorMessage.toLowerCase().contains("error"))
                 Utilities.removeClothingRequestHash((String) myClothingRequest.getState("ID"));
         }
