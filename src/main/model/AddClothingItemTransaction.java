@@ -25,9 +25,7 @@ import java.util.Properties;
 public class AddClothingItemTransaction extends Transaction {
 
     private ClothingItem myClothingItem;
-//    private ArticleTypeCollection myArticleTypeList;
     private HashMap myArticleTypeList;
-//    private ColorCollection myColorList;
     private HashMap myColorList;
     private String barcode;
 
@@ -61,7 +59,6 @@ public class AddClothingItemTransaction extends Transaction {
      * This method encapsulates all the logic of creating the article type,
      * verifying its uniqueness, etc.
      */
-
     public void processTransaction(Properties props) {
         if (barcode != null) {
             props.setProperty("Barcode", barcode);
@@ -160,25 +157,10 @@ public class AddClothingItemTransaction extends Transaction {
     }
 
 
-    private void createAndShowAddClothingItemView() {
-        Scene currentScene = (Scene) myViews.get("AddClothingItemView");
-
-        if (currentScene == null) {
-            // create our initial view
-            View newView = ViewFactory.createView("AddClothingItemView", this); // USE VIEW FACTORY
-            currentScene = new Scene(newView);
-            myViews.put("AddClothingItemView", currentScene);
-        }
-
-        swapToView(currentScene);
-
-    }
-
     /**
      * Create the view of this class. And then the super-class calls
      * swapToView() to display the view in the frame
      */
-
     protected Scene createView() {
         Scene currentScene = myViews.get("BarcodeScannerView");
 
@@ -191,6 +173,20 @@ public class AddClothingItemTransaction extends Transaction {
         } else {
             return currentScene;
         }
+    }
+
+    private void createAndShowAddClothingItemView() {
+        Scene currentScene = (Scene) myViews.get("AddClothingItemView");
+
+        if (currentScene == null) {
+            // create our initial view
+            View newView = ViewFactory.createView("AddClothingItemView", this); // USE VIEW FACTORY
+            currentScene = new Scene(newView);
+            myViews.put("AddClothingItemView", currentScene);
+        }
+
+        swapToView(currentScene);
+
     }
 
 }

@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
+import java.util.HashMap;
 import java.util.Properties;
 
 // project imports
@@ -23,6 +24,10 @@ public class RemoveClothingItemTransaction extends Transaction {
 
     private ClothingItemCollection myClothingItemList;
     private ClothingItem mySelectedClothingItem;
+
+    private HashMap myArticleTypeList;
+    private HashMap myColorList;
+    private String gender;
 
     private ClothingItem mySelectedItem;
 
@@ -44,26 +49,61 @@ public class RemoveClothingItemTransaction extends Transaction {
         dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
         dependencies.setProperty("CancelRemoveCI", "CancelTransaction");
         dependencies.setProperty("RemoveClothingItem", "TransactionError");
+        dependencies.setProperty("ProcessBarcode", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
     }
 
+    /**
+     * This method encapsulates all the logic of creating the clothing item collection and showing the view
+     */
+    //----------------------------------------------------------
+    public void processTransaction(Properties props) {
+        myClothingItemList = new ClothingItemCollection();
+        myArticleTypeList = Utilities.collectArticleTypeHash();
+        myColorList = Utilities.collectColorHash();
+
+
+        if (props.getProperty("Barcode") != null) {
+            String barcode = props.getProperty("Barcode");
+            myClothingItemList.findByBarcode(barcode);
+        } else {
+            myClothingItemList.findAll();
+        }
+
+        try {
+            Scene newScene = createClothingItemCollectionView();
+            swapToView(newScene);
+        } catch (Exception ex) {
+            new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                    "Error in creating ClothingItemCollectionView", Event.ERROR);
+        }
+    }
+    /**
+     * This method encapsulates all the logic of removing the clothing item,
+     * verifying the new barcode, etc.
+     */
     private void processClothingRemoval() {
-        if (mySelectedItem != null) {
-            mySelectedItem.stateChangeRequest("Status", "Removed");
-            mySelectedItem.update();
-            transactionErrorMessage = (String) mySelectedItem.getState("UpdateStatusMessage");
+//        if (mySelectedItem != null) {
+//            mySelectedItem.stateChangeRequest("Status", "Removed");
+//            mySelectedItem.update();
+//            transactionErrorMessage = (String) mySelectedItem.getState("UpdateStatusMessage");
+//            if(!transactionErrorMessage.toLowerCase().contains("error"))
+//                Utilities.removeClothingHash((String) mySelectedItem.getState("ID"));
+//        }
+        if (mySelectedClothingItem != null) {
+            mySelectedClothingItem.stateChangeRequest("Status", "Removed");
+            mySelectedClothingItem.update();
+            transactionErrorMessage = (String) mySelectedClothingItem.getState("UpdateStatusMessage");
             if(!transactionErrorMessage.toLowerCase().contains("error"))
-                Utilities.removeClothingHash((String) mySelectedItem.getState("ID"));
+                Utilities.removeClothingHash((String) mySelectedClothingItem.getState("ID"));
         }
     }
 
-
-    //-----------------------------------------------------------
     public Object getState(String key) {
         if (key.equals("ClothingItemList")) {
             return myClothingItemList;
-        }  else if (key.equals("Barcode")) {
+        } else if (key.equals("Barcode")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Barcode");
             else
@@ -125,39 +165,16 @@ public class RemoveClothingItemTransaction extends Transaction {
                 return "";
         } else if (key.equals("TransactionError")) {
             return transactionErrorMessage;
-//        } else if (key.equals("Gender")) {
-//            return gender;
-//        } else if (key.equals("Articles")) {
-//            return myArticleTypeList.retrieveAll();
-//        } else if (key.equals("Colors")) {
-//            return myColorList.retrieveAll();
+        } else if (key.equals("Gender")) {
+            return gender;
+        } else if (key.equals("Articles")) {
+            return myArticleTypeList;
+        } else if (key.equals("Colors")) {
+            return myColorList;
         } else if (key.equals("ListAll")) {
-            return false;
+            return true;
         } else
             return null;
-    }
-
-    public void processTransaction(Properties props) {
-        myClothingItemList = new ClothingItemCollection();
-
-        if (props.getProperty("Barcode") != null) {
-            String barcode = props.getProperty("Barcode");
-            myClothingItemList.findByBarcode(barcode);
-        } /*else { Properties doesn't contain gender or article type
-            String genderString = props.getProperty("Gender");
-            String articleTypeString = props.getProperty("ArticleType");
-            myClothingItemList.findByCriteria(articleTypeString, genderString);
-        }*/ else {
-            myClothingItemList.findAll();
-        }
-
-        try {
-            Scene newScene = createClothingItemCollectionView();
-            swapToView(newScene);
-        } catch (Exception ex) {
-            new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                    "Error in creating ClothingItemCollectionView", Event.ERROR);
-        }
     }
 
     //-----------------------------------------------------------
@@ -166,37 +183,59 @@ public class RemoveClothingItemTransaction extends Transaction {
         if ((key.equals("DoYourJob")) || (key.equals("CancelClothingItemList"))) {
             doYourJob();
         } else if (key.equals("ProcessBarcode")) {
-            Properties props = (Properties) value;
-            String barcode = props.getProperty("Barcode");
-            barcode = barcode.toUpperCase();
+            processTransaction((Properties) value);
+        } else if (key.equals("ClothingItemSelected")){
+            mySelectedClothingItem = myClothingItemList.retrieve((String) value);
+            String barcode = (String) mySelectedClothingItem.getState("Barcode");
+            if (barcode.substring(0, 1).equals("1"))
+                gender = "Mens";
+            else if (barcode.substring(0, 1).equals("0"))
+                gender = "Womens";
+            else if (barcode.substring(0, 1).equals("2"))
+                gender = "Unisex";
             try {
-                mySelectedItem = new ClothingItem(barcode);
-                if (mySelectedItem != null) {
-                    if (mySelectedItem.getState("Status").equals("Donated")) {
-                        try {
 
-                            Scene newScene = createRemoveClothingItemView();
+                Scene newScene = createRemoveClothingItemView();
 
-                            swapToView(newScene);
+                swapToView(newScene);
 
-                        } catch (Exception ex) {
-                            new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                                    "Error in creating RemoveClothingItemView", Event.ERROR);
-                        }
-                    } else {
-                        transactionErrorMessage = barcode + " is not available for removal.";
-                        handleBarcodeProblems(transactionErrorMessage);
-                    }
-                } else {
-                    transactionErrorMessage = barcode + " does not exist in the database.";
-                    handleBarcodeProblems(transactionErrorMessage);
-                }
-            } catch (InvalidPrimaryKeyException e) {
-                transactionErrorMessage = barcode + " does not exist in the database.";
-                handleBarcodeProblems(transactionErrorMessage);
-            } catch (MultiplePrimaryKeysException e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                        "Error in creating ModifyClothingItemView", Event.ERROR);
+                ex.printStackTrace();
             }
+//        } else if (key.equals("ProcessBarcode")) {
+//            Properties props = (Properties) value;
+//            String barcode = props.getProperty("Barcode");
+//            barcode = barcode.toUpperCase();
+//            try {
+//                mySelectedItem = new ClothingItem(barcode);
+//                if (mySelectedItem != null) {
+//                    if (mySelectedItem.getState("Status").equals("Donated")) {
+//                        try {
+//
+//                            Scene newScene = createRemoveClothingItemView();
+//
+//                            swapToView(newScene);
+//
+//                        } catch (Exception ex) {
+//                            new Event(Event.getLeafLevelClassName(this), "processTransaction",
+//                                    "Error in creating RemoveClothingItemView", Event.ERROR);
+//                        }
+//                    } else {
+//                        transactionErrorMessage = barcode + " is not available for removal.";
+//                        handleBarcodeProblems(transactionErrorMessage);
+//                    }
+//                } else {
+//                    transactionErrorMessage = barcode + " does not exist in the database.";
+//                    handleBarcodeProblems(transactionErrorMessage);
+//                }
+//            } catch (InvalidPrimaryKeyException e) {
+//                transactionErrorMessage = barcode + " does not exist in the database.";
+//                handleBarcodeProblems(transactionErrorMessage);
+//            } catch (MultiplePrimaryKeysException e) {
+//                e.printStackTrace();
+//            }
         } else if (key.equals("RemoveClothingItem")) {
             processClothingRemoval();
         }
@@ -220,8 +259,7 @@ public class RemoveClothingItemTransaction extends Transaction {
 
         if (currentScene == null) {
             // create our initial view
-            View newView = ViewFactory.createView("BarcodeScannerView", this);
-            currentScene = new Scene(newView);
+            currentScene = new Scene(ViewFactory.createView("BarcodeScannerView", this));
             myViews.put("BarcodeScannerView", currentScene);
 
             return currentScene;

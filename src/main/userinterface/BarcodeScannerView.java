@@ -15,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
@@ -83,7 +82,6 @@ public class BarcodeScannerView extends View {
         PccText prompt = new PccText("Please scan or manually enter \nclothing item barcode:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.web(APP_TEXT_COLOR));
         prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
@@ -137,7 +135,6 @@ public class BarcodeScannerView extends View {
             if (barcode.substring(0, 1).equals("0") || barcode.substring(0, 1).equals("1") || barcode.substring(0, 1).equals("2")) {
                 PauseTransition pause = new PauseTransition(Duration.millis(100));
                 props.setProperty("Barcode", barcode);
-                displayMessage("Loading...");
                 barcodeField.setText("");
                 pause.setOnFinished(event -> myModel.stateChangeRequest("ProcessBarcode", props));
                 pause.play();
@@ -175,14 +172,14 @@ public class BarcodeScannerView extends View {
         if (key.equals("TransactionError")) {
             String val = (String) value;
             if (val.startsWith("ERR")) {
-//                displayErrorMessage(val);
+                displayErrorMessage(val);
             } else {
                 displayMessage(val);
             }
 
         } else if (key.equals("HandleBarcodeProblems")) {
             String val = (String) myModel.getState("BarcodeError");
-            String barcodeError = "The clothing item associated with barcode " + val + " This clothing item will not be added to the checkout cart.";
+            String barcodeError = "The clothing item associated with barcode " + val + "\nThis clothing item will not be added to the checkout cart.";
             PccAlert alert = PccAlert.getInstance();
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Barcode Error");

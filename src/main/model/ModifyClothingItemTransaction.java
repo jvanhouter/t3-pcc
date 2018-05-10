@@ -24,9 +24,7 @@ public class ModifyClothingItemTransaction extends Transaction {
     private ClothingItemCollection myClothingItemList;
     private ClothingItem mySelectedClothingItem;
 
-//    private ArticleTypeCollection myArticleTypeList;
     private HashMap myArticleTypeList;
-//    private ColorCollection myColorList;
     private HashMap myColorList;
     private String gender;
 
@@ -68,11 +66,7 @@ public class ModifyClothingItemTransaction extends Transaction {
         if (props.getProperty("Barcode") != null) {
             String barcode = props.getProperty("Barcode");
             myClothingItemList.findByBarcode(barcode);
-        } /*else { Properties doesn't contain gender or article type
-            String genderString = props.getProperty("Gender");
-            String articleTypeString = props.getProperty("ArticleType");
-            myClothingItemList.findByCriteria(articleTypeString, genderString);
-        }*/ else {
+        } else {
             myClothingItemList.findAll();
         }
 
@@ -123,7 +117,6 @@ public class ModifyClothingItemTransaction extends Transaction {
      * This method encapsulates all the logic of modifiying the clothing item,
      * verifying the new barcode, etc.
      */
-    //----------------------------------------------------------
     private void processClothingItemModification(Properties props) {
         String originalBarcode = (String) mySelectedClothingItem.getState("Barcode");
         props.setProperty("Barcode", originalBarcode);
@@ -200,10 +193,8 @@ public class ModifyClothingItemTransaction extends Transaction {
             return gender;
         } else if (key.equals("Articles")) {
             return myArticleTypeList;
-//            return myArticleTypeList.retrieveAll();
         } else if (key.equals("Colors")) {
             return myColorList;
-//            return myColorList.retrieveAll();
         } else if (key.equals("ListAll")) {
             return true;
         }
@@ -220,10 +211,6 @@ public class ModifyClothingItemTransaction extends Transaction {
             processTransaction((Properties) value);
         } else if (key.equals("ClothingItemSelected")) {
             mySelectedClothingItem = myClothingItemList.retrieve((String) value);
-//            myArticleTypeList = new ArticleTypeCollection();
-//            myArticleTypeList.findAll();
-//            myColorList = new ColorCollection();
-//            myColorList.findAll();
             String barcode = (String) mySelectedClothingItem.getState("Barcode");
             if (barcode.substring(0, 1).equals("1"))
                 gender = "Mens";
@@ -259,8 +246,7 @@ public class ModifyClothingItemTransaction extends Transaction {
 
         if (currentScene == null) {
             // create our initial view
-            View newView = ViewFactory.createView("BarcodeScannerView", this);
-            currentScene = new Scene(newView);
+            currentScene = new Scene(ViewFactory.createView("BarcodeScannerView", this));
             myViews.put("BarcodeScannerView", currentScene);
 
             return currentScene;
