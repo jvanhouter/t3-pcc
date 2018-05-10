@@ -389,7 +389,7 @@ public class AddClothingItemView extends View {
         } else {
             props.setProperty("Gender", gender);
             if (size.length() == 0)
-                props.setProperty("Size", ""); // + UiConstants.GENERIC_SIZE);
+                props.setProperty("Size", "" + UiConstants.GENERIC_SIZE);
             else
                 props.setProperty("Size", size);
             props.setProperty("ArticleType", (String) articleType.getState("ID"));

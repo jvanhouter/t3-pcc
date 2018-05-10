@@ -316,7 +316,7 @@ public class LogARequestView extends View
                 props.setProperty("RequestedColor2", (String) color2.getValue().getState("ID"));
             props.setProperty("RequestedBrand", brand.getText());
             if(size.getText().equals("")) {
-                props.setProperty("RequestedSize", "");// + UiConstants.GENERIC_SIZE);
+                props.setProperty("RequestedSize", "" + UiConstants.GENERIC_SIZE);
             } else
                 props.setProperty("RequestedSize", size.getText());
             if(phoneNumber.getText().length() <= UiConstants.REQUESTED_PHONE_MAX_LENGTH) {

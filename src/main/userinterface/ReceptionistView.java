@@ -92,7 +92,7 @@ public class ReceptionistView extends View {
         // create the buttons, listen for events, add them to the container
         HBox checkoutCont = new HBox(10);
         checkoutCont.setAlignment(Pos.CENTER);
-        checkoutClothingItemButton = new PccButton("Checkout Clothing Item");
+        checkoutClothingItemButton = new PccButton("Checkout");
         checkoutClothingItemButton.setOnAction(e -> myModel.stateChangeRequest("CheckoutClothingItem", null));
         checkoutCont.getChildren().add(checkoutClothingItemButton);
 
