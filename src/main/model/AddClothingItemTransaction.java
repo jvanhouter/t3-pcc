@@ -113,6 +113,7 @@ public class AddClothingItemTransaction extends Transaction {
                     gender = "Womens";
                 else if (barcode.substring(0, 1).equals("2"))
                     gender = "Unisex";
+                transactionErrorMessage = "";
                 createAndShowAddClothingItemView();
             } catch (MultiplePrimaryKeysException ex2) {
                 transactionErrorMessage = "ERROR: Multiple clothing items with barcode !";
