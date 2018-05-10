@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
+import model.PccAlert;
 
 import java.util.Properties;
 // project imports
@@ -177,8 +178,10 @@ public class BarcodeScannerView extends View {
         } else if (key.equals("HandleBarcodeProblems")) {
             String val = (String) myModel.getState("BarcodeError");
             String barcodeError = "The clothing item associated with barcode " + val + " This clothing item will not be added to the checkout cart.";
-            Alert alert = new Alert(Alert.AlertType.ERROR, barcodeError);
+            PccAlert alert = PccAlert.getInstance();
+            alert.setAlertType(Alert.AlertType.ERROR);
             alert.setTitle("Barcode Error");
+            alert.setContentText(barcodeError);
             alert.setHeaderText("There is a problem with the item you wish to checkout.");
             alert.show();
         }
