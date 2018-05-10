@@ -27,8 +27,7 @@ import javafx.scene.text.TextAlignment;
 import model.ClothingItem;
 import model.ClothingItemCollection;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.*;
 
 // project imports
 
@@ -97,15 +96,17 @@ public class ClothingItemCollectionView extends View {
 
         ObservableList<ClothingItemTableModel> tableData = FXCollections.observableArrayList();
         try {
-            ClothingItemCollection clothingItemCollection =
-                    (ClothingItemCollection) myModel.getState("ClothingItemList");
-
-            Vector entryList = (Vector) clothingItemCollection.getState("ClothingItems");
-            if (entryList.size() > 0) {
-                Enumeration entries = entryList.elements();
+//            ClothingItemCollection clothingItemCollection =
+//                    (ClothingItemCollection) myModel.getState("ClothingItemList");
+            HashMap clothingItemCollection = (HashMap) myModel.getState("ClothingItemList");
+//            Iterator entryList = clothingItemCollection.entrySet().iterator();
+//            Vector entryList = (Vector) clothingItemCollection.getState("ClothingItems");
+            if (clothingItemCollection.size() > 0) {
+//                Enumeration entries = entryList.elements();
+                Enumeration entries = Collections.enumeration(clothingItemCollection.keySet());
 
                 while (entries.hasMoreElements()) {
-                    ClothingItem nextAT = (ClothingItem) entries.nextElement();
+                    ClothingItem nextAT = (ClothingItem) clothingItemCollection.get(entries.nextElement());
                     Vector<String> view = nextAT.getEntryListView();
 
                     // add this list entry to the list
