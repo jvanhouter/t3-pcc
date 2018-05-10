@@ -85,7 +85,7 @@ public class FulfillRequestView extends View {
 
     @Override
     protected String getActionText() {
-        return "Fulfil Request";
+        return "Fulfill Request";
     }
 
     // Create the main form content
@@ -95,7 +95,6 @@ public class FulfillRequestView extends View {
         PccText prompt = new PccText("Please Input Clothing Item Information:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(javafx.scene.paint.Color.BLACK);
         prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
@@ -105,23 +104,18 @@ public class FulfillRequestView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(5, 25, 20, 0));
 
-        Font myFont = Font.font(APP_FONT, FontWeight.BOLD, 16);
-        Font headerFont = Font.font(APP_FONT, FontWeight.BOLD, 16);
         PccText myItem = new PccText("Clothing Item");
-        myItem.setFont(headerFont);
         myItem.setWrappingWidth(150);
         myItem.setTextAlignment(TextAlignment.CENTER);
         grid.add(myItem, 1, 0);
 
         PccText myRequest = new PccText("Requested Item");
-        myRequest.setFont(headerFont);
         myRequest.setWrappingWidth(150);
         myRequest.setTextAlignment(TextAlignment.CENTER);
         grid.add(myRequest, 3, 0);
 
         // Gender UI items ==================================================
         PccText genderLabel = new PccText(" Gender : ");
-        genderLabel.setFont(myFont);
         genderLabel.setWrappingWidth(150);
         genderLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(genderLabel, 0, 1);
@@ -133,7 +127,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Size UI Items ===================================================
         PccText sizeLabel = new PccText(" Size : ");
-        sizeLabel.setFont(myFont);
         sizeLabel.setWrappingWidth(150);
         sizeLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(sizeLabel, 0, 2);
@@ -145,7 +138,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Article Type UI Items ===========================================
         PccText articleTypeLabel = new PccText(" Article Type : ");
-        articleTypeLabel.setFont(myFont);
         articleTypeLabel.setWrappingWidth(150);
         articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(articleTypeLabel, 0, 3);
@@ -157,7 +149,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Primary Color UI Items ==========================================
         PccText primaryColorLabel = new PccText(" Primary Color : ");
-        primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(primaryColorLabel, 0, 4);
@@ -169,7 +160,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Secondary Color UI Items ========================================
         PccText secondaryColorLabel = new PccText(" Secondary Color : ");
-        secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(secondaryColorLabel, 0, 5);
@@ -181,7 +171,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Brand UI Items ==================================================
         PccText brandLabel = new PccText(" Brand : ");
-        brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(brandLabel, 0, 6);
@@ -193,7 +182,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Notes UI Items ==================================================
         PccText notesLabel = new PccText(" Notes : ");
-        notesLabel.setFont(myFont);
         notesLabel.setWrappingWidth(150);
         notesLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(notesLabel, 0, 7);
@@ -206,7 +194,6 @@ public class FulfillRequestView extends View {
         // request fields
         // Gender UI items ==================================================
         PccText genderLabel2 = new PccText(" Gender : ");
-        genderLabel2.setFont(myFont);
         genderLabel2.setWrappingWidth(150);
         genderLabel2.setTextAlignment(TextAlignment.RIGHT);
         grid.add(genderLabel2, 2, 1);
@@ -218,7 +205,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Size UI Items ===================================================
         PccText sizeLabel2 = new PccText(" Size : ");
-        sizeLabel2.setFont(myFont);
         sizeLabel2.setWrappingWidth(150);
         sizeLabel2.setTextAlignment(TextAlignment.RIGHT);
         grid.add(sizeLabel2, 2, 2);
@@ -230,7 +216,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Article Type UI Items ===========================================
         PccText articleTypeLabel2 = new PccText(" Article Type : ");
-        articleTypeLabel2.setFont(myFont);
         articleTypeLabel2.setWrappingWidth(150);
         articleTypeLabel2.setTextAlignment(TextAlignment.RIGHT);
         grid.add(articleTypeLabel2, 2, 3);
@@ -242,7 +227,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Primary Color UI Items ==========================================
         PccText primaryColorLabel2 = new PccText(" Primary Color : ");
-        primaryColorLabel2.setFont(myFont);
         primaryColorLabel2.setWrappingWidth(150);
         primaryColorLabel2.setTextAlignment(TextAlignment.RIGHT);
         grid.add(primaryColorLabel2, 2, 4);
@@ -254,7 +238,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Secondary Color UI Items ========================================
         PccText secondaryColorLabel2 = new PccText(" Secondary Color : ");
-        secondaryColorLabel2.setFont(myFont);
         secondaryColorLabel2.setWrappingWidth(150);
         secondaryColorLabel2.setTextAlignment(TextAlignment.RIGHT);
         grid.add(secondaryColorLabel2, 2, 5);
@@ -266,7 +249,6 @@ public class FulfillRequestView extends View {
         // =================================================================
         // Brand UI Items ==================================================
         PccText brandLabel2 = new PccText(" Brand : ");
-        brandLabel2.setFont(myFont);
         brandLabel2.setWrappingWidth(150);
         brandLabel2.setTextAlignment(TextAlignment.RIGHT);
         grid.add(brandLabel2, 2, 6);

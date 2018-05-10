@@ -3,7 +3,10 @@ package userinterface;
 
 // system imports
 
+import Utilities.Utilities;
 import impresario.IModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -11,6 +14,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
+import model.ArticleType;
+
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
 
 // project imports
 
@@ -61,8 +69,7 @@ public class RemoveClothingItemView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
-        
-        PccText prompt1 = new PccText("Are You Sure You Wish to Remove This Clothing Item?");
+        PccText prompt1 = new PccText("Are You Sure You Wish to Remove This " + Utilities.collectArticleTypeHash().get((String) myModel.getState("ArticleType")).getState("Description") + " Clothing Item?");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
         prompt1.setFill(Color.web(APP_TEXT_COLOR));

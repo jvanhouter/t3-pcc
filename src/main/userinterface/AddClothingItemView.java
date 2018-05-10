@@ -167,12 +167,12 @@ public class AddClothingItemView extends View {
                         at.getState("Description").equals(string)).findFirst().orElse(null);
             }
         });
-        articleTypeCombo.valueProperty().addListener((obs, oldval, newval) -> {
-            /*if (newval != null) {
-                System.out.println("Selected article type: " + newval.getState("Description")
-                        + " ID: " + newval.getState("ID"));
-            }*/
-        });
+//        articleTypeCombo.valueProperty().addListener((obs, oldval, newval) -> {
+//            /*if (newval != null) {
+//                System.out.println("Selected article type: " + newval.getState("Description")
+//                        + " ID: " + newval.getState("ID"));
+//            }*/
+//        });
 
         grid.add(articleTypeCombo, 1, 3);
         // =================================================================
@@ -323,14 +323,11 @@ public class AddClothingItemView extends View {
         barcode.setDisable(true);
 
         genderCombo.setValue((String) myModel.getState("Gender"));
-        Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
+        HashMap ArticleList = (HashMap) myModel.getState("Articles");
+        Iterator articles = ArticleList.entrySet().iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
-        Comparator<ArticleType> compareAT = new Comparator<ArticleType>() {
-            @Override
-            public int compare(ArticleType o1, ArticleType o2) {
-                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
-            }
-        };
+        Comparator<ArticleType> compareAT = (o1, o2) -> (
+                (String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
         while (articles.hasNext()) {
             Map.Entry pair = (Map.Entry)articles.next();
             articleTypes.add((ArticleType) pair.getValue());
@@ -338,14 +335,11 @@ public class AddClothingItemView extends View {
         articleTypes.sort(compareAT);
         articleTypeCombo.setItems(articleTypes);
 
-        Iterator colors = Utilities.collectColorHash().entrySet().iterator();
+        HashMap ColorList = (HashMap) myModel.getState("Colors");
+        Iterator colors = ColorList.entrySet().iterator();
         ObservableList<Color> colorItems = FXCollections.observableArrayList();
-        Comparator<Color> compareCT = new Comparator<Color>() {
-            @Override
-            public int compare(Color o1, Color o2) {
-                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
-            }
-        };
+        Comparator<Color> compareCT = (o1, o2) -> (
+                (String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
         while (colors.hasNext()) {
             Map.Entry pair = (Map.Entry)colors.next();
             colorItems.add((Color) pair.getValue());
@@ -395,7 +389,7 @@ public class AddClothingItemView extends View {
         } else {
             props.setProperty("Gender", gender);
             if (size.length() == 0)
-                props.setProperty("Size", "" + UiConstants.GENERIC_SIZE);
+                props.setProperty("Size", ""); // + UiConstants.GENERIC_SIZE);
             else
                 props.setProperty("Size", size);
             props.setProperty("ArticleType", (String) articleType.getState("ID"));

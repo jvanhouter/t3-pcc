@@ -59,13 +59,13 @@ public class ClothingItemCollection extends EntityBase implements IView {
     //-----------------------------------------------------------
     public void findByBarcode(String barcode) {
         String query = "SELECT * FROM " + myTableName + " WHERE (Barcode = '" + barcode +
-                "')";
+                "') AND (Status='Donated')";
         populateCollectionHelper(query);
     }
 
     //-----------------------------------------------------------
     public void findAll() {
-        String query = "SELECT * FROM " + myTableName;
+        String query = "SELECT * FROM " + myTableName + " WHERE (Status='Donated')";
         populateCollectionHelper(query);
     }
 

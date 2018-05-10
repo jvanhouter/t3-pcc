@@ -9,10 +9,7 @@ import javafx.collections.ObservableList;
 import model.ArticleType;
 import model.Color;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 // project imports
 
@@ -48,35 +45,20 @@ public class ModifyClothingItemView extends AddClothingItemView {
             genderCombo.setValue(genderString);
         }
         String atString = (String) myModel.getState("ArticleType");
-        Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
-        while (articles.hasNext()) {
-            Map.Entry pair = (Map.Entry)articles.next();
-            if(pair.getKey().equals(atString)) {
-                articleTypeCombo.setValue((ArticleType) pair.getValue());
-                break;
-            }
+        if (atString != null) {
+            HashMap articles = (HashMap) myModel.getState("Articles");
+            articleTypeCombo.setValue((ArticleType) articles.get(atString));
+
         }
         String color1String = (String) myModel.getState("Color1");
         if (color1String != null) {
-            Iterator colors = Utilities.collectColorHash().entrySet().iterator();
-            while (colors.hasNext()) {
-                Map.Entry pair = (Map.Entry)colors.next();
-                if(pair.getKey().equals(color1String)) {
-                    primaryColorCombo.setValue((Color) pair.getValue());
-                    break;
-                }
-            }
+            HashMap colors = (HashMap) myModel.getState("Colors");
+            primaryColorCombo.setValue((Color) colors.get(color1String));
         }
         String color2String = (String) myModel.getState("Color2");
         if (color2String != null) {
-            Iterator colors = Utilities.collectColorHash().entrySet().iterator();
-            while (colors.hasNext()) {
-                Map.Entry pair = (Map.Entry)colors.next();
-                if(pair.getKey().equals(color2String)) {
-                    secondaryColorCombo.setValue((Color) pair.getValue());
-                    break;
-                }
-            }
+            HashMap colors = (HashMap) myModel.getState("Colors");
+            secondaryColorCombo.setValue((Color) colors.get(color2String));
         }
         String brandString = (String) myModel.getState("Brand");
         if (brandString != null) {

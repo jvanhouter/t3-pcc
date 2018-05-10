@@ -61,7 +61,7 @@ public abstract class View extends Group
         container.setAlignment(Pos.CENTER);
 
 
-        container.setPadding(new Insets(30, 15, 15, 15));
+        container.setPadding(new Insets(10, 5, 5, 5));
     }
 
     VBox getParentContainer() {

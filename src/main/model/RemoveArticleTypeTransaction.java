@@ -73,7 +73,7 @@ public class RemoveArticleTypeTransaction extends Transaction {
         if (mySelectedArticleType != null) {
             mySelectedArticleType.stateChangeRequest("Status", "Inactive");
             mySelectedArticleType.update();
-            transactionErrorMessage = (String) mySelectedArticleType.getState("UpdateStatusMessage");
+            transactionErrorMessage = ((String) mySelectedArticleType.getState("UpdateStatusMessage")).replace("updated", "removed");
             if(!transactionErrorMessage.toLowerCase().contains("error"))
                 Utilities.removeArticleHashData((String) mySelectedArticleType.getState("ID"));
         }

@@ -39,7 +39,7 @@ public class PccAlert extends Alert {
         if (!myAlert.getInstance().isShowing()) {
             myAlert.getInstance().setHeaderText("Message");
             myAlert.getInstance().setAlertType(AlertType.INFORMATION);
-            myAlert.getInstance().setTitle("Brockport Professional Clothes Closet Error");
+            myAlert.getInstance().setTitle("Brockport Professional Clothes Closet");
             myAlert.getInstance().setContentText(message);
             myAlert.getInstance().getButtonTypes().clear();
             ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
