@@ -90,39 +90,43 @@ public class AddClothingItemTransaction extends Transaction {
     }
 
     private void processBarcode(Properties props) {
-        String barcode = props.getProperty("Barcode");
-        barcode = barcode.toUpperCase();
-        try {
-            ClothingItem mySelectedItem = new ClothingItem(barcode);
-            if (mySelectedItem != null) {
-                if (mySelectedItem.getState("Status").equals("Donated")) {
-                    if (barcode.substring(0, 1).equals("1"))
-                        gender = "Mens";
-                    else if (barcode.substring(0, 1).equals("0"))
-                        gender = "Womens";
-                    else if (barcode.substring(0, 1).equals("2"))
-                        gender = "Unisex";
-                    myArticleTypeList = new ArticleTypeCollection();
-                    //myArticleTypeList.findAll();
-                    myColorList = new ColorCollection();
-                    //myColorList.findAll();
-                    createAndShowAddClothingItemView();
-                } else {
-                    transactionErrorMessage = barcode + " is not available for removal.";
-                    handleBarcodeProblems(transactionErrorMessage);
-                }
-            } else {
-                transactionErrorMessage = barcode + " does not exist in the database.";
+        if (props.getProperty("Barcode") != null) {
+            barcode = props.getProperty("Barcode");
+            try {
+                ClothingItem oldClothingItem = new ClothingItem(barcode);
+                transactionErrorMessage = "ERROR: Barcode Prefix " + barcode
+                        + " already exists!";
+                new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                        "Clothing item with barcode : " + barcode + " already exists!",
+                        Event.ERROR);
+                handleBarcodeProblems(transactionErrorMessage);
+            } catch (InvalidPrimaryKeyException ex) {
+                //
+                //CHECK FIRST INTEGER BARCODE OPTIONS, NOT ALWAYS M/F, 1/0
+                //
+                if (barcode.substring(0, 1).equals("1"))
+                    gender = "Mens";
+                else if (barcode.substring(0, 1).equals("0"))
+                    gender = "Womens";
+                else if (barcode.substring(0, 1).equals("2"))
+                    gender = "Unisex";
+                myArticleTypeList = new ArticleTypeCollection();
+                //myArticleTypeList.findAll();
+                myColorList = new ColorCollection();
+                //myColorList.findAll();
+                createAndShowAddClothingItemView();
+            } catch (MultiplePrimaryKeysException ex2) {
+                transactionErrorMessage = "ERROR: Multiple clothing items with barcode !";
+                new Event(Event.getLeafLevelClassName(this), "processTransaction",
+                        "Found multiple clothing items with barcode: "
+                                + barcode + ". Reason: " + ex2.toString(),
+                        Event.ERROR);
                 handleBarcodeProblems(transactionErrorMessage);
             }
-        } catch (InvalidPrimaryKeyException e) {
-            transactionErrorMessage = barcode + " does not exist in the database.";
-            handleBarcodeProblems(transactionErrorMessage);
-        } catch (MultiplePrimaryKeysException e) {
-            e.printStackTrace();
-        }
 
+        }
     }
+
 
     public Object getState(String key) {
         if (key.equals("TransactionError")) {
