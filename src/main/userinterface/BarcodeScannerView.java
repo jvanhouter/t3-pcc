@@ -181,11 +181,7 @@ public class BarcodeScannerView extends View {
             String val = (String) myModel.getState("BarcodeError");
             String barcodeError = "The clothing item associated with barcode " + val + "\nThis clothing item will not be added to the checkout cart.";
             PccAlert alert = PccAlert.getInstance();
-            alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setTitle("Barcode Error");
-            alert.setContentText(barcodeError);
-            alert.setHeaderText("There is a problem with the item you wish to checkout.");
-            alert.show();
+            alert.displayErrorMessage(barcodeError);
         }
     }
 

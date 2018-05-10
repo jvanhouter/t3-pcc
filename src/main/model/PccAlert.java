@@ -30,8 +30,7 @@ public class PccAlert extends Alert {
             myAlert.getInstance().getButtonTypes().clear();
             ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
             myAlert.getInstance().getButtonTypes().setAll(ok);
-            myAlert.getInstance().showAndWait();
-            myAlert = null;
+            myAlert.getInstance().show();
         }
     }
 
@@ -45,8 +44,7 @@ public class PccAlert extends Alert {
             myAlert.getInstance().getButtonTypes().clear();
             ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
             myAlert.getInstance().getButtonTypes().setAll(ok);
-            myAlert.getInstance().showAndWait();
-            myAlert = null;
+            myAlert.getInstance().show();
         }
     }
 
@@ -60,8 +58,7 @@ public class PccAlert extends Alert {
             myAlert.getInstance().getButtonTypes().clear();
             ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
             myAlert.getInstance().getButtonTypes().setAll(ok);
-            myAlert.getInstance().showAndWait();
-            myAlert = null;
+            myAlert.getInstance().show();
         }
     }
 }
