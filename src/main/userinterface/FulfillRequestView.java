@@ -85,7 +85,7 @@ public class FulfillRequestView extends View {
 
     @Override
     protected String getActionText() {
-        return "Fulfil Request";
+        return "Fulfill Request";
     }
 
     // Create the main form content

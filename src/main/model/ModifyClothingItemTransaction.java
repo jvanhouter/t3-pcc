@@ -68,7 +68,7 @@ public class ModifyClothingItemTransaction extends Transaction {
             String barcode = props.getProperty("Barcode");
             myClothingItemList.findByBarcode(barcode);
         } else {
-            myClothingItemHash = Utilities.collectClothingHash();
+            myClothingItemList.findAll();
         }
 
         try {
@@ -127,8 +127,7 @@ public class ModifyClothingItemTransaction extends Transaction {
     //-----------------------------------------------------------
     public Object getState(String key) {
         if (key.equals("ClothingItemList")) {
-//            return myClothingItemList;
-            return myClothingItemHash;
+            return myClothingItemList;
         } else if (key.equals("Barcode")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Barcode");
