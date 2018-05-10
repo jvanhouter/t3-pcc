@@ -27,8 +27,7 @@ import javafx.scene.text.TextAlignment;
 import model.ClothingItem;
 import model.ClothingItemCollection;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.*;
 
 // project imports
 
@@ -97,15 +96,17 @@ public class ClothingItemCollectionView extends View {
 
         ObservableList<ClothingItemTableModel> tableData = FXCollections.observableArrayList();
         try {
-            ClothingItemCollection clothingItemCollection =
-                    (ClothingItemCollection) myModel.getState("ClothingItemList");
-
-            Vector entryList = (Vector) clothingItemCollection.getState("ClothingItems");
-            if (entryList.size() > 0) {
-                Enumeration entries = entryList.elements();
+//            ClothingItemCollection clothingItemCollection =
+//                    (ClothingItemCollection) myModel.getState("ClothingItemList");
+            HashMap clothingItemCollection = (HashMap) myModel.getState("ClothingItemList");
+//            Iterator entryList = clothingItemCollection.entrySet().iterator();
+//            Vector entryList = (Vector) clothingItemCollection.getState("ClothingItems");
+            if (clothingItemCollection.size() > 0) {
+//                Enumeration entries = entryList.elements();
+                Enumeration entries = Collections.enumeration(clothingItemCollection.keySet());
 
                 while (entries.hasMoreElements()) {
-                    ClothingItem nextAT = (ClothingItem) entries.nextElement();
+                    ClothingItem nextAT = (ClothingItem) clothingItemCollection.get(entries.nextElement());
                     Vector<String> view = nextAT.getEntryListView();
 
                     // add this list entry to the list
@@ -208,50 +209,34 @@ public class ClothingItemCollectionView extends View {
         tableOfClothingItems.getColumns().addAll(barcodeColumn,
                 genderColumn, sizeColumn, colorOneColumn, colorTwoColumn, articleTypeColumn, brandColumn, donorFirstNameColumn, donorLastNameColumn, notesColumn);
 
-        tableOfClothingItems.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.isPrimaryButtonDown() && event.getClickCount() >= 2) {
-                    clearErrorMessage();
-                    displayMessage("Loading...");
-                    processClothingItemSelected();
-                }
+        tableOfClothingItems.setOnMousePressed(event -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() >= 2) {
+                clearErrorMessage();
+                processClothingItemSelected();
             }
         });
         tableOfClothingItems.setMaxSize(800, 250);
-//        ScrollPane scrollPane = new ScrollPane();
-//        scrollPane.setPrefSize(150, 150);
-//        scrollPane.setContent(tableOfClothingItems);
 
         submitButton = new PccButton("Submit");
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+        submitButton.setOnAction(e -> {
+            clearErrorMessage();
+            // do the inquiry
+            processClothingItemSelected();
 
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                displayMessage("Loading...");
-                // do the inquiry
-                processClothingItemSelected();
-
-            }
         });
 
         cancelButton = new PccButton("Return");
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+        cancelButton.setOnAction(e -> {
+            /**
+             * Process the Cancel button.
+             * The ultimate result of this action is that the transaction will tell the Receptionist to
+             * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
+             * It simply tells its model (controller) that the transaction was canceled, and leaves it
+             * to the model to decide to tell the Receptionist to do the switch back.
+             */
 
-            @Override
-            public void handle(ActionEvent e) {
-                /**
-                 * Process the Cancel button.
-                 * The ultimate result of this action is that the transaction will tell the Receptionist to
-                 * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
-                 * It simply tells its model (controller) that the transaction was canceled, and leaves it
-                 * to the model to decide to tell the Receptionist to do the switch back.
-                 */
-
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelClothingItemList", null);
-            }
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelClothingItemList", null);
         });
 
         HBox btnContainer = new HBox(100);
