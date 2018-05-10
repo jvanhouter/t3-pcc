@@ -22,7 +22,6 @@ import java.util.Properties;
 public class RemoveClothingItemTransaction extends Transaction {
 
     private ClothingItemCollection myClothingItemList;
-    private ClothingItem mySelectedClothingItem;
 
     private ClothingItem mySelectedItem;
 
@@ -64,63 +63,63 @@ public class RemoveClothingItemTransaction extends Transaction {
         if (key.equals("ClothingItemList")) {
             return myClothingItemList;
         }  else if (key.equals("Barcode")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Barcode");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Barcode");
             else
                 return "";
         } else if (key.equals("Gender")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Gender");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Gender");
             else
                 return "";
         } else if (key.equals("Color1")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Color1");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Color1");
             else
                 return "";
         } else if (key.equals("Color2")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Color2");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Color2");
             else
                 return "";
         } else if (key.equals("Brand")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Brand");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Brand");
             else
                 return "";
         } else if (key.equals("ArticleType")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("ArticleType");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("ArticleType");
             else
                 return "";
         } else if (key.equals("DonorFirstName")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("DonorFirstName");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("DonorFirstName");
             else
                 return "";
         } else if (key.equals("DonorLastName")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("DonorLastName");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("DonorLastName");
             else
                 return "";
         } else if (key.equals("DonorEmail")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("DonorEmail");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("DonorEmail");
             else
                 return "";
         } else if (key.equals("DonorPhone")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("DonorPhone");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("DonorPhone");
             else
                 return "";
         } else if (key.equals("Notes")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Notes");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Notes");
             else
                 return "";
         } else if (key.equals("Size")) {
-            if (mySelectedClothingItem != null)
-                return mySelectedClothingItem.getState("Size");
+            if (mySelectedItem != null)
+                return mySelectedItem.getState("Size");
             else
                 return "";
         } else if (key.equals("TransactionError")) {
@@ -174,7 +173,6 @@ public class RemoveClothingItemTransaction extends Transaction {
                 if (mySelectedItem != null) {
                     if (mySelectedItem.getState("Status").equals("Donated")) {
                         try {
-
                             Scene newScene = createRemoveClothingItemView();
 
                             swapToView(newScene);

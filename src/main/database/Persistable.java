@@ -27,6 +27,7 @@ package database;
 // system imports
 
 import event.Event;
+import model.PccAlert;
 
 import java.sql.*;
 import java.util.Properties;
@@ -68,7 +69,7 @@ abstract public class Persistable {
      * 'schema' of a table - namely, the column names and the types
      * of the columns
      *
-     * @param  String Table name to get schema information for
+     * @param String Table name to get schema information for
      *
      * @return Properties object indicating column names as keys and column
      *         types as values
@@ -398,6 +399,24 @@ abstract public class Persistable {
 //			DEBUG: 
             System.err.println("An SQL Error Occured:" + sqle + "\n" + sqle.getErrorCode() + "\n" + sqle.getMessage() + "\n" + sqle);
             new Event(Event.getLeafLevelClassName(this), "getQueriedState", "SQL Exception: " + sqle.getErrorCode() + ": " + sqle.getMessage(), Event.ERROR);
+            int time[] = { 1, 5, 10, 30, 50};
+            PccAlert myAlert = PccAlert.getInstance();
+            myAlert.displayErrorMessage("Oops connection failed... Reconnecting.");
+            for(int i = 0; i < time.length; i++) {
+                try {
+                    // close the connection
+                    myBroker.finalize();
+                    theDBConnection.close();
+                    Thread.sleep(time[i] * 1000);
+                    // reconnect back to the database
+                    theDBConnection = myBroker.getConnection();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (theDBConnection != null) getQueriedStateWithExactMatches(selSchema, projectionSchema, where);
+            }
+            myAlert.close();
+            // connection has failed - timeout
             return null;
         } finally {
 
@@ -490,6 +509,27 @@ abstract public class Persistable {
 //			DEBUG: System.err.println( "An SQL Error Occurred:" + sqle + "\n" + sqle.getErrorCode() + "\n" + sqle.getMessage() + "\n" + sqle);
 
             new Event(Event.getLeafLevelClassName(this), "getSelectQueryResult", "SQL Exception: " + sqle.getErrorCode() + ": " + sqle.getMessage(), Event.ERROR);
+
+            // Reconnect feature - Kyle Darling (Contact for any concern)
+            // if statement for later
+            int time[] = { 1, 5, 10, 30, 50};
+            PccAlert myAlert = PccAlert.getInstance();
+            myAlert.displayErrorMessage("Oops connection failed... Reconnecting.");
+            for(int i = 0; i < time.length; i++) {
+                try {
+                    // close the connection
+                    myBroker.finalize();
+                    theDBConnection.close();
+                    Thread.sleep(time[i] * 1000);
+                    // reconnect back to the database
+                    theDBConnection = myBroker.getConnection();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (theDBConnection != null) getSelectQueryResult(sqlSelectStatement);
+            }
+            myAlert.close();
+            // connection has failed - timeout
             return null;
         } finally {
             closeStatement();
@@ -512,6 +552,7 @@ abstract public class Persistable {
         Vector namesRSColumns = null;    // names of columns in ResultSet
 
         try {
+
             // connect to the database
             theDBConnection = myBroker.getConnection();
             // verify the connection
