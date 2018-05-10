@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Properties;
 
 // project imports
@@ -22,8 +24,10 @@ public class ModifyClothingItemTransaction extends Transaction {
     private ClothingItemCollection myClothingItemList;
     private ClothingItem mySelectedClothingItem;
 
-    private ArticleTypeCollection myArticleTypeList;
-    private ColorCollection myColorList;
+//    private ArticleTypeCollection myArticleTypeList;
+    private HashMap myArticleTypeList;
+//    private ColorCollection myColorList;
+    private HashMap myColorList;
     private String gender;
 
     // GUI Components
@@ -57,6 +61,9 @@ public class ModifyClothingItemTransaction extends Transaction {
     //----------------------------------------------------------
     public void processTransaction(Properties props) {
         myClothingItemList = new ClothingItemCollection();
+        myArticleTypeList = Utilities.collectArticleTypeHash();
+        myColorList = Utilities.collectColorHash();
+
 
         if (props.getProperty("Barcode") != null) {
             String barcode = props.getProperty("Barcode");
@@ -192,9 +199,11 @@ public class ModifyClothingItemTransaction extends Transaction {
         } else if (key.equals("Gender")) {
             return gender;
         } else if (key.equals("Articles")) {
-            return myArticleTypeList.retrieveAll();
+            return myArticleTypeList;
+//            return myArticleTypeList.retrieveAll();
         } else if (key.equals("Colors")) {
-            return myColorList.retrieveAll();
+            return myColorList;
+//            return myColorList.retrieveAll();
         } else if (key.equals("ListAll")) {
             return true;
         }
@@ -211,10 +220,10 @@ public class ModifyClothingItemTransaction extends Transaction {
             processTransaction((Properties) value);
         } else if (key.equals("ClothingItemSelected")) {
             mySelectedClothingItem = myClothingItemList.retrieve((String) value);
-            myArticleTypeList = new ArticleTypeCollection();
-            myArticleTypeList.findAll();
-            myColorList = new ColorCollection();
-            myColorList.findAll();
+//            myArticleTypeList = new ArticleTypeCollection();
+//            myArticleTypeList.findAll();
+//            myColorList = new ColorCollection();
+//            myColorList.findAll();
             String barcode = (String) mySelectedClothingItem.getState("Barcode");
             if (barcode.substring(0, 1).equals("1"))
                 gender = "Mens";
