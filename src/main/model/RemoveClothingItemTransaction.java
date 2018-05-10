@@ -23,7 +23,6 @@ public class RemoveClothingItemTransaction extends Transaction {
     private ClothingItemCollection myClothingItemList;
     private ClothingItem mySelectedClothingItem;
 
-    private HashMap myClothingItemHash;
     private HashMap myArticleTypeList;
     private HashMap myColorList;
     private String gender;
@@ -67,7 +66,7 @@ public class RemoveClothingItemTransaction extends Transaction {
             String barcode = props.getProperty("Barcode");
             myClothingItemList.findByBarcode(barcode);
         } else {
-            myClothingItemHash = Utilities.collectClothingHash();
+            myClothingItemList.findAll();
         }
 
         try {
@@ -94,7 +93,7 @@ public class RemoveClothingItemTransaction extends Transaction {
 
     public Object getState(String key) {
         if (key.equals("ClothingItemList")) {
-            return myClothingItemHash;
+            return myClothingItemList;
         } else if (key.equals("Barcode")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Barcode");

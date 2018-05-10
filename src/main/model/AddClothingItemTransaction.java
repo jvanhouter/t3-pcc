@@ -13,7 +13,6 @@ import userinterface.ViewFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Properties;
 
 // project imports
@@ -25,8 +24,8 @@ import java.util.Properties;
 public class AddClothingItemTransaction extends Transaction {
 
     private ClothingItem myClothingItem;
-    private HashMap myArticleTypeList;
-    private HashMap myColorList;
+    private ArticleTypeCollection myArticleTypeList;
+    private ColorCollection myColorList;
     private String barcode;
 
 
@@ -59,6 +58,7 @@ public class AddClothingItemTransaction extends Transaction {
      * This method encapsulates all the logic of creating the article type,
      * verifying its uniqueness, etc.
      */
+
     public void processTransaction(Properties props) {
         if (barcode != null) {
             props.setProperty("Barcode", barcode);
@@ -90,39 +90,39 @@ public class AddClothingItemTransaction extends Transaction {
     }
 
     private void processBarcode(Properties props) {
-        myArticleTypeList = Utilities.collectArticleTypeHash();
-        myColorList = Utilities.collectColorHash();
-
-        if (props.getProperty("Barcode") != null) {
-            barcode = props.getProperty("Barcode");
-            try {
-                ClothingItem oldClothingItem = new ClothingItem(barcode);
-                transactionErrorMessage = "ERROR: Barcode Prefix " + barcode
-                        + " already exists!";
-                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Clothing item with barcode : " + barcode + " already exists!",
-                        Event.ERROR);
-            } catch (InvalidPrimaryKeyException ex) {
-                if (barcode.substring(0, 1).equals("1"))
-                    gender = "Mens";
-                else if (barcode.substring(0, 1).equals("0"))
-                    gender = "Womens";
-                else if (barcode.substring(0, 1).equals("2"))
-                    gender = "Unisex";
-                createAndShowAddClothingItemView();
-            } catch (MultiplePrimaryKeysException ex2) {
-                transactionErrorMessage = "ERROR: Multiple clothing items with barcode !";
-                new Event(Event.getLeafLevelClassName(this), "processTransaction",
-                        "Found multiple clothing items with barcode: "
-                                + barcode + ". Reason: " + ex2.toString(),
-                        Event.ERROR);
-
+        String barcode = props.getProperty("Barcode");
+        barcode = barcode.toUpperCase();
+        try {
+            ClothingItem mySelectedItem = new ClothingItem(barcode);
+            if (mySelectedItem != null) {
+                if (mySelectedItem.getState("Status").equals("Donated")) {
+                    if (barcode.substring(0, 1).equals("1"))
+                        gender = "Mens";
+                    else if (barcode.substring(0, 1).equals("0"))
+                        gender = "Womens";
+                    else if (barcode.substring(0, 1).equals("2"))
+                        gender = "Unisex";
+                    myArticleTypeList = new ArticleTypeCollection();
+                    //myArticleTypeList.findAll();
+                    myColorList = new ColorCollection();
+                    //myColorList.findAll();
+                    createAndShowAddClothingItemView();
+                } else {
+                    transactionErrorMessage = barcode + " is not available for removal.";
+                    handleBarcodeProblems(transactionErrorMessage);
+                }
+            } else {
+                transactionErrorMessage = barcode + " does not exist in the database.";
+                handleBarcodeProblems(transactionErrorMessage);
             }
-
+        } catch (InvalidPrimaryKeyException e) {
+            transactionErrorMessage = barcode + " does not exist in the database.";
+            handleBarcodeProblems(transactionErrorMessage);
+        } catch (MultiplePrimaryKeysException e) {
+            e.printStackTrace();
         }
 
     }
-
 
     public Object getState(String key) {
         if (key.equals("TransactionError")) {
@@ -130,9 +130,9 @@ public class AddClothingItemTransaction extends Transaction {
         } else if (key.equals("Gender")) {
             return gender;
         } else if (key.equals("Articles")) {
-            return myArticleTypeList;
+            return myArticleTypeList.retrieveAll();
         } else if (key.equals("Colors")) {
-            return myColorList;
+            return myColorList.retrieveAll();
         } else if (key.equals("Barcode")) {
             return barcode;
         } else if (key.equals("ListAll")) {
@@ -146,8 +146,10 @@ public class AddClothingItemTransaction extends Transaction {
         // DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
         if (key.equals("DoYourJob") || key.equals("CancelAddClothingItem")) {
+//		    createAndShowBarcodeScannerView();
             doYourJob();
         } else if (key.equals("ProcessBarcode")) {
+//			doYourJob();
             processBarcode((Properties) value);
         } else if (key.equals("ClothingItemData")) {
             processTransaction((Properties) value);
@@ -156,23 +158,10 @@ public class AddClothingItemTransaction extends Transaction {
         myRegistry.updateSubscribers(key, this);
     }
 
-
-    /**
-     * Create the view of this class. And then the super-class calls
-     * swapToView() to display the view in the frame
-     */
-    protected Scene createView() {
-        Scene currentScene = myViews.get("BarcodeScannerView");
-
-        if (currentScene == null) {
-            // create our initial view
-            currentScene = new Scene(ViewFactory.createView("BarcodeScannerView", this));
-            myViews.put("BarcodeScannerView", currentScene);
-
-            return currentScene;
-        } else {
-            return currentScene;
-        }
+    private void handleBarcodeProblems(String msg) {
+        PccAlert myAlert = PccAlert.getInstance();
+        myAlert.displayErrorMessage(msg);
+        // needs more clarification stateChangeRequest("HandleBarcodeProblems", "");
     }
 
     private void createAndShowAddClothingItemView() {
@@ -187,6 +176,25 @@ public class AddClothingItemTransaction extends Transaction {
 
         swapToView(currentScene);
 
+    }
+
+    /**
+     * Create the view of this class. And then the super-class calls
+     * swapToView() to display the view in the frame
+     */
+
+    protected Scene createView() {
+        Scene currentScene = myViews.get("BarcodeScannerView");
+
+        if (currentScene == null) {
+            // create our initial view
+            currentScene = new Scene(ViewFactory.createView("BarcodeScannerView", this));
+            myViews.put("BarcodeScannerView", currentScene);
+
+            return currentScene;
+        } else {
+            return currentScene;
+        }
     }
 
 }
