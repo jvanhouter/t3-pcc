@@ -3,6 +3,7 @@ package userinterface;
 
 // system imports
 
+import Utilities.Utilities;
 import impresario.IModel;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
@@ -11,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
+import model.ClothingRequest;
 
 /**
  * The class containing the Add Article Type View  for the Professional Clothes
@@ -21,6 +23,7 @@ public class RemoveRequestView extends View {
 
     protected PccButton submitButton;
     protected PccButton cancelButton;
+    protected PccText prompt;
 
     // For showing error message
     protected MessageView statusLog;
@@ -63,9 +66,14 @@ public class RemoveRequestView extends View {
         PccText prompt1 = new PccText("Are You Sure You Wish To Remove This Request");
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFill(Color.web(APP_TEXT_COLOR));
-        prompt1.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt1);
+
+        prompt = new PccText("");
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
+        prompt.setTextAlignment(TextAlignment.CENTER);
+        prompt.setFont(Font.font(APP_FONT, 20));
+
+        vbox.getChildren().add(prompt);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
@@ -103,6 +111,12 @@ public class RemoveRequestView extends View {
 
     //-------------------------------------------------------------
     public void populateFields() {
+        prompt.setText(
+                (String) ((ClothingRequest) myModel.getState("ClothingRequest")).getState("RequesterNetid") + "\n" +
+                        Utilities.collectArticleTypeHash().get((String)((ClothingRequest) myModel.getState("ClothingRequest")).getState("RequestedArticleType")).getState("Description") + "\n" +
+                        Utilities.collectColorHash().get((String)((ClothingRequest) myModel.getState("ClothingRequest")).getState("RequestedColor1")).getState("Description")
+
+        );
 
     }
 

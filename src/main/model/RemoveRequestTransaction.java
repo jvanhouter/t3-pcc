@@ -59,6 +59,8 @@ public class RemoveRequestTransaction extends Transaction {
     public Object getState(String key) {
         if (key.equals("RequestList")) {
             return myRequestCollection;
+        } else if (key.equals("ClothingRequest")) {
+            return myClothingRequest;
         }
         if (key.equals("TransactionError")) {
             return transactionErrorMessage;

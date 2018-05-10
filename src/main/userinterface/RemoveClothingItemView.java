@@ -31,6 +31,7 @@ public class RemoveClothingItemView extends View {
 
     protected PccButton submitButton;
     protected PccButton cancelButton;
+    protected PccText prompt;
 
     // For showing error message
     protected MessageView statusLog;
@@ -69,12 +70,17 @@ public class RemoveClothingItemView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
-        PccText prompt1 = new PccText("Are You Sure You Wish to Remove This " + Utilities.collectArticleTypeHash().get((String) myModel.getState("ArticleType")).getState("Description") + " Clothing Item?");
+        PccText prompt1 = new PccText("Are you sure you wish to remove this Clothing Item?\n " );
         prompt1.setWrappingWidth(WRAPPING_WIDTH);
         prompt1.setTextAlignment(TextAlignment.CENTER);
-        prompt1.setFill(Color.web(APP_TEXT_COLOR));
-        prompt1.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt1);
+
+        prompt = new PccText("");
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
+        prompt.setTextAlignment(TextAlignment.CENTER);
+        prompt.setFont(Font.font(APP_FONT, 20));
+
+        vbox.getChildren().add(prompt);
 
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
@@ -108,6 +114,11 @@ public class RemoveClothingItemView extends View {
 
     //-------------------------------------------------------------
     public void populateFields() {
+        prompt.setText(
+                (String) myModel.getState("Barcode") + "\n" +
+                (String) myModel.getState("Gender") + "\n" +
+                Utilities.collectColorHash().get((String) myModel.getState("Color1")).getState("Description") + "\n" +
+                Utilities.collectArticleTypeHash().get((String) myModel.getState("ArticleType")).getState("Description"));
 
     }
 
