@@ -399,23 +399,27 @@ abstract public class Persistable {
 //			DEBUG: 
             System.err.println("An SQL Error Occured:" + sqle + "\n" + sqle.getErrorCode() + "\n" + sqle.getMessage() + "\n" + sqle);
             new Event(Event.getLeafLevelClassName(this), "getQueriedState", "SQL Exception: " + sqle.getErrorCode() + ": " + sqle.getMessage(), Event.ERROR);
-            int time[] = { 1, 5, 10, 30, 50};
-            PccAlert myAlert = PccAlert.getInstance();
-            myAlert.displayErrorMessage("Oops connection failed... Reconnecting.");
-            for(int i = 0; i < time.length; i++) {
-                try {
-                    // close the connection
-                    myBroker.finalize();
-                    theDBConnection.close();
-                    Thread.sleep(time[i] * 1000);
-                    // reconnect back to the database
-                    theDBConnection = myBroker.getConnection();
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if(sqle.getErrorCode() == 0) {
+                int time[] = {1, 5, 10};
+                PccAlert myAlert = PccAlert.getInstance();
+                for (int i = 0; i < time.length; i++) {
+                    myAlert.displayCustomMessage("Attempt(" + (i + 1) + "), reconnecting to server.", "Oops connection failed... Reconnecting.");
+                    try {
+                        // allow alert to spawn
+                        Thread.sleep(500);
+                        // close the connection
+                        myBroker.finalize();
+                        theDBConnection.close();
+                        Thread.sleep(time[i] * 1000);
+                        // reconnect back to the database
+                        theDBConnection = myBroker.getConnection();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    myAlert.close();
+                    if (theDBConnection != null) getQueriedStateWithExactMatches(selSchema, projectionSchema, where);
                 }
-                if (theDBConnection != null) getQueriedStateWithExactMatches(selSchema, projectionSchema, where);
             }
-            myAlert.close();
             // connection has failed - timeout
             return null;
         } finally {
@@ -511,24 +515,27 @@ abstract public class Persistable {
             new Event(Event.getLeafLevelClassName(this), "getSelectQueryResult", "SQL Exception: " + sqle.getErrorCode() + ": " + sqle.getMessage(), Event.ERROR);
 
             // Reconnect feature - Kyle Darling (Contact for any concern)
-            // if statement for later
-            int time[] = { 1, 5, 10, 30, 50};
-            PccAlert myAlert = PccAlert.getInstance();
-            myAlert.displayErrorMessage("Oops connection failed... Reconnecting.");
-            for(int i = 0; i < time.length; i++) {
-                try {
-                    // close the connection
-                    myBroker.finalize();
-                    theDBConnection.close();
-                    Thread.sleep(time[i] * 1000);
-                    // reconnect back to the database
-                    theDBConnection = myBroker.getConnection();
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if(sqle.getErrorCode() == 0) {
+                int time[] = {1, 5, 10};
+                PccAlert myAlert = PccAlert.getInstance();
+                for (int i = 0; i < time.length; i++) {
+                    myAlert.displayCustomMessage("Attempt(" + (i + 1) + "), reconnecting to server.", "Oops connection failed... Reconnecting.");
+                    try {
+                        // allow alert to spawn
+                        Thread.sleep(500);
+                        // close the connection
+                        myBroker.finalize();
+                        theDBConnection.close();
+                        Thread.sleep(time[i] * 1000);
+                        // reconnect back to the database
+                        theDBConnection = myBroker.getConnection();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    myAlert.close();
+                    if (theDBConnection != null) getSelectQueryResult(sqlSelectStatement);
                 }
-                if (theDBConnection != null) getSelectQueryResult(sqlSelectStatement);
             }
-            myAlert.close();
             // connection has failed - timeout
             return null;
         } finally {
@@ -806,6 +813,12 @@ abstract public class Persistable {
 //	Revision History:
 //
 //	$Log: Persistable.java,v $
+//  Revision 1.1.1.3 2018/05/10 15:23:00  kdarl1
+//  Reconnect feature implemented. Problem facing frequent
+//  connection drops on Brockport campus and database
+//  connection drop.
+//
+//
 //	Revision 1.1.1.2  2008/04/16 22:17:34  pwri0503
 //	no message
 //	
