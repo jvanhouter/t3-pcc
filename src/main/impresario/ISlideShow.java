@@ -17,8 +17,10 @@
 //*************************************************************
 
 // JavaDoc information
-/** @author		$Author: tomb $ */
-/** @version	$Revision: 1.2 $ */
+/**
+ * @author $Author: tomb $  @version	$Revision: 1.2 $
+ */
+/** @version $Revision: 1.2 $ */
 
 // specify the package
 package impresario;
@@ -28,11 +30,10 @@ package impresario;
 // local includes
 
 //==============================================================
-public interface ISlideShow
-{
-	
-	/** Swap to the view indicated by the String parameter */
-	public void swapToView(IView viewName);
+public interface ISlideShow {
+
+    /** Swap to the view indicated by the String parameter */
+    public void swapToView(IView viewName);
 }
 
 //**************************************************************

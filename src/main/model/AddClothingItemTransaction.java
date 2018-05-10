@@ -3,6 +3,7 @@ package model;
 
 // system imports
 
+import Utilities.Utilities;
 import event.Event;
 import exception.InvalidPrimaryKeyException;
 import exception.MultiplePrimaryKeysException;
@@ -20,8 +21,7 @@ import java.util.Properties;
  * The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application
  */
 //==============================================================
-public class AddClothingItemTransaction extends Transaction
-{
+public class AddClothingItemTransaction extends Transaction {
 
     private ClothingItem myClothingItem;
     private ArticleTypeCollection myArticleTypeList;
@@ -37,15 +37,13 @@ public class AddClothingItemTransaction extends Transaction
     /**
      * Constructor for this class.
      */
-    //----------------------------------------------------------
-    public AddClothingItemTransaction() throws Exception
-    {
+
+    public AddClothingItemTransaction() throws Exception {
         super();
     }
 
-    //----------------------------------------------------------
-    protected void setDependencies()
-    {
+
+    protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelAddClothingItem", "CancelTransaction");
         dependencies.setProperty("CancelBarcodeSearch", "CancelTransaction");
@@ -60,15 +58,12 @@ public class AddClothingItemTransaction extends Transaction
      * This method encapsulates all the logic of creating the article type,
      * verifying its uniqueness, etc.
      */
-    //----------------------------------------------------------
-    public void processTransaction(Properties props)
-    {
-        if (barcode != null)
-        {
+
+    public void processTransaction(Properties props) {
+        if (barcode != null) {
             props.setProperty("Barcode", barcode);
 
-            try
-            {
+            try {
 
                 props.setProperty("ReceiverNetid", "");
                 props.setProperty("ReceiverFirstName", "");
@@ -81,10 +76,10 @@ public class AddClothingItemTransaction extends Transaction
                 myClothingItem = new ClothingItem(props);
                 myClothingItem.update();
                 transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
+                if(!transactionErrorMessage.toLowerCase().contains("error"))
+                    Utilities.putClothingHash((String) myClothingItem.getState("ID"), myClothingItem);
 
-            }
-            catch (Exception excep)
-            {
+            } catch (Exception excep) {
                 transactionErrorMessage = "ERROR: Invalid barcode: " + barcode
                         + "!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
@@ -94,38 +89,32 @@ public class AddClothingItemTransaction extends Transaction
         }
     }
 
-    private void processBarcode(Properties props)
-    {
-        if (props.getProperty("Barcode") != null)
-        {
+    private void processBarcode(Properties props) {
+        if (props.getProperty("Barcode") != null) {
             barcode = props.getProperty("Barcode");
-            try
-            {
+            try {
                 ClothingItem oldClothingItem = new ClothingItem(barcode);
                 transactionErrorMessage = "ERROR: Barcode Prefix " + barcode
                         + " already exists!";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Clothing item with barcode : " + barcode + " already exists!",
                         Event.ERROR);
-            } catch (InvalidPrimaryKeyException ex)
-            {
+            } catch (InvalidPrimaryKeyException ex) {
                 //
                 //CHECK FIRST INTEGER BARCODE OPTIONS, NOT ALWAYS M/F, 1/0
                 //
                 if (barcode.substring(0, 1).equals("1"))
-                {
                     gender = "Mens";
-                } else
-                    {
+                else if (barcode.substring(0, 1).equals("0"))
                     gender = "Womens";
-                }
+                else if (barcode.substring(0, 1).equals("2"))
+                    gender = "Unisex";
                 myArticleTypeList = new ArticleTypeCollection();
-                myArticleTypeList.findAll();
+                //myArticleTypeList.findAll();
                 myColorList = new ColorCollection();
-                myColorList.findAll();
+                //myColorList.findAll();
                 createAndShowAddClothingItemView();
-            } catch (MultiplePrimaryKeysException ex2)
-            {
+            } catch (MultiplePrimaryKeysException ex2) {
                 transactionErrorMessage = "ERROR: Multiple clothing items with barcode !";
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Found multiple clothing items with barcode: "
@@ -138,7 +127,7 @@ public class AddClothingItemTransaction extends Transaction
 
     }
 
-    //-----------------------------------------------------------
+
     public Object getState(String key) {
         if (key.equals("TransactionError")) {
             return transactionErrorMessage;
@@ -148,11 +137,15 @@ public class AddClothingItemTransaction extends Transaction
             return myArticleTypeList.retrieveAll();
         } else if (key.equals("Colors")) {
             return myColorList.retrieveAll();
+        } else if (key.equals("Barcode")) {
+            return barcode;
+        } else if (key.equals("ListAll")) {
+            return false;
         }
         return null;
     }
 
-    //-----------------------------------------------------------
+
     public void stateChangeRequest(String key, Object value) {
         // DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
@@ -169,7 +162,7 @@ public class AddClothingItemTransaction extends Transaction
         myRegistry.updateSubscribers(key, this);
     }
 
-    //------------------------------------------------------------
+
     private void createAndShowAddClothingItemView() {
         Scene currentScene = (Scene) myViews.get("AddClothingItemView");
 
@@ -188,7 +181,7 @@ public class AddClothingItemTransaction extends Transaction
      * Create the view of this class. And then the super-class calls
      * swapToView() to display the view in the frame
      */
-    //------------------------------------------------------
+
     protected Scene createView() {
         Scene currentScene = myViews.get("BarcodeScannerView");
 
@@ -204,4 +197,3 @@ public class AddClothingItemTransaction extends Transaction
     }
 
 }
-

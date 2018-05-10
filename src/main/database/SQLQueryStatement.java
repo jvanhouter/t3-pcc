@@ -16,14 +16,17 @@
 //
 //*************************************************************
 
-/** @author		$Author: pwri0503 $ */
-/** @version	$Revision: 1.1.1.2 $ */
+/**
+ * @author $Author: pwri0503 $  @version	$Revision: 1.1.1.2 $
+ */
+/** @version $Revision: 1.1.1.2 $ */
 
 
 // specify the package
 package database;
 
 // system imports
+
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -33,8 +36,7 @@ import java.util.Properties;
 
 // Beginning of DatabaseManipulator class
 //---------------------------------------------------------------------------------------------------------
-public class SQLQueryStatement extends SQLStatement
-{  
+public class SQLQueryStatement extends SQLStatement {
     /**
      *
      * This handles only equality in the WHERE clause. This also 
@@ -45,9 +47,8 @@ public class SQLQueryStatement extends SQLStatement
      */
     //------------------------------------------------------------
     public SQLQueryStatement(Properties selSchema,
-    						 Properties projectionSchema,
-    						 Properties selectionValues)
-    {
+                             Properties projectionSchema,
+                             Properties selectionValues) {
     	
     	/* DEBUG
     	// Display the selection schema
@@ -58,111 +59,92 @@ public class SQLQueryStatement extends SQLStatement
     		System.out.println("SQLQueryStatement: key = " + field + " ; value = " + selSchema.getProperty(field));
     	}
     	*/
-    	
-		// Begin construction of the actual SQL statement
-		theSQLStatement = "SELECT ";
-		
-		// add the fields from the schema, skip the tablename
-		Enumeration fields = projectionSchema.propertyNames();
-		while (fields.hasMoreElements() == true)
-		{
-			String field = (String)fields.nextElement();
-			if(field.equals("TableName") != true)
-			{
-				// skip the leading comma if we're at the beginning
-				if(theSQLStatement.length() > 7)
-					theSQLStatement += ", " + field;
-				else
-					theSQLStatement += field;
-			}
-		}
-		
-		// add the tablename
-		theSQLStatement += " FROM " + selSchema.getProperty("TableName");
-		
-		// Construct the WHERE part of the SQL statement
-		String theWhereString = "";
-		
-		// Now, traverse the WHERE clause Properties object
-		if (selectionValues != null)
-		{
-			Enumeration theWhereFields = selectionValues.propertyNames();
-			while (theWhereFields.hasMoreElements() == true)
-			{
-				String theConjunctionClause = "";
-				
-				if (theWhereString.equals(""))
-				{
-		  			theConjunctionClause += " WHERE ";
-				}
-				else
-				{
-					theConjunctionClause += " AND ";
-				}
-	
-				String theFieldName = (String)theWhereFields.nextElement();
-				String theFieldValue = insertEscapes(selectionValues.getProperty(theFieldName));
-				
-				if (theFieldValue.equals("NULL"))
-				{
-					theWhereString += theConjunctionClause + theFieldName + " IS NULL";
-				}
-				else
-				{
-					// extract the type from the schema
-					String actualType = selSchema.getProperty(theFieldName);
-					
-					// DEBUG: System.out.println("SQLQueryStatement: field = " + theFieldName + " ; type = " + actualType);
-	
-					
-					if (actualType != null) 
-					{
-						// if the type is numeric, do NOT include quotes
-						if (actualType.equals("numeric") == true)
-						{
-							if(theFieldValue.length() > 0)
-								theWhereString += theConjunctionClause + theFieldName + " = " + theFieldValue;	// cannot partial match a numeric
-						}
-						else
-						{
-						
-							// must the a text type 
-							// first check if the value is a field name
-							if (selSchema.containsKey(theFieldValue) == true)
-							{
-				
-								theWhereString += theConjunctionClause + theFieldName + " = " + theFieldValue;	// two SQL variables are being compared	
-							}
-							else
-							// else, it is an actual value, include the quotes
-							// if theFieldValue is zero length, leave the quotes out (search for blank field)
-							if (theFieldValue.length() > 0)
-							{
-								
-								theWhereString += theConjunctionClause + theFieldName + " LIKE '" + theFieldValue + "%'";
-							}
-								
-						}
-						
-					}
-					else
-					{
-					
-						theWhereString += theConjunctionClause + theFieldName + " = " + theFieldValue;	// two SQL variables are being compared
-					}	
 
-				}
-			}
-		}
-		  
-		theSQLStatement += theWhereString;
-		
-		theSQLStatement += ";";
-		
-		// DEBUG System.out.println("SQL Query Statement = " + theSQLStatement);
-		
-				
-	}
+        // Begin construction of the actual SQL statement
+        theSQLStatement = "SELECT ";
+
+        // add the fields from the schema, skip the tablename
+        Enumeration fields = projectionSchema.propertyNames();
+        while (fields.hasMoreElements() == true) {
+            String field = (String) fields.nextElement();
+            if (field.equals("TableName") != true) {
+                // skip the leading comma if we're at the beginning
+                if (theSQLStatement.length() > 7)
+                    theSQLStatement += ", " + field;
+                else
+                    theSQLStatement += field;
+            }
+        }
+
+        // add the tablename
+        theSQLStatement += " FROM " + selSchema.getProperty("TableName");
+
+        // Construct the WHERE part of the SQL statement
+        String theWhereString = "";
+
+        // Now, traverse the WHERE clause Properties object
+        if (selectionValues != null) {
+            Enumeration theWhereFields = selectionValues.propertyNames();
+            while (theWhereFields.hasMoreElements() == true) {
+                String theConjunctionClause = "";
+
+                if (theWhereString.equals("")) {
+                    theConjunctionClause += " WHERE ";
+                } else {
+                    theConjunctionClause += " AND ";
+                }
+
+                String theFieldName = (String) theWhereFields.nextElement();
+                String theFieldValue = insertEscapes(selectionValues.getProperty(theFieldName));
+
+                if (theFieldValue.equals("NULL")) {
+                    theWhereString += theConjunctionClause + theFieldName + " IS NULL";
+                } else {
+                    // extract the type from the schema
+                    String actualType = selSchema.getProperty(theFieldName);
+
+                    // DEBUG: System.out.println("SQLQueryStatement: field = " + theFieldName + " ; type = " + actualType);
+
+
+                    if (actualType != null) {
+                        // if the type is numeric, do NOT include quotes
+                        if (actualType.equals("numeric") == true) {
+                            if (theFieldValue.length() > 0)
+                                theWhereString += theConjunctionClause + theFieldName + " = " + theFieldValue;    // cannot partial match a numeric
+                        } else {
+
+                            // must the a text type
+                            // first check if the value is a field name
+                            if (selSchema.containsKey(theFieldValue) == true) {
+
+                                theWhereString += theConjunctionClause + theFieldName + " = " + theFieldValue;    // two SQL variables are being compared
+                            } else
+                                // else, it is an actual value, include the quotes
+                                // if theFieldValue is zero length, leave the quotes out (search for blank field)
+                                if (theFieldValue.length() > 0) {
+
+                                    theWhereString += theConjunctionClause + theFieldName + " LIKE '" + theFieldValue + "%'";
+                                }
+
+                        }
+
+                    } else {
+
+                        theWhereString += theConjunctionClause + theFieldName + " = " + theFieldValue;    // two SQL variables are being compared
+                    }
+
+                }
+            }
+        }
+
+        theSQLStatement += theWhereString;
+
+        theSQLStatement += ";";
+
+        // DEBUG System.out.println("SQL Query Statement = " + theSQLStatement);
+
+
+    }
 
 }
 

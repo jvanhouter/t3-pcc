@@ -1,133 +1,71 @@
 package userinterface;
 
 // system imports
-import javafx.event.Event;
+
+import impresario.IModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-
-import java.util.Properties;
 
 // project imports
-import impresario.IModel;
 
 public class CheckoutInvalidItemView extends View {
 
     // GUI components
 
-    protected Button addAnotherBarcodeButton;
-    protected Button enterReceiverInformationButton;
-    protected Button cancelButton;
+    protected PccButton addAnotherBarcodeButton;
+    protected PccButton enterReceiverInformationButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;
 
     // constructor for this class -- takes a model object
-    //----------------------------------------------------------
-    public CheckoutInvalidItemView(IModel at)
-    {
+
+    public CheckoutInvalidItemView(IModel at) {
         super(at, "CheckoutInvalidItemView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
-
-        //The initial status message needs to be the current barcodes.
-        String initialMessage = (String) myModel.getState("BarcodeError");
         container.getChildren().add(createStatusLog(""));
-        displayErrorMessage(initialMessage);
 
-        getChildren().add(container);
+        //Add container to our BorderPane
+        bp.setCenter(container);
+
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 
         myModel.subscribe("TransactionError", this);
     }
 
-    //-------------------------------------------------------------
-    protected String getActionText()
-    {
+
+    @Override
+    protected String getActionText() {
         return "** ERROR **";
     }
 
-    // Create the title container
-    //-------------------------------------------------------------
-    private Node createTitle()
-    {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("     " + getActionText() + "       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.RED);
-        container.getChildren().add(actionText);
-
-        return container;
-    }
-
     // Create the main form content
-    //-------------------------------------------------------------
-    private VBox createFormContent()
-    {
+
+    private VBox createFormContent() {
         VBox vbox = new VBox(10);
 
-        Text prompt = new Text("The Clothing Item associated with this barcode can not be checked out.");
-        prompt.setWrappingWidth(400);
+        PccText prompt = new PccText("The Clothing Item associated with this barcode can not be checked out.");
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        prompt.setFill(Color.web(APP_TEXT_COLOR));
+        prompt.setFont(Font.font(APP_FONT, FontWeight.BOLD, 16));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
@@ -139,7 +77,7 @@ public class CheckoutInvalidItemView extends View {
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
         addAnotherBarcodeButton = new PccButton("Add Different Barcode");
-        addAnotherBarcodeButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         addAnotherBarcodeButton.setPrefSize(250, 20);
         addAnotherBarcodeButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -154,7 +92,7 @@ public class CheckoutInvalidItemView extends View {
         doneCont.getChildren().add(addAnotherBarcodeButton);
 
         enterReceiverInformationButton = new PccButton("Checkout Items");
-        enterReceiverInformationButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         enterReceiverInformationButton.setPrefSize(250, 20);
         enterReceiverInformationButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -169,7 +107,7 @@ public class CheckoutInvalidItemView extends View {
 
         doneCont.setAlignment(Pos.CENTER);
         cancelButton = new PccButton("Cancel");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
         cancelButton.setPrefSize(250, 20);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -188,37 +126,30 @@ public class CheckoutInvalidItemView extends View {
     }
 
     // Create the status log field
-    //-------------------------------------------------------------
-    protected MessageView createStatusLog(String initialMessage)
-    {
+
+    protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
-    //-------------------------------------------------------------
-    public void populateFields()
-    {
+
+    public void populateFields() {
 
     }
 
     /**
      * Update method
      */
-    //---------------------------------------------------------
-    public void updateState(String key, Object value)
-    {
+
+    public void updateState(String key, Object value) {
         clearErrorMessage();
 
-        if (key.equals("TransactionError") == true)
-        {
-            String val = (String)value;
-            if (val.startsWith("ERR") == true)
-            {
+        if (key.equals("TransactionError")) {
+            String val = (String) value;
+            if (val.startsWith("ERR")) {
                 displayErrorMessage(val);
-            }
-            else
-            {
+            } else {
                 displayMessage(val);
             }
 
@@ -228,31 +159,28 @@ public class CheckoutInvalidItemView extends View {
     /**
      * Display error message
      */
-    //----------------------------------------------------------
-    public void displayErrorMessage(String message)
-    {
+
+    public void displayErrorMessage(String message) {
         statusLog.displayErrorMessage(message);
     }
 
     /**
      * Display info message
      */
-    //----------------------------------------------------------
-    public void displayMessage(String message)
-    {
+
+    public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
 
     /**
      * Clear error message
      */
-    //----------------------------------------------------------
-    public void clearErrorMessage()
-    {
+
+    public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 
 }
 
-//---------------------------------------------------------------
+
 //	Revision History:

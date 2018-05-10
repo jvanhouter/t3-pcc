@@ -18,8 +18,10 @@
 //
 //*************************************************************
 
-/** @author		$Author: smitra $ */
-/** @version	$Revision: 1.1 $ */
+/**
+ * @author $Author: smitra $  @version	$Revision: 1.1 $
+ */
+/** @version $Revision: 1.1 $ */
 
 // specify the package
 package exception;
@@ -28,29 +30,26 @@ package exception;
 
 // local imports
 
-/** 
+/**
  * This class indicates an exception that is thrown if the primary
  * key supplied to the data access model object is found multiple times as
  * it seeks to retrieve a record from the database
- * 
+ *
  */
 //--------------------------------------------------------------
 public class MultiplePrimaryKeysException
-	extends Exception
-{	
-	/**
-	 * Constructor with message
-	 *
-	 * @param mesg The message associated with the exception
-	 */
-	//--------------------------------------------------------
-	public MultiplePrimaryKeysException(String message)
-	{
-		super(message);
-	}
+        extends Exception {
+    /**
+     * Constructor with message
+     *
+     * @param mesg The message associated with the exception
+     */
+    //--------------------------------------------------------
+    public MultiplePrimaryKeysException(String message) {
+        super(message);
+    }
 }
 
-		
 
 //**************************************************************
 //	Revision History:

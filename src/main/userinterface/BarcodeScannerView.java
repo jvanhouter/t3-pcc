@@ -3,26 +3,25 @@ package userinterface;
 
 // system imports
 
+import Utilities.UiConstants;
 import impresario.IModel;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
+import model.PccAlert;
 
 import java.util.Properties;
-import Utilities.UiConstants;
 // project imports
 
 /**
@@ -33,173 +32,99 @@ import Utilities.UiConstants;
 public class BarcodeScannerView extends View {
 
     // GUI components
-    protected TextField barcodePrefix;
+    protected TextField barcodeField;
     protected TextField description;
     protected TextField alphaCode;
 
-    protected Button submitButton;
-    protected Button cancelButton;
+    protected PccText searchPrompt;
+
+    protected PccButton submitButton;
+    protected PccButton cancelButton;
 
     // For showing error message
     protected MessageView statusLog;
 
     // constructor for this class -- takes a model object
-    //----------------------------------------------------------
-    public BarcodeScannerView(IModel clothingItem) {
+
+    BarcodeScannerView(IModel clothingItem) {
         super(clothingItem, "BarcodeScannerView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
-
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog());
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 
         myModel.subscribe("TransactionError", this);
+        myModel.subscribe("HandleBarcodeProblems", this);
     }
 
-    //-------------------------------------------------------------
+    @Override
     protected String getActionText() {
         return "Barcode Search";
     }
 
-    // Create the title container
-    //-------------------------------------------------------------
-    private Node createTitle() {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("     " + getActionText() + "       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
-    }
 
     // Create the main form content
-    //-------------------------------------------------------------
+
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        Text prompt = new Text("Scan or manually enter clothing item barcode");
-        prompt.setWrappingWidth(400);
+        PccText prompt = new PccText("Please scan or manually enter \nclothing item barcode:");
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        prompt.setFill(Color.web(APP_TEXT_COLOR));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
-
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setHgap(20);
+        grid.setVgap(25);
+        grid.setPadding(new Insets(5, 25, 0, 25));
 
-        barcodePrefix = new TextField();
-        barcodePrefix.setOnAction(this::processAction);
-        grid.add(barcodePrefix, 0, 1, 4, 1);
-
-        HBox doneCont = new HBox(10);
-        doneCont.setAlignment(Pos.CENTER);
+        barcodeField = new TextField();
+        barcodeField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]{0,8}")) {
+                barcodeField.setText(oldValue);
+            }
+        });
+        barcodeField.setOnAction(this::processAction);
+        barcodeField.setMaxWidth(Double.MAX_VALUE);
+        grid.add(barcodeField, 0, 1, 2, 1);
+        GridPane.setFillWidth(barcodeField, true);
         submitButton = new PccButton("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
         submitButton.setOnAction(this::processAction);
-        doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
         cancelButton.setOnAction(e -> {
             clearErrorMessage();
             myModel.stateChangeRequest("CancelBarcodeSearch", null);
         });
-        doneCont.getChildren().add(cancelButton);
+
+        searchPrompt = new PccText("", 14);
+        GridPane.setHalignment(searchPrompt, HPos.CENTER);
+        grid.add(searchPrompt, 0, 2, 2, 1);
+
+        HBox donCont = new HBox(100);
+        donCont.setAlignment(Pos.CENTER);
+        donCont.getChildren().add(submitButton);
+        donCont.getChildren().add(cancelButton);
+        grid.add(donCont, 0, 3, 2, 1);
+//        grid.add(submitButton, 0, 3);
+//        grid.add(cancelButton, 1, 3);
 
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(doneCont);
 
         return vbox;
     }
@@ -207,19 +132,20 @@ public class BarcodeScannerView extends View {
     private void processAction(ActionEvent actionEvent) {
         clearErrorMessage();
         Properties props = new Properties();
-        String barcode = barcodePrefix.getText();
+        String barcode = barcodeField.getText();
         if ((barcode.length() > 0) && (barcode.length() <= UiConstants.BARCODE_MAX_LENGTH)) {
-            if (barcode.substring(0, 1).equals("0") || (barcode.substring(0, 1).equals("1"))) {
+            if (barcode.substring(0, 1).equals("0") || barcode.substring(0, 1).equals("1") || barcode.substring(0, 1).equals("2")) {
                 PauseTransition pause = new PauseTransition(Duration.millis(100));
                 props.setProperty("Barcode", barcode);
                 displayMessage("Loading...");
-                barcodePrefix.setText("");
+                barcodeField.setText("");
                 pause.setOnFinished(event -> myModel.stateChangeRequest("ProcessBarcode", props));
                 pause.play();
-
             } else {
-                displayErrorMessage("ERROR: Barcode does not begin with 0 or 1!");
+                displayErrorMessage("ERROR: Barcode does not begin with 0, 1, or 2!");
             }
+        } else if ((boolean) myModel.getState("ListAll")) {
+            myModel.stateChangeRequest("ProcessBarcode", props);
         } else {
             displayErrorMessage("ERROR: Please enter a valid barcode!");
         }
@@ -227,14 +153,17 @@ public class BarcodeScannerView extends View {
     }
 
     // Create the status log field
-    protected MessageView createStatusLog() {
-        statusLog = new MessageView("             ");
+    protected MessageView createStatusLog(String initialMessage) {
+        statusLog = new MessageView(initialMessage);
 
         return statusLog;
     }
 
     public void populateFields() {
         clearErrorMessage();
+        if ((boolean) myModel.getState("ListAll")) {
+            searchPrompt.setText("(enter nothing to list all clothing items)");
+        }
     }
 
     /**
@@ -246,11 +175,20 @@ public class BarcodeScannerView extends View {
         if (key.equals("TransactionError")) {
             String val = (String) value;
             if (val.startsWith("ERR")) {
-                displayErrorMessage(val);
+//                displayErrorMessage(val);
             } else {
                 displayMessage(val);
             }
 
+        } else if (key.equals("HandleBarcodeProblems")) {
+            String val = (String) myModel.getState("BarcodeError");
+            String barcodeError = "The clothing item associated with barcode " + val + " This clothing item will not be added to the checkout cart.";
+            PccAlert alert = PccAlert.getInstance();
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setTitle("Barcode Error");
+            alert.setContentText(barcodeError);
+            alert.setHeaderText("There is a problem with the item you wish to checkout.");
+            alert.show();
         }
     }
 

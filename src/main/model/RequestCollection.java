@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 import javafx.scene.Scene;
@@ -71,7 +72,7 @@ public class RequestCollection  extends EntityBase implements IView
             query += "(RequestedGender ='" + gender + "') AND ";
         }
         if(type != null) {
-            query += "(RequestedArticleTy[e = '" + type + "') AND ";
+            query += "(RequestedArticleType = '" + type + "') AND ";
         }
         if(reqSize != null) {
             query += "(RequestedSize = '" + reqSize + "') AND ";
@@ -87,6 +88,38 @@ public class RequestCollection  extends EntityBase implements IView
         }
         query = replaceLast(query, "AND", "");
         populateCollectionHelper(query);
+    }
+
+    //-----------------------------------------------------------
+    // used to poll only requests with matching items
+    public void findByItem(ClothingItemCollection cic)
+    {
+        String query = "SELECT * FROM " + myTableName + " WHERE (Status = 'Pending')";
+        Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+
+        if (allDataRetrieved != null)
+        {
+            requests = new Vector<ClothingRequest>();
+
+            for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
+            {
+                Properties nextRQData = allDataRetrieved.elementAt(cnt);
+                ClothingRequest rq = new ClothingRequest(nextRQData);
+                cic.findDonatedCriteria((String) rq.getState("RequestedArticleType"),
+                        (String) rq.getState("RequestedGender"),
+                        (String) rq.getState("RequestedSize"));
+                if (rq != null) {
+                    if (((Vector) cic.getState("ClothingItems")).size() > 0) {
+                        addClothingRequest(rq);
+                    }
+                }
+                if (rq != null)
+                {
+                    addClothingRequest(rq);
+                }
+            }
+
+        }
     }
 
     //-----------------------------------------------------------
@@ -160,8 +193,11 @@ public class RequestCollection  extends EntityBase implements IView
     }
 
     //----------------------------------------------------------------
-    public void stateChangeRequest(String key, Object value)
-    {
+    public void stateChangeRequest(String key, Object value) {
+        if (key.equals("SetRequests") == true)
+        {
+            requests = (Vector<ClothingRequest>) value;
+        }
         myRegistry.updateSubscribers(key, this);
     }
 
@@ -173,7 +209,7 @@ public class RequestCollection  extends EntityBase implements IView
         {
             ClothingRequest nextRQ = requests.elementAt(cnt);
             String nextId = (String)nextRQ.getState("ID");
-            if (nextId.equals(id) == true)
+            if (nextId.equals(id) )
             {
                 retValue = nextRQ;
                 return retValue; // we should say 'break;' here
@@ -181,6 +217,16 @@ public class RequestCollection  extends EntityBase implements IView
         }
 
         return retValue;
+    }
+
+    //----------------------------------------------------------
+    public void setRequests(Vector<ClothingRequest> cr) {
+        Iterator iter = cr.iterator();
+        if(requests == null) requests = new Vector<>();
+        requests.clear();
+        while(iter.hasNext()) {
+            requests.add((ClothingRequest) iter.next());
+        }
     }
 
     /** Called via the IView relationship *

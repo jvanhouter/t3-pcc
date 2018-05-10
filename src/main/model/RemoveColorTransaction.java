@@ -3,21 +3,19 @@ package model;
 
 // system imports
 
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import java.util.Properties;
-import java.util.Vector;
-
-// project imports
+import Utilities.Utilities;
 import event.Event;
-import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
-
-
+import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-/** The class containing the RemoveColorTransaction for the Professional Clothes Closet application */
+import java.util.Properties;
+
+// project imports
+
+/**
+ * The class containing the RemoveColorTransaction for the Professional Clothes Closet application
+ */
 //==============================================================
 public class RemoveColorTransaction extends Transaction {
 
@@ -34,16 +32,15 @@ public class RemoveColorTransaction extends Transaction {
     /**
      * Constructor for this class.
      */
-    //----------------------------------------------------------
+
     public RemoveColorTransaction() throws Exception {
         super();
     }
 
-    //----------------------------------------------------------
+
     protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelSearchColor", "CancelTransaction");
-        dependencies.setProperty("CancelRemoveCT", "CancelTransaction");
         dependencies.setProperty("RemoveColor", "TransactionError");
 
         myRegistry.setDependencies(dependencies);
@@ -53,15 +50,22 @@ public class RemoveColorTransaction extends Transaction {
      * This method encapsulates all the logic of creating the color,
      * verifying its uniqueness, etc.
      */
-    //----------------------------------------------------------
+
     public void processTransaction(Properties props) {
         myColorList = new ColorCollection();
-		String desc = props.getProperty("Description");
-		String alfaC = props.getProperty("AlphaCode");
-		myColorList.findByCriteria(desc, alfaC);
-        
-        try
-        {
+        if (props.getProperty("BarcodePrefix") != null) {
+            String barcodePrefix = props.getProperty("BarcodePrefix");
+            myColorList.findByBarcodePrefix(barcodePrefix);
+        } else {
+            String desc = props.getProperty("Description");
+            String alfaC = props.getProperty("AlphaCode");
+            myColorList.findByCriteria(desc, alfaC);
+        }
+//        String desc = props.getProperty("Description");
+//        String alfaC = props.getProperty("AlphaCode");
+//        myColorList.findByCriteria(desc, alfaC);
+
+        try {
             Scene newScene = createColorCollectionView();
             swapToView(newScene);
         } catch (Exception ex) {
@@ -71,44 +75,33 @@ public class RemoveColorTransaction extends Transaction {
 
     }
 
-    private void processColorRemoval()
-    {
-        if(mySelectedColor != null) {
+    private void processColorRemoval() {
+        if (mySelectedColor != null) {
             mySelectedColor.stateChangeRequest("Status", "Inactive");
             mySelectedColor.update();
-            transactionErrorMessage = (String)mySelectedColor.getState("UpdateStatusMessage");
+            transactionErrorMessage = (String) mySelectedColor.getState("UpdateStatusMessage");
+            if(!transactionErrorMessage.toLowerCase().contains("error"))
+                Utilities.removeColorHashData((String) mySelectedColor.getState("ID"));
         }
     }
 
 
-    //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("TransactionError") == true) {
+        if (key.equals("TransactionError")) {
             return transactionErrorMessage;
-        } 
-		else
-		if (key.equals("ColorList") == true) {
-			return myColorList;
-		}
-		else
-        if (key.equals("BarcodePrefix") == true)
-        {
+        } else if (key.equals("ColorList")) {
+            return myColorList;
+        } else if (key.equals("BarcodePrefix")) {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("BarcodePrefix");
             else
                 return "";
-        }
-        else
-        if (key.equals("Description") == true)
-        {
+        } else if (key.equals("Description")) {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("Description");
             else
                 return "";
-        }
-        else
-        if (key.equals("AlphaCode") == true)
-        {
+        } else if (key.equals("AlphaCode")) {
             if (mySelectedColor != null)
                 return mySelectedColor.getState("AlphaCode");
             else
@@ -117,39 +110,26 @@ public class RemoveColorTransaction extends Transaction {
         return null;
     }
 
-    //-----------------------------------------------------------
+
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") == true) || (key.equals("CancelColorList") == true))
-        {
+        if ((key.equals("DoYourJob")) || (key.equals("CancelColorList") || (key.equals("CancelRemoveCT")))) {
             doYourJob();
-        }
-        else
-        if (key.equals("SearchColor") == true)
-        {
-            processTransaction((Properties)value);
-        }
-        else
-        if (key.equals("ColorSelected") == true)
-        {
-            mySelectedColor = myColorList.retrieve((String)value);
-            try
-            {
+        } else if (key.equals("SearchColor")) {
+            processTransaction((Properties) value);
+        } else if (key.equals("ColorSelected")) {
+            mySelectedColor = myColorList.retrieve((String) value);
+            try {
 
                 Scene newScene = createRemoveColorView();
 
                 swapToView(newScene);
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Error in creating RemoveColorView", Event.ERROR);
             }
-        }
-        else
-        if (key.equals("RemoveColor") == true)
-        {
+        } else if (key.equals("RemoveColor")) {
             processColorRemoval();
         }
 
@@ -160,7 +140,7 @@ public class RemoveColorTransaction extends Transaction {
      * Create the view of this class. And then the super-class calls
      * swapToView() to display the view in the frame
      */
-    //------------------------------------------------------
+
     protected Scene createView() {
         Scene currentScene = myViews.get("SearchColorView");
 
@@ -185,7 +165,6 @@ public class RemoveColorTransaction extends Transaction {
     }
 
 
-    //------------------------------------------------------
     protected Scene createRemoveColorView() {
         View newView = ViewFactory.createView("RemoveColorView", this);
         Scene currentScene = new Scene(newView);

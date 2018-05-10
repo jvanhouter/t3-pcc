@@ -3,7 +3,6 @@ package model;
 
 // system imports
 
-import event.Event;
 import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
@@ -12,7 +11,9 @@ import java.util.Properties;
 
 // project imports
 
-/** The class containing the List Inventory for the Professional Clothes Closet application */
+/**
+ * The class containing the List Inventory for the Professional Clothes Closet application
+ */
 //==============================================================
 public class ListInventoryTransaction extends Transaction {
 
@@ -40,11 +41,9 @@ public class ListInventoryTransaction extends Transaction {
 
     //-----------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("TransactionError") == true) {
+        if (key.equals("TransactionError")) {
             return transactionErrorMessage;
-        }
-        else if(key.equals("InventoryList"))
-        {
+        } else if (key.equals("InventoryList")) {
             return myInvList;
         }
         return null;
@@ -53,11 +52,21 @@ public class ListInventoryTransaction extends Transaction {
     //-----------------------------------------------------------
     public void stateChangeRequest(String key, Object value) {
 
-        if ((key.equals("DoYourJob") == true))
-        {
+        if ((key.equals("DoYourJob"))) {
             doYourJob();
+        }else if (key.equals("Filter"))
+        {
+            processFilter((Properties) value);
         }
         myRegistry.updateSubscribers(key, this);
+    }
+
+    private void processFilter(Properties value)
+    {
+        myInvList = new InventoryItemCollection();
+        myInvList.findFilteredResults(value);
+
+        switchToInventoryItemCollectionView();
     }
 
     /**
@@ -67,21 +76,29 @@ public class ListInventoryTransaction extends Transaction {
     //------------------------------------------------------
     protected Scene createView() {
 
-        myInvList = new InventoryItemCollection();
-        myInvList.findAll();
-
         Scene currentScene = null;
 
         if (currentScene == null) {
             // create our initial view
-            View newView = ViewFactory.createView("InventoryItemCollectionView", this);
+            View newView = ViewFactory.createView("ListInventoryFilterView", this);
             currentScene = new Scene(newView);
-            myViews.put("InventoryItemCollectionView", currentScene);
+            myViews.put("ListInventoryFilterView", currentScene);
 
             return currentScene;
         } else {
             return currentScene;
         }
+    }
+    protected Scene createInventoryItemCollectionView() {
+        View newView = ViewFactory.createView("InventoryItemCollectionView", this);
+        Scene currentScene = new Scene(newView);
+
+        return currentScene;
+    }
+
+    private void switchToInventoryItemCollectionView() {
+        Scene newScene = createInventoryItemCollectionView();
+        swapToView(newScene);
     }
 }
 

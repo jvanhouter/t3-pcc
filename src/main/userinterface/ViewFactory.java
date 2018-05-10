@@ -16,20 +16,18 @@ public class ViewFactory {
             return new ArticleTypeCollectionView(model);
         } else if (viewName.equals("SearchArticleTypeView")) {
             return new SearchArticleTypeView(model);
-        } else if(viewName.equals("RemoveArticleTypeView")) {
+        } else if (viewName.equals("RemoveArticleTypeView")) {
             return new RemoveArticleTypeView(model);
-        } else if(viewName.equals("AddColorView")) {
+        } else if (viewName.equals("AddColorView")) {
             return new AddColorView(model);
-        } else if(viewName.equals("ModifyColorView")) {
+        } else if (viewName.equals("ModifyColorView")) {
             return new ModifyColorView(model);
-        } else if(viewName.equals("ColorCollectionView")) {
+        } else if (viewName.equals("ColorCollectionView")) {
             return new ColorCollectionView(model);
-        } else if(viewName.equals("SearchColorView")) {
+        } else if (viewName.equals("SearchColorView")) {
             return new SearchColorView(model);
-        } else if(viewName.equals("RemoveColorView")) {
+        } else if (viewName.equals("RemoveColorView")) {
             return new RemoveColorView(model);
-        }else if (viewName.equals("EnterReceiverInformationView")) {
-            return new EnterReceiverInformationView(model);
         } else if (viewName.equals("AddClothingItemView")) {
             return new AddClothingItemView(model);
         } else if (viewName.equals("BarcodeScannerView")) {
@@ -44,14 +42,20 @@ public class ViewFactory {
             return new ModifyClothingItemView(model);
         } else if (viewName.equals("ClothingItemCollectionView")) {
             return new ClothingItemCollectionView(model);
-        } else if(viewName.equals("LogRequestView")) {
+        } else if (viewName.equals("LogRequestView")) {
             return new LogARequestView(model);
-        } else if(viewName.equals("RequestCollectionView")) {
+        } else if (viewName.equals("RequestCollectionView")) {
             return new RequestCollectionView(model);
-        } else if(viewName.equals("RemoveRequestView") == true){
+        } else if (viewName.equals("RemoveRequestView")) {
             return new RemoveRequestView(model);
         } else if (viewName.equals("InventoryItemCollectionView")) {
             return new InventoryItemCollectionView(model);
+        } else if (viewName.equals("ReceiverRecentCheckoutView")) {
+            return new ReceiverRecentCheckoutView(model);
+        } else if (viewName.equals("FulfillRequestView")) {
+            return new FulfillRequestView(model);
+        } else if (viewName.equals("ListInventoryFilterView")) {
+            return new ListInventoryFilterView(model);
         } else
             return null;
     }

@@ -2,26 +2,22 @@
 package model;
 
 // system imports
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Vector;
-
-// project imports
+import Utilities.Utilities;
 import event.Event;
-import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
-
+import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
 
-/** The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application */
+import java.util.Properties;
+
+// project imports
+
+/**
+ * The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application
+ */
 //==============================================================
-public class RemoveRequestTransaction extends Transaction
-{
+public class RemoveRequestTransaction extends Transaction {
 
     private RequestCollection myRequestCollection;
     private ClothingRequest myClothingRequest;
@@ -32,17 +28,14 @@ public class RemoveRequestTransaction extends Transaction
 
     /**
      * Constructor for this class.
-     *
      */
     //----------------------------------------------------------
-    public RemoveRequestTransaction() throws Exception
-    {
+    public RemoveRequestTransaction() throws Exception {
         super();
     }
 
     //----------------------------------------------------------
-    protected void setDependencies()
-    {
+    protected void setDependencies() {
         dependencies = new Properties();
         dependencies.setProperty("CancelRequest", "CancelTransaction");
         dependencies.setProperty("OK", "CancelTransaction");
@@ -52,54 +45,43 @@ public class RemoveRequestTransaction extends Transaction
     }
 
     //----------------------------------------------------------
-    public void processRequestRemoval()
-    {
-        if(myClothingRequest != null) {
+    public void processRequestRemoval() {
+        if (myClothingRequest != null) {
             myClothingRequest.stateChangeRequest("Status", "Removed");
             myClothingRequest.update();
-            transactionErrorMessage = (String)myClothingRequest.getState("UpdateStatusMessage");
+            transactionErrorMessage = (String) myClothingRequest.getState("UpdateStatusMessage");
+            if(!transactionErrorMessage.toLowerCase().contains("error"))
+                Utilities.removeClothingRequestHash((String) myClothingRequest.getState("ID"));
         }
     }
 
     //-----------------------------------------------------------
-    public Object getState(String key)
-    {
-        if (key.equals("RequestList") == true)
-        {
+    public Object getState(String key) {
+        if (key.equals("RequestList")) {
             return myRequestCollection;
         }
-        if (key.equals("TransactionError") == true)
-        {
+        if (key.equals("TransactionError")) {
             return transactionErrorMessage;
         }
         return null;
     }
 
     //-----------------------------------------------------------
-    public void stateChangeRequest(String key, Object value)
-    {
+    public void stateChangeRequest(String key, Object value) {
 
-        if (key.equals("DoYourJob") == true)
-        {
+        if (key.equals("DoYourJob")) {
             doYourJob();
-        }
-        else
-        if(key.equals("RequestSelected") == true) {
+        } else if (key.equals("RequestSelected") == true) {
             // process removal
             myClothingRequest = myRequestCollection.retrieve((String) value);
-            try
-            {
+            try {
                 Scene newScene = createRemoveRequestView();
                 swapToView(newScene);
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 new Event(Event.getLeafLevelClassName(this), "processTransaction",
                         "Error in creating RemoveRequestView", Event.ERROR);
             }
-        } else
-        if (key.equals("RemoveRequest") == true)
-        {
+        } else if (key.equals("RemoveRequest") == true) {
             processRequestRemoval();
         }
 
@@ -111,25 +93,21 @@ public class RemoveRequestTransaction extends Transaction
      * swapToView() to display the view in the frame
      */
     //------------------------------------------------------
-    protected Scene createView()
-    {
+    protected Scene createView() {
 
         myRequestCollection = new RequestCollection();
         myRequestCollection.findAll();
 
         Scene currentScene = myViews.get("RequestCollectionView");
 
-        if (currentScene == null)
-        {
+        if (currentScene == null) {
             // create our initial view
             View newView = ViewFactory.createView("RequestCollectionView", this);
             currentScene = new Scene(newView);
             myViews.put("RequestCollectionView", currentScene);
 
             return currentScene;
-        }
-        else
-        {
+        } else {
             return currentScene;
         }
     }

@@ -1,188 +1,157 @@
 package userinterface;
 
 // system imports
-import javafx.beans.property.SimpleStringProperty;
+
+import Utilities.UiConstants;
+import Utilities.Utilities;
+import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-
-import java.util.Vector;
-import java.util.Enumeration;
-
-// project imports
-import impresario.IModel;
-import model.ArticleType;
-import model.ArticleTypeCollection;
 import model.ClothingRequest;
 import model.RequestCollection;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
+// project imports
+//We need to look at these - can we avoid the outside library, and
+// slim down the model.* to just the classes we need? - JVH
+
+
 //==============================================================================
-public class RequestCollectionView extends View
-{
+public class RequestCollectionView extends View {
     protected TableView<RequestTableModel> tableOfRequests;
-    protected Button cancelButton;
-    protected Button submitButton;
+    protected PccButton cancelButton;
+    protected PccButton submitButton;
 
     protected MessageView statusLog;
 
 
     //--------------------------------------------------------------------------
-    public RequestCollectionView(IModel matt)
-    {
+    public RequestCollectionView(IModel matt) {
         super(matt, "RequestCollectionView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+        container.getChildren().add(createActionArea());
 
-        // create our GUI components, add them to this panel
-        container.getChildren().add(createTitle());
+        // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        // Error message area
-        container.getChildren().add(createStatusLog("                                            "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
     }
 
     //--------------------------------------------------------------------------
-    protected void populateFields()
-    {
+    protected void populateFields() {
         getEntryTableModelValues();
     }
 
     //--------------------------------------------------------------------------
-    protected void getEntryTableModelValues()
-    {
+    private void refactor(RequestTableModel ctm) {
+
+        try {
+            ctm.setArticleType((String) Utilities.collectArticleTypeHash().get(ctm.getArticleType()).getState("Description"));
+        } catch (Exception e) {
+            ctm.setArticleType("Clothing Item Removed");
+        }
+        try {
+            if (Utilities.collectColorHash().get(ctm.getColor1()) != null)
+                ctm.setColor1((String) Utilities.collectColorHash().get(ctm.getColor1()).getState("Description"));
+            else
+                ctm.setColor1("");
+        } catch (Exception e) {
+            ctm.setColor1("Color Removed");
+        }
+        try {
+            if (Utilities.collectColorHash().get(ctm.getColor2()) != null)
+                ctm.setColor2((String) Utilities.collectColorHash().get(ctm.getColor2()).getState("Description"));
+            else
+                ctm.setColor2("");
+        } catch (Exception e) {
+            ctm.setColor2("Color Removed");
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    protected void getEntryTableModelValues() {
         ObservableList<RequestTableModel> tableData = FXCollections.observableArrayList();
-        try
-        {
+        try {
             RequestCollection requestCollection =
-                    (RequestCollection)myModel.getState("RequestList");
+                    (RequestCollection) myModel.getState("RequestList");
 
-            Vector entryList = (Vector)requestCollection.getState("Requests");
+            Vector entryList = (Vector) requestCollection.getState("Requests");
 
-            if (entryList.size() > 0)
-            {
+            if (entryList.size() > 0) {
                 Enumeration entries = entryList.elements();
 
-                while (entries.hasMoreElements() == true)
-                {
+                while (entries.hasMoreElements()) {
                     ClothingRequest nextRQ = (ClothingRequest) entries.nextElement();
                     Vector<String> view = nextRQ.getEntryListView();
 
                     // add this list entry to the list
                     RequestTableModel nextTableRowData = new RequestTableModel(view);
+                    if (nextTableRowData.getSize().equals("" + UiConstants.GENERIC_SIZE))
+                        nextTableRowData.setSize("");
+                    refactor(nextTableRowData);
                     tableData.add(nextTableRowData);
 
                 }
-            }
-            else
-            {
+            } else {
                 displayMessage("No matching entries found!");
             }
 
             tableOfRequests.setItems(tableData);
-        }
-        catch (Exception e) {//SQLException e) {
+        } catch (Exception e) {//SQLException e) {
             // Need to handle this exception
             e.printStackTrace();
         }
     }
 
-    // Create the title container
-    //-------------------------------------------------------------
-    private Node createTitle()
-    {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
-
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("      ** Matching Requests **       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
+    @Override
+    protected String getActionText() {
+        return "Requests";
     }
 
     // Create the main form content
     //-------------------------------------------------------------
-    private VBox createFormContent()
-    {
+    private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        Text prompt = new Text("");
-        prompt.setWrappingWidth(400);
+        PccText prompt = new PccText("Please Select a Request:");
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
+        prompt.setFill(Color.web(APP_TEXT_COLOR));
+        prompt.setFont(Font.font(APP_FONT, 20));
         vbox.getChildren().add(prompt);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setHgap(20);
+        grid.setVgap(12);
+        grid.setPadding(new Insets(5, 25, 20, 0));
 
-        tableOfRequests = new TableView<RequestTableModel>();
+        tableOfRequests = new TableView<>();
         tableOfRequests.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         TableColumn id = new TableColumn("ID");
@@ -199,6 +168,11 @@ public class RequestCollectionView extends View
         phone.setMaxWidth(100);
         phone.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("phone"));
+
+        TableColumn email = new TableColumn("Email Address");
+        email.setMaxWidth(100);
+        email.setCellValueFactory(
+                new PropertyValueFactory<RequestTableModel, String>("email"));
 
         TableColumn lastName = new TableColumn("Last Name");
         lastName.setMaxWidth(100);
@@ -245,59 +219,42 @@ public class RequestCollectionView extends View
         requestMadeDate.setCellValueFactory(
                 new PropertyValueFactory<RequestTableModel, String>("requestMadeDate"));
 
-        TableColumn statusColumn = new TableColumn("Status") ;
+        TableColumn statusColumn = new TableColumn("Status");
         statusColumn.setMinWidth(50);
         statusColumn.setCellValueFactory(
                 new PropertyValueFactory<ArticleTypeTableModel, String>("status"));
 
         tableOfRequests.getColumns().addAll(id,
-                requesterNetid, phone, lastName, firstName,
+                requesterNetid, phone, email, lastName, firstName,
                 gender, articleType, color1, color2, size, brand,
                 requestMadeDate, statusColumn);
 
-        tableOfRequests.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event)
-            {
-                if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processRequestSelected();
-                }
+        tableOfRequests.setOnMousePressed(event -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() >= 2) {
+                processRequestSelected();
             }
         });
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(150, 150);
-        scrollPane.setContent(tableOfRequests);
+        tableOfRequests.setMaxSize(800, 250);
+
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.setPrefSize(150, 150);
+//        scrollPane.setContent(tableOfRequests);
 
         submitButton = new PccButton("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnAction(new EventHandler<ActionEvent>() {
 
-            @Override
-            public void handle(ActionEvent e) {
-                clearErrorMessage();
-                // do the inquiry
-                processRequestSelected();
+        submitButton.setOnAction(e -> {
+            clearErrorMessage();
+            // do the inquiry
+            processRequestSelected();
 
-            }
         });
 
         cancelButton = new PccButton("Return");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
-            @Override
-            public void handle(ActionEvent e) {
-                /**
-                 * Process the Cancel button.
-                 * The ultimate result of this action is that the transaction will tell the Receptionist to
-                 * to switch to the Receptionist view. BUT THAT IS NOT THIS VIEW'S CONCERN.
-                 * It simply tells its model (controller) that the transaction was canceled, and leaves it
-                 * to the model to decide to tell the Receptionist to do the switch back.
-                 */
-                //----------------------------------------------------------
-                clearErrorMessage();
-                myModel.stateChangeRequest("CancelRequest", null);
-            }
+        cancelButton.setOnAction(e -> {
+            //----------------------------------------------------------
+            clearErrorMessage();
+            myModel.stateChangeRequest("CancelRequest", null);
         });
 
         HBox btnContainer = new HBox(100);
@@ -306,32 +263,28 @@ public class RequestCollectionView extends View
         btnContainer.getChildren().add(cancelButton);
 
         vbox.getChildren().add(grid);
-        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().add(tableOfRequests);
         vbox.getChildren().add(btnContainer);
 
         return vbox;
     }
 
     //--------------------------------------------------------------------------
-    public void updateState(String key, Object value)
-    {
+    public void updateState(String key, Object value) {
     }
 
     //--------------------------------------------------------------------------
-    protected void processRequestSelected()
-    {
+    protected void processRequestSelected() {
         RequestTableModel selectedItem = tableOfRequests.getSelectionModel().getSelectedItem();
 
-        if(selectedItem != null)
-        {
+        if (selectedItem != null) {
             String id = selectedItem.getId();
             myModel.stateChangeRequest("RequestSelected", id);
         }
     }
 
     //--------------------------------------------------------------------------
-    protected MessageView createStatusLog(String initialMessage)
-    {
+    protected MessageView createStatusLog(String initialMessage) {
         statusLog = new MessageView(initialMessage);
 
         return statusLog;
@@ -342,8 +295,7 @@ public class RequestCollectionView extends View
      * Display info message
      */
     //----------------------------------------------------------
-    public void displayMessage(String message)
-    {
+    public void displayMessage(String message) {
         statusLog.displayMessage(message);
     }
 
@@ -351,8 +303,7 @@ public class RequestCollectionView extends View
      * Clear error message
      */
     //----------------------------------------------------------
-    public void clearErrorMessage()
-    {
+    public void clearErrorMessage() {
         statusLog.clearErrorMessage();
     }
 

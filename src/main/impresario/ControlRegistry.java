@@ -17,25 +17,24 @@
 //*************************************************************
 
 // JavaDoc information
-/** @author		$Author: tomb $ */
-/** @version	$Revision: 1.4 $ */
+/**
+ * @author $Author: tomb $  @version	$Revision: 1.4 $
+ */
+/** @version $Revision: 1.4 $ */
 
 // specify the package
 package impresario;
 
 // system imports
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Properties;
-
-// project imports
-import common.PropertyFile;
-import common.StringList;
 
 import event.Event;
 
-/** 
+import java.util.Enumeration;
+import java.util.Vector;
+
+// project imports
+
+/**
  * This class is used to instantiate the object that is encapsulated
  * by every EasyObserver client in order to keep track of which control
  * subscribes to which key and which keys depend on which other keys.
@@ -44,78 +43,66 @@ import event.Event;
  * the keys that depend on the key on which the state change is posted.
  */
 //==============================================================
-public class ControlRegistry extends Registry
-{
+public class ControlRegistry extends Registry {
     // data members
 
-	// Class constructor
-	//----------------------------------------------------------
-	public ControlRegistry(String classname) 	// the name of the class that contains this Registry, debug only
-	{
-		super(classname);	// construct our base class
-	}
+    // Class constructor
+    //----------------------------------------------------------
+    public ControlRegistry(String classname)    // the name of the class that contains this Registry, debug only
+    {
+        super(classname);    // construct our base class
+    }
 
 
-	/**
-	 * This method invokes the stateChangeRequest method on all IModels that 
-	 * have subscribed for the specified key.
-	 *
-	 * @param	key		The key on which the state change 
-	 *
-	 * @param	value	The value of the key that has changed
-	 */
-	//----------------------------------------------------------
-	public void updateSubscribers(String key, Object value)
-	{
-		// DEBUG: System.out.println("ControlRegistry.updateSubscribers - " + key + ", value " + value);
-			
-		// Get all subscribers to this key
-		Object tempObj = mySubscribers.get(key);
-		
-		// make sure we have subscribers
-		if(tempObj == null)
-		{
-			// DEBUG: System.out.println("ControlRegistry[" + myClassName + "].updateSubscribers - no subscribers found for dependency " + dependProperty);
-			return;
-		}
-			
-		// see if we have multiple subscribers
-		if(tempObj instanceof Vector)
-		{
-			// get the list of elements
-			Enumeration subscriberList = ((Vector)tempObj).elements();				
-			while(subscriberList.hasMoreElements() == true) 
-			{
-				// extract each subscriber
-				Object subscriber = subscriberList.nextElement();
-				// DEBUG: System.out.println("Vector Subscriber: " + subscriber.getClass());
+    /**
+     * This method invokes the stateChangeRequest method on all IModels that
+     * have subscribed for the specified key.
+     *
+     * @param    key        The key on which the state change
+     *
+     * @param    value    The value of the key that has changed
+     */
+    //----------------------------------------------------------
+    public void updateSubscribers(String key, Object value) {
+        // DEBUG: System.out.println("ControlRegistry.updateSubscribers - " + key + ", value " + value);
 
-        		// update via a key-value pair
-				if(subscriber instanceof IModel)
-        		{
-					// DEBUG: System.out.println("Vector StateRepository [" + key + "] " + dependProperty + ": " + client.getValue(dependProperty));
-        			((IModel)subscriber).stateChangeRequest(key, value);
-        		}
-        		else 
-        		{
-					new Event(Event.getLeafLevelClassName(this), "UpdateSubscribers", "EVT_InvalidSubscriber", "Vector Invalid Subscriber: " + subscriber.getClass(), Event.WARNING);
-					System.err.println("ControlRegistry.updateSubscribers - Invalid Subscriber type!");
-				}
-			}
-		}
-		else	// we must have a single subscriber	
-        // If not, use the standard update via a key-value pair
-		if(tempObj instanceof IModel)
-		{
-			// DEBUG: System.out.println("Changeable [" + key + "] " + dependProperty + ": " + client.getValue(dependProperty));
-        	((IModel)tempObj).stateChangeRequest(key, value);
-		}
-        else 
-        {
-			new Event(Event.getLeafLevelClassName(this), "UpdateSubscribers", "EVT_InvalidSubscriber", "Invalid Subscriber: " + tempObj.getClass(), Event.WARNING);
-			System.err.println("ControlRegistry.updateSubscribers - Invalid Subscriber type!");
-		}
-	}			
+        // Get all subscribers to this key
+        Object tempObj = mySubscribers.get(key);
+
+        // make sure we have subscribers
+        if (tempObj == null) {
+            // DEBUG: System.out.println("ControlRegistry[" + myClassName + "].updateSubscribers - no subscribers found for dependency " + dependProperty);
+            return;
+        }
+
+        // see if we have multiple subscribers
+        if (tempObj instanceof Vector) {
+            // get the list of elements
+            Enumeration subscriberList = ((Vector) tempObj).elements();
+            while (subscriberList.hasMoreElements() == true) {
+                // extract each subscriber
+                Object subscriber = subscriberList.nextElement();
+                // DEBUG: System.out.println("Vector Subscriber: " + subscriber.getClass());
+
+                // update via a key-value pair
+                if (subscriber instanceof IModel) {
+                    // DEBUG: System.out.println("Vector StateRepository [" + key + "] " + dependProperty + ": " + client.getValue(dependProperty));
+                    ((IModel) subscriber).stateChangeRequest(key, value);
+                } else {
+                    new Event(Event.getLeafLevelClassName(this), "UpdateSubscribers", "EVT_InvalidSubscriber", "Vector Invalid Subscriber: " + subscriber.getClass(), Event.WARNING);
+                    System.err.println("ControlRegistry.updateSubscribers - Invalid Subscriber type!");
+                }
+            }
+        } else    // we must have a single subscriber
+            // If not, use the standard update via a key-value pair
+            if (tempObj instanceof IModel) {
+                // DEBUG: System.out.println("Changeable [" + key + "] " + dependProperty + ": " + client.getValue(dependProperty));
+                ((IModel) tempObj).stateChangeRequest(key, value);
+            } else {
+                new Event(Event.getLeafLevelClassName(this), "UpdateSubscribers", "EVT_InvalidSubscriber", "Invalid Subscriber: " + tempObj.getClass(), Event.WARNING);
+                System.err.println("ControlRegistry.updateSubscribers - Invalid Subscriber type!");
+            }
+    }
 }
 
 

@@ -12,36 +12,36 @@ class PccButton extends Button {
     }
 
     private void initialize() {
-        this.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        this.setFont(Font.font(View.APP_FONT, FontWeight.NORMAL, 16));
         this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
+        this.setMinWidth(100);
+        this.setMaxWidth(Double.MAX_VALUE);
         this.setOnMouseEntered(e -> {
-            grow();
+            colorHover();
         });
         this.setOnMouseExited(e -> {
-            normal();
+            normalColor();
         });
         this.setOnMouseReleased(e -> {
-            grow();
+            normalColor();
         });
         this.setOnMousePressed(e -> {
-            shrink();
+            colorClicked();
+
         });
 
     }
 
-    private void grow() {
-        this.setScaleX(1.03);
-        this.setScaleY(1.03);
+    private void normalColor() {
+        this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #00533e; -fx-text-fill: #ffc726");
     }
 
-    private void shrink() {
-        this.setScaleX(0.97);
-        this.setScaleY(0.97);
+    private void colorHover() {
+        // Original 007a58
+        this.setStyle("-fx-border-color: #ffc726; -fx-border-width: 1px; -fx-background-color: #6c8072; -fx-text-fill: #ffc726");
     }
 
-    private void normal() {
-        this.setScaleX(1.0);
-        this.setScaleY(1.0);
+    private void colorClicked() {
+        this.setStyle("-fx-border-color: #8d8d8d; -fx-border-width: 1px; -fx-background-color: #8d8d8d; -fx-text-fill: #ffc726");
     }
-
 }

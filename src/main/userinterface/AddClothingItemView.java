@@ -3,14 +3,14 @@ package userinterface;
 
 // system imports
 
+import Utilities.UiConstants;
+import Utilities.Utilities;
 import impresario.IModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -18,16 +18,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.StringConverter;
 import model.ArticleType;
 import model.Color;
 
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 import java.util.regex.Pattern;
+
+//import javafx.scene.paint.Color;
 
 // project imports
 
@@ -42,6 +41,8 @@ public class AddClothingItemView extends View {
     protected MessageView statusLog;
     // GUI components
     protected ComboBox<String> genderCombo;
+    protected TextField barcode;
+
     protected TextField sizeText;
     protected ComboBox<ArticleType> articleTypeCombo;
     protected ComboBox<Color> primaryColorCombo;
@@ -52,111 +53,90 @@ public class AddClothingItemView extends View {
     protected TextField donorFirstNameText;
     protected TextField donorPhoneText;
     protected TextField donorEmailText;
-    private Button submitButton;
-    private Button cancelButton;
+    private PccButton submitButton;
+    private PccButton cancelButton;
 
     // constructor for this class -- takes a model object
     public AddClothingItemView(IModel clothingItem) {
         super(clothingItem, "AddClothingItemView");
-        // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
 
-        // Add a title for this panel
-        container.getChildren().add(createTitle());
+        // create a container for showing the contents
+        container.getChildren().add(createActionArea());
 
         // create our GUI components, add them to this Container
         container.getChildren().add(createFormContent());
+        container.getChildren().add(createStatusLog(""));
 
-        container.getChildren().add(createStatusLog("             "));
+        //Add container to our BorderPane
+        bp.setCenter(container);
 
-        getChildren().add(container);
+        // Add BorderPane to our view
+        getChildren().add(bp);
 
         populateFields();
 
         myModel.subscribe("TransactionError", this);
     }
 
+    @Override
     protected String getActionText() {
-        return "** Adding a new Clothing Item **";
+        return "Clothing Item Information";
     }
+    private VBox createPrompt() {
+        VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-    // Create the title container
-    private Node createTitle() {
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(1, 1, 1, 30));
+        PccText prompt = new PccText("Please Input Clothing Item Information:");
+        prompt.setWrappingWidth(WRAPPING_WIDTH);
+        prompt.setTextAlignment(TextAlignment.CENTER);
+//        prompt.setFill(javafx.scene.paint.Color.BLUE);
+        prompt.setFont(Font.font(APP_FONT, 20));
+        vbox.getChildren().add(prompt);
 
-        Text clientText = new Text(" Office of Career Services ");
-        clientText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        clientText.setWrappingWidth(350);
-        clientText.setTextAlignment(TextAlignment.CENTER);
-        clientText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(clientText);
-
-        Text collegeText = new Text(" THE COLLEGE AT BROCKPORT ");
-        collegeText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        collegeText.setWrappingWidth(350);
-        collegeText.setTextAlignment(TextAlignment.CENTER);
-        collegeText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(collegeText);
-
-        Text titleText = new Text(" Professional Clothes Closet Management System ");
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setWrappingWidth(350);
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(javafx.scene.paint.Color.DARKGREEN);
-        container.getChildren().add(titleText);
-
-        Text blankText = new Text("  ");
-        blankText.setFont(Font.font("Arial", FontWeight.BOLD, 24));
-        blankText.setWrappingWidth(350);
-        blankText.setTextAlignment(TextAlignment.CENTER);
-        blankText.setFill(javafx.scene.paint.Color.WHITE);
-        container.getChildren().add(blankText);
-
-        Text actionText = new Text("     " + getActionText() + "       ");
-        actionText.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-        actionText.setWrappingWidth(350);
-        actionText.setTextAlignment(TextAlignment.CENTER);
-        actionText.setFill(javafx.scene.paint.Color.BLACK);
-        container.getChildren().add(actionText);
-
-        return container;
-    }
+        return vbox;
+      }
 
     // Create the main form content
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
 
-        Text prompt = new Text("CLOTHING ITEM INFORMATION");
-        prompt.setWrappingWidth(400);
-        prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(javafx.scene.paint.Color.BLACK);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 18));
-        vbox.getChildren().add(prompt);
+
+        Font myFont = Font.font(APP_FONT, 16);
 
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(0, 25, 10, 0));
+        grid.setPadding(new Insets(5, 25, 20, 0));
+
+        // Barcode
+        PccText barcodeLabel = new PccText(" Barcode : ");
+        barcodeLabel.setFont(myFont);
+        barcodeLabel.setWrappingWidth(150);
+        barcodeLabel.setTextAlignment(TextAlignment.RIGHT);
+
+        barcode = new TextField();
+
+        grid.add(barcodeLabel, 0, 0);
+        grid.add(barcode, 1, 0);
 
         // Gender UI items ==================================================
-        Text genderLabel = new Text(" Gender : ");
-        Font myFont = Font.font("Helvetica", FontWeight.BOLD, 12);
+        PccText genderLabel = new PccText(" Gender : ");
         genderLabel.setFont(myFont);
         genderLabel.setWrappingWidth(150);
         genderLabel.setTextAlignment(TextAlignment.RIGHT);
         grid.add(genderLabel, 0, 1);
 
         genderCombo = new ComboBox<>();
-        genderCombo.getItems().addAll("Mens", "Womens");
+        genderCombo.getItems().addAll("Mens", "Womens", "Unisex");
+
 
         grid.add(genderCombo, 1, 1);
-        // =================================================================
+
         // Size UI Items ===================================================
-        Text sizeLabel = new Text(" Size : ");
+        PccText sizeLabel = new PccText(" Size : ");
         sizeLabel.setFont(myFont);
         sizeLabel.setWrappingWidth(150);
         sizeLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -168,7 +148,7 @@ public class AddClothingItemView extends View {
 
         // =================================================================
         // Article Type UI Items ===========================================
-        Text articleTypeLabel = new Text(" Article Type : ");
+        PccText articleTypeLabel = new PccText(" Article Type : ");
         articleTypeLabel.setFont(myFont);
         articleTypeLabel.setWrappingWidth(150);
         articleTypeLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -197,7 +177,7 @@ public class AddClothingItemView extends View {
         grid.add(articleTypeCombo, 1, 3);
         // =================================================================
         // Primary Color UI Items ==========================================
-        Text primaryColorLabel = new Text(" Primary Color : ");
+        PccText primaryColorLabel = new PccText(" Primary Color : ");
         primaryColorLabel.setFont(myFont);
         primaryColorLabel.setWrappingWidth(150);
         primaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -219,7 +199,7 @@ public class AddClothingItemView extends View {
         grid.add(primaryColorCombo, 1, 4);
         // =================================================================
         // Secondary Color UI Items ========================================
-        Text secondaryColorLabel = new Text(" Secondary Color : ");
+        PccText secondaryColorLabel = new PccText(" Secondary Color : ");
         secondaryColorLabel.setFont(myFont);
         secondaryColorLabel.setWrappingWidth(150);
         secondaryColorLabel.setTextAlignment(TextAlignment.RIGHT);
@@ -241,34 +221,34 @@ public class AddClothingItemView extends View {
         grid.add(secondaryColorCombo, 1, 5);
         // =================================================================
         // Brand UI Items ==================================================
-        Text brandLabel = new Text(" Brand : ");
+        PccText brandLabel = new PccText(" Brand : ");
         brandLabel.setFont(myFont);
         brandLabel.setWrappingWidth(150);
         brandLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(brandLabel, 0, 6);
+        grid.add(brandLabel, 2, 0);
 
         brandText = new TextField();
         brandText.setOnAction(this::processAction);
-        grid.add(brandText, 1, 6);
+        grid.add(brandText, 3, 0);
 
         // =================================================================
         // Notes UI Items ==================================================
-        Text notesLabel = new Text(" Notes : ");
+        PccText notesLabel = new PccText(" Notes : ");
         notesLabel.setFont(myFont);
         notesLabel.setWrappingWidth(150);
         notesLabel.setTextAlignment(TextAlignment.RIGHT);
-        grid.add(notesLabel, 0, 7);
+        grid.add(notesLabel, 2, 1);
 
         notesText = new TextField();
         notesText.setOnAction(this::processAction);
-        grid.add(notesText, 1, 7);
+        grid.add(notesText, 3, 1);
 
         // =================================================================
         // Donor UI Items ==================================================
-        Text donorFirstNameLabel = new Text(" Donor First Name : ");
-        Text donorLastNameLabel = new Text(" Donor Last Name : ");
-        Text donorPhoneLabel = new Text(" Donor Phone Number : ");
-        Text donorEmailLabel = new Text(" Donor E-Mail : ");
+        PccText donorFirstNameLabel = new PccText(" Donor First Name : ");
+        PccText donorLastNameLabel = new PccText(" Donor Last Name : ");
+        PccText donorPhoneLabel = new PccText(" Donor Phone Number : ");
+        PccText donorEmailLabel = new PccText(" Donor E-Mail : ");
 
         donorFirstNameLabel.setFont(myFont);
         donorLastNameLabel.setFont(myFont);
@@ -285,78 +265,38 @@ public class AddClothingItemView extends View {
         donorPhoneLabel.setTextAlignment(TextAlignment.RIGHT);
         donorEmailLabel.setTextAlignment(TextAlignment.RIGHT);
 
-        grid.add(donorFirstNameLabel, 0, 9);
-        grid.add(donorLastNameLabel, 0, 10);
-        grid.add(donorPhoneLabel, 0, 11);
-        grid.add(donorEmailLabel, 0, 12);
+        grid.add(donorFirstNameLabel, 2, 2);
+        grid.add(donorLastNameLabel, 2, 3);
+        grid.add(donorPhoneLabel, 2, 4);
+        grid.add(donorEmailLabel, 2, 5);
 
         donorFirstNameText = new TextField();
         donorFirstNameText.setOnAction(this::processAction);
         donorLastNameText = new TextField();
         donorLastNameText.setOnAction(this::processAction);
         donorPhoneText = new TextField();
+        donorPhoneText.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9-]{0,12}")) {
+                donorPhoneText.setText(oldValue);
+            }
+            donorPhoneText.setText(Utilities.autoFillDashes(donorPhoneText.getText()));
+        });
         donorPhoneText.setOnAction(this::processAction);
         donorEmailText = new TextField();
         donorEmailText.setOnAction(this::processAction);
 
-        grid.add(donorFirstNameText, 1, 9);
-        grid.add(donorLastNameText, 1, 10);
-        grid.add(donorPhoneText, 1, 11);
-        grid.add(donorEmailText, 1, 12);
+        grid.add(donorFirstNameText, 3, 2);
+        grid.add(donorLastNameText, 3, 3);
+        grid.add(donorPhoneText, 3, 4);
+        grid.add(donorEmailText, 3, 5);
         // =================================================================
         HBox doneCont = new HBox(10);
         doneCont.setAlignment(Pos.CENTER);
         submitButton = new PccButton("Submit");
-        submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        submitButton.setOnMouseEntered(me ->
-        {
-        	submitButton.setScaleX(1.1);
-        	submitButton.setScaleY(1.1);
-        });
-
-        submitButton.setOnMouseExited(me ->
-        {
-        	submitButton.setScaleX(1);
-        	submitButton.setScaleY(1);
-        });
-
-        submitButton.setOnMousePressed(me ->
-    {
-    	submitButton.setScaleX(0.9);
-    	submitButton.setScaleY(0.9);
-    });
-        submitButton.setOnMouseReleased(me ->
-    {
-    	submitButton.setScaleX(1.1);
-    	submitButton.setScaleY(1.1);
-    });
         submitButton.setOnAction(this::processAction);
         doneCont.getChildren().add(submitButton);
 
         cancelButton = new PccButton("Return");
-        cancelButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        cancelButton.setOnMouseEntered(me ->
-   	        {
-   	        	cancelButton.setScaleX(1.1);
-   	        	cancelButton.setScaleY(1.1);
-   	        });
-
-   	        cancelButton.setOnMouseExited(me ->
-   	        {
-   	        	cancelButton.setScaleX(1);
-   	        	cancelButton.setScaleY(1);
-   	        });
-
-   	        cancelButton.setOnMousePressed(me ->
-   	    {
-   	    	cancelButton.setScaleX(0.9);
-   	    	cancelButton.setScaleY(0.9);
-   	    });
-   	        cancelButton.setOnMouseReleased(me ->
-   	    {
-   	    	cancelButton.setScaleX(1.1);
-   	    	cancelButton.setScaleY(1.1);
-   	    });
         cancelButton.setOnAction(e -> {
             clearErrorMessage();
             myModel.stateChangeRequest("CancelAddClothingItem", null);
@@ -379,21 +319,38 @@ public class AddClothingItemView extends View {
 
     public void populateFields() {
         clearErrorMessage();
+        barcode.setText((String) myModel.getState("Barcode"));
+        barcode.setDisable(true);
+
         genderCombo.setValue((String) myModel.getState("Gender"));
-        Vector ArticleList = (Vector) myModel.getState("Articles");
-        Iterator articles = ArticleList.iterator();
+        Iterator articles = Utilities.collectArticleTypeHash().entrySet().iterator();
         ObservableList<ArticleType> articleTypes = FXCollections.observableArrayList();
+        Comparator<ArticleType> compareAT = new Comparator<ArticleType>() {
+            @Override
+            public int compare(ArticleType o1, ArticleType o2) {
+                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+            }
+        };
         while (articles.hasNext()) {
-            articleTypes.add((ArticleType) articles.next());
+            Map.Entry pair = (Map.Entry)articles.next();
+            articleTypes.add((ArticleType) pair.getValue());
         }
+        articleTypes.sort(compareAT);
         articleTypeCombo.setItems(articleTypes);
 
-        Vector ColorList = (Vector) myModel.getState("Colors");
-        Iterator colors = ColorList.iterator();
+        Iterator colors = Utilities.collectColorHash().entrySet().iterator();
         ObservableList<Color> colorItems = FXCollections.observableArrayList();
+        Comparator<Color> compareCT = new Comparator<Color>() {
+            @Override
+            public int compare(Color o1, Color o2) {
+                return ((String) o1.getState("Description")).compareToIgnoreCase(((String) o2.getState("Description")));
+            }
+        };
         while (colors.hasNext()) {
-            colorItems.add((Color) colors.next());
+            Map.Entry pair = (Map.Entry)colors.next();
+            colorItems.add((Color) pair.getValue());
         }
+        colorItems.sort(compareCT);
         primaryColorCombo.setItems(colorItems);
         secondaryColorCombo.setItems(colorItems);
     }
@@ -422,10 +379,10 @@ public class AddClothingItemView extends View {
         if (gender.length() == 0) {
             displayErrorMessage("ERROR: Please select gender!");
             genderCombo.requestFocus();
-        } else if (size.length() == 0) {
+        }/* else if (size.length() == 0) {
             displayErrorMessage("ERROR: Please enter a size!");
             sizeText.requestFocus();
-        } else if (articleType == null) {
+        } */ else if (articleType == null) {
             displayErrorMessage("ERROR: Please select an article type!");
             articleTypeCombo.requestFocus();
         } else if (color1 == null) {
@@ -437,7 +394,10 @@ public class AddClothingItemView extends View {
             donorEmailText.requestFocus();
         } else {
             props.setProperty("Gender", gender);
-            props.setProperty("Size", size);
+            if (size.length() == 0)
+                props.setProperty("Size", "" + UiConstants.GENERIC_SIZE);
+            else
+                props.setProperty("Size", size);
             props.setProperty("ArticleType", (String) articleType.getState("ID"));
             props.setProperty("Color1", (String) color1.getState("ID"));
             if (color2 != null) {
@@ -452,7 +412,7 @@ public class AddClothingItemView extends View {
             props.setProperty("DonorPhone", donorPhone);
             props.setProperty("DonorEmail", donorEmail);
             myModel.stateChangeRequest("ClothingItemData", props);
-
+            myModel.stateChangeRequest("OK", null);
         }
     }
 
@@ -466,8 +426,9 @@ public class AddClothingItemView extends View {
             String val = (String) value;
             if (val.startsWith("ERR")) {
                 displayErrorMessage(val);
-            } else {
+            } else if (val.length() > 0) {
                 displayMessage(val);
+                myModel.stateChangeRequest("CancelAddClothingItem", null);
             }
 
         }

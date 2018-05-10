@@ -19,7 +19,7 @@ public class ClothingItem extends EntityBase implements IView {
 	private String updateStatusMessage = "";
 
 	// constructor for this class
-	//----------------------------------------------------------
+
 	public ClothingItem(String barcode) throws InvalidPrimaryKeyException, MultiplePrimaryKeysException {
 		super(myTableName);
 
@@ -51,7 +51,7 @@ public class ClothingItem extends EntityBase implements IView {
 					persistentState = new Properties();
 
 					Enumeration allKeys = retrievedATData.propertyNames();
-					while (allKeys.hasMoreElements() == true) {
+					while (allKeys.hasMoreElements() ) {
 						String nextKey = (String) allKeys.nextElement();
 						String nextValue = retrievedATData.getProperty(nextKey);
 						// accountNumber = Integer.parseInt(retrievedAccountData.getProperty("accountNumber"));
@@ -73,7 +73,7 @@ public class ClothingItem extends EntityBase implements IView {
 	/**
 	 * Alternate constructor. Can be used to create a NEW Clothing Item
 	 */
-	//----------------------------------------------------------
+
 	public ClothingItem(Properties props) {
 		super(myTableName);
 		exists = false;
@@ -81,7 +81,7 @@ public class ClothingItem extends EntityBase implements IView {
 		setDependencies();
 		persistentState = new Properties();
 		Enumeration allKeys = props.propertyNames();
-		while (allKeys.hasMoreElements() == true) {
+		while (allKeys.hasMoreElements() ) {
 			String nextKey = (String) allKeys.nextElement();
 			String nextValue = props.getProperty(nextKey);
 
@@ -91,33 +91,33 @@ public class ClothingItem extends EntityBase implements IView {
 		}
 	}
 
-	//-----------------------------------------------------------------------------------
+
 	public static int compare(ClothingItem a, ClothingItem b) {
 		String aVal = (String) a.getState("Description");
 		String bVal = (String) b.getState("Description");
-
-		return aVal.compareTo(bVal);
+		if(aVal != null && bVal != null)
+			return aVal.compareTo(bVal);
+		return 0;
 	}
 
-	//-----------------------------------------------------------------------------------
+
 	private void setDependencies() {
 		dependencies = new Properties();
 
 		myRegistry.setDependencies(dependencies);
 	}
 
-	//----------------------------------------------------------
+
 	public Object getState(String key) {
-		if (key.equals("UpdateStatusMessage") == true)
+		if (key.equals("UpdateStatusMessage") )
 			return updateStatusMessage;
 
 		return persistentState.getProperty(key);
 	}
 
-	//----------------------------------------------------------------
+
 	public void stateChangeRequest(String key, Object value) {
 		if (persistentState.getProperty(key) != null) {
-//				System.out.println(value);
 			persistentState.setProperty(key, (String) value);
 		}
 		myRegistry.updateSubscribers(key, this);
@@ -126,17 +126,24 @@ public class ClothingItem extends EntityBase implements IView {
 	/**
 	 * Called via the IView relationship
 	 */
-	//----------------------------------------------------------
+
 	public void updateState(String key, Object value) {
 		stateChangeRequest(key, value);
 	}
 
-	//-----------------------------------------------------------------------------------
+	public void updateExistsToTrue() {
+		/* cheap solution, fix later
+		* Basically, error arises when populating a Clothing Item collection
+		* in that it only passes in the props which sets exist to false.
+		*/
+		exists = true;
+	}
+
 	public void update() {
 		updateStateInDatabase();
 	}
 
-	//-----------------------------------------------------------------------------------
+
 	private void updateStateInDatabase() {
 		try {
 			if ((persistentState.getProperty("Barcode") != null) && exists) {
@@ -148,9 +155,6 @@ public class ClothingItem extends EntityBase implements IView {
 						+ " updated successfully!";
 			} else if ((persistentState.getProperty("Barcode") != null) && !exists){
 				Integer returnCode = insertPersistentState(mySchema, persistentState);
-//                Integer ciID =
-//                        insertAutoIncrementalPersistentState(mySchema, persistentState);
-//                persistentState.setProperty("Barcode", "" + ciID.intValue());
 				updateStatusMessage = returnCode + " Clothing item with barcode : "
 						+ persistentState.getProperty("Barcode")
 						+ " installed successfully!";
@@ -158,7 +162,6 @@ public class ClothingItem extends EntityBase implements IView {
 		} catch (SQLException ex) {
 			updateStatusMessage = "Error sending clothing item data to database!";
 		}
-		//DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
 	}
 
 
@@ -166,7 +169,7 @@ public class ClothingItem extends EntityBase implements IView {
 	 * This method is needed solely to enable the Clothing item information to be displayable in a table
 	 * s
 	 */
-	//--------------------------------------------------------------------------
+
 	public Vector<String> getEntryListView() {
 		Vector<String> v = new Vector<String>();
 
@@ -183,9 +186,9 @@ public class ClothingItem extends EntityBase implements IView {
 		v.addElement(persistentState.getProperty("DonorFirstName"));
 		v.addElement(persistentState.getProperty("DonorPhone"));
 		v.addElement(persistentState.getProperty("DonorEmail"));
-		v.addElement(persistentState.getProperty("ReceveiverNetid"));
-		v.addElement(persistentState.getProperty("ReceveiverLastName"));
-		v.addElement(persistentState.getProperty("ReceveiverFirstName"));
+		v.addElement(persistentState.getProperty("ReceiverNetid"));
+		v.addElement(persistentState.getProperty("ReceiverLastName"));
+		v.addElement(persistentState.getProperty("ReceiverFirstName"));
 		v.addElement(persistentState.getProperty("DateDonated"));
 		v.addElement(persistentState.getProperty("DateTaken"));
 
@@ -193,7 +196,7 @@ public class ClothingItem extends EntityBase implements IView {
 		return v;
 	}
 
-	//-----------------------------------------------------------------------------------
+
 	protected void initializeSchema(String tableName) {
 		if (mySchema == null) {
 			mySchema = getSchemaInfo(tableName);
