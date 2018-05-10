@@ -13,6 +13,7 @@ import userinterface.ViewFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Properties;
 
 // project imports
@@ -24,8 +25,10 @@ import java.util.Properties;
 public class AddClothingItemTransaction extends Transaction {
 
     private ClothingItem myClothingItem;
-    private ArticleTypeCollection myArticleTypeList;
-    private ColorCollection myColorList;
+//    private ArticleTypeCollection myArticleTypeList;
+    private HashMap myArticleTypeList;
+//    private ColorCollection myColorList;
+    private HashMap myColorList;
     private String barcode;
 
 
@@ -90,6 +93,9 @@ public class AddClothingItemTransaction extends Transaction {
     }
 
     private void processBarcode(Properties props) {
+        myArticleTypeList = Utilities.collectArticleTypeHash();
+        myColorList = Utilities.collectColorHash();
+
         if (props.getProperty("Barcode") != null) {
             barcode = props.getProperty("Barcode");
             try {
@@ -101,19 +107,12 @@ public class AddClothingItemTransaction extends Transaction {
                         Event.ERROR);
                 handleBarcodeProblems(transactionErrorMessage);
             } catch (InvalidPrimaryKeyException ex) {
-                //
-                //CHECK FIRST INTEGER BARCODE OPTIONS, NOT ALWAYS M/F, 1/0
-                //
                 if (barcode.substring(0, 1).equals("1"))
                     gender = "Mens";
                 else if (barcode.substring(0, 1).equals("0"))
                     gender = "Womens";
                 else if (barcode.substring(0, 1).equals("2"))
                     gender = "Unisex";
-                myArticleTypeList = new ArticleTypeCollection();
-                //myArticleTypeList.findAll();
-                myColorList = new ColorCollection();
-                //myColorList.findAll();
                 createAndShowAddClothingItemView();
             } catch (MultiplePrimaryKeysException ex2) {
                 transactionErrorMessage = "ERROR: Multiple clothing items with barcode !";
@@ -134,9 +133,9 @@ public class AddClothingItemTransaction extends Transaction {
         } else if (key.equals("Gender")) {
             return gender;
         } else if (key.equals("Articles")) {
-            return myArticleTypeList.retrieveAll();
+            return myArticleTypeList;
         } else if (key.equals("Colors")) {
-            return myColorList.retrieveAll();
+            return myColorList;
         } else if (key.equals("Barcode")) {
             return barcode;
         } else if (key.equals("ListAll")) {
@@ -150,10 +149,8 @@ public class AddClothingItemTransaction extends Transaction {
         // DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 
         if (key.equals("DoYourJob") || key.equals("CancelAddClothingItem")) {
-//		    createAndShowBarcodeScannerView();
             doYourJob();
         } else if (key.equals("ProcessBarcode")) {
-//			doYourJob();
             processBarcode((Properties) value);
         } else if (key.equals("ClothingItemData")) {
             processTransaction((Properties) value);
