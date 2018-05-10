@@ -77,7 +77,7 @@ public class AddClothingItemTransaction extends Transaction {
                 myClothingItem.update();
                 transactionErrorMessage = (String) myClothingItem.getState("UpdateStatusMessage");
                 if(!transactionErrorMessage.toLowerCase().contains("error"))
-                    Utilities.putClothingHash((String) myClothingItem.getState("ID"), myClothingItem);
+                    Utilities.putClothingHash((String) myClothingItem.getState("Barcode"), myClothingItem);
 
             } catch (Exception excep) {
                 transactionErrorMessage = "ERROR: Invalid barcode: " + barcode

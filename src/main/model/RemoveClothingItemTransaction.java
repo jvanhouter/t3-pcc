@@ -5,8 +5,6 @@ package model;
 
 import Utilities.Utilities;
 import event.Event;
-import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
 import javafx.scene.Scene;
 import userinterface.View;
 import userinterface.ViewFactory;
@@ -25,6 +23,7 @@ public class RemoveClothingItemTransaction extends Transaction {
     private ClothingItemCollection myClothingItemList;
     private ClothingItem mySelectedClothingItem;
 
+    private HashMap myClothingItemHash;
     private HashMap myArticleTypeList;
     private HashMap myColorList;
     private String gender;
@@ -68,7 +67,7 @@ public class RemoveClothingItemTransaction extends Transaction {
             String barcode = props.getProperty("Barcode");
             myClothingItemList.findByBarcode(barcode);
         } else {
-            myClothingItemList.findAll();
+            myClothingItemHash = Utilities.collectClothingHash();
         }
 
         try {
@@ -84,13 +83,6 @@ public class RemoveClothingItemTransaction extends Transaction {
      * verifying the new barcode, etc.
      */
     private void processClothingRemoval() {
-//        if (mySelectedItem != null) {
-//            mySelectedItem.stateChangeRequest("Status", "Removed");
-//            mySelectedItem.update();
-//            transactionErrorMessage = (String) mySelectedItem.getState("UpdateStatusMessage");
-//            if(!transactionErrorMessage.toLowerCase().contains("error"))
-//                Utilities.removeClothingHash((String) mySelectedItem.getState("ID"));
-//        }
         if (mySelectedClothingItem != null) {
             mySelectedClothingItem.stateChangeRequest("Status", "Removed");
             mySelectedClothingItem.update();
@@ -102,7 +94,7 @@ public class RemoveClothingItemTransaction extends Transaction {
 
     public Object getState(String key) {
         if (key.equals("ClothingItemList")) {
-            return myClothingItemList;
+            return myClothingItemHash;
         } else if (key.equals("Barcode")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Barcode");
@@ -204,38 +196,6 @@ public class RemoveClothingItemTransaction extends Transaction {
                         "Error in creating ModifyClothingItemView", Event.ERROR);
                 ex.printStackTrace();
             }
-//        } else if (key.equals("ProcessBarcode")) {
-//            Properties props = (Properties) value;
-//            String barcode = props.getProperty("Barcode");
-//            barcode = barcode.toUpperCase();
-//            try {
-//                mySelectedItem = new ClothingItem(barcode);
-//                if (mySelectedItem != null) {
-//                    if (mySelectedItem.getState("Status").equals("Donated")) {
-//                        try {
-//
-//                            Scene newScene = createRemoveClothingItemView();
-//
-//                            swapToView(newScene);
-//
-//                        } catch (Exception ex) {
-//                            new Event(Event.getLeafLevelClassName(this), "processTransaction",
-//                                    "Error in creating RemoveClothingItemView", Event.ERROR);
-//                        }
-//                    } else {
-//                        transactionErrorMessage = barcode + " is not available for removal.";
-//                        handleBarcodeProblems(transactionErrorMessage);
-//                    }
-//                } else {
-//                    transactionErrorMessage = barcode + " does not exist in the database.";
-//                    handleBarcodeProblems(transactionErrorMessage);
-//                }
-//            } catch (InvalidPrimaryKeyException e) {
-//                transactionErrorMessage = barcode + " does not exist in the database.";
-//                handleBarcodeProblems(transactionErrorMessage);
-//            } catch (MultiplePrimaryKeysException e) {
-//                e.printStackTrace();
-//            }
         } else if (key.equals("RemoveClothingItem")) {
             processClothingRemoval();
         }

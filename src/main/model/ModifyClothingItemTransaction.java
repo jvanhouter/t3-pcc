@@ -24,6 +24,7 @@ public class ModifyClothingItemTransaction extends Transaction {
     private ClothingItemCollection myClothingItemList;
     private ClothingItem mySelectedClothingItem;
 
+    private HashMap myClothingItemHash;
     private HashMap myArticleTypeList;
     private HashMap myColorList;
     private String gender;
@@ -67,7 +68,7 @@ public class ModifyClothingItemTransaction extends Transaction {
             String barcode = props.getProperty("Barcode");
             myClothingItemList.findByBarcode(barcode);
         } else {
-            myClothingItemList.findAll();
+            myClothingItemHash = Utilities.collectClothingHash();
         }
 
         try {
@@ -126,7 +127,8 @@ public class ModifyClothingItemTransaction extends Transaction {
     //-----------------------------------------------------------
     public Object getState(String key) {
         if (key.equals("ClothingItemList")) {
-            return myClothingItemList;
+//            return myClothingItemList;
+            return myClothingItemHash;
         } else if (key.equals("Barcode")) {
             if (mySelectedClothingItem != null)
                 return mySelectedClothingItem.getState("Barcode");
