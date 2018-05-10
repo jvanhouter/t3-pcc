@@ -94,6 +94,11 @@ public class BarcodeScannerView extends View {
         grid.setPadding(new Insets(5, 25, 0, 25));
 
         barcodeField = new TextField();
+        barcodeField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[0-9]{0,8}")) {
+                barcodeField.setText(oldValue);
+            }
+        });
         barcodeField.setOnAction(this::processAction);
         barcodeField.setMaxWidth(Double.MAX_VALUE);
         grid.add(barcodeField, 0, 1, 2, 1);

@@ -91,7 +91,7 @@ public class SearchColorView extends View {
 
         barcodePrefix = new TextField();
         barcodePrefix.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[a-zA-Z0-9 -]{0,5}")) {
+            if (!newValue.matches("[0-9]{0,5}")) {
                 barcodePrefix.setText(oldValue);
             }
         });
