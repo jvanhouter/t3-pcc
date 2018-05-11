@@ -34,6 +34,20 @@ public class PccAlert extends Alert {
         }
     }
 
+    //-------------------------------------------------
+    public void displayCustomMessage(String title, String message) {
+        if (!myAlert.getInstance().isShowing()) {
+            myAlert.getInstance().setHeaderText("Error");
+            myAlert.getInstance().setAlertType(Alert.AlertType.ERROR);
+            myAlert.getInstance().setTitle(title);
+            myAlert.getInstance().setContentText(message);
+            myAlert.getInstance().getButtonTypes().clear();
+            ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.YES);
+            myAlert.getInstance().getButtonTypes().setAll(ok);
+            myAlert.getInstance().show();
+        }
+    }
+
     //--------------------------------------------------
     public void displayMessage(String message) {
         if (!myAlert.getInstance().isShowing()) {

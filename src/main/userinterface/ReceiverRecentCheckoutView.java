@@ -208,7 +208,7 @@ public class ReceiverRecentCheckoutView extends View {
 
         VBox doneCont = new VBox(10);
         doneCont.setAlignment(Pos.CENTER);
-        checkoutButton = new PccButton("Allow Checkout");
+        checkoutButton = new PccButton("Allow");
 //        checkoutButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         checkoutButton.setPrefSize(250, 20);
         checkoutButton.setOnAction(e -> {

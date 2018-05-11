@@ -186,7 +186,10 @@ public class ClothingRequest extends EntityBase implements IView {
         v.add((persistentState.getProperty("ID")));
         v.addElement((persistentState.getProperty("RequesterNetid")));
         v.addElement((persistentState.getProperty("RequesterPhone")));
-        v.addElement((persistentState.getProperty("RequesterEmail")));
+        // ***********************************************************************************
+        // Requested feature from Chris to put in a requesters email. Not in 'official' schema
+        // ***********************************************************************************
+        // v.addElement((persistentState.getProperty("RequesterEmail")));
         v.addElement((persistentState.getProperty("RequesterLastName")));
         v.addElement((persistentState.getProperty("RequesterFirstName")));
         v.addElement((persistentState.getProperty("RequestedGender")));

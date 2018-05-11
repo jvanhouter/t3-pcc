@@ -92,7 +92,7 @@ public class FulfillRequestView extends View {
     private VBox createFormContent() {
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
-        PccText prompt = new PccText("Please Input Clothing Item Information:");
+        PccText prompt = new PccText("Please Compare Clothing Item Information:");
         prompt.setWrappingWidth(WRAPPING_WIDTH);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFont(Font.font(APP_FONT, 20));
