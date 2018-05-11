@@ -308,6 +308,8 @@ public class LogARequestView extends View
                 "]*[a-z0-9])?)$");
         Properties props = new Properties();
         if(netId.getText().length() > 0 && netId.getText().length() <= UiConstants.RECEIVER_NETID_MAX_LENGTH && netId.getText().substring(0, 1).matches("[A-Za-z]")) {
+            props.setProperty("FulfilItemBarcode", "");
+            props.setProperty("RequestFulfilledDate", "");
             props.setProperty("RequesterNetid", netId.getText());
             props.setProperty("RequestedGender", gender.getValue());
             props.setProperty("RequestedArticleType", (String) articleType.getValue().getState("ID"));
@@ -326,7 +328,10 @@ public class LogARequestView extends View
                     if(!lastName.getText().equals("") && lastName.getText().length() <= UiConstants.REQUESTED_LAST_NAME_MAX_LENGTH) {
                         props.setProperty("RequesterLastName", lastName.getText());
                         if(email.getText().length() <= UiConstants.REQUESTED_EMAIL_MAX_LENGTH) {
-                                props.setProperty("RequesterEmail", email.getText());
+                            // ***********************************************************************************
+                            // Requested feature from Chris to put in a requesters email. Not in 'official' schema
+                            // ***********************************************************************************
+                            //    props.setProperty("RequesterEmail", email.getText());
                             if(!email.getText().equals("") || !phoneNumber.getText().equals("")) {
                                 if(!email.getText().equals("") && !(emailValidation.matcher(email.getText().toLowerCase()).matches())) {
                                     displayErrorMessage("Invalid email entered.");

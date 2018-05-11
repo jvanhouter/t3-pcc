@@ -90,7 +90,7 @@ public class RemoveClothingItemTransaction extends Transaction {
             mySelectedClothingItem.update();
             transactionErrorMessage = (String) mySelectedClothingItem.getState("UpdateStatusMessage");
             if(!transactionErrorMessage.toLowerCase().contains("error"))
-                Utilities.removeClothingHash((String) mySelectedClothingItem.getState("ID"));
+                Utilities.removeClothingHash((String) mySelectedClothingItem.getState("Barcode"));
         }
     }
 
